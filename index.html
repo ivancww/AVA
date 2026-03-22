@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AVA 專業顧問實戰系統</title>
+    
+    <title>AVA 專業顧問實戰系統 v2.1.0</title>
     
     <link rel="manifest" href="manifest.json">
-    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="AVA 系統">
@@ -16,177 +16,123 @@
     <style>
         .gradient-primary { background: linear-gradient(135deg, #1f2937 0%, #111827 100%); }
         .card { background: white; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); padding: 20px; margin-bottom: 20px; }
-        .tab-content { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .tab-content { display: none; animation: fadeIn 0.3s ease-in-out; }
         .tab-content.active { display: block; }
-        .nav-item { color: #9ca3af; transition: all 0.3s; min-width: 75px; scroll-snap-align: start; flex-shrink: 0; }
-        .nav-active { color: #d31145; font-weight: bold; transform: scale(1.05); }
+        .nav-item { color: #9ca3af; transition: all 0.3s; min-width: 75px; flex-shrink: 0; text-align: center; }
+        .nav-active { color: #d31145; font-weight: bold; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        input, select { width: 100%; border: 1px solid #e5e7eb; padding: 12px; border-radius: 12px; margin-top: 5px; outline: none; background: #f9fafb; font-size: 14px;}
-        input[type="checkbox"] { width: auto; transform: scale(1.3); margin-right: 10px; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .img-container img { border-radius: 15px; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 10px; }
-        .btn-external { background: linear-gradient(135deg, #d31145 0%, #ed1c24 100%); color: white; padding: 15px; border-radius: 15px; text-align: center; font-weight: bold; display: block; box-shadow: 0 4px 12px rgba(211, 17, 69, 0.3); transition: transform 0.2s; }
-        .btn-external:active { transform: scale(0.95); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .btn-simulator { background: linear-gradient(135deg, #d31145 0%, #ed1c24 100%); color: white; padding: 20px; border-radius: 20px; text-align: center; font-weight: bold; display: block; box-shadow: 0 6px 20px rgba(211, 17, 69, 0.3); transition: transform 0.2s; }
+        .btn-simulator:active { transform: scale(0.95); }
     </style>
 </head>
-<body class="bg-gray-50 pb-28 text-gray-800 font-sans">
+<body class="bg-gray-50 pb-28 text-gray-800">
 
-    <nav class="gradient-primary text-white p-5 rounded-b-3xl shadow-lg mb-6 sticky top-0 z-50 flex justify-between items-center">
+    <nav class="gradient-primary text-white p-5 rounded-b-3xl shadow-lg sticky top-0 z-50 flex justify-between items-end">
         <div>
-            <h1 class="text-xs font-medium text-gray-300 tracking-widest uppercase">Apex Vision Alliance</h1>
-            <h2 class="text-xl font-bold tracking-wider text-red-500">AVA <span class="text-white text-lg">系統</span></h2>
+            <div class="flex items-center gap-2">
+                <h1 class="text-xl font-bold text-red-500 italic">AVA <span class="text-white not-italic">系統</span></h1>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v2.1.0</span>
+            </div>
+            <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
-        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-inner">
-            <span class="text-red-600 font-bold text-lg">A</span>
+        <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center border border-white/10">
+            <span class="text-white font-bold text-sm">AVA</span>
         </div>
     </nav>
 
-    <div class="max-w-md mx-auto px-4">
+    <div class="max-w-md mx-auto px-4 mt-6">
 
-        <div id="home-tab" class="tab-content active space-y-6">
+        <div id="home-tab" class="tab-content active">
             <div class="card border-t-4 border-indigo-500" id="quiz-section">
-                <h2 class="text-xl font-bold text-indigo-800 mb-2">🧭 醫療與理財價值觀導航</h2>
-                <p class="text-xs text-gray-500 mb-4">這 5 個簡單問題，能幫助客觀審視您目前的資源分配是否符合內心真正的期望。</p>
-                
-                <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4">
-                    <div class="bg-indigo-600 h-1.5 rounded-full transition-all duration-300" id="quiz-progress" style="width: 20%"></div>
-                </div>
-
+                <h2 class="text-xl font-bold text-indigo-800 mb-2 font-bold">🧭 價值觀導航</h2>
+                <div class="w-full bg-gray-100 rounded-full h-1 mb-6"><div id="quiz-progress" class="bg-indigo-600 h-1 rounded-full transition-all" style="width: 20%"></div></div>
                 <div id="question-container" class="min-h-[160px]">
                     <h3 id="q-title" class="font-bold text-gray-800 mb-4 text-sm leading-relaxed">載入中...</h3>
-                    <div class="space-y-2" id="q-options"></div>
+                    <div id="q-options" class="space-y-2"></div>
                 </div>
             </div>
-
-            <div class="card border-t-4 border-green-500 hidden" id="result-section">
-                <h2 class="text-xl font-bold text-green-800 mb-2">📊 專屬鏡像分析報告</h2>
-                <div id="result-content" class="text-sm text-gray-700 space-y-3 leading-relaxed bg-green-50 p-4 rounded-xl border border-green-100">
-                </div>
-                <p class="text-xs text-center text-gray-500 mt-4 font-bold text-red-600">💡 請使用下方導航列 Step-by-Step 進行深度審視</p>
+            <div id="result-section" class="card border-t-4 border-green-500 hidden bg-green-50">
+                <h2 class="text-xl font-bold text-green-800 mb-2 text-center">📊 專屬分析報告</h2>
+                <div id="result-content" class="text-sm leading-relaxed space-y-3 p-2"></div>
             </div>
         </div>
 
         <div id="reality-tab" class="tab-content space-y-6">
-            <h2 class="text-2xl font-bold text-gray-800 mb-2">🤔 資源大反思</h2>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2 font-bold">🤔 資源反思</h2>
             <div class="card border-l-4 border-orange-500 bg-orange-50">
-                <h3 class="font-bold text-lg mb-3 text-orange-700 text-center">⏳ 公立醫院的時間成本？</h3>
-                <div class="space-y-3 text-sm text-gray-700">
-                    <p class="p-3 bg-white rounded-lg shadow-sm border border-orange-100">當身體最脆弱時，<span class="text-orange-600 font-bold">時間</span>是您的朋友，還是最大的敵人？</p>
-                    <p class="p-3 bg-white rounded-lg shadow-sm border border-orange-100">您是否願意用疾病治療的<span class="text-orange-600 font-bold">「黃金檔期」</span>，去換取看似免費的代價？</p>
-                </div>
+                <h3 class="font-bold text-orange-700 mb-3 text-center">⏳ 時間成本？</h3>
+                <p class="text-sm p-4 bg-white rounded-xl shadow-sm leading-relaxed">當身體需要與時間競賽時，看似「免費」的醫療，代價是否包含您的治療黃金期？</p>
             </div>
             <div class="card border-l-4 border-purple-500 bg-purple-50">
-                <h3 class="font-bold text-lg mb-3 text-purple-700 text-center">🏢 公司醫保的專屬權？</h3>
-                <div class="space-y-3 text-sm text-gray-700">
-                    <p class="p-3 bg-white rounded-lg shadow-sm border border-purple-100">公司的保險，保障的是您本人，還是您的<span class="text-purple-600 font-bold">「職位」</span>？</p>
-                    <p class="p-3 bg-white rounded-lg shadow-sm border border-purple-100">當您退休或因病被迫辭職時，這把遮還會撐在您頭頂嗎？</p>
-                </div>
+                <h3 class="font-bold text-purple-700 mb-3 text-center">🏢 醫保專屬權？</h3>
+                <p class="text-sm p-4 bg-white rounded-xl shadow-sm leading-relaxed">這把「借來的遮」，在您轉工、退休或因大病無法上班的那天，還會存在嗎？</p>
             </div>
         </div>
 
         <div id="concept-tab" class="tab-content space-y-6">
-            <h2 class="text-2xl font-bold text-gray-800 mb-2">💡 概念釐清</h2>
-            <div class="card img-container"><h3 class="font-bold text-blue-800 mb-2">🚗 汽車比喻：維修費 vs 停工補償</h3><img src="https://i.postimg.cc/jj13GKqt/汽車比喻.png"></div>
-            <div class="card img-container"><h3 class="font-bold text-orange-700 mb-2">💼 打工仔比喻：實報實銷 vs 免工作糧</h3><img src="https://i.postimg.cc/1tN7ST4Q/場景2.png"></div>
-            <div class="card img-container"><h3 class="font-bold text-green-700 mb-2">🏠 房屋比喻：維修保養 vs 重建基金</h3><img src="https://i.postimg.cc/NF6N9H6Y/房屋比喻.png"></div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2 font-bold">💡 概念釐清</h2>
+            <div class="card p-2"><h3 class="font-bold text-blue-800 mb-2 px-2 text-sm text-center">🚗 汽車比喻</h3><img src="https://i.postimg.cc/jj13GKqt/汽車比喻.png" class="rounded-xl"></div>
+            <div class="card p-2"><h3 class="font-bold text-orange-700 mb-2 px-2 text-sm text-center">💼 打工比喻</h3><img src="https://i.postimg.cc/1tN7ST4Q/場景2.png" class="rounded-xl"></div>
+            <div class="card p-2"><h3 class="font-bold text-green-700 mb-2 px-2 text-sm text-center">🏠 房屋比喻</h3><img src="https://i.postimg.cc/NF6N9H6Y/房屋比喻.png" class="rounded-xl"></div>
         </div>
 
-        <div id="medcalc-tab" class="tab-content space-y-4">
-            <h2 class="text-2xl font-bold text-gray-800 mb-2">🧮 理賠計算與預算</h2>
-            
-            <a href="https://ivancww.github.io/medicalclaims" target="_blank" class="btn-external">
-                🚀 開啟：進階專業理賠分析工具<br>
-                <span class="text-[10px] font-normal opacity-90">(包含更清晰的跨計劃細節與圖表)</span>
-            </a>
-
-            <div class="card border-t-4 border-red-500">
-                <h3 class="font-bold text-lg text-red-700 mb-3">🩺 1. 快速理賠缺口估計</h3>
-                <label class="text-xs font-bold text-gray-700">手術複雜度：</label>
-                <select id="surgeryLevel" onchange="calculateMedical()">
-                    <option value="small">小型手術 (預算: $20,000)</option>
-                    <option value="medium" selected>中型手術 (預算: $50,000)</option>
-                    <option value="large">大型手術 (預算: $80,000)</option>
-                    <option value="complex">複雜手術 (預算: $120,000)</option>
-                </select>
-                <div class="grid grid-cols-2 gap-3 mt-3">
-                    <div><label class="text-xs font-bold">名醫巡房(每日):</label><input type="number" id="dailyDocFee" value="1500" onchange="calculateMedical()"></div>
-                    <div><label class="text-xs font-bold">住院日數:</label><input type="number" id="hospDays" value="3" onchange="calculateMedical()"></div>
-                </div>
-                <div id="claimResult" class="bg-gray-50 p-4 rounded-xl mt-4 text-sm border"></div>
-            </div>
-
-            <div class="card border-t-4 border-blue-500">
-                <h3 class="font-bold text-lg text-blue-700 mb-3">💰 2. 保費與扣稅優惠</h3>
-                <div class="grid grid-cols-3 gap-2">
-                    <input type="number" id="age" value="35" placeholder="年齡" onchange="calculateMedical()">
-                    <select id="gender" onchange="calculateMedical()"><option value="M">男</option><option value="F">女</option></select>
-                    <select id="payMode" onchange="calculateMedical()"><option value="annual">年繳</option><option value="monthly">月繳</option></select>
-                </div>
-                <div class="flex items-center mt-3 bg-pink-50 p-2 rounded-lg">
-                    <input type="checkbox" id="vitality" onchange="calculateMedical()" checked>
-                    <label for="vitality" class="text-xs font-bold text-pink-700 ml-2">AIA Vitality (9折優惠)</label>
-                </div>
-                <div id="premiumResult" class="mt-4"></div>
+        <div id="medcalc-tab" class="tab-content space-y-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2 font-bold">📊 模擬理賠分析</h2>
+            <div class="card border-t-4 border-red-500 bg-red-50 py-10">
+                <a href="https://ivancww.github.io/medicalclaims" target="_blank" class="btn-simulator mx-4">
+                    🚀 開啟：進階模擬理賠分析<br>
+                    <span class="text-[10px] font-normal opacity-80">(跳轉至專業精算引擎)</span>
+                </a>
             </div>
         </div>
 
-        <div id="ci-tab" class="tab-content space-y-6">
-            <h2 class="text-2xl font-bold text-gray-800 mb-2">🛡️ 危疾保障對比</h2>
-            <div class="card p-2"><img src="https://i.postimg.cc/tg2XMSVC/3CI對比.png"></div>
+        <div id="ci-tab" class="tab-content space-y-4">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2 font-bold">🛡️ 危疾防護</h2>
+            <div class="card p-2"><img src="https://i.postimg.cc/tg2XMSVC/3CI對比.png" class="rounded-xl"></div>
             <div class="card overflow-hidden p-0 shadow-lg border-t-4 border-red-600">
                 <table class="w-full text-center text-[12px]">
-                    <thead><tr class="bg-gray-50">
-                        <th class="p-3 border-b">保障細項</th><th class="p-3 border-b text-blue-800">SCE</th><th class="p-3 border-b text-teal-800">EOYS</th><th class="p-3 border-b text-red-800">OYS 2</th>
-                    </tr></thead>
-                    <tbody>
-                        <tr class="border-b"><td>🧬 疾病種類</td><td>115種</td><td>58種</td><td class="font-bold text-red-600">115種</td></tr>
-                        <tr class="border-b"><td>🛡️ 賠償機制</td><td>單次</td><td>1+1</td><td class="font-bold text-red-600">無限重啟</td></tr>
-                        <tr><td>👶 兒童先天病</td><td class="text-red-500">❌</td><td class="text-red-500">❌</td><td class="bg-green-50 text-green-600 font-bold">✅ 全方位</td></tr>
-                    </tbody>
+                    <tr class="bg-gray-50 text-gray-600">
+                        <th class="p-3 border-b border-r font-bold">保障對比</th>
+                        <th class="p-3 border-b border-r bg-blue-50 text-blue-800">SCE</th>
+                        <th class="p-3 border-b border-r bg-teal-50 text-teal-800">EOYS</th>
+                        <th class="p-3 border-b bg-red-50 text-red-800 font-bold">OYS 2</th>
+                    </tr>
+                    <tr class="border-b"><td class="p-3 border-r bg-gray-50 font-bold">🧬 種類</td><td class="p-3 border-r">115種</td><td class="p-3 border-r">58種</td><td class="p-3 font-bold text-red-700">115種</td></tr>
+                    <tr class="border-b"><td class="p-3 border-r bg-gray-50 font-bold">🛡️ 賠償</td><td class="p-3 border-r">單次</td><td class="p-3 border-r">1+1兩次</td><td class="p-3 font-bold text-red-700">無限重啟</td></tr>
+                    <tr><td class="p-3 border-r bg-gray-50 font-bold leading-tight">👶 先天病</td><td class="p-3 border-r text-red-500 font-bold">❌ 不含</td><td class="p-3 border-r text-red-500 font-bold">❌ 不含</td><td class="p-3 bg-green-50 text-green-600 font-black">✅ 全方位</td></tr>
                 </table>
             </div>
-            <div class="card p-2"><img src="https://i.postimg.cc/yNvVbQS8/三大CI種類對比.png"></div>
+            <div class="card p-2"><img src="https://i.postimg.cc/yNvVbQS8/三大CI種類對比.png" class="rounded-xl"></div>
         </div>
 
         <div id="uw-tab" class="tab-content space-y-6">
-            <h2 class="text-2xl font-bold text-gray-800 mb-2">🔍 關於「不保事項」</h2>
-            <div class="card img-container"><h3 class="font-bold text-indigo-700 mb-2">🏠 房屋比喻：不保「已知裂縫」</h3><img src="https://i.postimg.cc/7h3BG2gp/房屋比喻不保事項.png"></div>
-            <div class="card img-container"><h3 class="font-bold text-teal-700 mb-2">⚙️ 零件比喻：評估「未來損耗」</h3><img src="https://i.postimg.cc/cJzkVZ14/零件比喻不保事項.png"></div>
+            <div class="card p-2"><h3 class="font-bold text-indigo-700 mb-2 px-2 text-sm">🏠 房屋比喻</h3><img src="https://i.postimg.cc/7h3BG2gp/房屋比喻不保事項.png" class="rounded-xl"></div>
         </div>
-
         <div id="claim-tab" class="tab-content space-y-6">
-            <h2 class="text-2xl font-bold text-gray-800 mb-2">🏥 索償與免找數</h2>
-            <div class="card img-container"><h3 class="font-bold text-red-600 mb-2">🌟 AIA 網絡 (預先批核)</h3><img src="https://i.postimg.cc/DzNptFf0/AIA_pre_approval.png"></div>
-            <div class="card img-container"><h3 class="font-bold text-blue-600 mb-2">📝 非網絡 (普通流程)</h3><img src="https://i.postimg.cc/KzgpbV4T/pre_approval.png"></div>
+            <div class="card p-2"><h3 class="font-bold text-red-600 mb-2 px-2 text-sm">🌟 AIA 網絡服務</h3><img src="https://i.postimg.cc/DzNptFf0/AIA_pre_approval.png" class="rounded-xl"></div>
         </div>
-
         <div id="docs-tab" class="tab-content space-y-4">
-            <h2 class="text-2xl font-bold text-gray-800 mb-2">📚 產品百科 (PDF)</h2>
-            <div class="card border-l-4 border-red-500"><h4>AVF 靈活計劃</h4><iframe src="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/preview" class="w-full h-48 mt-2"></iframe></div>
-            <div class="card border-l-4 border-blue-500"><h4>AVSW 睿選計劃</h4><iframe src="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/preview" class="w-full h-48 mt-2"></iframe></div>
-            <div class="card border-l-4 border-purple-500"><h4>AVPU 尊耀計劃</h4><iframe src="https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_b/preview" class="w-full h-48 mt-2"></iframe></div>
-            <div class="card border-l-4 border-teal-500"><h4>EOYS 簡緻愛伴航</h4><iframe src="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/preview" class="w-full h-48 mt-2"></iframe></div>
+            <div class="card border-l-4 border-red-500"><h4>AVF 靈活計劃</h4><iframe src="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/preview" class="w-full h-48 mt-2 rounded-lg"></iframe></div>
+            <div class="card border-l-4 border-blue-500"><h4>AVSW 睿選計劃</h4><iframe src="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/preview" class="w-full h-48 mt-2 rounded-lg"></iframe></div>
         </div>
 
     </div>
 
-    <div class="fixed bottom-0 left-0 right-0 bg-white border-t flex overflow-x-auto py-2 px-2 shadow-[0_-5px_20px_rgba(0,0,0,0.08)] z-50 pb-safe hide-scrollbar">
-        <button onclick="switchTab('home')" class="nav-item nav-active flex flex-col items-center" id="nav-home"><span class="text-xl">🧭</span><span class="text-[10px]">首頁</span></button>
-        <button onclick="switchTab('reality')" class="nav-item flex flex-col items-center" id="nav-reality"><span class="text-xl">🤔</span><span class="text-[10px]">反思</span></button>
-        <button onclick="switchTab('concept')" class="nav-item flex flex-col items-center" id="nav-concept"><span class="text-xl">💡</span><span class="text-[10px]">醫/危</span></button>
-        <button onclick="switchTab('medcalc')" class="nav-item flex flex-col items-center" id="nav-medcalc"><span class="text-xl">🧮</span><span class="text-[10px]">理賠</span></button>
-        <button onclick="switchTab('ci')" class="nav-item flex flex-col items-center" id="nav-ci"><span class="text-xl">🛡️</span><span class="text-[10px]">危疾</span></button>
-        <button onclick="switchTab('uw')" class="nav-item flex flex-col items-center" id="nav-uw"><span class="text-xl">🔍</span><span class="text-[10px]">核保</span></button>
-        <button onclick="switchTab('claim')" class="nav-item flex flex-col items-center" id="nav-claim"><span class="text-xl">🏥</span><span class="text-[10px]">索償</span></button>
-        <button onclick="switchTab('docs')" class="nav-item flex flex-col items-center" id="nav-docs"><span class="text-xl">📚</span><span class="text-[10px]">百科</span></button>
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t flex overflow-x-auto py-3 px-2 shadow-[0_-5px_20px_rgba(0,0,0,0.08)] z-50 hide-scrollbar">
+        <button onclick="switchTab('home')" class="nav-item nav-active flex flex-col items-center" id="nav-home"><span class="text-xl mb-1">🧭</span><span class="text-[9px]">首頁</span></button>
+        <button onclick="switchTab('reality')" class="nav-item flex flex-col items-center" id="nav-reality"><span class="text-xl mb-1">🤔</span><span class="text-[9px]">反思</span></button>
+        <button onclick="switchTab('concept')" class="nav-item flex flex-col items-center" id="nav-concept"><span class="text-xl mb-1">💡</span><span class="text-[9px]">醫危</span></button>
+        <button onclick="switchTab('medcalc')" class="nav-item flex flex-col items-center" id="nav-medcalc"><span class="text-xl mb-1">🧮</span><span class="text-[9px]">計算</span></button>
+        <button onclick="switchTab('ci')" class="nav-item flex flex-col items-center" id="nav-ci"><span class="text-xl mb-1">🛡️</span><span class="text-[9px]">危疾</span></button>
+        <button onclick="switchTab('uw')" class="nav-item flex flex-col items-center" id="nav-uw"><span class="text-xl mb-1">🔍</span><span class="text-[9px]">核保</span></button>
+        <button onclick="switchTab('claim')" class="nav-item flex flex-col items-center" id="nav-claim"><span class="text-xl mb-1">🏥</span><span class="text-[9px]">索償</span></button>
+        <button onclick="switchTab('docs')" class="nav-item flex flex-col items-center" id="nav-docs"><span class="text-xl mb-1">📚</span><span class="text-[9px]">百科</span></button>
     </div>
 
     <script>
-        // PWA & 導航邏輯
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
-        }
+        if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('sw.js')); }
         function switchTab(t) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('nav-active'));
@@ -194,14 +140,12 @@
             document.getElementById('nav-' + t).classList.add('nav-active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        // 首頁問卷邏輯
         const quizData = [
             { q: "1. 身體需做手術時，您首選的就醫環境是？", options: [{ label: "A. 公立醫院 (平)", val: "A" }, { label: "B. 私營醫療 (快)", val: "B" }] },
             { q: "2. 如果用私家醫療，主要依賴哪一種資金？", options: [{ label: "A. 自己找數", val: "A" }, { label: "B. 公司保險", val: "B" }, { label: "C. 個人保險", val: "C" }] },
-            { q: "3. 萬一面對重大手術，您希望的應對方式是？", options: [{ label: "A. 隨機醫生", val: "A" }, { label: "B. 有名聲的指定專家", val: "B" }] },
-            { q: "4. 如果確診大病需休養2-3年，家庭財務會？", options: [{ label: "A. 無壓力", val: "A" }, { label: "B. 手停口停", val: "B" }] },
-            { q: "5. 康復後您傾向哪種心態？", options: [{ label: "A. 賠一次就夠", val: "A" }, { label: "B. 希望保障具延續性", val: "B" }] }
+            { q: "3. 萬一面對重大手術，您希望的應對方式是？", options: [{ label: "A. 隨機醫生", val: "A" }, { label: "B. 指定名醫", val: "B" }] },
+            { q: "4. 如果確診大病需休養 2-3 年，家庭財務會？", options: [{ label: "A. 無壓力", val: "A" }, { label: "B. 有壓力 (手停口停)", val: "B" }] },
+            { q: "5. 面對極高存活率，您會想保障賠完就完嗎？", options: [{ label: "A. 賠完一次就算", val: "A" }, { label: "B. 擔心復發需延續性", val: "B" }] }
         ];
         let currentQ = 0, userAns = {};
         function renderQuiz() {
@@ -209,7 +153,7 @@
             const q = quizData[currentQ];
             document.getElementById('q-title').innerText = q.q;
             let h = '';
-            q.options.forEach(o => h += `<button onclick="answerQ('${o.val}')" class="w-full text-left p-3 rounded-lg border mb-2 hover:bg-indigo-50">${o.label}</button>`);
+            q.options.forEach(o => h += `<button onclick="answerQ('${o.val}')" class="w-full text-left p-4 rounded-xl border mb-2 hover:bg-indigo-50 transition text-sm font-medium">${o.label}</button>`);
             document.getElementById('q-options').innerHTML = h;
             document.getElementById('quiz-progress').style.width = ((currentQ + 1) / 5 * 100) + '%';
         }
@@ -217,29 +161,9 @@
         function showQuizResult() {
             document.getElementById('quiz-section').classList.add('hidden');
             document.getElementById('result-section').classList.remove('hidden');
-            document.getElementById('result-content').innerHTML = `<p class="font-bold">分析完成：</p><p>您期望得到${userAns[2]==='B'?'名醫跟進':'高效治療'}，但目前${userAns[1]==='B'?'依賴公司保險':'資源有限'}。面對長期風險，您的安全網${userAns[3]==='B'?'存在缺口':'需要優化'}。</p>`;
+            document.getElementById('result-content').innerHTML = `<p>分析完成：您期望<strong>高品質醫療</strong>，但目前資源配置${userAns[1]==='B'?'依賴公司':'仍有缺口'}。建議開啟理賠分析工具進行深度對比。</p>`;
         }
         renderQuiz();
-
-        // 醫療計算邏輯 (35% 規則 + $1100 巡房上限)
-        function calculateMedical() {
-            const fees = { small: 20000, medium: 50000, large: 80000, complex: 120000 };
-            const level = document.getElementById('surgeryLevel').value;
-            const surg = fees[level];
-            const totalBill = surg + (surg*0.35) + (surg*0.35) + (document.getElementById('dailyDocFee').value * document.getElementById('hospDays').value);
-            const avfOOP = (surg*0.2) + Math.max(0, document.getElementById('dailyDocFee').value - 1100) * document.getElementById('hospDays').value;
-            const avswOOP = Math.min(totalBill, document.getElementById('deductAVSW').value);
-            const avpuOOP = Math.min(totalBill, document.getElementById('deductAVPU').value);
-            
-            document.getElementById('claimResult').innerHTML = `
-                <div class="text-[11px] mb-2">總帳單估算: $${Math.round(totalBill).toLocaleString()}</div>
-                <div class="flex justify-between"><span>🔴 靈活 (AVF) 自付:</span><b>$${Math.round(avfOOP).toLocaleString()}</b></div>
-                <div class="flex justify-between"><span>🔵 睿選 (AVSW) 自付:</span><b>$${Math.round(avswOOP).toLocaleString()}</b></div>
-                <div class="flex justify-between"><span>🟣 尊耀 (AVPU) 自付:</span><b>$${Math.round(avpuOOP).toLocaleString()}</b></div>
-            `;
-            // 保費與扣稅簡化邏輯... (略)
-        }
-        calculateMedical();
     </script>
 </body>
 </html>
