@@ -1,0 +1,24 @@
+{
+  "name": "AVA 專業顧問實戰系統",
+  "short_name": "AVA 系統",
+  "description": "頂級理財與醫療保障分析引擎",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1f2937",
+  "theme_color": "#d31145",
+  "icons": [
+    {
+      "src": "logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

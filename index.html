@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AVA 專業顧問實戰系統</title>
+    
+    <link rel="manifest" href="manifest.json">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="AVA 系統">
+    <link rel="apple-touch-icon" href="logo-192.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-primary { background: linear-gradient(135deg, #1f2937 0%, #111827 100%); } /* 曜石黑/深灰底色 */
+        .card { background: white; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); padding: 20px; margin-bottom: 20px; }
+        .tab-content { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .tab-content.active { display: block; }
+        .nav-item { color: #9ca3af; transition: all 0.3s; min-width: 75px; scroll-snap-align: start; flex-shrink: 0; }
+        .nav-active { color: #d31145; font-weight: bold; transform: scale(1.05); } /* AIA 紅色高亮 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        input, select { width: 100%; border: 1px solid #e5e7eb; padding: 12px; border-radius: 12px; margin-top: 5px; outline: none; background: #f9fafb; font-size: 14px;}
+        input[type="checkbox"] { width: auto; transform: scale(1.3); margin-right: 10px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .img-container img { border-radius: 15px; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 10px; }
+    </style>
+</head>
+<body class="bg-gray-50 pb-28 text-gray-800 font-sans">
+
+    <nav class="gradient-primary text-white p-5 rounded-b-3xl shadow-lg mb-6 sticky top-0 z-50 flex justify-between items-center">
+        <div>
+            <h1 class="text-xs font-medium text-gray-300 tracking-widest uppercase">Apex Vision Alliance</h1>
+            <h2 class="text-xl font-bold tracking-wider text-red-500">AVA <span class="text-white text-lg">系統</span></h2>
+        </div>
+        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-inner">
+            <span class="text-red-600 font-bold text-lg">A</span>
+        </div>
+    </nav>
+
+    <div class="max-w-md mx-auto px-4">
+
+        <div id="home-tab" class="tab-content active space-y-6">
+            <div class="card border-t-4 border-indigo-500" id="quiz-section">
+                <h2 class="text-xl font-bold text-indigo-800 mb-2">🧭 醫療與理財價值觀導航</h2>
+                <p class="text-xs text-gray-500 mb-4">這 5 個簡單問題，能幫助客觀審視您目前的資源分配是否符合內心真正的期望。</p>
+                
+                <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4">
+                    <div class="bg-indigo-600 h-1.5 rounded-full transition-all duration-300" id="quiz-progress" style="width: 20%"></div>
+                </div>
+
+                <div id="question-container" class="min-h-[160px]">
+                    <h3 id="q-title" class="font-bold text-gray-800 mb-4 text-sm leading-relaxed">載入中...</h3>
+                    <div class="space-y-2" id="q-options"></div>
+                </div>
+            </div>
+
+            <div class="card border-t-4 border-green-500 hidden" id="result-section">
+                <h2 class="text-xl font-bold text-green-800 mb-2">📊 專屬鏡像分析報告</h2>
+                <div id="result-content" class="text-sm text-gray-700 space-y-3 leading-relaxed bg-green-50 p-4 rounded-xl border border-green-100">
+                    </div>
+                <p class="text-xs text-center text-gray-500 mt-4 font-bold">請使用下方導航列，逐步審視您的專屬防護方案。</p>
+            </div>
+        </div>
+
+        <div id="reality-tab" class="tab-content space-y-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">🤔 資源大反思</h2>
+            <p class="text-sm text-gray-500 mb-6">我們習以為常的安全感，真的無懈可擊嗎？</p>
+
+            <div class="card border-l-4 border-orange-500 bg-orange-50">
+                <h3 class="font-bold text-lg mb-3 text-orange-700">⏳ 公立醫院的「時間成本」</h3>
+                <div class="space-y-3 text-sm text-gray-700 font-medium">
+                    <p class="p-3 bg-white rounded-lg shadow-sm border border-orange-100">1. 當身體最脆弱時，<span class="text-orange-600">時間</span>是朋友，還是最大的敵人？</p>
+                    <p class="p-3 bg-white rounded-lg shadow-sm border border-orange-100">2. 您是否願意用疾病治療的<span class="text-orange-600">「黃金檔期」</span>，去換取看似免費的代價？</p>
+                    <p class="p-3 bg-white rounded-lg shadow-sm border border-orange-100">3. 生病時，您希望「即刻有得醫」，還是「無了期地等」？</p>
+                </div>
+            </div>
+
+            <div class="card border-l-4 border-purple-500 bg-purple-50">
+                <h3 class="font-bold text-lg mb-3 text-purple-700">🏢 公司醫保的「專屬權」</h3>
+                <div class="space-y-3 text-sm text-gray-700 font-medium">
+                    <p class="p-3 bg-white rounded-lg shadow-sm border border-purple-100">1. 公司的保險，保障的是<span class="text-purple-600">「您本人」</span>，還是您的<span class="text-purple-600">「職位」</span>？</p>
+                    <p class="p-3 bg-white rounded-lg shadow-sm border border-purple-100">2. 當您轉工、退休，甚至因病<span class="text-purple-600">被迫辭職</span>時，這把遮還會撐在您頭頂嗎？</p>
+                    <p class="p-3 bg-white rounded-lg shadow-sm border border-purple-100">3. 等到 50 歲離開公司才買「私家遮」，您的身體與保費還容許嗎？</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="concept-tab" class="tab-content space-y-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">💡 概念釐清</h2>
+            <p class="text-sm text-gray-500 mb-4">醫療保開支，危疾保收入。一秒看懂兩者分別：</p>
+
+            <div class="card img-container"><h3 class="font-bold text-blue-800 mb-2">🚗 汽車比喻：維修費 vs 停工補償</h3><img src="https://i.postimg.cc/jj13GKqt/汽車比喻.png" alt="汽車"></div>
+            <div class="card img-container"><h3 class="font-bold text-orange-700 mb-2">💼 打工仔比喻：實報實銷 vs 免工作糧</h3><img src="https://i.postimg.cc/1tN7ST4Q/場景2.png" alt="打工"></div>
+            <div class="card img-container"><h3 class="font-bold text-green-700 mb-2">🏠 房屋比喻：維修保養 vs 重建基金</h3><img src="https://i.postimg.cc/NF6N9H6Y/房屋比喻.png" alt="房屋"></div>
+        </div>
+
+        <div id="medcalc-tab" class="tab-content">
+            <div class="card border-t-4 border-red-500">
+                <h2 class="font-bold text-lg text-red-700 mb-3">🩺 1. 醫療理賠預算與自付缺口</h2>
+                
+                <label class="text-xs font-bold text-gray-700">手術複雜度 (決定基本收費)：</label>
+                <select id="surgeryLevel" onchange="calculateMedical()">
+                    <option value="small">小型手術 (預算: $20,000)</option>
+                    <option value="medium" selected>中型手術 (預算: $50,000)</option>
+                    <option value="large">大型手術 (預算: $80,000)</option>
+                    <option value="complex">複雜手術 (預算: $120,000)</option>
+                </select>
+
+                <div class="grid grid-cols-2 gap-3 mt-3">
+                    <div>
+                        <label class="text-xs font-bold text-gray-700">私家名醫每日巡房費：</label>
+                        <input type="number" id="dailyDocFee" value="1500" step="100" onchange="calculateMedical()">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-700">預計住院日數：</label>
+                        <input type="number" id="hospDays" value="3" min="1" onchange="calculateMedical()">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mt-4">
+                    <div><label class="text-xs font-bold text-gray-500">睿選 (AVSW) 自付額</label><select id="deductAVSW" onchange="calculateMedical()"><option value="0">$0</option><option value="18000" selected>$18,000</option><option value="30000">$30,000</option></select></div>
+                    <div><label class="text-xs font-bold text-gray-500">尊耀 (AVPU) 自付額</label><select id="deductAVPU" onchange="calculateMedical()"><option value="0">$0</option><option value="16000" selected>$16,000</option><option value="25000">$25,000</option></select></div>
+                </div>
+
+                <div id="claimResult" class="bg-gray-50 p-4 rounded-xl mt-4 text-sm border border-gray-200"></div>
+            </div>
+
+            <div class="card border-t-4 border-blue-500 mt-4">
+                <h2 class="font-bold text-lg text-blue-700 mb-3">💰 2. 保費與政府扣稅優惠</h2>
+                <div class="grid grid-cols-3 gap-2 mb-3">
+                    <div><label class="text-xs">年齡</label><input type="number" id="age" value="35" onchange="calculateMedical()"></div>
+                    <div><label class="text-xs">性別</label><select id="gender" onchange="calculateMedical()"><option value="M">男</option><option value="F">女</option></select></div>
+                    <div><label class="text-xs">繳費</label><select id="payMode" onchange="calculateMedical()"><option value="annual">年繳</option><option value="monthly">月繳</option></select></div>
+                </div>
+                
+                <div class="flex items-center bg-pink-50 p-3 rounded-lg mb-4 border border-pink-200">
+                    <input type="checkbox" id="vitality" onchange="calculateMedical()" checked>
+                    <label for="vitality" class="text-sm font-bold text-pink-700">加入 AIA Vitality (享 9 折)</label>
+                </div>
+
+                <label class="text-xs font-bold text-gray-700">預計稅階 (政府幫您交保費)：</label>
+                <select id="taxRate" onchange="calculateMedical()" class="mb-4">
+                    <option value="0.17">17% (高薪族)</option><option value="0.10">10% (中產階層)</option><option value="0.02">2% (初入職場)</option>
+                </select>
+
+                <div id="premiumResult"></div>
+                <div class="mt-4 p-3 bg-yellow-50 rounded-lg text-xs text-yellow-800 border border-yellow-200">
+                    <p class="font-bold">💡 扣稅錦囊：每名受保人最高作扣稅的保費為 $8,000。為多名家人投保，扣稅額無上限累加！</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="ci-tab" class="tab-content space-y-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">🛡️ 人生防護三部曲</h2>
+            
+            <div class="card img-container p-2">
+                <img src="https://i.postimg.cc/tg2XMSVC/3CI對比.png" alt="危疾產品對比">
+            </div>
+
+            <div class="card overflow-hidden p-0 shadow-lg border-t-4 border-red-600 mt-4">
+                <table class="w-full text-center text-[12px] sm:text-sm">
+                    <thead>
+                        <tr class="bg-gray-50 text-gray-600">
+                            <th class="p-3 border-b border-r w-[25%] font-bold">保障對比</th>
+                            <th class="p-3 border-b border-r bg-blue-50 text-blue-800 leading-tight">🛋️ 租屋<br><span class="text-[9px]">簡護 (SCE)</span></th>
+                            <th class="p-3 border-b border-r bg-teal-50 text-teal-800 leading-tight">🔑 上車盤<br><span class="text-[9px]">簡緻 (EOYS)</span></th>
+                            <th class="p-3 border-b bg-red-50 text-red-800 font-bold leading-tight">🏰 傳承大宅<br><span class="text-[9px]">愛伴航 2</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-3 border-r font-bold text-gray-600 bg-gray-50 text-left">🧬 疾病種類</td>
+                            <td class="p-3 border-r text-gray-700">115 種<br><span class="text-[10px] text-gray-400">全面涵蓋</span></td>
+                            <td class="p-3 border-r text-gray-700">58 種<br><span class="text-[10px] text-gray-400">精選核心</span></td>
+                            <td class="p-3 text-red-700 font-bold">115 種<br><span class="text-[10px] text-red-500">全面涵蓋</span></td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-3 border-r font-bold text-gray-600 bg-gray-50 text-left">🛡️ 賠償機制</td>
+                            <td class="p-3 border-r text-gray-600 text-[11px]">單次賠償</td>
+                            <td class="p-3 border-r text-teal-700 font-bold text-[11px]">1+1 兩次</td>
+                            <td class="p-3 text-red-700 font-black text-[11px]">無限次重啟</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 border-r font-bold text-gray-600 bg-gray-50 text-left leading-tight">👶 兒童<br>先天病</td>
+                            <td class="p-3 border-r text-red-500 font-bold">❌ 不保</td>
+                            <td class="p-3 border-r text-red-500 font-bold">❌ 不保</td>
+                            <td class="p-3 text-green-600 font-black bg-green-50 text-[11px]">✅ 全方位<br>涵蓋</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card img-container p-2 mt-4">
+                <h3 class="font-bold text-lg mb-2 px-2 text-gray-800">🦠 三大危疾種類深度對比</h3>
+                <img src="https://i.postimg.cc/yNvVbQS8/三大CI種類對比.png" alt="疾病種類對比">
+            </div>
+        </div>
+
+        <div id="uw-tab" class="tab-content space-y-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">🔍 醫生無事 vs 保險不保</h2>
+            <div class="card img-container"><h3 class="font-bold text-indigo-700 mb-2">🏠 房屋比喻：牆身裂縫 (不保已知隱患)</h3><img src="https://i.postimg.cc/7h3BG2gp/房屋比喻不保事項.png" alt="房屋核保"></div>
+            <div class="card img-container"><h3 class="font-bold text-teal-700 mb-2">⚙️ 零件比喻：潛在耗損 (預測未來概率)</h3><img src="https://i.postimg.cc/cJzkVZ14/零件比喻不保事項.png" alt="零件核保"></div>
+        </div>
+
+        <div id="claim-tab" class="tab-content space-y-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">🏥 索償與免找數流程</h2>
+            <div class="card img-container"><h3 class="font-bold text-red-600 mb-2">🌟 AIA 網絡服務 (自動代辦)</h3><img src="https://i.postimg.cc/DzNptFf0/AIA_pre_approval.png" alt="網絡"></div>
+            <div class="card img-container"><h3 class="font-bold text-blue-600 mb-2">📝 非網絡服務 (全港/全球通用)</h3><img src="https://i.postimg.cc/KzgpbV4T/pre_approval.png" alt="非網絡"></div>
+        </div>
+
+        <div id="docs-tab" class="tab-content space-y-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">📚 產品百科與重點</h2>
+            <p class="text-sm text-gray-500 mb-4">各大計劃官方條款及核心亮點。(可於下方直接預覽 PDF)</p>
+            
+            <div class="card border-t-4 border-red-400">
+                <h3 class="font-bold text-lg text-red-700 mb-2">AVF 靈活計劃</h3>
+                <ul class="text-sm text-gray-700 space-y-1 list-disc pl-4 mb-4">
+                    <li>$0起步，逐項計算限額。</li>
+                    <li><strong class="text-red-600">巡房費每日上限 $1,100</strong>，超額自付。</li>
+                    <li>SMM 補底：手術/麻醉/手術室超額部分賠償 80%。</li>
+                </ul>
+                <div class="w-full bg-gray-100 rounded-lg overflow-hidden h-64 border"><iframe src="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/preview" width="100%" height="100%" frameborder="0"></iframe></div>
+            </div>
+
+            <div class="card border-t-4 border-blue-400">
+                <h3 class="font-bold text-lg text-blue-700 mb-2">AVSW 睿選計劃</h3>
+                <ul class="text-sm text-gray-700 space-y-1 list-disc pl-4 mb-4">
+                    <li>扣除自付額後，全數賠償（含標靶/免疫治療）。</li>
+                    <li>網絡服務（需批核）全數賠償半私家房。</li>
+                    <li>非網絡服務基礎為普通房。</li>
+                </ul>
+                <div class="w-full bg-gray-100 rounded-lg overflow-hidden h-64 border"><iframe src="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/preview" width="100%" height="100%" frameborder="0"></iframe></div>
+            </div>
+
+            <div class="card border-t-4 border-purple-400">
+                <h3 class="font-bold text-lg text-purple-700 mb-2">AVPU 尊耀計劃</h3>
+                <ul class="text-sm text-gray-700 space-y-1 list-disc pl-4 mb-4">
+                    <li>無網絡限制，全程標準半私家房。</li>
+                    <li>頂級全方位大額賠償，扣除自付額即全數找數。</li>
+                </ul>
+                <div class="w-full bg-gray-100 rounded-lg overflow-hidden h-64 border"><iframe src="https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_b/preview" width="100%" height="100%" frameborder="0"></iframe></div>
+            </div>
+
+            <div class="card border-t-4 border-teal-400">
+                <h3 class="font-bold text-lg text-teal-700 mb-2">EOYS 簡緻愛伴航</h3>
+                <ul class="text-sm text-gray-700 space-y-1 list-disc pl-4 mb-4">
+                    <li>保費固定，終身分紅。</li>
+                    <li>1+1 兩次三大危疾賠償。獨家 365日延長寬限期。</li>
+                </ul>
+                <div class="w-full bg-gray-100 rounded-lg overflow-hidden h-64 border"><iframe src="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/preview" width="100%" height="100%" frameborder="0"></iframe></div>
+            </div>
+
+            <div class="card border-t-4 border-red-600">
+                <h3 class="font-bold text-lg text-red-800 mb-2">OYS2 愛伴航 2</h3>
+                <ul class="text-sm text-gray-700 space-y-1 list-disc pl-4 mb-4">
+                    <li>旗艦級：無限次重啟防護網。</li>
+                    <li><strong class="text-green-600">全方位涵蓋「未發現兒童先天性疾病」。</strong></li>
+                </ul>
+                <div class="w-full bg-gray-100 rounded-lg overflow-hidden h-64 border"><iframe src="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/preview" width="100%" height="100%" frameborder="0"></iframe></div>
+            </div>
+            
+            <div class="card border-t-4 border-gray-400">
+                <h3 class="font-bold text-lg text-gray-700 mb-2">SCE 簡護危疾保</h3>
+                <div class="w-full bg-gray-100 rounded-lg overflow-hidden h-64 border"><iframe src="https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/preview" width="100%" height="100%" frameborder="0"></iframe></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t flex overflow-x-auto py-2 px-2 shadow-[0_-5px_20px_rgba(0,0,0,0.08)] z-50 pb-safe hide-scrollbar" style="scroll-snap-type: x mandatory;">
+        <button onclick="switchTab('home')" class="nav-item nav-active flex flex-col items-center" id="nav-home"><span class="text-xl mb-1">🧭</span><span class="text-[10px] font-bold">首頁</span></button>
+        <button onclick="switchTab('reality')" class="nav-item flex flex-col items-center" id="nav-reality"><span class="text-xl mb-1">🤔</span><span class="text-[10px] font-bold">資源反思</span></button>
+        <button onclick="switchTab('concept')" class="nav-item flex flex-col items-center" id="nav-concept"><span class="text-xl mb-1">💡</span><span class="text-[10px] font-bold">醫療危疾</span></button>
+        <button onclick="switchTab('medcalc')" class="nav-item flex flex-col items-center" id="nav-medcalc"><span class="text-xl mb-1">🧮</span><span class="text-[10px] font-bold">理賠計算</span></button>
+        <button onclick="switchTab('ci')" class="nav-item flex flex-col items-center" id="nav-ci"><span class="text-xl mb-1">🛡️</span><span class="text-[10px] font-bold">危疾對比</span></button>
+        <button onclick="switchTab('uw')" class="nav-item flex flex-col items-center" id="nav-uw"><span class="text-xl mb-1">🔍</span><span class="text-[10px] font-bold">核保不保</span></button>
+        <button onclick="switchTab('claim')" class="nav-item flex flex-col items-center" id="nav-claim"><span class="text-xl mb-1">🏥</span><span class="text-[10px] font-bold">索償流程</span></button>
+        <button onclick="switchTab('docs')" class="nav-item flex flex-col items-center" id="nav-docs"><span class="text-xl mb-1">📚</span><span class="text-[10px] font-bold">產品百科</span></button>
+    </div>
+
+    <script>
+        // --- 0. 註冊 Service Worker (PWA) ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js').then(function(registration) {
+                    console.log('ServiceWorker 註冊成功: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker 註冊失敗: ', err);
+                });
+            });
+        }
+
+        // --- 1. 導航切換 ---
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('nav-active'));
+            document.getElementById(tabId + '-tab').classList.add('active');
+            document.getElementById('nav-' + tabId).classList.add('nav-active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- 2. 首頁問卷邏輯 ---
+        const quizData = [
+            { q: "1. 身體需做手術時，您首選的就醫環境是？", options: [{ label: "A. 公立醫院（願意排期，最緊要平）", val: "A" }, { label: "B. 私營醫療（最快治療，掌握主動權）", val: "B" }] },
+            { q: "2. 如果用私家醫療，主要依賴哪一種資金？", options: [{ label: "A. 銀行存款（自己找數）", val: "A" }, { label: "B. 公司保險（受限於在職狀態）", val: "B" }, { label: "C. 個人保險（轉嫁風險）", val: "C" }] },
+            { q: "3. 萬一面對重大手術，您希望的應對方式是？", options: [{ label: "A. 接受隨機安排，每次不同醫生", val: "A" }, { label: "B. 搵有名聲的指定專科醫生全程跟進", val: "B" }] },
+            { q: "4. 如果確診大病需休養2-3年，家庭財務會？", options: [{ label: "A. 無壓力，有足夠被動收入", val: "A" }, { label: "B. 有壓力，手停口停需靠積蓄", val: "B" }] },
+            { q: "5. 大病存活率極高，康復後您傾向哪種心態？", options: [{ label: "A. 賠一次就夠，不擔心復發", val: "A" }, { label: "B. 擔心復發無保險，希望防護具延續性", val: "B" }] }
+        ];
+        let currentQ = 0, userAns = {};
+
+        function renderQuiz() {
+            if (currentQ >= quizData.length) { showQuizResult(); return; }
+            const q = quizData[currentQ];
+            document.getElementById('q-title').innerText = q.q;
+            let html = '';
+            q.options.forEach(o => {
+                html += `<button onclick="answerQ('${o.val}')" class="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-indigo-50 hover:border-indigo-400 text-sm mb-2 transition">${o.label}</button>`;
+            });
+            document.getElementById('q-options').innerHTML = html;
+            document.getElementById('quiz-progress').style.width = ((currentQ + 1) / 5 * 100) + '%';
+        }
+
+        function answerQ(ans) { userAns[currentQ] = ans; currentQ++; renderQuiz(); }
+
+        function showQuizResult() {
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('result-section').classList.remove('hidden');
+            let env = userAns[0]==='B'?"渴望私家醫療的高效":"傾向公立醫療";
+            let fund = userAns[1]==='B'?"依賴公司福利":"依賴個人儲備";
+            let doc = userAns[2]==='B'?"由名醫專責跟進":"接受隨機安排";
+            let pressure = userAns[3]==='B'?"會有實質的停工財務壓力":"財務壓力不大";
+            let ciCont = userAns[4]==='B'?"高度防範未來的復發風險，渴望保障具延續性":"認為單次保障已足夠";
+            document.getElementById('result-content').innerHTML = `
+                <p>根據選擇，您在關鍵時刻希望 <strong>${doc}</strong> 及 <strong>${env}</strong>。</p>
+                <p>然而目前主要 <strong>${fund}</strong>，且坦承若長期停工，家庭 <strong>${pressure}</strong>。</p>
+                <p>長遠而言，面對大病您 <strong>${ciCont}</strong>。</p>
+                <p class="font-bold text-green-900 mt-2 border-t pt-2">結論：理財規劃就是用最聰明的槓桿，確保您的期望不會落空。</p>`;
+        }
+        renderQuiz();
+
+        // --- 3. 醫療理賠與保費計算引擎 ---
+        const premiumDB = { AVF: {}, AVSW: {}, AVPU: {} };
+        function initDB() {
+            // 模擬數據庫
+            for(let i=0; i<=100; i++) {
+                let base = 3000 + (i*100);
+                premiumDB.AVF[i] = {M: base, F: base+500};
+                premiumDB.AVSW[i] = {"0":base*2, "18000":base*1.2, "30000":base*0.9};
+                premiumDB.AVPU[i] = {"0":base*2.5, "16000":base*1.5, "25000":base*1.1};
+            }
+        }
+        initDB();
+
+        function calculateMedical() {
+            // 費用基準 (更新 35% 規則)
+            const fees = { small: 20000, medium: 50000, large: 80000, complex: 120000 };
+            const avfLimits = { small: 5000, medium: 12500, large: 25000, complex: 50000 };
+            
+            const level = document.getElementById('surgeryLevel').value;
+            const surgFee = fees[level];
+            const anaesFee = surgFee * 0.35; // 麻醉 35%
+            const theatreFee = surgFee * 0.35; // 手術室 35%
+            
+            const dailyDocFee = parseInt(document.getElementById('dailyDocFee').value) || 1500;
+            const hospDays = parseInt(document.getElementById('hospDays').value) || 3;
+            const totalDocFee = dailyDocFee * hospDays;
+            
+            const totalBill = surgFee + anaesFee + theatreFee + totalDocFee;
+
+            // AVF 計算 (SMM 80% 補底 + 巡房費 $1100 上限)
+            const surgLimit = avfLimits[level];
+            const anaesLimit = surgLimit * 0.35;
+            const theatreLimit = surgLimit * 0.35;
+            
+            // 巡房費超額計算：每日超出 $1100 部分全數自理，不計入 SMM
+            const docExcess = Math.max(0, dailyDocFee - 1100) * hospDays;
+            
+            // SMM 涵蓋部分 (只計手術、麻醉、手術室超額)
+            const smmEligible = Math.max(0, surgFee - surgLimit) + Math.max(0, anaesFee - anaesLimit) + Math.max(0, theatreFee - theatreLimit);
+            const avfSelfSurg = smmEligible * 0.2; // 客戶自付 20%
+            
+            const avfOOP = avfSelfSurg + docExcess;
+
+            // AVSW / AVPU 計算
+            const dAVSW = parseInt(document.getElementById('deductAVSW').value);
+            const dAVPU = parseInt(document.getElementById('deductAVPU').value);
+            const avswOOP = Math.min(totalBill, dAVSW);
+            const avpuOOP = Math.min(totalBill, dAVPU);
+
+            document.getElementById('claimResult').innerHTML = `
+                <div class="mb-3 text-xs text-gray-600 bg-white p-2 border rounded">
+                    <strong>🏥 醫院預計總帳單: $${totalBill.toLocaleString()}</strong><br>
+                    (手術: $${surgFee.toLocaleString()} | 麻醉: $${anaesFee.toLocaleString()} | 手術室: $${theatreFee.toLocaleString()} | 巡房: $${totalDocFee.toLocaleString()})
+                </div>
+                <p class="font-bold text-gray-700 border-b pb-1 mb-2">📊 客戶須自付預算 (缺口)</p>
+                <div class="flex justify-between items-center py-1">
+                    <span>🔴 靈活 (AVF):</span><span class="text-red-500 font-bold">$${avfOOP.toLocaleString()}</span>
+                </div>
+                <p class="text-[10px] text-gray-400 mb-2 leading-tight">
+                    巡房費自付: $${docExcess.toLocaleString()} (每日超出$1100不設SMM)<br>
+                    手術大項自付: $${avfSelfSurg.toLocaleString()} (SMM已承擔80%)
+                </p>
+                <div class="flex justify-between items-center py-1 border-t border-dashed">
+                    <span>🔵 睿選 (AVSW - 全數賠償):</span><span class="text-blue-600 font-bold">$${avswOOP.toLocaleString()}</span>
+                </div>
+                <div class="flex justify-between items-center py-1">
+                    <span>🟣 尊耀 (AVPU - 頂級全保):</span><span class="text-purple-600 font-bold">$${avpuOOP.toLocaleString()}</span>
+                </div>
+            `;
+
+            // 保費計算
+            const age = parseInt(document.getElementById('age').value) || 35;
+            const gender = document.getElementById('gender').value;
+            const mode = document.getElementById('payMode').value;
+            const isVitality = document.getElementById('vitality').checked;
+            const taxRate = parseFloat(document.getElementById('taxRate').value);
+
+            let pAVF = premiumDB.AVF[age]?.[gender] || 5000;
+            let pAVSW = premiumDB.AVSW[age]?.[dAVSW] || 8000;
+            let pAVPU = premiumDB.AVPU[age]?.[dAVPU] || 12000;
+
+            if (mode === 'monthly') {
+                pAVF = Math.ceil((pAVF / 12) * 1.05); pAVSW = Math.ceil((pAVSW / 12) * 1.05); pAVPU = Math.ceil((pAVPU / 12) * 1.05);
+            }
+
+            let fAVF = isVitality ? pAVF * 0.9 : pAVF;
+            let fAVSW = isVitality ? pAVSW * 0.9 : pAVSW;
+            let fAVPU = isVitality ? pAVPU * 0.9 : pAVPU;
+
+            let aAVF = mode === 'monthly' ? fAVF * 12 : fAVF;
+            let aAVSW = mode === 'monthly' ? fAVSW * 12 : fAVSW;
+            let aAVPU = mode === 'monthly' ? fAVPU * 12 : fAVPU;
+
+            let tAVF = Math.min(aAVF, 8000) * taxRate;
+            let tAVSW = Math.min(aAVSW, 8000) * taxRate;
+            let tAVPU = Math.min(aAVPU, 8000) * taxRate;
+
+            document.getElementById('premiumResult').innerHTML = `
+                <table class="w-full text-center text-xs border-collapse mt-2">
+                    <tr class="bg-gray-100"><th class="p-2 border w-1/4"></th><th class="p-2 border text-red-600">AVF</th><th class="p-2 border text-blue-600">AVSW</th><th class="p-2 border text-purple-600">AVPU</th></tr>
+                    <tr><td class="p-2 border text-left">首年保費</td><td class="p-2 border">$${Math.round(fAVF).toLocaleString()}</td><td class="p-2 border">$${Math.round(fAVSW).toLocaleString()}</td><td class="p-2 border">$${Math.round(fAVPU).toLocaleString()}</td></tr>
+                    <tr><td class="p-2 border text-left text-green-600">政府回贈</td><td class="p-2 border text-green-600">-$${Math.round(tAVF).toLocaleString()}</td><td class="p-2 border text-green-600">-$${Math.round(tAVSW).toLocaleString()}</td><td class="p-2 border text-green-600">-$${Math.round(tAVPU).toLocaleString()}</td></tr>
+                    <tr class="bg-blue-50 font-bold"><td class="p-2 border text-left">全年淨成本</td><td class="p-2 border">$${Math.round(aAVF - tAVF).toLocaleString()}</td><td class="p-2 border">$${Math.round(aAVSW - tAVSW).toLocaleString()}</td><td class="p-2 border">$${Math.round(aAVPU - tAVPU).toLocaleString()}</td></tr>
+                </table>
+            `;
+        }
+        calculateMedical();
+    </script>
+</body>
+</html>
