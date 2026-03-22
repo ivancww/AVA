@@ -2,8 +2,8 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AVA 專業顧問實戰系統 v2.3.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>AVA 專業顧問實戰系統 v2.4.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -22,26 +22,29 @@
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* 圖片放大鏡樣式 */
+        /* 圖片放大鏡與燈箱 */
         .zoom-img { cursor: zoom-in; transition: transform 0.2s; }
-        #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; }
-        #lightbox img { max-width: 95%; max-height: 95%; object-fit: contain; }
+        #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; overflow: auto; }
+        #lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in; }
         
         input, select { width: 100%; border: 1px solid #e5e7eb; padding: 10px; border-radius: 12px; margin-top: 5px; outline: none; background: #f9fafb; font-size: 13px;}
         .img-container img { border-radius: 15px; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.08); margin-bottom: 8px; }
+        .btn-simulator { background: linear-gradient(135deg, #d31145 0%, #ed1c24 100%); color: white; padding: 15px; border-radius: 15px; text-align: center; font-weight: bold; display: block; margin-bottom: 15px; }
+        .btn-pdf { display: block; background: #f3f4f6; color: #2563eb; text-align: center; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: bold; margin-top: 8px; border: 1px solid #bfdbfe; }
     </style>
 </head>
 <body class="bg-gray-50 pb-28 text-gray-800">
 
-    <div id="lightbox" onclick="this.style.display='none'">
-        <img id="lightbox-img" src="" alt="Zoomed View">
+    <div id="lightbox" onclick="closeLightbox(event)">
+        <img id="lightbox-img" src="" alt="Zoomed View" onclick="toggleLightboxZoom(event)">
+        <p class="fixed bottom-10 left-1/2 transform -translate-x-1/2 text-white text-[10px] bg-black/60 px-4 py-2 rounded-full pointer-events-none tracking-widest">點擊圖片或雙指縮放查看細節</p>
     </div>
 
     <nav class="gradient-primary text-white p-5 rounded-b-3xl shadow-lg sticky top-0 z-50 flex justify-between items-end">
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v2.3.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v2.4.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -55,7 +58,7 @@
         <div id="home-tab" class="tab-content active">
             <div class="card border-t-4 border-rose-300" id="quiz-section">
                 <h2 class="text-lg font-bold text-gray-800 mb-1">💌 致未來的一封信</h2>
-                <p class="text-xs text-gray-500 mb-6 italic">「停下腳步，與五年、十年後的家庭對話。」</p>
+                <p class="text-xs text-gray-500 mb-6 italic">「停下腳步，為未來的健康與收入做一次溫柔的檢視。」</p>
                 <div id="question-container" class="min-h-[160px]">
                     <h3 id="q-title" class="font-bold text-gray-700 mb-4 text-sm leading-relaxed italic"></h3>
                     <div id="q-options" class="space-y-3"></div>
@@ -70,20 +73,22 @@
 
         <div id="reality-tab" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-gray-800">🤔 資源大反思</h2>
+            
             <div class="card border-l-4 border-orange-500 bg-orange-50">
                 <h3 class="font-bold text-orange-700 mb-3 text-center">⏳ 公立醫院的時間成本</h3>
                 <div class="space-y-3 text-xs text-gray-700">
                     <p class="p-3 bg-white rounded-lg shadow-sm border border-orange-100">1. 當身體最脆弱時，<span class="text-orange-600 font-bold">時間</span>是朋友，還是最大的敵人？</p>
                     <p class="p-3 bg-white rounded-lg shadow-sm border border-orange-100">2. 您是否願意用疾病治療的<span class="text-orange-600 font-bold">「黃金檔期」</span>，去換取看似免費的代價？</p>
-                    <p class="p-3 bg-white rounded-lg shadow-sm border border-orange-100">3. 生病時，您希望「即刻有得醫」，還是「無了期地等」？</p>
+                    <p class="p-3 bg-white rounded-lg shadow-sm border border-orange-100">3. 生病時，您希望「<span class="text-orange-600 font-bold">即刻有得醫</span>」，還是「無了期地等」？</p>
                 </div>
             </div>
+            
             <div class="card border-l-4 border-purple-500 bg-purple-50">
                 <h3 class="font-bold text-purple-700 mb-3 text-center">🏢 公司醫保的專屬權</h3>
                 <div class="space-y-3 text-xs text-gray-700">
                     <p class="p-3 bg-white rounded-lg shadow-sm border border-purple-100">1. 公司的保險，保障的是您本人，還是您的<span class="text-purple-600 font-bold">「職位」</span>？</p>
-                    <p class="p-3 bg-white rounded-lg shadow-sm border border-purple-100">2. 當您退休或因病被迫辭職時，這把遮還會撐在您頭頂嗎？</p>
-                    <p class="p-3 bg-white rounded-lg shadow-sm border border-purple-100">3. 等到 50 歲離開公司才買「私家遮」，您的身體與保費還容許嗎？</p>
+                    <p class="p-3 bg-white rounded-lg shadow-sm border border-purple-100">2. 當您<span class="text-purple-600 font-bold">退休</span>或<span class="text-purple-600 font-bold">因病被迫辭職</span>時，這把遮還會撐在您頭頂嗎？</p>
+                    <p class="p-3 bg-white rounded-lg shadow-sm border border-purple-100">3. 等到 50 歲離開公司才買「<span class="text-purple-600 font-bold">私家遮</span>」，您的身體與保費還容許嗎？</p>
                 </div>
             </div>
         </div>
@@ -100,12 +105,25 @@
             <a href="https://ivancww.github.io/medicalclaims" target="_blank" class="bg-red-600 text-white p-4 rounded-xl text-center font-bold block shadow-lg">🚀 開啟：進階模擬理賠分析器</a>
 
             <div class="card border-t-4 border-blue-500 mt-6">
-                <h3 class="font-bold text-blue-700 mb-3">💰 保費與扣稅快速計算</h3>
-                <div class="grid grid-cols-2 gap-3 mb-4">
-                    <div><label class="text-[10px] font-bold">受保人年齡</label><input type="number" id="age" value="35" onchange="runPremium()"></div>
-                    <div><label class="text-[10px] font-bold">預計稅階</label><select id="taxRate" onchange="runPremium()"><option value="0.17">17% (高薪)</option><option value="0.10">10%</option><option value="0.02">2%</option></select></div>
+                <h3 class="font-bold text-blue-700 mb-3">💰 醫療計劃保費與扣稅對比</h3>
+                
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <div><label class="text-[10px] font-bold text-gray-500">受保人年齡</label><input type="number" id="age" value="35" onchange="runPremium()"></div>
+                    <div><label class="text-[10px] font-bold text-gray-500">性別</label><select id="gender" onchange="runPremium()"><option value="M">男</option><option value="F">女</option></select></div>
                 </div>
-                <div id="premiumResult" class="bg-blue-50 p-4 rounded-xl text-xs space-y-2 border border-blue-100"></div>
+                
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div><label class="text-[10px] font-bold text-gray-500">繳費模式</label><select id="payMode" onchange="runPremium()"><option value="annual">年繳 (較抵)</option><option value="monthly">月繳</option></select></div>
+                    <div><label class="text-[10px] font-bold text-gray-500">預計稅階</label><select id="taxRate" onchange="runPremium()"><option value="0.17">17% (高薪)</option><option value="0.10">10%</option><option value="0.02">2%</option><option value="0">0% (無扣稅)</option></select></div>
+                </div>
+
+                <div class="flex items-center mb-4 bg-pink-50 p-3 rounded-lg border border-pink-100">
+                    <input type="checkbox" id="vitality" onchange="runPremium()" checked>
+                    <label for="vitality" class="text-[11px] font-bold text-pink-700 ml-2">參加 AIA Vitality (即享首年 9 折)</label>
+                </div>
+
+                <div id="premiumResult" class="bg-blue-50 p-3 rounded-xl text-xs shadow-inner border border-blue-100 overflow-hidden"></div>
+                <p class="text-[9px] text-gray-400 mt-2 text-center">*以上為系統預估數據，睿選/尊耀假設為0墊底費</p>
             </div>
         </div>
 
@@ -123,26 +141,59 @@
 
         <div id="claim-tab" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-gray-800">🏥 索償流程</h2>
-            <div class="card p-2"><h3 class="font-bold text-red-600 mb-2 text-sm text-center">🌟 AIA 網絡 (自動批核)</h3><img src="https://i.postimg.cc/DzNptFf0/AIA_pre_approval.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-2"><h3 class="font-bold text-red-600 mb-2 text-sm text-center">🌟 AIA 網絡 (預先批核)</h3><img src="https://i.postimg.cc/DzNptFf0/AIA_pre_approval.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
             <div class="card p-2"><h3 class="font-bold text-blue-600 mb-2 text-sm text-center">📝 全港通用 (標準流程)</h3><img src="https://i.postimg.cc/KzgpbV4T/pre_approval.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
         </div>
 
         <div id="docs-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800">📚 產品百科 (PDF)</h2>
-            <div class="card border-l-4 border-red-500"><h4>AVF 靈活計劃</h4><iframe src="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/preview" class="w-full h-40 mt-2"></iframe></div>
-            <div class="card border-l-4 border-blue-500"><h4>AVSW 睿選計劃</h4><iframe src="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/preview" class="w-full h-40 mt-2"></iframe></div>
-            <div class="card border-l-4 border-purple-500"><h4>AVPU 尊耀計劃</h4><iframe src="https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_b/preview" class="w-full h-40 mt-2"></iframe></div>
-            <div class="card border-l-4 border-teal-500"><h4>EOYS 簡緻愛伴航</h4><iframe src="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/preview" class="w-full h-40 mt-2"></iframe></div>
-            <div class="card border-l-4 border-red-600"><h4>OYS 2 愛伴航</h4><iframe src="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/preview" class="w-full h-40 mt-2"></iframe></div>
-            <div class="card border-l-4 border-gray-400"><h4>SCE 簡護危疾</h4><iframe src="https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/preview" class="w-full h-40 mt-2"></iframe></div>
+            <p class="text-[10px] text-red-500 mb-2 italic">*若 iOS 手機無法顯示畫面，請點擊下方按鈕直接開啟。</p>
+            
+            <div class="card border-l-4 border-red-500 p-3">
+                <h4 class="font-bold text-sm">AVF 靈活計劃</h4>
+                <iframe src="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/preview" class="w-full h-32 mt-2 border rounded"></iframe>
+                <a href="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/view" target="_blank" class="btn-pdf">📱 點擊打開 AVF 條款</a>
+            </div>
+            
+            <div class="card border-l-4 border-blue-500 p-3">
+                <h4 class="font-bold text-sm">AVSW 睿選計劃</h4>
+                <iframe src="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/preview" class="w-full h-32 mt-2 border rounded"></iframe>
+                <a href="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/view" target="_blank" class="btn-pdf">📱 點擊打開 AVSW 條款</a>
+            </div>
+            
+            <div class="card border-l-4 border-purple-500 p-3">
+                <h4 class="font-bold text-sm">AVPU 尊耀計劃</h4>
+                <iframe src="https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_b/preview" class="w-full h-32 mt-2 border rounded"></iframe>
+                <a href="https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_b/view" target="_blank" class="btn-pdf">📱 點擊打開 AVPU 條款</a>
+            </div>
+            
+            <div class="card border-l-4 border-teal-500 p-3">
+                <h4 class="font-bold text-sm">EOYS 簡緻愛伴航</h4>
+                <iframe src="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/preview" class="w-full h-32 mt-2 border rounded"></iframe>
+                <a href="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/view" target="_blank" class="btn-pdf">📱 點擊打開 EOYS 條款</a>
+            </div>
+            
+            <div class="card border-l-4 border-red-600 p-3">
+                <h4 class="font-bold text-sm">OYS 2 愛伴航</h4>
+                <iframe src="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/preview" class="w-full h-32 mt-2 border rounded"></iframe>
+                <a href="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/view" target="_blank" class="btn-pdf">📱 點擊打開 OYS2 條款</a>
+            </div>
+            
+            <div class="card border-l-4 border-gray-400 p-3">
+                <h4 class="font-bold text-sm">SCE 簡護危疾</h4>
+                <iframe src="https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/preview" class="w-full h-32 mt-2 border rounded"></iframe>
+                <a href="https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/view" target="_blank" class="btn-pdf">📱 點擊打開 SCE 條款</a>
+            </div>
         </div>
 
         <div id="vitality-tab" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-gray-800">🏃 健康程式</h2>
             <div class="card p-2 bg-pink-50 border-t-4 border-pink-500">
+                <h3 class="font-bold text-pink-700 mb-3 px-2 text-sm">AIA Vitality 獎賞計劃</h3>
                 <img src="https://i.postimg.cc/fRL6D03F/vitality.png" class="rounded-xl shadow-md mb-4 zoom-img" onclick="zoom(this)">
+                <img src="https://i.postimg.cc/XvwKjb4d/健康程式.png" class="rounded-xl shadow-md mb-4 zoom-img" onclick="zoom(this)">
                 <p class="text-xs px-2 text-gray-700 leading-relaxed italic">
-                    「投資健康，是回報率最高的理財。」投保即享首年 9 折，持續運動更享永久 10% 折扣。
+                    「投資健康，是回報率最高的理財。」投保即享首年 9 折，持續運動更享永久 10% 折扣及合作伙伴獎賞。
                 </p>
             </div>
         </div>
@@ -164,12 +215,25 @@
     <script>
         if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('sw.js')); }
         
-        // 圖片放大功能
+        // 圖片放大功能 (支援點擊深度放大)
+        let isZoomed = false;
         function zoom(el) {
-            document.getElementById('lightbox-img').src = el.src;
+            isZoomed = false;
+            const img = document.getElementById('lightbox-img');
+            img.src = el.src;
+            img.style.transform = 'scale(1)';
             document.getElementById('lightbox').style.display = 'flex';
         }
+        function toggleLightboxZoom(e) {
+            e.stopPropagation(); // 防止觸發背景的關閉事件
+            isZoomed = !isZoomed;
+            document.getElementById('lightbox-img').style.transform = isZoomed ? 'scale(1.8)' : 'scale(1)';
+        }
+        function closeLightbox(e) {
+            document.getElementById('lightbox').style.display = 'none';
+        }
 
+        // 分頁切換
         function switchTab(t) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('nav-active'));
@@ -178,30 +242,82 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // 精準保費計算 (含性別、模式、3大計劃對比)
         function runPremium() {
-            const age = parseInt(document.getElementById('age').value);
+            const age = parseInt(document.getElementById('age').value) || 35;
+            const gender = document.getElementById('gender').value;
+            const mode = document.getElementById('payMode').value;
             const tax = parseFloat(document.getElementById('taxRate').value);
-            const p = 3000 + (age * 150);
-            const rebate = Math.min(p, 8000) * tax;
+            const isVit = document.getElementById('vitality').checked;
+
+            // 基礎模擬數據
+            let baseAVF = 3000 + (age * 120) + (gender === 'F' ? 400 : 0);
+            let baseAVSW = 5500 + (age * 150) + (gender === 'F' ? 600 : 0);
+            let baseAVPU = 8500 + (age * 200) + (gender === 'F' ? 800 : 0);
+
+            // Vitality 9折
+            let pAVF = isVit ? baseAVF * 0.9 : baseAVF;
+            let pAVSW = isVit ? baseAVSW * 0.9 : baseAVSW;
+            let pAVPU = isVit ? baseAVPU * 0.9 : baseAVPU;
+
+            // 月繳附加費 (約 5% 息)，並計算出全年總數作對比
+            let displayMode = "年繳總額";
+            if (mode === 'monthly') {
+                pAVF = (pAVF / 12) * 1.05 * 12;
+                pAVSW = (pAVSW / 12) * 1.05 * 12;
+                pAVPU = (pAVPU / 12) * 1.05 * 12;
+                displayMode = "月繳全年總額";
+            }
+
+            // 扣稅回贈 (每人上限 $8000)
+            const rAVF = Math.min(pAVF, 8000) * tax;
+            const rAVSW = Math.min(pAVSW, 8000) * tax;
+            const rAVPU = Math.min(pAVPU, 8000) * tax;
+
             document.getElementById('premiumResult').innerHTML = `
-                <div class="flex justify-between"><span>預計年繳保費:</span><b>$${p.toLocaleString()}</b></div>
-                <div class="flex justify-between text-green-600"><span>政府回贈(估計):</span><b>-$${Math.round(rebate).toLocaleString()}</b></div>
-                <div class="flex justify-between font-bold border-t mt-1 pt-1 text-sm text-red-600"><span>實際支出:</span><b>$${Math.round(p - rebate).toLocaleString()}</b></div>
+                <table class="w-full text-center text-[11px] leading-loose">
+                    <tr class="text-blue-800 border-b border-blue-200">
+                        <th class="py-1 text-left w-[25%] font-normal text-gray-500">${displayMode}</th>
+                        <th class="py-1 w-[25%]">靈活<br>(AVF)</th>
+                        <th class="py-1 w-[25%]">睿選<br>(AVSW)</th>
+                        <th class="py-1 w-[25%]">尊耀<br>(AVPU)</th>
+                    </tr>
+                    <tr>
+                        <td class="py-1 text-left font-bold text-gray-700">總保費</td>
+                        <td class="py-1">$${Math.round(pAVF).toLocaleString()}</td>
+                        <td class="py-1">$${Math.round(pAVSW).toLocaleString()}</td>
+                        <td class="py-1">$${Math.round(pAVPU).toLocaleString()}</td>
+                    </tr>
+                    <tr class="text-green-600 border-b border-blue-100">
+                        <td class="py-1 text-left">扣稅回贈</td>
+                        <td class="py-1">-$${Math.round(rAVF).toLocaleString()}</td>
+                        <td class="py-1">-$${Math.round(rAVSW).toLocaleString()}</td>
+                        <td class="py-1">-$${Math.round(rAVPU).toLocaleString()}</td>
+                    </tr>
+                    <tr class="font-bold text-[12px]">
+                        <td class="py-2 text-left text-gray-800">實際淨成本</td>
+                        <td class="py-2 text-red-600">$${Math.round(pAVF - rAVF).toLocaleString()}</td>
+                        <td class="py-2 text-red-600">$${Math.round(pAVSW - rAVSW).toLocaleString()}</td>
+                        <td class="py-2 text-red-600">$${Math.round(pAVPU - rAVPU).toLocaleString()}</td>
+                    </tr>
+                </table>
             `;
         }
         
+        // 問卷邏輯 (加入醫療與危疾雙軌考量)
         const quizData = [
-            { q: "1. 想像一下十年後的客廳，您希望家人的笑容裡，是否包含一份『無論發生什麼，生活依舊』的底氣？", options: [{ label: "是，我希望給他們最穩定的承諾", val: "B" }, { label: "我還沒想那麼遠", val: "A" }] },
-            { q: "2. 當我們在忙碌中累倒了，您心目中理想的療癒之地是？", options: [{ label: "最快、最專業、有尊嚴的私人空間", val: "B" }, { label: "只要能康復，簡陋一點也可以", val: "A" }] },
-            { q: "3. 守護這個家，您希望這筆資金的主動權握在誰手裡？", options: [{ label: "我自己（銀行儲蓄）", val: "A" }, { label: "公司（借來的傘）", val: "B" }, { label: "保險公司（轉嫁風險）", val: "C" }] },
-            { q: "4. 如果可以對未來的自己說一句話，您最希望是？", options: [{ label: "謝謝您當時做出了守護的決定", val: "B" }, { label: "希望當時我有更早開始規劃", val: "A" }] }
+            { q: "1. 想像一下未來，如果身體需要休息，您希望身處什麼醫療環境？", options: [{ label: "A. 公立醫院（只要能醫好，排隊我也願意）", val: "A" }, { label: "B. 私家病房（我需要最高效、最有尊嚴的空間）", val: "B" }] },
+            { q: "2. 如果面對高昂的手術費，您目前最依賴哪一方為您買單？", options: [{ label: "A. 我的銀行存摺（用積蓄應對）", val: "A" }, { label: "B. 公司的關懷（依賴公司醫療福利）", val: "B" }, { label: "C. 專業的醫療保單（全數轉嫁給保險公司）", val: "C" }] },
+            { q: "3. 【生活防線】如果因為大病需要放下工作兩三年調理，家庭的日常開支與供樓負擔會？", options: [{ label: "A. 沒問題，我有足夠的被動收入支撐", val: "A" }, { label: "B. 會感到極大壓力，因為我是家庭經濟支柱 (手停口停)", val: "B" }] },
+            { q: "4. 【延續守護】面對現代醫學極高的存活率，對於大病復發的風險，您的態度是？", options: [{ label: "A. 治好一次、賠一次就足夠了", val: "A" }, { label: "B. 我擔心復發，希望防護網能有延續性 (多次賠償)", val: "B" }] },
+            { q: "5. 如果可以對五年後的自己說一句話，您最希望是？", options: [{ label: "A. 謝謝您當時做出了守護家人的決定", val: "B" }, { label: "B. 真希望當時我有更早開始規劃", val: "A" }] }
         ];
         let currentQ = 0, userAns = {};
         function renderQuiz() {
             if (currentQ >= quizData.length) { showQuizResult(); return; }
             const q = quizData[currentQ]; document.getElementById('q-title').innerText = q.q;
             let h = ''; q.options.forEach(o => h += `<button onclick="answerQ('${o.val}')" class="w-full text-left p-4 rounded-xl border mb-3 hover:bg-rose-50 hover:border-rose-200 transition text-xs shadow-sm bg-white">${o.label}</button>`);
-            document.getElementById('q-options').innerHTML = h; document.getElementById('quiz-progress').style.width = ((currentQ + 1) / 4 * 100) + '%';
+            document.getElementById('q-options').innerHTML = h; document.getElementById('quiz-progress').style.width = ((currentQ + 1) / 5 * 100) + '%';
         }
         function answerQ(v) { userAns[currentQ] = v; currentQ++; renderQuiz(); }
         function showQuizResult() {
@@ -209,9 +325,9 @@
             document.getElementById('result-section').classList.remove('hidden');
             document.getElementById('result-content').innerHTML = `
                 <p>「致親愛的您：」</p>
-                <p>未來的您，非常感謝您在當下的這份深思。您希望能給家人<strong>最好的守護 (${userAns[1]==='B'?'高效醫療':'穩健承諾'})</strong>。</p>
-                <p>您也察覺到了，${userAns[2]==='B'?'依靠公司的關懷':'現有的儲備'}或許能在短暫陣雨中支撐，但面對長遠的風暴，我們需要一套<strong>專屬且具延續性</strong>的防護網。</p>
-                <p>這封信提醒我們：守護，是現在就開始的行動。</p>
+                <p>感謝您與未來的自己深度對話。您希望能給家人<strong>最好的醫療環境</strong>，也深知在停工養病期間，家庭收入不能中斷。</p>
+                <p>這意味著，您需要的不僅是一張<strong>實報實銷的醫療單</strong>，更需要一筆<strong>應付生活開支的危疾後備金</strong>。</p>
+                <p>這封信提醒我們：真正的安全感，是醫療保「開支」，危疾保「收入」。現在就開始建立您的雙軌防護網吧。</p>
             `;
         }
         window.onload = () => { renderQuiz(); runPremium(); };
