@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>AVA 專業顧問實戰系統 v2.5.0</title>
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <title>AVA 專業顧問實戰系統 v2.6.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -22,7 +27,6 @@
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* 圖片放大鏡與燈箱 */
         .zoom-img { cursor: zoom-in; transition: transform 0.2s; }
         #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; overflow: auto; }
         #lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in; }
@@ -32,7 +36,6 @@
         .btn-simulator { background: linear-gradient(135deg, #d31145 0%, #ed1c24 100%); color: white; padding: 15px; border-radius: 15px; text-align: center; font-weight: bold; display: block; margin-bottom: 15px; }
         .btn-pdf { display: block; background: #f3f4f6; color: #2563eb; text-align: center; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: bold; margin-top: 8px; border: 1px solid #bfdbfe; }
         
-        /* Highlight 特效 */
         .hl-yellow { background-color: #fef08a; color: #713f12; font-weight: 900; padding: 2px 4px; border-radius: 4px; }
         .hl-purple { background-color: #e9d5ff; color: #581c87; font-weight: 900; padding: 2px 4px; border-radius: 4px; }
     </style>
@@ -48,7 +51,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v2.5.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v2.6.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -224,9 +227,35 @@
     </div>
 
     <script>
-        if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('sw.js')); }
+        // 註冊 Service Worker 並偵測更新
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').then(reg => {
+                    // 每當發現 sw.js 內容有改變時觸發
+                    reg.onupdatefound = () => {
+                        const installingWorker = reg.installing;
+                        installingWorker.onstatechange = () => {
+                            if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // 發現新版本！強制刷新網頁以載入新代碼
+                                console.log('New update available, forcing reload...');
+                                window.location.reload(true);
+                            }
+                        };
+                    };
+                });
+            });
+
+            // 當新的 Service Worker 取得控制權時，強制刷新 (雙重保險)
+            let refreshing = false;
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                if (!refreshing) {
+                    refreshing = true;
+                    window.location.reload(true);
+                }
+            });
+        }
         
-        // 圖片放大功能 (支援點擊深度放大與雙指縮放)
+        // --- 圖片放大功能 ---
         let isZoomed = false;
         function zoom(el) {
             isZoomed = false;
@@ -244,6 +273,7 @@
             document.getElementById('lightbox').style.display = 'none';
         }
 
+        // --- 導航切換 ---
         function switchTab(t) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('nav-active'));
@@ -252,7 +282,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 醫療計劃保費精算引擎
+        // --- 保費計算引擎 ---
         function runPremium() {
             const age = parseInt(document.getElementById('age').value) || 35;
             const gender = document.getElementById('gender').value;
@@ -310,7 +340,7 @@
             `;
         }
         
-        // 柔和問卷對話
+        // --- 柔和問卷對話 ---
         const quizData = [
             { q: "1. 想像一下未來，如果身體需要休息，您希望身處什麼醫療環境？", options: [{ label: "A. 公立醫院（只要能醫好，排隊我也願意）", val: "A" }, { label: "B. 私家病房（我需要最高效、最有尊嚴的空間）", val: "B" }] },
             { q: "2. 如果面對高昂的手術費，您目前最依賴哪一方為您買單？", options: [{ label: "A. 我的銀行存摺（用積蓄應對）", val: "A" }, { label: "B. 公司的關懷（依賴公司醫療福利）", val: "B" }, { label: "C. 專業的醫療保單（全數轉嫁給保險公司）", val: "C" }] },
