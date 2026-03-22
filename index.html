@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 專業顧問實戰系統 v2.9.0</title>
+    <title>AVA 專業顧問實戰系統 v2.11.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -35,9 +35,6 @@
         .img-container img { border-radius: 15px; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.08); margin-bottom: 8px; }
         .btn-simulator { background: linear-gradient(135deg, #d31145 0%, #ed1c24 100%); color: white; padding: 15px; border-radius: 15px; text-align: center; font-weight: bold; display: block; margin-bottom: 15px; }
         .btn-pdf { display: block; background: #f3f4f6; color: #2563eb; text-align: center; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: bold; margin-top: 8px; border: 1px solid #bfdbfe; }
-        
-        .hl-yellow { background-color: #fef08a; color: #713f12; font-weight: 900; padding: 2px 4px; border-radius: 4px; }
-        .hl-purple { background-color: #e9d5ff; color: #581c87; font-weight: 900; padding: 2px 4px; border-radius: 4px; }
     </style>
 </head>
 <body class="bg-gray-50 pb-28 text-gray-800">
@@ -51,7 +48,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v2.9.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v2.11.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -73,28 +70,8 @@
             </div>
             <div id="result-section" class="card border-t-4 border-rose-400 hidden bg-rose-50">
                 <h2 class="text-lg font-bold text-rose-800 mb-2 text-center">📜 未來的回信</h2>
-                <div id="result-content" class="text-sm leading-relaxed space-y-3 p-2 text-gray-700 italic border-l-2 border-rose-200"></div>
-                <p class="text-[10px] text-center text-gray-400 mt-6">既然懂得了內心的牽掛，讓我們現在就開始守護。</p>
-            </div>
-        </div>
-
-        <div id="reality-tab" class="tab-content space-y-6">
-            <h2 class="text-2xl font-bold text-gray-800">🤔 資源大反思</h2>
-            <div class="card border-l-4 border-orange-500 bg-orange-50">
-                <h3 class="font-bold text-orange-700 mb-3 text-center">⏳ 公立醫院的時間成本</h3>
-                <div class="space-y-3 text-xs text-gray-700 leading-relaxed">
-                    <p class="p-3 bg-white rounded-lg shadow-sm border border-orange-100">1. 當身體最脆弱時，<span class="hl-yellow">時間</span>是朋友，還是最大的敵人？</p>
-                    <p class="p-3 bg-white rounded-lg shadow-sm border border-orange-100">2. 您是否願意用疾病治療的<span class="hl-yellow">黃金檔期</span>，去換取看似免費的代價？</p>
-                    <p class="p-3 bg-white rounded-lg shadow-sm border border-orange-100">3. 生病時，您希望「<span class="hl-yellow">即刻有得醫</span>」，還是「無了期地等」？</p>
-                </div>
-            </div>
-            <div class="card border-l-4 border-purple-500 bg-purple-50">
-                <h3 class="font-bold text-purple-700 mb-3 text-center">🏢 公司醫保的專屬權</h3>
-                <div class="space-y-3 text-xs text-gray-700 leading-relaxed">
-                    <p class="p-3 bg-white rounded-lg shadow-sm border border-purple-100">1. 公司的保險，保障的是您本人，還是您的<span class="hl-purple">職位</span>？</p>
-                    <p class="p-3 bg-white rounded-lg shadow-sm border border-purple-100">2. 當您<span class="hl-purple">退休</span>或<span class="hl-purple">因病被迫辭職</span>時，這把遮還會撐在您頭頂嗎？</p>
-                    <p class="p-3 bg-white rounded-lg shadow-sm border border-purple-100">3. 等到 50 歲離開公司才買<span class="hl-purple">私家遮</span>，您的身體與保費還容許嗎？</p>
-                </div>
+                <div id="result-content" class="text-sm leading-relaxed p-2 text-gray-700 border-l-2 border-rose-200"></div>
+                <button onclick="resetQuiz()" class="w-full mt-6 bg-white border border-rose-300 text-rose-600 font-bold py-3 rounded-xl shadow-sm text-xs">🔄 重新對話</button>
             </div>
         </div>
 
@@ -114,7 +91,7 @@
                 <p class="text-[10px] text-gray-500 mb-3 italic">*系統已內置 100% 官方真實保費庫，無需估算。</p>
                 
                 <div class="grid grid-cols-2 gap-3 mb-3">
-                    <div><label class="text-[10px] font-bold text-gray-500">受保人年齡</label><input type="number" id="age" value="30" onchange="runPremium()"></div>
+                    <div><label class="text-[10px] font-bold text-gray-500">受保人年齡</label><input type="number" id="age" value="30" min="0" max="80" onchange="runPremium()"></div>
                     <div><label class="text-[10px] font-bold text-gray-500">性別</label><select id="gender" onchange="runPremium()"><option value="M">男</option><option value="F">女</option></select></div>
                 </div>
 
@@ -232,9 +209,8 @@
 
     </div>
 
-    <div class="fixed bottom-0 left-0 right-0 bg-white border-t flex overflow-x-auto py-3 px-2 shadow-lg z-50 hide-scrollbar">
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t flex overflow-x-auto py-3 px-2 shadow-lg z-50 hide-scrollbar justify-around">
         <button onclick="switchTab('home')" class="nav-item nav-active" id="nav-home"><span class="text-xl">💌</span><p class="text-[9px]">對話</p></button>
-        <button onclick="switchTab('reality')" class="nav-item" id="nav-reality"><span class="text-xl">🤔</span><p class="text-[9px]">反思</p></button>
         <button onclick="switchTab('concept')" class="nav-item" id="nav-concept"><span class="text-xl">💡</span><p class="text-[9px]">醫危</p></button>
         <button onclick="switchTab('medcalc')" class="nav-item" id="nav-medcalc"><span class="text-xl">🧮</span><p class="text-[9px]">計算</p></button>
         <button onclick="switchTab('ci')" class="nav-item" id="nav-ci"><span class="text-xl">🛡️</span><p class="text-[9px]">危疾</p></button>
@@ -245,7 +221,6 @@
     </div>
 
     <script>
-        // PWA Auto-Update Script
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').then(reg => {
@@ -293,9 +268,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ==========================================
-        // 核心：精準無計算官方保費數據庫 (Ages 0 - 80)
-        // ==========================================
+        // 核心：精準無計算官方保費數據庫 (0 - 80歲)
         const db = {
             AVF_M_A: [5855, 5855, 5855, 5855, 5855, 3474, 3474, 3474, 3474, 3474, 3293, 3293, 3293, 3293, 3293, 3293, 3522, 3742, 3890, 3972, 3972, 4143, 4188, 4233, 4249, 4396, 4480, 4612, 4716, 4776, 4880, 4964, 5048, 5134, 5246, 5405, 5623, 5824, 5988, 6232, 6548, 6892, 7254, 7680, 8005, 8312, 8639, 8935, 9357, 9764, 10556, 11165, 11620, 12147, 12704, 13304, 14136, 14839, 15572, 16372, 17477, 18711, 19908, 21114, 22164, 23657, 24985, 26321, 27669, 29072, 30820, 32856, 34892, 36928, 38964, 41363, 43416, 45469, 47524, 49577, 52084],
             AVF_M_M: [517, 517, 517, 517, 517, 306, 306, 306, 306, 306, 290, 290, 290, 290, 290, 290, 311, 330, 343, 350, 350, 365, 369, 373, 375, 388, 395, 407, 416, 421, 430, 438, 445, 453, 463, 477, 496, 514, 528, 550, 578, 608, 640, 678, 706, 734, 762, 788, 826, 862, 932, 985, 1026, 1072, 1121, 1174, 1248, 1310, 1375, 1445, 1543, 1652, 1757, 1864, 1957, 2088, 2206, 2324, 2443, 2567, 2721, 2901, 3081, 3260, 3440, 3652, 3833, 4014, 4196, 4377, 4599],
@@ -319,10 +292,10 @@
             AVPU_25000_M: [416, 416, 416, 416, 416, 384, 384, 384, 384, 384, 384, 384, 384, 384, 384, 384, 384, 384, 384, 400, 400, 400, 432, 440, 480, 488, 512, 552, 576, 592, 600, 600, 624, 648, 656, 680, 704, 704, 712, 712, 728, 768, 800, 840, 872, 944, 984, 1056, 1088, 1136, 1184, 1256, 1288, 1376, 1432, 1472, 1552, 1656, 1768, 1880, 2000, 2120, 2272, 2472, 2704, 2880, 3152, 3336, 3488, 3680, 3856, 4112, 4344, 4560, 4816, 5072, 5288, 5496, 5656, 5848, 6000]
         };
 
-        // 精準查表引擎
+        // 精準查表引擎 (0 公式計算)
         function runPremium() {
             const inputAge = parseInt(document.getElementById('age').value) || 30;
-            const age = Math.min(80, Math.max(0, inputAge)); // 支援 0-80 歲查表
+            const age = Math.min(80, Math.max(0, inputAge)); 
             
             const gender = document.getElementById('gender').value;
             const mode = document.getElementById('payMode').value;
@@ -334,7 +307,6 @@
 
             const modeKey = mode === 'annual' ? 'A' : 'M';
 
-            // 直接從數據庫抽取絕對精準數值
             let baseAVF = db[`AVF_${gender}_${modeKey}`][age];
             let baseAVSW = db[`AVSW_${dAVSW}_${modeKey}`][age];
             let baseAVPU = db[`AVPU_${dAVPU}_${modeKey}`][age];
@@ -343,14 +315,12 @@
             let exactMonthlyAVSW = mode === 'monthly' ? baseAVSW : 0;
             let exactMonthlyAVPU = mode === 'monthly' ? baseAVPU : 0;
 
-            // 月繳情況下，計算全年總支出作對比
             if (mode === 'monthly') {
                 baseAVF *= 12;
                 baseAVSW *= 12;
                 baseAVPU *= 12;
             }
 
-            // 套用 AIA Vitality 首年 9 折 (直接乘 0.9)
             const pAVF = isVit ? baseAVF * 0.9 : baseAVF;
             const pAVSW = isVit ? baseAVSW * 0.9 : baseAVSW;
             const pAVPU = isVit ? baseAVPU * 0.9 : baseAVPU;
@@ -389,42 +359,105 @@
                     </tr>
                 </table>`;
 
-            // 補充每月精確供款提示
             if (mode === 'monthly') {
                 html += `<div class="mt-2 text-center text-[10px] text-gray-500">
-                            (折扣後每月實繳: 靈活 $${Math.round(exactMonthlyAVF * (isVit?0.9:1)).toLocaleString()} | 睿選 $${Math.round(exactMonthlyAVSW * (isVit?0.9:1)).toLocaleString()} | 尊耀 $${Math.round(exactMonthlyAVPU * (isVit?0.9:1)).toLocaleString()})
+                            (折扣後首年每月實繳: 靈活 $${Math.round(exactMonthlyAVF * (isVit?0.9:1)).toLocaleString()} | 睿選 $${Math.round(exactMonthlyAVSW * (isVit?0.9:1)).toLocaleString()} | 尊耀 $${Math.round(exactMonthlyAVPU * (isVit?0.9:1)).toLocaleString()})
                          </div>`;
             }
 
             document.getElementById('premiumResult').innerHTML = html;
         }
         
-        // 柔和問卷對話
-        const quizData = [
-            { q: "1. 想像一下未來，如果身體需要休息，您希望身處什麼醫療環境？", options: [{ label: "A. 公立醫院（只要能醫好，排隊我也願意）", val: "A" }, { label: "B. 私家病房（我需要最高效、最有尊嚴的空間）", val: "B" }] },
-            { q: "2. 如果面對高昂的手術費，您目前最依賴哪一方為您買單？", options: [{ label: "A. 我的銀行存摺（用積蓄應對）", val: "A" }, { label: "B. 公司的關懷（依賴公司醫療福利）", val: "B" }, { label: "C. 專業的醫療保單（全數轉嫁給保險公司）", val: "C" }] },
-            { q: "3. 【生活防線】如果因為大病需要放下工作兩三年調理，家庭的日常開支與供樓負擔會？", options: [{ label: "A. 沒問題，我有足夠的被動收入支撐", val: "A" }, { label: "B. 會感到極大壓力，因為我是家庭經濟支柱 (手停口停)", val: "B" }] },
-            { q: "4. 【延續守護】面對現代醫學極高的存活率，對於大病復發的風險，您的態度是？", options: [{ label: "A. 治好一次、賠一次就足夠了", val: "A" }, { label: "B. 我擔心復發，希望防護網能有延續性 (多次賠償)", val: "B" }] },
-            { q: "5. 如果可以對五年後的自己說一句話，您最希望是？", options: [{ label: "A. 謝謝您當時做出了守護家人的決定", val: "B" }, { label: "B. 真希望當時我有更早開始規劃", val: "A" }] }
-        ];
-        let currentQ = 0, userAns = {};
+        // --- 動態問卷 Flow ---
+        const questions = {
+            Q1: { q: "1. 想像一下，如果身體突然出現警號，醫生建議盡快進行詳細檢查或手術，您會傾向哪一種選擇？", opts: [{ label: "A. 公立醫院（排期等候，盡量節省開支）", next: "Q2A" }, { label: "B. 私家醫療（立刻確診，掌握治療黃金時間）", next: "Q2B" }] },
+            Q2A: { q: "2. 公立醫院排期做 MRI 或大手術往往需要漫長等待。面對「病情有機會惡化」的未知數與煎熬，您會？", opts: [{ label: "A. 繼續無奈地等，因為不想動用辛苦儲下的積蓄", next: "Q3A" }, { label: "B. 轉去私家醫院，寧願自己畀錢買個快同安心", next: "CQ1" }] },
+            Q3A: { q: "3. 面對幾萬至數十萬不等的突發醫療費，您目前會用什麼方法找數？", opts: [{ label: "A. 咬緊牙關，動用原本留作其他用途的銀行積蓄", next: "CQ1" }, { label: "B. 如果有一個「醫療備用庫」幫我找數就好了", next: "CQ1" }] },
+            Q2B: { q: "2. 私家醫療收費動輒幾萬至數十萬不等，大家都唔想用自己辛苦賺來的錢去睇醫生。您目前應付這筆開支的「主力防線」是？", opts: [{ label: "A. 自己的銀行儲蓄", next: "Q3B" }, { label: "B. 公司的團體醫保 (借來的遮)", next: "Q3B" }, { label: "C. 自己購買的個人醫療保險", next: "Q3B" }] },
+            Q3B: { q: "3. 很多人依賴公司的醫療福利，但您有否了解過公司醫保的「住院額度」是否足夠？以及當我們轉換工作、退休，或者因大病而無法繼續上班時，這份福利就有機會未來失去保障？", opts: [{ label: "A. 確實未仔細了解過額度，也明白未來有機會失去保障", next: "Q4B" }, { label: "B. 有了解過，保障額度確實有限，同時也明白未來有機會失去保障", next: "Q4B" }] },
+            Q4B: { q: "4. 如果有一天這把「借來的遮」不再為我們擋雨，而剛好身體出現狀況，您打算如何應對高昂的醫療費用？", opts: [{ label: "A. 可能只能靠老本積蓄去應付，或無奈轉去排公立醫院", next: "CQ1" }, { label: "B. 到時可能會考慮為自己配置一份專屬的醫療保險", next: "CQ1" }] },
+            CQ1: { q: "【生活開支】如果因為這場大病，需要完全放下工作兩三年專心調理，家庭的日常開支、供樓負擔以及生活質素會否帶來壓力？", opts: [{ label: "A. 可能會有壓力", next: "CQ2" }, { label: "B. 沒什麼影響，我有足夠的被動收入支撐", next: "CQ2" }] },
+            CQ2: { q: "【漫長作戰】隨著醫學進步，您認同現在「大病（如癌症）已經不再是絕症」，而是變成了一種需要長期作戰的「慢性病」嗎？", opts: [{ label: "A. 認同，身邊也有不少持續治療後康復的例子", next: "CQ3" }, { label: "B. 一半半，但確實存活率比以前高很多", next: "CQ3" }] },
+            CQ3: { q: "【殘酷現實】您是否知道一個事實：一旦確診大病，即使我們日後願意支付更昂貴的保費，甚至主動要求加價，保險公司都極大機會不再接受投保？", opts: [{ label: "A. 知道", next: "CQ4" }, { label: "B. 現在才知道，原來確診後會失去再投保的資格", next: "CQ4" }] },
+            CQ4: { q: "既然大病不再是絕症，且康復後難以再買保險。面對漫長的未來及潛在的復發風險，您認為防護網具備「多次賠償」重要嗎？", opts: [{ label: "A. 都重要，因為原來之後不能再買保險", next: "CQ5" }, { label: "B. 以前沒想過，現在覺得的確需要", next: "CQ5" }] },
+            CQ5: { q: "經過今天的審視，當「未來的您」看到今天這段對話時，您認為他/她的第一句話會是什麼？", opts: [{ label: "A. 「謝謝今天的你，令未來的我及身邊家人得到守護。」", next: "END" }, { label: "B. 「如果可以時光倒流，我會叫你今天為未來的我及時做好規劃。」", next: "END" }] }
+        };
+
+        let currentQId = 'Q1';
+        let historyStack = [];
+        let chosenBranch = ''; 
+
         function renderQuiz() {
-            if (currentQ >= quizData.length) { showQuizResult(); return; }
-            const q = quizData[currentQ]; document.getElementById('q-title').innerText = q.q;
-            let h = ''; q.options.forEach(o => h += `<button onclick="answerQ('${o.val}')" class="w-full text-left p-4 rounded-xl border mb-3 hover:bg-rose-50 hover:border-rose-200 transition text-xs shadow-sm bg-white">${o.label}</button>`);
-            document.getElementById('q-options').innerHTML = h; document.getElementById('quiz-progress').style.width = ((currentQ + 1) / 5 * 100) + '%';
+            if (currentQId === 'END') { showQuizResult(); return; }
+            
+            const q = questions[currentQId];
+            document.getElementById('q-title').innerText = q.q;
+            
+            let h = '';
+            q.opts.forEach((o, index) => {
+                h += `<button onclick="answerQ('${o.next}', ${index})" class="w-full text-left p-4 rounded-xl border mb-3 hover:bg-rose-50 hover:border-rose-200 transition text-xs shadow-sm bg-white leading-relaxed">${o.label}</button>`;
+            });
+
+            if (historyStack.length > 0) {
+                h += `<button onclick="goBack()" class="w-full text-center p-3 mt-2 rounded-xl text-gray-400 hover:bg-gray-100 transition text-xs font-bold border border-transparent hover:border-gray-200">🔙 返回上一題</button>`;
+            }
+
+            document.getElementById('q-options').innerHTML = h; 
+            document.getElementById('quiz-progress').style.width = ((historyStack.length + 1) / 8 * 100) + '%';
         }
-        function answerQ(v) { userAns[currentQ] = v; currentQ++; renderQuiz(); }
+
+        function answerQ(nextQId, optIndex) {
+            if (currentQId === 'Q1') {
+                chosenBranch = optIndex === 0 ? 'A' : 'B';
+            }
+            historyStack.push(currentQId);
+            currentQId = nextQId;
+            renderQuiz();
+        }
+
+        function goBack() {
+            if (historyStack.length > 0) {
+                currentQId = historyStack.pop();
+                renderQuiz();
+            }
+        }
+
+        function resetQuiz() {
+            currentQId = 'Q1';
+            historyStack = [];
+            chosenBranch = '';
+            document.getElementById('result-section').classList.add('hidden');
+            document.getElementById('quiz-section').classList.remove('hidden');
+            renderQuiz();
+        }
+
         function showQuizResult() {
             document.getElementById('quiz-section').classList.add('hidden');
             document.getElementById('result-section').classList.remove('hidden');
-            document.getElementById('result-content').innerHTML = `
-                <p>「致親愛的您：」</p>
-                <p>感謝您與未來的自己深度對話。您希望能給家人<strong>最好的醫療環境</strong>，也深知在停工養病期間，家庭收入不能中斷。</p>
-                <p>這意味著，您需要的不僅是一張<strong>實報實銷的醫療單</strong>，更需要一筆<strong>應付生活開支的危疾後備金</strong>。</p>
-                <p>這封信提醒我們：真正的安全感，是醫療保「開支」，危疾保「收入」。現在就開始建立您的雙軌防護網吧。</p>
-            `;
+            
+            let conclusionHTML = '';
+
+            if (chosenBranch === 'A') {
+                conclusionHTML = `
+                    <p>致親愛的您：</p>
+                    <p class="mt-2">您是一位明白黃金治療重要性的人。然而分析顯示，當面對公立排期導致『病情惡化』的風險時，您最後可能考慮私營醫療。若無奈動用數萬至數十萬的積蓄來應付，無疑會打亂家庭的未來計劃。因此，及時為自己配置一份專屬的『個人醫療保險』，給你快速得到治療及由保險公司代你支付費用。</p>
+                    <p class="text-red-600 font-bold my-3 flex items-start"><span class="mr-1">⚠️</span><span>提醒！曾進行過檢查或手術後，都有機會變成不保事項，嚴重的話甚至會被保險公司直接拒保。</span></p>
+                    <p>此外，既然大病已逐漸演變成需要長期作戰的慢性病，加上確診後極難再購買保險的事實，我們不但要解決高昂的醫療開支，更要確保在停工調理期間，有一筆實質的『危疾收入補償』來維持家人的生活質素與供樓開支。面對漫長的未來，這份防護網必須具備『多次賠償的延續性』。</p>
+                    <p class="mt-2">很高興您選擇了對未來的自己說聲：『謝謝今天的你』。現在，我們一齊研究及規劃未來的你的保障喇。</p>
+                `;
+            } else {
+                conclusionHTML = `
+                    <p>致親愛的您：</p>
+                    <p class="mt-2">您非常重視治療的黃金時間與醫療質素。然而，若單靠『借來的』公司醫保，一旦因大病停工或退休而失去保障，屆時可能只能消耗老本，甚至可能用回公立醫院排期。因此，及時為自己配置一份專屬的『個人醫療保險』，由自己掌握主動權就可以。</p>
+                    <p class="text-red-600 font-bold my-3 flex items-start"><span class="mr-1">⚠️</span><span>提醒！曾進行過檢查或手術後，都有機會變成不保事項，嚴重的話甚至會被保險公司直接拒保。</span></p>
+                    <p>此外，既然大病已逐漸演變成需要長期作戰的慢性病，加上確診後極難再購買保險的事實，我們不但要解決高昂的醫療開支，更要確保在停工調理期間，有一筆實質的『危疾收入補償』來維持家人的生活質素與供樓開支。面對漫長的未來，這份防護網必須具備『多次賠償的延續性』。</p>
+                    <p class="mt-2">很高興您選擇了對未來的自己說聲：『謝謝今天的你』。現在，我們一齊研究及規劃未來的你的保障喇。</p>
+                `;
+            }
+            
+            document.getElementById('result-content').innerHTML = conclusionHTML;
         }
+
         window.onload = () => { renderQuiz(); runPremium(); };
     </script>
 </body>
