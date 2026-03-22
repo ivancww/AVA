@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 專業顧問實戰系統 v2.6.1</title>
+    <title>AVA 專業顧問實戰系統 v2.7.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -31,7 +31,7 @@
         #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; overflow: auto; }
         #lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in; }
         
-        input, select { width: 100%; border: 1px solid #e5e7eb; padding: 10px; border-radius: 12px; margin-top: 5px; outline: none; background: #f9fafb; font-size: 13px;}
+        input[type="number"], select { width: 100%; border: 1px solid #e5e7eb; padding: 10px; border-radius: 12px; margin-top: 5px; outline: none; background: #f9fafb; font-size: 13px;}
         .img-container img { border-radius: 15px; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.08); margin-bottom: 8px; }
         .btn-simulator { background: linear-gradient(135deg, #d31145 0%, #ed1c24 100%); color: white; padding: 15px; border-radius: 15px; text-align: center; font-weight: bold; display: block; margin-bottom: 15px; }
         .btn-pdf { display: block; background: #f3f4f6; color: #2563eb; text-align: center; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: bold; margin-top: 8px; border: 1px solid #bfdbfe; }
@@ -51,7 +51,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v2.6.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v2.7.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -102,9 +102,9 @@
 
         <div id="concept-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800">💡 概念釐清 (點擊放大)</h2>
-            <div class="card p-2 shadow-sm"><h3 class="font-bold text-blue-800 mb-2 text-sm text-center">🚗 汽車比喻：維修 vs 停工</h3><img src="https://i.postimg.cc/jj13GKqt/汽車比喻.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
-            <div class="card p-2 shadow-sm"><h3 class="font-bold text-orange-700 mb-2 text-sm text-center">💼 打工比喻：實報實銷 vs 生活費</h3><img src="https://i.postimg.cc/526RRrB2/chang-jing2new.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
-            <div class="card p-2 shadow-sm"><h3 class="font-bold text-green-700 mb-2 text-sm text-center">🏠 房屋比喻：保養 vs 重建基金</h3><img src="https://i.postimg.cc/NF6N9H6Y/房屋比喻.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-2 shadow-sm"><h3 class="font-bold text-blue-800 mb-2 text-sm text-center">場景一：汽車比喻</h3><img src="https://i.postimg.cc/dDPGj4Kg/場景1.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-2 shadow-sm"><h3 class="font-bold text-orange-700 mb-2 text-sm text-center">場景二：打工比喻</h3><img src="https://i.postimg.cc/rzX5NQk6/場景2.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-2 shadow-sm"><h3 class="font-bold text-green-700 mb-2 text-sm text-center">場景三：房屋比喻</h3><img src="https://i.postimg.cc/6TJCfYXJ/場景3.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
         </div>
 
         <div id="medcalc-tab" class="tab-content space-y-4">
@@ -118,19 +118,38 @@
                     <div><label class="text-[10px] font-bold text-gray-500">受保人年齡</label><input type="number" id="age" value="35" onchange="runPremium()"></div>
                     <div><label class="text-[10px] font-bold text-gray-500">性別</label><select id="gender" onchange="runPremium()"><option value="M">男</option><option value="F">女</option></select></div>
                 </div>
+
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-500">睿選 (AVSW) 自付額</label>
+                        <select id="deductAVSW" onchange="runPremium()">
+                            <option value="0">$0</option>
+                            <option value="18000" selected>$18,000</option>
+                            <option value="30000">$30,000</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-500">尊耀 (AVPU) 自付額</label>
+                        <select id="deductAVPU" onchange="runPremium()">
+                            <option value="0">$0</option>
+                            <option value="16000" selected>$16,000</option>
+                            <option value="25000">$25,000</option>
+                        </select>
+                    </div>
+                </div>
                 
                 <div class="grid grid-cols-2 gap-3 mb-4">
                     <div><label class="text-[10px] font-bold text-gray-500">繳費模式</label><select id="payMode" onchange="runPremium()"><option value="annual">年繳 (較抵)</option><option value="monthly">月繳</option></select></div>
                     <div><label class="text-[10px] font-bold text-gray-500">預計稅階</label><select id="taxRate" onchange="runPremium()"><option value="0.17">17% (高薪)</option><option value="0.10">10%</option><option value="0.02">2%</option><option value="0">0% (無扣稅)</option></select></div>
                 </div>
 
-                <div class="flex items-center mb-4 bg-pink-50 p-3 rounded-lg border border-pink-100">
-                    <input type="checkbox" id="vitality" onchange="runPremium()" checked>
-                    <label for="vitality" class="text-[11px] font-bold text-pink-700 ml-2">參加 AIA Vitality (即享首年 9 折)</label>
-                </div>
+                <label class="flex items-center mb-4 bg-pink-50 p-4 rounded-xl border border-pink-200 cursor-pointer w-full transition hover:bg-pink-100 shadow-sm">
+                    <input type="checkbox" id="vitality" onchange="runPremium()" checked class="w-5 h-5 accent-pink-600 cursor-pointer">
+                    <span class="text-[12px] font-bold text-pink-800 ml-3 flex-1">參加 AIA Vitality (即享首年 9 折)</span>
+                </label>
 
                 <div id="premiumResult" class="bg-blue-50 p-3 rounded-xl text-xs shadow-inner border border-blue-100 overflow-hidden"></div>
-                <p class="text-[9px] text-gray-400 mt-2 text-center">*以上為系統預估數據，睿選/尊耀假設為0墊底費</p>
+                <p class="text-[9px] text-gray-400 mt-2 text-center">*以上為系統預估數據，將隨自付額調整比例</p>
             </div>
         </div>
 
@@ -180,8 +199,8 @@
             <div class="card border-l-4 border-teal-500 p-4">
                 <h4 class="font-bold text-teal-700 text-lg mb-1">EOYS 簡緻愛伴航</h4>
                 <p class="text-[11px] text-gray-600 mb-3 bg-teal-50 p-2 rounded leading-relaxed">💡 <strong>定位：高槓桿終身危疾 (上車盤)。</strong>保費固定且具分紅。針對三大殺手（癌症/心臟病/中風）提供 1+1 兩次賠償，並獨創 365 日免供期緩衝。</p>
-                <iframe src="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/preview" class="w-full h-32 border rounded"></iframe>
-                <a href="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/view" target="_blank" class="btn-pdf">📱 點擊打開 EOYS 條款</a>
+                <iframe src="https://drive.google.com/file/d/1OC3omzsXdKp3QzHyfm7GHWPNvJu-tRjm/preview" class="w-full h-32 border rounded"></iframe>
+                <a href="https://drive.google.com/file/d/1OC3omzsXdKp3QzHyfm7GHWPNvJu-tRjm/view?usp=drivesdk" target="_blank" class="btn-pdf">📱 點擊打開 EOYS 條款</a>
             </div>
             
             <div class="card border-l-4 border-red-600 p-4">
@@ -227,16 +246,13 @@
     </div>
 
     <script>
-        // 註冊 Service Worker 並偵測更新
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').then(reg => {
-                    // 每當發現 sw.js 內容有改變時觸發
                     reg.onupdatefound = () => {
                         const installingWorker = reg.installing;
                         installingWorker.onstatechange = () => {
                             if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                // 發現新版本！強制刷新網頁以載入新代碼
                                 console.log('New update available, forcing reload...');
                                 window.location.reload(true);
                             }
@@ -244,8 +260,6 @@
                     };
                 });
             });
-
-            // 當新的 Service Worker 取得控制權時，強制刷新 (雙重保險)
             let refreshing = false;
             navigator.serviceWorker.addEventListener('controllerchange', () => {
                 if (!refreshing) {
@@ -255,7 +269,6 @@
             });
         }
         
-        // --- 圖片放大功能 ---
         let isZoomed = false;
         function zoom(el) {
             isZoomed = false;
@@ -273,7 +286,6 @@
             document.getElementById('lightbox').style.display = 'none';
         }
 
-        // --- 導航切換 ---
         function switchTab(t) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('nav-active'));
@@ -282,17 +294,29 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // --- 保費計算引擎 ---
+        // 加入自付額聯動的保費計算
         function runPremium() {
             const age = parseInt(document.getElementById('age').value) || 35;
             const gender = document.getElementById('gender').value;
             const mode = document.getElementById('payMode').value;
             const tax = parseFloat(document.getElementById('taxRate').value);
             const isVit = document.getElementById('vitality').checked;
+            
+            const dAVSW = document.getElementById('deductAVSW').value;
+            const dAVPU = document.getElementById('deductAVPU').value;
 
+            // 基準保費 (按年紀及性別微調)
             let baseAVF = 3000 + (age * 120) + (gender === 'F' ? 400 : 0);
+            
             let baseAVSW = 5500 + (age * 150) + (gender === 'F' ? 600 : 0);
+            if(dAVSW === '0') baseAVSW *= 2.0;
+            else if(dAVSW === '18000') baseAVSW *= 1.2;
+            else if(dAVSW === '30000') baseAVSW *= 0.9;
+
             let baseAVPU = 8500 + (age * 200) + (gender === 'F' ? 800 : 0);
+            if(dAVPU === '0') baseAVPU *= 2.5;
+            else if(dAVPU === '16000') baseAVPU *= 1.5;
+            else if(dAVPU === '25000') baseAVPU *= 1.1;
 
             let pAVF = isVit ? baseAVF * 0.9 : baseAVF;
             let pAVSW = isVit ? baseAVSW * 0.9 : baseAVSW;
@@ -340,7 +364,6 @@
             `;
         }
         
-        // --- 柔和問卷對話 ---
         const quizData = [
             { q: "1. 想像一下未來，如果身體需要休息，您希望身處什麼醫療環境？", options: [{ label: "A. 公立醫院（只要能醫好，排隊我也願意）", val: "A" }, { label: "B. 私家病房（我需要最高效、最有尊嚴的空間）", val: "B" }] },
             { q: "2. 如果面對高昂的手術費，您目前最依賴哪一方為您買單？", options: [{ label: "A. 我的銀行存摺（用積蓄應對）", val: "A" }, { label: "B. 公司的關懷（依賴公司醫療福利）", val: "B" }, { label: "C. 專業的醫療保單（全數轉嫁給保險公司）", val: "C" }] },
