@@ -1,5 +1,5 @@
-// ====== 每次修改代碼，請務必更改這個版本號 ======
-const CACHE_NAME = 'ava-system-v2.7.0'; 
+// ====== 版本號 v2.9.0 ======
+const CACHE_NAME = 'ava-system-v2.9.0'; 
 // ================================================
 
 const urlsToCache = [
