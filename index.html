@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 專業顧問實戰系統 v2.11.0</title>
+    <title>AVA 專業顧問實戰系統 v2.12.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -35,6 +35,9 @@
         .img-container img { border-radius: 15px; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.08); margin-bottom: 8px; }
         .btn-simulator { background: linear-gradient(135deg, #d31145 0%, #ed1c24 100%); color: white; padding: 15px; border-radius: 15px; text-align: center; font-weight: bold; display: block; margin-bottom: 15px; }
         .btn-pdf { display: block; background: #f3f4f6; color: #2563eb; text-align: center; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: bold; margin-top: 8px; border: 1px solid #bfdbfe; }
+        
+        .hl-yellow { background-color: #fef08a; color: #713f12; font-weight: 900; padding: 2px 4px; border-radius: 4px; }
+        .hl-purple { background-color: #e9d5ff; color: #581c87; font-weight: 900; padding: 2px 4px; border-radius: 4px; }
     </style>
 </head>
 <body class="bg-gray-50 pb-28 text-gray-800">
@@ -48,7 +51,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v2.11.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v2.12.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -143,8 +146,8 @@
 
         <div id="claim-tab" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-gray-800">🏥 索償流程</h2>
-            <div class="card p-2"><h3 class="font-bold text-red-600 mb-2 text-sm text-center">🌟 AIA 網絡 (預先批核)</h3><img src="https://i.postimg.cc/DzNptFf0/AIA_pre_approval.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
-            <div class="card p-2"><h3 class="font-bold text-blue-600 mb-2 text-sm text-center">📝 全港通用 (標準流程)</h3><img src="https://i.postimg.cc/KzgpbV4T/pre_approval.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-2"><h3 class="font-bold text-red-600 mb-2 text-sm text-center">🌟 AIA 網絡 (預先批核)</h3><img src="https://i.postimg.cc/Gt6NKL6w/IMG_4575.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-2"><h3 class="font-bold text-blue-600 mb-2 text-sm text-center">📝 全港通用 (標準流程)</h3><img src="https://i.postimg.cc/L5G7D9Gp/IMG_4574.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
         </div>
 
         <div id="docs-tab" class="tab-content space-y-5">
@@ -307,6 +310,7 @@
 
             const modeKey = mode === 'annual' ? 'A' : 'M';
 
+            // 直接查表
             let baseAVF = db[`AVF_${gender}_${modeKey}`][age];
             let baseAVSW = db[`AVSW_${dAVSW}_${modeKey}`][age];
             let baseAVPU = db[`AVPU_${dAVPU}_${modeKey}`][age];
