@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 專業顧問實戰系統 v2.12.0</title>
+    <title>AVA 專業顧問實戰系統 v2.13.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -51,7 +51,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v2.12.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v2.13.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -140,8 +140,15 @@
 
         <div id="uw-tab" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-gray-800">🔍 核保真相</h2>
-            <div class="card p-2"><h3 class="font-bold text-indigo-700 mb-2 text-sm text-center">🏠 房屋裂縫 (已知隱患)</h3><img src="https://i.postimg.cc/7h3BG2gp/房屋比喻不保事項.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
-            <div class="card p-2"><h3 class="font-bold text-teal-700 mb-2 text-sm text-center">⚙️ 零件損耗 (未來概率)</h3><img src="https://i.postimg.cc/cJzkVZ14/零件比喻不保事項.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-2 shadow-sm"><h3 class="font-bold text-indigo-700 mb-2 text-sm text-center">🏠 房屋裂縫 (已知隱患)</h3><img src="https://i.postimg.cc/7h3BG2gp/房屋比喻不保事項.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-2 shadow-sm"><h3 class="font-bold text-teal-700 mb-2 text-sm text-center">⚙️ 零件損耗 (未來概率)</h3><img src="https://i.postimg.cc/cJzkVZ14/零件比喻不保事項.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
+            
+            <div class="card border-l-4 border-gray-500 p-4">
+                <h4 class="font-bold text-gray-700 text-lg mb-1">📋 核保指引</h4>
+                <p class="text-[11px] text-gray-600 mb-3 bg-gray-50 p-2 rounded leading-relaxed">💡 <strong>說明：</strong> 了解保險公司對各類疾病、手術及健康狀況的承保標準與處理方案。</p>
+                <iframe src="https://drive.google.com/file/d/1IbPbbX6Ezu6-_6dGbUGv0UwTs91ALRiG/preview" class="w-full h-32 border rounded"></iframe>
+                <a href="https://drive.google.com/file/d/1IbPbbX6Ezu6-_6dGbUGv0UwTs91ALRiG/view?usp=drivesdk" target="_blank" class="btn-pdf">📱 點擊打開 核保指引</a>
+            </div>
         </div>
 
         <div id="claim-tab" class="tab-content space-y-6">
@@ -271,13 +278,11 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 核心：精準無計算官方保費數據庫 (0 - 80歲)
         const db = {
             AVF_M_A: [5855, 5855, 5855, 5855, 5855, 3474, 3474, 3474, 3474, 3474, 3293, 3293, 3293, 3293, 3293, 3293, 3522, 3742, 3890, 3972, 3972, 4143, 4188, 4233, 4249, 4396, 4480, 4612, 4716, 4776, 4880, 4964, 5048, 5134, 5246, 5405, 5623, 5824, 5988, 6232, 6548, 6892, 7254, 7680, 8005, 8312, 8639, 8935, 9357, 9764, 10556, 11165, 11620, 12147, 12704, 13304, 14136, 14839, 15572, 16372, 17477, 18711, 19908, 21114, 22164, 23657, 24985, 26321, 27669, 29072, 30820, 32856, 34892, 36928, 38964, 41363, 43416, 45469, 47524, 49577, 52084],
             AVF_M_M: [517, 517, 517, 517, 517, 306, 306, 306, 306, 306, 290, 290, 290, 290, 290, 290, 311, 330, 343, 350, 350, 365, 369, 373, 375, 388, 395, 407, 416, 421, 430, 438, 445, 453, 463, 477, 496, 514, 528, 550, 578, 608, 640, 678, 706, 734, 762, 788, 826, 862, 932, 985, 1026, 1072, 1121, 1174, 1248, 1310, 1375, 1445, 1543, 1652, 1757, 1864, 1957, 2088, 2206, 2324, 2443, 2567, 2721, 2901, 3081, 3260, 3440, 3652, 3833, 4014, 4196, 4377, 4599],
             AVF_F_A: [4532, 4532, 4532, 4532, 4532, 3461, 3461, 3461, 3461, 3461, 3311, 3311, 3311, 3311, 3311, 3312, 3556, 3745, 3884, 4054, 4054, 4373, 4630, 4804, 4997, 5148, 5208, 5436, 5627, 5812, 6053, 6167, 6404, 6629, 6858, 7089, 7413, 7726, 8088, 8486, 9126, 9797, 10380, 10708, 10957, 11140, 11378, 11552, 11809, 12048, 12636, 12828, 12878, 13046, 13168, 13491, 13847, 14216, 14744, 15324, 16059, 17063, 18054, 19260, 20279, 21943, 22986, 24170, 25365, 26604, 28201, 29995, 31788, 33581, 35374, 37496, 39306, 41114, 42924, 44733, 46951],
             AVF_F_M: [400, 400, 400, 400, 400, 305, 305, 305, 305, 305, 292, 292, 292, 292, 292, 292, 314, 330, 343, 358, 358, 386, 408, 424, 441, 454, 459, 480, 496, 513, 534, 544, 565, 585, 605, 626, 654, 682, 714, 749, 805, 865, 916, 945, 967, 983, 1004, 1020, 1042, 1063, 1115, 1132, 1137, 1152, 1162, 1191, 1222, 1255, 1302, 1353, 1418, 1506, 1594, 1700, 1790, 1937, 2029, 2134, 2239, 2349, 2490, 2648, 2806, 2965, 3123, 3310, 3470, 3630, 3790, 3950, 4145],
-            
             AVSW_0_A: [9352, 9352, 9352, 9352, 9352, 9016, 8680, 8344, 8008, 7672, 7336, 7336, 7336, 7336, 7336, 7336, 7336, 7336, 7336, 7416, 7576, 7776, 8144, 8592, 8984, 9792, 10536, 11296, 11992, 12520, 12888, 13248, 13432, 13792, 14328, 14592, 14600, 14872, 15240, 15320, 15496, 15936, 16616, 17360, 18568, 19688, 20616, 21480, 22328, 23392, 24440, 26600, 28592, 30536, 32880, 35192, 37264, 39672, 41512, 44272, 47152, 50128, 53528, 57960, 63568, 68696, 74544, 78944, 82232, 86496, 90504, 96432, 101768, 107024, 112480, 117744, 124056, 129016, 133864, 134864, 137656],
             AVSW_0_M: [824, 824, 824, 824, 824, 800, 768, 736, 704, 680, 648, 648, 648, 648, 648, 648, 648, 648, 648, 656, 672, 688, 720, 760, 792, 864, 928, 1000, 1056, 1104, 1136, 1168, 1184, 1216, 1264, 1288, 1288, 1312, 1344, 1352, 1368, 1408, 1464, 1536, 1640, 1736, 1824, 1896, 1968, 2064, 2160, 2352, 2528, 2696, 2904, 3104, 3288, 3504, 3664, 3912, 4160, 4424, 4728, 5120, 5616, 6064, 6584, 6968, 7264, 7640, 7992, 8512, 8984, 9448, 9928, 10400, 10952, 11392, 11824, 11912, 12152],
             AVSW_8800_A: [4528, 4528, 4528, 4528, 4528, 4168, 4048, 3920, 3800, 3680, 3560, 3560, 3560, 3560, 3560, 3560, 3560, 3560, 3560, 3688, 3688, 3752, 4080, 4232, 4720, 4976, 5208, 5760, 6016, 6304, 6512, 6584, 6672, 6776, 6968, 7064, 7416, 7424, 7624, 7632, 7728, 8256, 8624, 9016, 9416, 9984, 10400, 11096, 11584, 12128, 12736, 13808, 14552, 15760, 16904, 17968, 19168, 20384, 21576, 23128, 24456, 25920, 27760, 30184, 32968, 35504, 38680, 40904, 42736, 44952, 47232, 50328, 53248, 55632, 58968, 62048, 64736, 67224, 69272, 71520, 72688],
@@ -286,7 +291,6 @@
             AVSW_18000_M: [312, 312, 312, 312, 312, 288, 280, 272, 264, 256, 248, 248, 248, 248, 248, 248, 248, 248, 248, 256, 256, 256, 280, 296, 328, 344, 360, 400, 416, 440, 448, 456, 464, 472, 480, 488, 512, 512, 528, 528, 536, 576, 600, 624, 656, 696, 720, 768, 800, 840, 888, 960, 1008, 1096, 1176, 1248, 1336, 1416, 1504, 1608, 1704, 1808, 1936, 2104, 2296, 2472, 2720, 2880, 3008, 3168, 3328, 3544, 3744, 3936, 4152, 4376, 4560, 4744, 4880, 5040, 5184],
             AVSW_30000_A: [3056, 3056, 3056, 3056, 3056, 2808, 2744, 2672, 2608, 2544, 2480, 2480, 2480, 2480, 2480, 2480, 2480, 2480, 2480, 2536, 2536, 2584, 2824, 2944, 3240, 3352, 3584, 3944, 4144, 4352, 4440, 4480, 4656, 4808, 4880, 5024, 5200, 5200, 5272, 5272, 5432, 5712, 5912, 6224, 6456, 7000, 7336, 7824, 8056, 8416, 8784, 9592, 10152, 11176, 11984, 12608, 13304, 14184, 15176, 16152, 17144, 18184, 19464, 21240, 23200, 24720, 27048, 28600, 29904, 31536, 33104, 35248, 37232, 39144, 41296, 43512, 45336, 47168, 48544, 50136, 51496],
             AVSW_30000_M: [272, 272, 272, 272, 272, 248, 240, 232, 232, 224, 216, 216, 216, 216, 216, 216, 216, 216, 216, 224, 224, 232, 248, 256, 288, 296, 320, 352, 368, 384, 392, 392, 408, 424, 432, 440, 456, 456, 464, 464, 480, 504, 520, 552, 568, 616, 648, 688, 712, 744, 776, 848, 896, 984, 1056, 1112, 1176, 1256, 1344, 1424, 1512, 1608, 1720, 1872, 2048, 2184, 2392, 2528, 2640, 2784, 2920, 3112, 3288, 3456, 3648, 3840, 4000, 4168, 4288, 4424, 4544],
-
             AVPU_0_A: [11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11440, 11680, 11792, 12152, 12624, 12992, 13936, 14776, 15600, 16320, 16792, 17032, 17512, 17752, 18232, 18944, 19288, 19304, 19656, 20144, 20256, 20488, 21064, 21968, 22944, 24544, 26024, 27256, 28400, 29520, 30920, 32304, 34072, 35520, 36832, 38536, 40104, 42464, 45208, 47304, 50456, 53736, 57128, 61000, 66048, 72440, 78288, 84952, 89960, 93712, 98568, 103136, 109888, 115976, 121960, 128184, 134176, 141376, 147024, 152552, 153688, 156872],
             AVPU_0_M: [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1008, 1032, 1040, 1072, 1112, 1144, 1232, 1304, 1376, 1440, 1480, 1504, 1544, 1568, 1608, 1672, 1704, 1704, 1736, 1776, 1792, 1808, 1856, 1936, 2024, 2168, 2296, 2408, 2504, 2608, 2728, 2856, 3008, 3136, 3256, 3400, 3544, 3752, 3992, 4176, 4456, 4744, 5048, 5384, 5832, 6400, 6912, 7504, 7944, 8272, 8704, 9104, 9704, 10240, 10768, 11320, 11848, 12480, 12984, 13472, 13568, 13848],
             AVPU_16000_A: [4880, 4880, 4880, 4880, 4880, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4784, 4784, 4784, 5136, 5248, 5784, 6000, 6184, 6752, 6944, 7176, 7320, 7392, 7496, 7608, 7816, 7920, 8336, 8336, 8568, 8568, 8680, 9296, 9704, 10144, 10584, 11224, 11688, 12488, 13040, 13648, 14336, 15080, 15424, 16256, 16960, 17552, 18728, 19912, 21088, 22616, 23904, 25328, 27136, 29512, 32224, 34696, 37808, 39976, 41776, 43944, 46176, 49208, 52064, 54384, 57664, 60688, 63296, 65720, 67704, 69976, 71904],
@@ -295,22 +299,17 @@
             AVPU_25000_M: [416, 416, 416, 416, 416, 384, 384, 384, 384, 384, 384, 384, 384, 384, 384, 384, 384, 384, 384, 400, 400, 400, 432, 440, 480, 488, 512, 552, 576, 592, 600, 600, 624, 648, 656, 680, 704, 704, 712, 712, 728, 768, 800, 840, 872, 944, 984, 1056, 1088, 1136, 1184, 1256, 1288, 1376, 1432, 1472, 1552, 1656, 1768, 1880, 2000, 2120, 2272, 2472, 2704, 2880, 3152, 3336, 3488, 3680, 3856, 4112, 4344, 4560, 4816, 5072, 5288, 5496, 5656, 5848, 6000]
         };
 
-        // 精準查表引擎 (0 公式計算)
         function runPremium() {
             const inputAge = parseInt(document.getElementById('age').value) || 30;
             const age = Math.min(80, Math.max(0, inputAge)); 
-            
             const gender = document.getElementById('gender').value;
             const mode = document.getElementById('payMode').value;
             const tax = parseFloat(document.getElementById('taxRate').value);
             const isVit = document.getElementById('vitality').checked;
-            
             const dAVSW = document.getElementById('deductAVSW').value;
             const dAVPU = document.getElementById('deductAVPU').value;
-
             const modeKey = mode === 'annual' ? 'A' : 'M';
 
-            // 直接查表
             let baseAVF = db[`AVF_${gender}_${modeKey}`][age];
             let baseAVSW = db[`AVSW_${dAVSW}_${modeKey}`][age];
             let baseAVPU = db[`AVPU_${dAVPU}_${modeKey}`][age];
@@ -320,9 +319,7 @@
             let exactMonthlyAVPU = mode === 'monthly' ? baseAVPU : 0;
 
             if (mode === 'monthly') {
-                baseAVF *= 12;
-                baseAVSW *= 12;
-                baseAVPU *= 12;
+                baseAVF *= 12; baseAVSW *= 12; baseAVPU *= 12;
             }
 
             const pAVF = isVit ? baseAVF * 0.9 : baseAVF;
@@ -330,7 +327,6 @@
             const pAVPU = isVit ? baseAVPU * 0.9 : baseAVPU;
 
             let displayMode = mode === 'annual' ? "年繳總額" : "月繳全年總額";
-
             const rAVF = Math.min(pAVF, 8000) * tax;
             const rAVSW = Math.min(pAVSW, 8000) * tax;
             const rAVPU = Math.min(pAVPU, 8000) * tax;
@@ -368,11 +364,9 @@
                             (折扣後首年每月實繳: 靈活 $${Math.round(exactMonthlyAVF * (isVit?0.9:1)).toLocaleString()} | 睿選 $${Math.round(exactMonthlyAVSW * (isVit?0.9:1)).toLocaleString()} | 尊耀 $${Math.round(exactMonthlyAVPU * (isVit?0.9:1)).toLocaleString()})
                          </div>`;
             }
-
             document.getElementById('premiumResult').innerHTML = html;
         }
         
-        // --- 動態問卷 Flow ---
         const questions = {
             Q1: { q: "1. 想像一下，如果身體突然出現警號，醫生建議盡快進行詳細檢查或手術，您會傾向哪一種選擇？", opts: [{ label: "A. 公立醫院（排期等候，盡量節省開支）", next: "Q2A" }, { label: "B. 私家醫療（立刻確診，掌握治療黃金時間）", next: "Q2B" }] },
             Q2A: { q: "2. 公立醫院排期做 MRI 或大手術往往需要漫長等待。面對「病情有機會惡化」的未知數與煎熬，您會？", opts: [{ label: "A. 繼續無奈地等，因為不想動用辛苦儲下的積蓄", next: "Q3A" }, { label: "B. 轉去私家醫院，寧願自己畀錢買個快同安心", next: "CQ1" }] },
@@ -387,81 +381,40 @@
             CQ5: { q: "經過今天的審視，當「未來的您」看到今天這段對話時，您認為他/她的第一句話會是什麼？", opts: [{ label: "A. 「謝謝今天的你，令未來的我及身邊家人得到守護。」", next: "END" }, { label: "B. 「如果可以時光倒流，我會叫你今天為未來的我及時做好規劃。」", next: "END" }] }
         };
 
-        let currentQId = 'Q1';
-        let historyStack = [];
-        let chosenBranch = ''; 
-
+        let currentQId = 'Q1'; let historyStack = []; let chosenBranch = ''; 
         function renderQuiz() {
             if (currentQId === 'END') { showQuizResult(); return; }
-            
-            const q = questions[currentQId];
-            document.getElementById('q-title').innerText = q.q;
-            
-            let h = '';
-            q.opts.forEach((o, index) => {
+            const q = questions[currentQId]; document.getElementById('q-title').innerText = q.q;
+            let h = ''; q.opts.forEach((o, index) => {
                 h += `<button onclick="answerQ('${o.next}', ${index})" class="w-full text-left p-4 rounded-xl border mb-3 hover:bg-rose-50 hover:border-rose-200 transition text-xs shadow-sm bg-white leading-relaxed">${o.label}</button>`;
             });
-
-            if (historyStack.length > 0) {
-                h += `<button onclick="goBack()" class="w-full text-center p-3 mt-2 rounded-xl text-gray-400 hover:bg-gray-100 transition text-xs font-bold border border-transparent hover:border-gray-200">🔙 返回上一題</button>`;
-            }
-
+            if (historyStack.length > 0) { h += `<button onclick="goBack()" class="w-full text-center p-3 mt-2 rounded-xl text-gray-400 hover:bg-gray-100 transition text-xs font-bold border border-transparent hover:border-gray-200">🔙 返回上一題</button>`; }
             document.getElementById('q-options').innerHTML = h; 
             document.getElementById('quiz-progress').style.width = ((historyStack.length + 1) / 8 * 100) + '%';
         }
-
         function answerQ(nextQId, optIndex) {
-            if (currentQId === 'Q1') {
-                chosenBranch = optIndex === 0 ? 'A' : 'B';
-            }
-            historyStack.push(currentQId);
-            currentQId = nextQId;
-            renderQuiz();
+            if (currentQId === 'Q1') { chosenBranch = optIndex === 0 ? 'A' : 'B'; }
+            historyStack.push(currentQId); currentQId = nextQId; renderQuiz();
         }
-
-        function goBack() {
-            if (historyStack.length > 0) {
-                currentQId = historyStack.pop();
-                renderQuiz();
-            }
-        }
-
+        function goBack() { if (historyStack.length > 0) { currentQId = historyStack.pop(); renderQuiz(); } }
         function resetQuiz() {
-            currentQId = 'Q1';
-            historyStack = [];
-            chosenBranch = '';
+            currentQId = 'Q1'; historyStack = []; chosenBranch = '';
             document.getElementById('result-section').classList.add('hidden');
-            document.getElementById('quiz-section').classList.remove('hidden');
-            renderQuiz();
+            document.getElementById('quiz-section').classList.remove('hidden'); renderQuiz();
         }
-
         function showQuizResult() {
             document.getElementById('quiz-section').classList.add('hidden');
             document.getElementById('result-section').classList.remove('hidden');
-            
             let conclusionHTML = '';
-
+            const warningText = `<p class="text-red-600 font-bold my-3 flex items-start"><span class="mr-1">⚠️</span><span>提醒！曾進行過檢查或手術後，都有機會變成不保事項，嚴重的話甚至會被保險公司直接拒保。</span></p>`;
+            const commonPart = `<p>此外，既然大病已逐漸演變成需要長期作戰的慢性病，加上確診後極難再購買保險的事實，我們不但要解決高昂的醫療開支，更要確保在停工調理期間，有一筆實質的「危疾收入補償」來維持家人的生活質素與供樓開支。面對漫長的未來，這份防護網必須具備「多次賠償的延續性」。</p><p class="mt-2">很高興您選擇了對未來的自己說聲：「謝謝今天的你」。現在，我們一齊研究及規劃未來的你的保障喇。</p>`;
             if (chosenBranch === 'A') {
-                conclusionHTML = `
-                    <p>致親愛的您：</p>
-                    <p class="mt-2">您是一位明白黃金治療重要性的人。然而分析顯示，當面對公立排期導致『病情惡化』的風險時，您最後可能考慮私營醫療。若無奈動用數萬至數十萬的積蓄來應付，無疑會打亂家庭的未來計劃。因此，及時為自己配置一份專屬的『個人醫療保險』，給你快速得到治療及由保險公司代你支付費用。</p>
-                    <p class="text-red-600 font-bold my-3 flex items-start"><span class="mr-1">⚠️</span><span>提醒！曾進行過檢查或手術後，都有機會變成不保事項，嚴重的話甚至會被保險公司直接拒保。</span></p>
-                    <p>此外，既然大病已逐漸演變成需要長期作戰的慢性病，加上確診後極難再購買保險的事實，我們不但要解決高昂的醫療開支，更要確保在停工調理期間，有一筆實質的『危疾收入補償』來維持家人的生活質素與供樓開支。面對漫長的未來，這份防護網必須具備『多次賠償的延續性』。</p>
-                    <p class="mt-2">很高興您選擇了對未來的自己說聲：『謝謝今天的你』。現在，我們一齊研究及規劃未來的你的保障喇。</p>
-                `;
+                conclusionHTML = `<p>致親愛的您：</p><p class="mt-2">您是一位明白黃金治療重要性的人。然而分析顯示，當面對公立排期導致「病情惡化」的風險時，您最後可能考慮私營醫療。若無奈動用數萬至數十萬的積蓄來應付，無疑會打亂家庭的未來計劃。因此，及時為自己配置一份專屬的「個人醫療保險」，給你快速得到治療及由保險公司代你支付費用。</p>` + warningText + commonPart;
             } else {
-                conclusionHTML = `
-                    <p>致親愛的您：</p>
-                    <p class="mt-2">您非常重視治療的黃金時間與醫療質素。然而，若單靠『借來的』公司醫保，一旦因大病停工或退休而失去保障，屆時可能只能消耗老本，甚至可能用回公立醫院排期。因此，及時為自己配置一份專屬的『個人醫療保險』，由自己掌握主動權就可以。</p>
-                    <p class="text-red-600 font-bold my-3 flex items-start"><span class="mr-1">⚠️</span><span>提醒！曾進行過檢查或手術後，都有機會變成不保事項，嚴重的話甚至會被保險公司直接拒保。</span></p>
-                    <p>此外，既然大病已逐漸演變成需要長期作戰的慢性病，加上確診後極難再購買保險的事實，我們不但要解決高昂的醫療開支，更要確保在停工調理期間，有一筆實質的『危疾收入補償』來維持家人的生活質素與供樓開支。面對漫長的未來，這份防護網必須具備『多次賠償的延續性』。</p>
-                    <p class="mt-2">很高興您選擇了對未來的自己說聲：『謝謝今天的你』。現在，我們一齊研究及規劃未來的你的保障喇。</p>
-                `;
+                conclusionHTML = `<p>致親愛的您：</p><p class="mt-2">您非常重視治療的黃金時間與醫療質素。然而，若單靠「借來的」公司醫保，一旦因大病停工或退休而失去保障，屆時可能只能消耗老本，甚至可能用回公立醫院排期。因此，及時為自己配置一份專屬的「個人醫療保險」，由自己掌握主動權就可以。</p>` + warningText + commonPart;
             }
-            
             document.getElementById('result-content').innerHTML = conclusionHTML;
         }
-
         window.onload = () => { renderQuiz(); runPremium(); };
     </script>
 </body>
