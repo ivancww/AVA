@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 專業顧問實戰系統 v2.13.0</title>
+    <title>AVA 專業顧問實戰系統 v3.0.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,8 +15,11 @@
     <link rel="apple-touch-icon" href="logo-192.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/pinyin-pro"></script>
+    
     <style>
         .gradient-primary { background: linear-gradient(135deg, #1f2937 0%, #111827 100%); }
+        .gradient-ai { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); }
         .card { background: white; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); padding: 20px; margin-bottom: 20px; }
         .tab-content { display: none; animation: fadeIn 0.3s ease-in-out; }
         .tab-content.active { display: block; }
@@ -31,13 +33,15 @@
         #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; overflow: auto; }
         #lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in; }
         
-        input[type="number"], select { width: 100%; border: 1px solid #e5e7eb; padding: 10px; border-radius: 12px; margin-top: 5px; outline: none; background: #f9fafb; font-size: 13px;}
-        .img-container img { border-radius: 15px; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.08); margin-bottom: 8px; }
+        input[type="text"], input[type="password"], input[type="number"], select, textarea { width: 100%; border: 1px solid #e5e7eb; padding: 12px; border-radius: 12px; margin-top: 5px; outline: none; background: #f9fafb; font-size: 14px; }
         .btn-simulator { background: linear-gradient(135deg, #d31145 0%, #ed1c24 100%); color: white; padding: 15px; border-radius: 15px; text-align: center; font-weight: bold; display: block; margin-bottom: 15px; }
         .btn-pdf { display: block; background: #f3f4f6; color: #2563eb; text-align: center; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: bold; margin-top: 8px; border: 1px solid #bfdbfe; }
+        .btn-ai { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: white; padding: 12px; border-radius: 12px; font-weight: bold; width: 100%; transition: opacity 0.2s; }
+        .btn-ai:active { opacity: 0.8; }
         
         .hl-yellow { background-color: #fef08a; color: #713f12; font-weight: 900; padding: 2px 4px; border-radius: 4px; }
         .hl-purple { background-color: #e9d5ff; color: #581c87; font-weight: 900; padding: 2px 4px; border-radius: 4px; }
+        .pinyin-text { font-family: 'Courier New', Courier, monospace; letter-spacing: 1px; color: #4f46e5; }
     </style>
 </head>
 <body class="bg-gray-50 pb-28 text-gray-800">
@@ -51,7 +55,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v2.13.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v3.0.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -62,7 +66,156 @@
 
     <div class="max-w-md mx-auto px-4 mt-6">
 
-        <div id="home-tab" class="tab-content active">
+        <div id="portal-tab" class="tab-content active space-y-5">
+            <div class="card border-t-4 border-gray-800 bg-gray-900 text-white">
+                <h2 class="text-xl font-bold mb-2 flex items-center gap-2"><span>⚙️</span> 系統核心設定</h2>
+                <p class="text-xs text-gray-400 mb-4">輸入您的 Gemini API Key 以啟用 AI 銷售教練及普通話翻譯功能。系統會自動記憶。</p>
+                <input type="password" id="api-key" placeholder="貼上 Gemini API Key..." class="text-black mb-3">
+                <button onclick="saveApiKey()" class="bg-gray-700 hover:bg-gray-600 text-white p-3 rounded-xl text-sm font-bold w-full transition">💾 儲存並啟動 AI 引擎</button>
+                <div id="api-status" class="text-[10px] text-green-400 mt-2 hidden text-center">✅ API Key 已安全儲存於本機</div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <button onclick="switchTab('home')" class="bg-white p-5 rounded-2xl shadow-sm border border-red-100 flex items-center gap-4 hover:shadow-md transition">
+                    <div class="text-4xl bg-red-50 p-3 rounded-xl">💼</div>
+                    <div class="text-left">
+                        <h3 class="font-bold text-red-700 text-lg">AVA 實戰系統</h3>
+                        <p class="text-xs text-gray-500 mt-1">見客專用：對話問卷、醫療危疾圖解、精算保費與核保百科。</p>
+                    </div>
+                </button>
+
+                <button onclick="switchTab('coach')" class="bg-white p-5 rounded-2xl shadow-sm border border-purple-100 flex items-center gap-4 hover:shadow-md transition">
+                    <div class="text-4xl bg-purple-50 p-3 rounded-xl">🧠</div>
+                    <div class="text-left">
+                        <h3 class="font-bold text-purple-700 text-lg">TOT 銷售心法</h3>
+                        <p class="text-xs text-gray-500 mt-1">練功專用：逆轉銷售、成交邏輯，及 AI 奧客應對模擬器。</p>
+                    </div>
+                </button>
+
+                <button onclick="switchTab('mandarin')" class="bg-white p-5 rounded-2xl shadow-sm border border-blue-100 flex items-center gap-4 hover:shadow-md transition">
+                    <div class="text-4xl bg-blue-50 p-3 rounded-xl">🗣️</div>
+                    <div class="text-left">
+                        <h3 class="font-bold text-blue-700 text-lg">普通話特訓</h3>
+                        <p class="text-xs text-gray-500 mt-1">練功專用：即時廣東話轉普通話、拼音顯示及發音對比。</p>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div id="coach-tab" class="tab-content space-y-5">
+            <h2 class="text-2xl font-bold text-gray-800">🧠 TOT 銷售心法</h2>
+            
+            <div class="card border-t-4 border-indigo-500 bg-indigo-50">
+                <h3 class="font-bold text-indigo-800 mb-2 flex items-center gap-2"><span>🎲</span> AI 奧客應對模擬器</h3>
+                <p class="text-xs text-indigo-600 mb-4">抽取香港客人最真實的反對問題，考驗您的應對能力。</p>
+                <div id="objection-display" class="bg-white p-4 rounded-xl text-sm font-bold text-gray-700 mb-4 border border-indigo-100 min-h-[60px] flex items-center justify-center text-center">
+                    點擊下方按鈕抽取反對問題
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="generateObjection()" class="bg-indigo-200 text-indigo-800 p-3 rounded-xl text-xs font-bold flex-1 hover:bg-indigo-300">換一條問題</button>
+                    <button onclick="solveObjection()" class="bg-indigo-600 text-white p-3 rounded-xl text-xs font-bold flex-1 shadow-md hover:bg-indigo-700">💡 AI 教我點拆</button>
+                </div>
+                <div id="objection-solution" class="mt-4 text-xs text-gray-700 bg-white p-4 rounded-xl border border-indigo-100 hidden leading-relaxed"></div>
+            </div>
+
+            <div class="card border-l-4 border-purple-500">
+                <h3 class="font-bold text-purple-700 text-lg mb-3">⚔️ 逆轉銷售 (Reversing Sales)</h3>
+                <div class="mb-3">
+                    <span class="text-xs font-bold bg-purple-100 text-purple-800 px-2 py-1 rounded">🗣️ 實戰口訣</span>
+                    <ul class="text-xs text-gray-600 mt-2 space-y-1 list-disc pl-4">
+                        <li>先順從，後帶領 (Agree & Lead)</li>
+                        <li>不爭辯，只提問 (引導客人自己諗通)</li>
+                        <li>將抗拒化為動機 (將藉口變成要買嘅原因)</li>
+                    </ul>
+                </div>
+                <div class="mb-3">
+                    <span class="text-xs font-bold bg-gray-100 text-gray-800 px-2 py-1 rounded">💬 示範句子</span>
+                    <ul class="text-xs text-gray-600 mt-2 space-y-2 list-decimal pl-4 leading-relaxed">
+                        <li>「我完全明白你覺得保費貴，其實好多客一開始都係咁諗，但後來佢哋發現原來大病停工嘅代價仲貴...」</li>
+                        <li>「你講得啱，公司確實有醫保，但你有冇諗過萬一因病離職，呢把遮仲喺唔喺度？」</li>
+                        <li>「就係因為你而家後生又健康，所以先係保險公司求你買嘅時候；等到有事，就變成我哋求保險公司。」</li>
+                        <li>「與其話係買保險，不如話係幫未來的自己開個專屬醫療備用戶口。」</li>
+                    </ul>
+                </div>
+                <div class="flex gap-2 text-[10px]">
+                    <div class="flex-1 bg-green-50 p-2 rounded border border-green-100">
+                        <span class="font-bold text-green-700 block mb-1">✅ 建議字詞</span>
+                        我明白、其實、你有冇諗過、專屬戶口、掌握主動權
+                    </div>
+                    <div class="flex-1 bg-red-50 p-2 rounded border border-red-100">
+                        <span class="font-bold text-red-700 block mb-1">❌ 避免字詞</span>
+                        你錯啦、但係、買保險、一定要買、風險好大 (太恐嚇)
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-l-4 border-blue-500">
+                <h3 class="font-bold text-blue-700 text-lg mb-3">🤝 成交邏輯 (Closing Logic)</h3>
+                <div class="mb-3">
+                    <span class="text-xs font-bold bg-blue-100 text-blue-800 px-2 py-1 rounded">🗣️ 實戰口訣</span>
+                    <ul class="text-xs text-gray-600 mt-2 space-y-1 list-disc pl-4">
+                        <li>假設成交 (當客人已決定，直接傾細節)</li>
+                        <li>二選一法則 (俾選擇，唔俾 Yes/No)</li>
+                        <li>安撫恐懼 (給予最強大的售後安全感)</li>
+                    </ul>
+                </div>
+                <div class="mb-3">
+                    <span class="text-xs font-bold bg-gray-100 text-gray-800 px-2 py-1 rounded">💬 示範句子</span>
+                    <ul class="text-xs text-gray-600 mt-2 space-y-2 list-decimal pl-4 leading-relaxed">
+                        <li>「既然保障內容都符合你要求，你想用年繳（平啲）定係月繳（輕鬆啲）？」</li>
+                        <li>「我哋而家只需要花5分鐘做個簡單健康申報，就可以幫未來的你鎖定呢個保障。」</li>
+                        <li>「你放心，由今日開始，你同家人日後所有嘅理賠同跟進，我會親自負責。」</li>
+                        <li>「如果細節上冇問題，我哋今日就啟動呢個專屬戶口啦。」</li>
+                    </ul>
+                </div>
+                <div class="flex gap-2 text-[10px]">
+                    <div class="flex-1 bg-green-50 p-2 rounded border border-green-100">
+                        <span class="font-bold text-green-700 block mb-1">✅ 建議字詞</span>
+                        啟動戶口、鎖定保障、二選一 (年/月)、我親自負責、一齊規劃
+                    </div>
+                    <div class="flex-1 bg-red-50 p-2 rounded border border-red-100">
+                        <span class="font-bold text-red-700 block mb-1">❌ 避免字詞</span>
+                        簽名啦、買張單啦、你考慮成點、仲有冇問題？(引導搵藉口)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="mandarin-tab" class="tab-content space-y-5">
+            <h2 class="text-2xl font-bold text-gray-800">🗣️ 智能普通話教練</h2>
+            
+            <div class="card border-t-4 border-blue-400">
+                <h3 class="font-bold text-blue-800 mb-2">1. 廣東話轉標準內地用語</h3>
+                <textarea id="cantonese-input" rows="3" placeholder="輸入你想講嘅廣東話 (例如: 我幫你搞掂份單啦)..."></textarea>
+                <button onclick="translateToMandarin()" class="btn-ai mt-3 flex items-center justify-center gap-2"><span>🔄</span> AI 即時翻譯並標註拼音</button>
+            </div>
+
+            <div class="card bg-blue-50 border border-blue-100">
+                <h3 class="font-bold text-blue-800 mb-2">2. 翻譯結果與發音</h3>
+                <div id="translation-result" class="p-3 bg-white rounded-xl min-h-[60px] text-sm text-gray-700 border border-gray-200 mb-3 leading-loose">
+                    等待翻譯中...
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="playSpeech()" class="bg-blue-600 text-white p-2 rounded-xl text-xs flex-1 font-bold shadow hover:bg-blue-700">▶️ 播放讀音</button>
+                    <button onclick="pauseSpeech()" class="bg-blue-200 text-blue-800 p-2 rounded-xl text-xs flex-1 font-bold hover:bg-blue-300">⏸️ 暫停</button>
+                    <button onclick="resumeSpeech()" class="bg-blue-200 text-blue-800 p-2 rounded-xl text-xs flex-1 font-bold hover:bg-blue-300">⏯️ 繼續</button>
+                </div>
+            </div>
+
+            <div class="card border-t-4 border-green-400">
+                <h3 class="font-bold text-green-800 mb-2">3. 語音對比與診斷</h3>
+                <p class="text-xs text-gray-500 mb-3">按下錄音，跟著上面的普通話讀一次，系統會對比您的發音。</p>
+                <div class="flex gap-2 mb-3">
+                    <button id="mic-btn" onclick="startMic()" class="bg-red-100 text-red-700 p-3 rounded-xl text-sm font-bold flex-1 hover:bg-red-200 transition">🔴 開始錄音</button>
+                    <button onclick="finishMic()" class="bg-gray-800 text-white p-3 rounded-xl text-sm font-bold flex-1 hover:bg-gray-700 transition">⏹️ 停止並對比</button>
+                </div>
+                <div id="mandarin-feedback" class="p-3 bg-gray-100 rounded-xl text-xs text-gray-700 border border-gray-200 min-h-[50px] leading-relaxed">
+                    等待錄音對比...
+                </div>
+            </div>
+        </div>
+
+        <div id="home-tab" class="tab-content">
             <div class="card border-t-4 border-rose-300" id="quiz-section">
                 <h2 class="text-lg font-bold text-gray-800 mb-1">💌 致未來的一封信</h2>
                 <p class="text-xs text-gray-500 mb-6 italic">「停下腳步，為未來的健康與收入做一次溫柔的檢視。」</p>
@@ -88,46 +241,31 @@
         <div id="medcalc-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800">🧮 計算與工具</h2>
             <a href="https://ivancww.github.io/medicalclaims" target="_blank" class="bg-red-600 text-white p-4 rounded-xl text-center font-bold block shadow-lg">🚀 開啟：進階模擬理賠分析器</a>
-
             <div class="card border-t-4 border-blue-500 mt-6">
                 <h3 class="font-bold text-blue-700 mb-3">💰 醫療計劃保費與扣稅對比</h3>
                 <p class="text-[10px] text-gray-500 mb-3 italic">*系統已內置 100% 官方真實保費庫，無需估算。</p>
-                
                 <div class="grid grid-cols-2 gap-3 mb-3">
                     <div><label class="text-[10px] font-bold text-gray-500">受保人年齡</label><input type="number" id="age" value="30" min="0" max="80" onchange="runPremium()"></div>
                     <div><label class="text-[10px] font-bold text-gray-500">性別</label><select id="gender" onchange="runPremium()"><option value="M">男</option><option value="F">女</option></select></div>
                 </div>
-
                 <div class="grid grid-cols-2 gap-3 mb-3">
                     <div>
                         <label class="text-[10px] font-bold text-gray-500">睿選 (AVSW) 自付額</label>
-                        <select id="deductAVSW" onchange="runPremium()">
-                            <option value="0">$0</option>
-                            <option value="8800">$8,800</option>
-                            <option value="18000" selected>$18,000</option>
-                            <option value="30000">$30,000</option>
-                        </select>
+                        <select id="deductAVSW" onchange="runPremium()"><option value="0">$0</option><option value="8800">$8,800</option><option value="18000" selected>$18,000</option><option value="30000">$30,000</option></select>
                     </div>
                     <div>
-                        <label class="text-[10px] font-bold text-gray-500">尊耀 (AVPU 亞洲版) 自付額</label>
-                        <select id="deductAVPU" onchange="runPremium()">
-                            <option value="0">$0</option>
-                            <option value="16000" selected>$16,000</option>
-                            <option value="25000">$25,000</option>
-                        </select>
+                        <label class="text-[10px] font-bold text-gray-500">尊耀 (AVPU) 自付額</label>
+                        <select id="deductAVPU" onchange="runPremium()"><option value="0">$0</option><option value="16000" selected>$16,000</option><option value="25000">$25,000</option></select>
                     </div>
                 </div>
-                
                 <div class="grid grid-cols-2 gap-3 mb-4">
                     <div><label class="text-[10px] font-bold text-gray-500">繳費模式</label><select id="payMode" onchange="runPremium()"><option value="annual">年繳 (較抵)</option><option value="monthly">月繳</option></select></div>
                     <div><label class="text-[10px] font-bold text-gray-500">預計稅階</label><select id="taxRate" onchange="runPremium()"><option value="0.17">17% (高薪)</option><option value="0.10">10%</option><option value="0.02">2%</option><option value="0">0% (無扣稅)</option></select></div>
                 </div>
-
                 <label class="flex items-center mb-4 bg-pink-50 p-4 rounded-xl border border-pink-200 cursor-pointer w-full transition hover:bg-pink-100 shadow-sm">
                     <input type="checkbox" id="vitality" onchange="runPremium()" checked class="w-5 h-5 accent-pink-600 cursor-pointer">
                     <span class="text-[12px] font-bold text-pink-800 ml-3 flex-1">參加 AIA Vitality (即享首年 9 折)</span>
                 </label>
-
                 <div id="premiumResult" class="bg-blue-50 p-3 rounded-xl text-xs shadow-inner border border-blue-100 overflow-hidden"></div>
             </div>
         </div>
@@ -142,7 +280,6 @@
             <h2 class="text-2xl font-bold text-gray-800">🔍 核保真相</h2>
             <div class="card p-2 shadow-sm"><h3 class="font-bold text-indigo-700 mb-2 text-sm text-center">🏠 房屋裂縫 (已知隱患)</h3><img src="https://i.postimg.cc/7h3BG2gp/房屋比喻不保事項.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
             <div class="card p-2 shadow-sm"><h3 class="font-bold text-teal-700 mb-2 text-sm text-center">⚙️ 零件損耗 (未來概率)</h3><img src="https://i.postimg.cc/cJzkVZ14/零件比喻不保事項.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
-            
             <div class="card border-l-4 border-gray-500 p-4">
                 <h4 class="font-bold text-gray-700 text-lg mb-1">📋 核保指引</h4>
                 <p class="text-[11px] text-gray-600 mb-3 bg-gray-50 p-2 rounded leading-relaxed">💡 <strong>說明：</strong> 了解保險公司對各類疾病、手術及健康狀況的承保標準與處理方案。</p>
@@ -160,67 +297,28 @@
         <div id="docs-tab" class="tab-content space-y-5">
             <h2 class="text-2xl font-bold text-gray-800 mb-2">📚 產品百科 (PDF)</h2>
             <p class="text-[10px] text-red-500 mb-4 italic">*若 iOS 手機無法顯示畫面，請點擊藍色按鈕直接開啟。</p>
-            
-            <div class="card border-l-4 border-red-500 p-4">
-                <h4 class="font-bold text-red-700 text-lg mb-1">AVF 靈活計劃</h4>
-                <p class="text-[11px] text-gray-600 mb-3 bg-red-50 p-2 rounded leading-relaxed">💡 <strong>定位：基礎防護盾。</strong>適合由 $0 起步實報實銷。需接受每個細項設有上限限制（超額部分由 SMM 補底承擔 80%，其餘需自行負擔）。</p>
-                <iframe src="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/preview" class="w-full h-32 border rounded"></iframe>
-                <a href="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/view" target="_blank" class="btn-pdf">📱 點擊打開 AVF 條款</a>
-            </div>
-            
-            <div class="card border-l-4 border-blue-500 p-4">
-                <h4 class="font-bold text-blue-700 text-lg mb-1">AVSW 睿選計劃</h4>
-                <p class="text-[11px] text-gray-600 mb-3 bg-blue-50 p-2 rounded leading-relaxed">💡 <strong>定位：高性價比全保。</strong>只要自行承擔「墊底費」，餘下合資格醫療開支（含標靶藥/免疫治療）全數賠償，無細項上限。需配合醫療網絡入住半私家房。</p>
-                <iframe src="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/preview" class="w-full h-32 border rounded"></iframe>
-                <a href="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/view" target="_blank" class="btn-pdf">📱 點擊打開 AVSW 條款</a>
-            </div>
-            
-            <div class="card border-l-4 border-purple-500 p-4">
-                <h4 class="font-bold text-purple-700 text-lg mb-1">AVPU 尊耀計劃</h4>
-                <p class="text-[11px] text-gray-600 mb-3 bg-purple-50 p-2 rounded leading-relaxed">💡 <strong>定位：頂級全球尊貴醫療。</strong>無需受制於醫療網絡，自由選擇優質半私家病房。扣除墊底費後，真正做到全數找數，頂級安心。</p>
-                <iframe src="https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_b/preview" class="w-full h-32 border rounded"></iframe>
-                <a href="https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_b/view" target="_blank" class="btn-pdf">📱 點擊打開 AVPU 條款</a>
-            </div>
-            
-            <div class="card border-l-4 border-teal-500 p-4">
-                <h4 class="font-bold text-teal-700 text-lg mb-1">EOYS 簡緻愛伴航</h4>
-                <p class="text-[11px] text-gray-600 mb-3 bg-teal-50 p-2 rounded leading-relaxed">💡 <strong>定位：高槓桿終身危疾 (上車盤)。</strong>保費固定且具分紅。針對三大殺手（癌症/心臟病/中風）提供 1+1 兩次賠償，並獨創 365 日免供期緩衝。</p>
-                <iframe src="https://drive.google.com/file/d/1OC3omzsXdKp3QzHyfm7GHWPNvJu-tRjm/preview" class="w-full h-32 border rounded"></iframe>
-                <a href="https://drive.google.com/file/d/1OC3omzsXdKp3QzHyfm7GHWPNvJu-tRjm/view?usp=drivesdk" target="_blank" class="btn-pdf">📱 點擊打開 EOYS 條款</a>
-            </div>
-            
-            <div class="card border-l-4 border-red-600 p-4">
-                <h4 class="font-bold text-red-800 text-lg mb-1">OYS 2 愛伴航</h4>
-                <p class="text-[11px] text-gray-600 mb-3 bg-red-50 p-2 rounded leading-relaxed">💡 <strong>定位：旗艦級無限次重啟防護 (傳承大宅)。</strong>市場頂級保障，提供最高 10 次無限次危疾賠償。最獨特優勢：全方位涵蓋「未發現之兒童先天性疾病」。</p>
-                <iframe src="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/preview" class="w-full h-32 border rounded"></iframe>
-                <a href="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/view" target="_blank" class="btn-pdf">📱 點擊打開 OYS2 條款</a>
-            </div>
-            
-            <div class="card border-l-4 border-gray-400 p-4">
-                <h4 class="font-bold text-gray-700 text-lg mb-1">SCE 簡護危疾</h4>
-                <p class="text-[11px] text-gray-600 mb-3 bg-gray-100 p-2 rounded leading-relaxed">💡 <strong>定位：極致槓桿定期危疾 (租屋)。</strong>以極低保費換取 115 種疾病全面保障（單次賠償）。適合剛步入社會、創業期或需加大短期保額的客戶。</p>
-                <iframe src="https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/preview" class="w-full h-32 border rounded"></iframe>
-                <a href="https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/view" target="_blank" class="btn-pdf">📱 點擊打開 SCE 條款</a>
-            </div>
+            <div class="card border-l-4 border-red-500 p-4"><h4 class="font-bold text-red-700 text-lg mb-1">AVF 靈活計劃</h4><p class="text-[11px] text-gray-600 mb-3 bg-red-50 p-2 rounded leading-relaxed">💡 <strong>定位：基礎防護盾。</strong>適合由 $0 起步實報實銷。需接受每個細項設有上限限制（超額部分由 SMM 補底承擔 80%，其餘需自行負擔）。</p><iframe src="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/preview" class="w-full h-32 border rounded"></iframe><a href="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/view" target="_blank" class="btn-pdf">📱 點擊打開 AVF 條款</a></div>
+            <div class="card border-l-4 border-blue-500 p-4"><h4 class="font-bold text-blue-700 text-lg mb-1">AVSW 睿選計劃</h4><p class="text-[11px] text-gray-600 mb-3 bg-blue-50 p-2 rounded leading-relaxed">💡 <strong>定位：高性價比全保。</strong>只要自行承擔「墊底費」，餘下合資格醫療開支（含標靶藥/免疫治療）全數賠償，無細項上限。需配合醫療網絡入住半私家房。</p><iframe src="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/preview" class="w-full h-32 border rounded"></iframe><a href="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/view" target="_blank" class="btn-pdf">📱 點擊打開 AVSW 條款</a></div>
+            <div class="card border-l-4 border-purple-500 p-4"><h4 class="font-bold text-purple-700 text-lg mb-1">AVPU 尊耀計劃</h4><p class="text-[11px] text-gray-600 mb-3 bg-purple-50 p-2 rounded leading-relaxed">💡 <strong>定位：頂級全球尊貴醫療。</strong>無需受制於醫療網絡，自由選擇優質半私家病房。扣除墊底費後，真正做到全數找數，頂級安心。</p><iframe src="https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_b/preview" class="w-full h-32 border rounded"></iframe><a href="https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_b/view" target="_blank" class="btn-pdf">📱 點擊打開 AVPU 條款</a></div>
+            <div class="card border-l-4 border-teal-500 p-4"><h4 class="font-bold text-teal-700 text-lg mb-1">EOYS 簡緻愛伴航</h4><p class="text-[11px] text-gray-600 mb-3 bg-teal-50 p-2 rounded leading-relaxed">💡 <strong>定位：高槓桿終身危疾 (上車盤)。</strong>保費固定且具分紅。針對三大殺手（癌症/心臟病/中風）提供 1+1 兩次賠償，並獨創 365 日免供期緩衝。</p><iframe src="https://drive.google.com/file/d/1OC3omzsXdKp3QzHyfm7GHWPNvJu-tRjm/preview" class="w-full h-32 border rounded"></iframe><a href="https://drive.google.com/file/d/1OC3omzsXdKp3QzHyfm7GHWPNvJu-tRjm/view?usp=drivesdk" target="_blank" class="btn-pdf">📱 點擊打開 EOYS 條款</a></div>
+            <div class="card border-l-4 border-red-600 p-4"><h4 class="font-bold text-red-800 text-lg mb-1">OYS 2 愛伴航</h4><p class="text-[11px] text-gray-600 mb-3 bg-red-50 p-2 rounded leading-relaxed">💡 <strong>定位：旗艦級無限次重啟防護 (傳承大宅)。</strong>市場頂級保障，提供最高 10 次無限次危疾賠償。最獨特優勢：全方位涵蓋「未發現之兒童先天性疾病」。</p><iframe src="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/preview" class="w-full h-32 border rounded"></iframe><a href="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/view" target="_blank" class="btn-pdf">📱 點擊打開 OYS2 條款</a></div>
+            <div class="card border-l-4 border-gray-400 p-4"><h4 class="font-bold text-gray-700 text-lg mb-1">SCE 簡護危疾</h4><p class="text-[11px] text-gray-600 mb-3 bg-gray-100 p-2 rounded leading-relaxed">💡 <strong>定位：極致槓桿定期危疾 (租屋)。</strong>以極低保費換取 115 種疾病全面保障（單次賠償）。適合剛步入社會、創業期或需加大短期保額的客戶。</p><iframe src="https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/preview" class="w-full h-32 border rounded"></iframe><a href="https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/view" target="_blank" class="btn-pdf">📱 點擊打開 SCE 條款</a></div>
         </div>
 
         <div id="vitality-tab" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-gray-800">🏃 健康程式</h2>
             <div class="card p-2 bg-pink-50 border-t-4 border-pink-500">
                 <img src="https://i.postimg.cc/XvwKjb4d/健康程式.png" class="rounded-xl shadow-md mb-4 zoom-img" onclick="zoom(this)">
-                <p class="text-[13px] px-2 text-pink-900 font-bold leading-relaxed">
-                    投資健康，是回報率最高的理財。
-                </p>
-                <p class="text-xs px-2 text-gray-700 leading-relaxed mt-1">
-                    投保即享首年保費 9 折，持續運動累積積分，更可享保費最高 10% 永久折扣及豐富的合作伙伴獎賞。
-                </p>
+                <p class="text-[13px] px-2 text-pink-900 font-bold leading-relaxed">投資健康，是回報率最高的理財。</p>
+                <p class="text-xs px-2 text-gray-700 leading-relaxed mt-1">投保即享首年保費 9 折，持續運動累積積分，更可享保費最高 10% 永久折扣及豐富的合作伙伴獎賞。</p>
             </div>
         </div>
 
     </div>
 
-    <div class="fixed bottom-0 left-0 right-0 bg-white border-t flex overflow-x-auto py-3 px-2 shadow-lg z-50 hide-scrollbar justify-around">
-        <button onclick="switchTab('home')" class="nav-item nav-active" id="nav-home"><span class="text-xl">💌</span><p class="text-[9px]">對話</p></button>
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t flex overflow-x-auto py-3 px-2 shadow-lg z-50 hide-scrollbar justify-start">
+        <button onclick="switchTab('portal')" class="nav-item nav-active" id="nav-portal"><span class="text-xl">🏠</span><p class="text-[9px]">主頁</p></button>
+        <button onclick="switchTab('home')" class="nav-item" id="nav-home"><span class="text-xl">💌</span><p class="text-[9px]">對話</p></button>
         <button onclick="switchTab('concept')" class="nav-item" id="nav-concept"><span class="text-xl">💡</span><p class="text-[9px]">醫危</p></button>
         <button onclick="switchTab('medcalc')" class="nav-item" id="nav-medcalc"><span class="text-xl">🧮</span><p class="text-[9px]">計算</p></button>
         <button onclick="switchTab('ci')" class="nav-item" id="nav-ci"><span class="text-xl">🛡️</span><p class="text-[9px]">危疾</p></button>
@@ -228,47 +326,29 @@
         <button onclick="switchTab('claim')" class="nav-item" id="nav-claim"><span class="text-xl">🏥</span><p class="text-[9px]">索償</p></button>
         <button onclick="switchTab('docs')" class="nav-item" id="nav-docs"><span class="text-xl">📚</span><p class="text-[9px]">百科</p></button>
         <button onclick="switchTab('vitality')" class="nav-item" id="nav-vitality"><span class="text-xl">🏃</span><p class="text-[9px]">健康</p></button>
+        <button onclick="switchTab('coach')" class="nav-item" id="nav-coach"><span class="text-xl">🧠</span><p class="text-[9px]">心法</p></button>
+        <button onclick="switchTab('mandarin')" class="nav-item" id="nav-mandarin"><span class="text-xl">🗣️</span><p class="text-[9px]">教練</p></button>
     </div>
 
     <script>
+        // ==========================================
+        // 系統與 UI 邏輯
+        // ==========================================
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').then(reg => {
-                    reg.onupdatefound = () => {
-                        const installingWorker = reg.installing;
-                        installingWorker.onstatechange = () => {
-                            if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                window.location.reload(true);
-                            }
-                        };
-                    };
-                });
-            });
-            let refreshing = false;
-            navigator.serviceWorker.addEventListener('controllerchange', () => {
-                if (!refreshing) {
-                    refreshing = true;
-                    window.location.reload(true);
-                }
-            });
+            window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
         }
         
         let isZoomed = false;
         function zoom(el) {
-            isZoomed = false;
-            const img = document.getElementById('lightbox-img');
-            img.src = el.src;
-            img.style.transform = 'scale(1)';
+            isZoomed = false; document.getElementById('lightbox-img').src = el.src;
+            document.getElementById('lightbox-img').style.transform = 'scale(1)';
             document.getElementById('lightbox').style.display = 'flex';
         }
         function toggleLightboxZoom(e) {
-            e.stopPropagation();
-            isZoomed = !isZoomed;
+            e.stopPropagation(); isZoomed = !isZoomed;
             document.getElementById('lightbox-img').style.transform = isZoomed ? 'scale(1.8)' : 'scale(1)';
         }
-        function closeLightbox(e) {
-            document.getElementById('lightbox').style.display = 'none';
-        }
+        function closeLightbox(e) { document.getElementById('lightbox').style.display = 'none'; }
 
         function switchTab(t) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -278,6 +358,155 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // ==========================================
+        // AI 引擎 (Gemini API) 核心邏輯
+        // ==========================================
+        function saveApiKey() {
+            const key = document.getElementById('api-key').value;
+            if(key) {
+                localStorage.setItem('gemini_api_key', key);
+                document.getElementById('api-status').classList.remove('hidden');
+                setTimeout(() => document.getElementById('api-status').classList.add('hidden'), 3000);
+            }
+        }
+        window.onload = () => { 
+            const savedKey = localStorage.getItem('gemini_api_key');
+            if(savedKey) document.getElementById('api-key').value = savedKey;
+            renderQuiz(); 
+            runPremium(); 
+        };
+
+        async function callGeminiAPI(promptText) {
+            const apiKey = localStorage.getItem('gemini_api_key');
+            if (!apiKey) throw new Error("請先在主頁輸入 API Key！");
+            
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+            });
+            if (!response.ok) throw new Error("API 請求失敗，請檢查 Key 是否正確。");
+            const data = await response.json();
+            return data.candidates[0].content.parts[0].text;
+        }
+
+        // --- AI 奧客模擬器 ---
+        const hardObjections = [
+            "我而家供樓同小朋友讀書好大壓力，邊有閒錢買危疾呀？",
+            "我公司份醫保好齊，包埋家屬，我都唔洗再買啦！",
+            "大病都係整定嘅，有事我都唔想醫，唔買啦。",
+            "我銀行有幾百萬現金，有事我自己俾得起，洗咩俾保險公司賺？",
+            "保險全部都係呃人㗎，買就易，賠就難！",
+            "我好健康，年年驗身都冇事，遲啲老啲先買啦。"
+        ];
+        
+        let currentObjection = "";
+        function generateObjection() {
+            const random = hardObjections[Math.floor(Math.random() * hardObjections.length)];
+            currentObjection = random;
+            document.getElementById('objection-display').innerText = `客人：「${random}」`;
+            document.getElementById('objection-solution').classList.add('hidden');
+        }
+        
+        async function solveObjection() {
+            if(!currentObjection) return alert("請先抽取一條問題！");
+            const box = document.getElementById('objection-solution');
+            box.classList.remove('hidden');
+            box.innerText = "🤖 TOT 教練思考中...";
+            try {
+                const prompt = `作為頂尖保險TOT，請用香港廣東話口語，簡短有力地回應客人這個反對問題：「${currentObjection}」。重點使用「先順從後帶領」的逆轉銷售技巧，不要爭辯，字數100字內。`;
+                const ans = await callGeminiAPI(prompt);
+                box.innerText = ans;
+            } catch (e) {
+                box.innerText = "❌ 失敗: " + e.message;
+            }
+        }
+
+        // --- AI 普通話翻譯與語音 ---
+        let currentTranslatedText = "";
+        let recognition;
+        let accumulatedSpeech = "";
+
+        async function translateToMandarin() {
+            const text = document.getElementById('cantonese-input').value;
+            const display = document.getElementById('translation-result');
+            if (!text) return alert("請輸入內容");
+            display.innerHTML = "⏳ 正在翻譯及生成拼音...";
+            try {
+                const prompt = `將以下香港廣東話口語，翻譯成最地道、專業的內地職場普通話，只輸出翻譯結果，不要其他解釋：\n\n廣東話：${text}`;
+                const result = await callGeminiAPI(prompt);
+                currentTranslatedText = result;
+                
+                const { pinyin } = window.pinyinPro;
+                const pinyinStr = pinyin(result, { toneType: 'num', v: true });
+                const chars = result.split('');
+                const pinyins = pinyinStr.split(' ');
+                
+                let html = '<div style="display:flex; flex-wrap:wrap; gap:8px;">';
+                for (let i = 0; i < chars.length; i++) {
+                    const py = pinyins[i] || '';
+                    html += `<div style="text-align:center;"><div class="pinyin-text text-[11px]">${py}</div><div class="text-lg font-bold">${chars[i]}</div></div>`;
+                }
+                html += '</div>';
+                display.innerHTML = html;
+            } catch (e) { display.innerHTML = "❌ 失敗: " + e.message; }
+        }
+
+        function playSpeech() {
+            if (!currentTranslatedText) return;
+            window.speechSynthesis.cancel();
+            const ut = new SpeechSynthesisUtterance(currentTranslatedText);
+            ut.lang = 'zh-CN'; ut.rate = 0.8;
+            window.speechSynthesis.speak(ut);
+        }
+        function pauseSpeech() { window.speechSynthesis.pause(); }
+        function resumeSpeech() { window.speechSynthesis.resume(); }
+
+        // Web Speech API
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+            recognition.lang = "zh-CN"; recognition.continuous = true;
+            recognition.onresult = (event) => {
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    accumulatedSpeech += event.results[i][0].transcript;
+                }
+            };
+        }
+
+        function startMic() {
+            if (!recognition) return alert("您的瀏覽器不支援錄音功能 (請使用 Safari 或 Chrome)");
+            accumulatedSpeech = "";
+            recognition.start();
+            document.getElementById('mic-btn').innerHTML = "🎙️ 正在聆聽...";
+            document.getElementById('mic-btn').classList.replace('bg-red-100', 'bg-red-500');
+            document.getElementById('mic-btn').classList.replace('text-red-700', 'text-white');
+        }
+
+        async function finishMic() {
+            recognition.stop();
+            document.getElementById('mic-btn').innerHTML = "🔴 開始錄音";
+            document.getElementById('mic-btn').classList.replace('bg-red-500', 'bg-red-100');
+            document.getElementById('mic-btn').classList.replace('text-white', 'text-red-700');
+            
+            const feedback = document.getElementById('mandarin-feedback');
+            if(!accumulatedSpeech) {
+                feedback.innerHTML = "未能聽到聲音，請再試一次。";
+                return;
+            }
+            feedback.innerHTML = `🗣️ 系統聽到：<br><span class="font-bold text-blue-700">${accumulatedSpeech}</span><br><br>⏳ 正在請求 AI 教練點評...`;
+            
+            try {
+                const prompt = `我原本想用標準普通話講：「${currentTranslatedText}」。但我實際講出來變成：「${accumulatedSpeech}」。請作為嚴格但友善的普通話老師，用廣東話簡短指出我有什麼發音錯誤，並指導我正確的拼音發音技巧。字數100字以內。`;
+                const ans = await callGeminiAPI(prompt);
+                feedback.innerHTML = `🗣️ 系統聽到：<br><span class="font-bold text-blue-700">${accumulatedSpeech}</span><br><br>💡 <b>AI 教練點評：</b><br>${ans}`;
+            } catch(e) {
+                feedback.innerHTML += `<br>❌ 點評失敗: ${e.message}`;
+            }
+        }
+
+        // ==========================================
+        // AVA 見客系統：保費資料庫與對話邏輯 (保留 100%)
+        // ==========================================
         const db = {
             AVF_M_A: [5855, 5855, 5855, 5855, 5855, 3474, 3474, 3474, 3474, 3474, 3293, 3293, 3293, 3293, 3293, 3293, 3522, 3742, 3890, 3972, 3972, 4143, 4188, 4233, 4249, 4396, 4480, 4612, 4716, 4776, 4880, 4964, 5048, 5134, 5246, 5405, 5623, 5824, 5988, 6232, 6548, 6892, 7254, 7680, 8005, 8312, 8639, 8935, 9357, 9764, 10556, 11165, 11620, 12147, 12704, 13304, 14136, 14839, 15572, 16372, 17477, 18711, 19908, 21114, 22164, 23657, 24985, 26321, 27669, 29072, 30820, 32856, 34892, 36928, 38964, 41363, 43416, 45469, 47524, 49577, 52084],
             AVF_M_M: [517, 517, 517, 517, 517, 306, 306, 306, 306, 306, 290, 290, 290, 290, 290, 290, 311, 330, 343, 350, 350, 365, 369, 373, 375, 388, 395, 407, 416, 421, 430, 438, 445, 453, 463, 477, 496, 514, 528, 550, 578, 608, 640, 678, 706, 734, 762, 788, 826, 862, 932, 985, 1026, 1072, 1121, 1174, 1248, 1310, 1375, 1445, 1543, 1652, 1757, 1864, 1957, 2088, 2206, 2324, 2443, 2567, 2721, 2901, 3081, 3260, 3440, 3652, 3833, 4014, 4196, 4377, 4599],
@@ -291,6 +520,7 @@
             AVSW_18000_M: [312, 312, 312, 312, 312, 288, 280, 272, 264, 256, 248, 248, 248, 248, 248, 248, 248, 248, 248, 256, 256, 256, 280, 296, 328, 344, 360, 400, 416, 440, 448, 456, 464, 472, 480, 488, 512, 512, 528, 528, 536, 576, 600, 624, 656, 696, 720, 768, 800, 840, 888, 960, 1008, 1096, 1176, 1248, 1336, 1416, 1504, 1608, 1704, 1808, 1936, 2104, 2296, 2472, 2720, 2880, 3008, 3168, 3328, 3544, 3744, 3936, 4152, 4376, 4560, 4744, 4880, 5040, 5184],
             AVSW_30000_A: [3056, 3056, 3056, 3056, 3056, 2808, 2744, 2672, 2608, 2544, 2480, 2480, 2480, 2480, 2480, 2480, 2480, 2480, 2480, 2536, 2536, 2584, 2824, 2944, 3240, 3352, 3584, 3944, 4144, 4352, 4440, 4480, 4656, 4808, 4880, 5024, 5200, 5200, 5272, 5272, 5432, 5712, 5912, 6224, 6456, 7000, 7336, 7824, 8056, 8416, 8784, 9592, 10152, 11176, 11984, 12608, 13304, 14184, 15176, 16152, 17144, 18184, 19464, 21240, 23200, 24720, 27048, 28600, 29904, 31536, 33104, 35248, 37232, 39144, 41296, 43512, 45336, 47168, 48544, 50136, 51496],
             AVSW_30000_M: [272, 272, 272, 272, 272, 248, 240, 232, 232, 224, 216, 216, 216, 216, 216, 216, 216, 216, 216, 224, 224, 232, 248, 256, 288, 296, 320, 352, 368, 384, 392, 392, 408, 424, 432, 440, 456, 456, 464, 464, 480, 504, 520, 552, 568, 616, 648, 688, 712, 744, 776, 848, 896, 984, 1056, 1112, 1176, 1256, 1344, 1424, 1512, 1608, 1720, 1872, 2048, 2184, 2392, 2528, 2640, 2784, 2920, 3112, 3288, 3456, 3648, 3840, 4000, 4168, 4288, 4424, 4544],
+
             AVPU_0_A: [11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11320, 11440, 11680, 11792, 12152, 12624, 12992, 13936, 14776, 15600, 16320, 16792, 17032, 17512, 17752, 18232, 18944, 19288, 19304, 19656, 20144, 20256, 20488, 21064, 21968, 22944, 24544, 26024, 27256, 28400, 29520, 30920, 32304, 34072, 35520, 36832, 38536, 40104, 42464, 45208, 47304, 50456, 53736, 57128, 61000, 66048, 72440, 78288, 84952, 89960, 93712, 98568, 103136, 109888, 115976, 121960, 128184, 134176, 141376, 147024, 152552, 153688, 156872],
             AVPU_0_M: [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1008, 1032, 1040, 1072, 1112, 1144, 1232, 1304, 1376, 1440, 1480, 1504, 1544, 1568, 1608, 1672, 1704, 1704, 1736, 1776, 1792, 1808, 1856, 1936, 2024, 2168, 2296, 2408, 2504, 2608, 2728, 2856, 3008, 3136, 3256, 3400, 3544, 3752, 3992, 4176, 4456, 4744, 5048, 5384, 5832, 6400, 6912, 7504, 7944, 8272, 8704, 9104, 9704, 10240, 10768, 11320, 11848, 12480, 12984, 13472, 13568, 13848],
             AVPU_16000_A: [4880, 4880, 4880, 4880, 4880, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4784, 4784, 4784, 5136, 5248, 5784, 6000, 6184, 6752, 6944, 7176, 7320, 7392, 7496, 7608, 7816, 7920, 8336, 8336, 8568, 8568, 8680, 9296, 9704, 10144, 10584, 11224, 11688, 12488, 13040, 13648, 14336, 15080, 15424, 16256, 16960, 17552, 18728, 19912, 21088, 22616, 23904, 25328, 27136, 29512, 32224, 34696, 37808, 39976, 41776, 43944, 46176, 49208, 52064, 54384, 57664, 60688, 63296, 65720, 67704, 69976, 71904],
@@ -366,8 +596,8 @@
             }
             document.getElementById('premiumResult').innerHTML = html;
         }
-        
-        const questions = {
+
+        const quizQuestions = {
             Q1: { q: "1. 想像一下，如果身體突然出現警號，醫生建議盡快進行詳細檢查或手術，您會傾向哪一種選擇？", opts: [{ label: "A. 公立醫院（排期等候，盡量節省開支）", next: "Q2A" }, { label: "B. 私家醫療（立刻確診，掌握治療黃金時間）", next: "Q2B" }] },
             Q2A: { q: "2. 公立醫院排期做 MRI 或大手術往往需要漫長等待。面對「病情有機會惡化」的未知數與煎熬，您會？", opts: [{ label: "A. 繼續無奈地等，因為不想動用辛苦儲下的積蓄", next: "Q3A" }, { label: "B. 轉去私家醫院，寧願自己畀錢買個快同安心", next: "CQ1" }] },
             Q3A: { q: "3. 面對幾萬至數十萬不等的突發醫療費，您目前會用什麼方法找數？", opts: [{ label: "A. 咬緊牙關，動用原本留作其他用途的銀行積蓄", next: "CQ1" }, { label: "B. 如果有一個「醫療備用庫」幫我找數就好了", next: "CQ1" }] },
@@ -384,13 +614,12 @@
         let currentQId = 'Q1'; let historyStack = []; let chosenBranch = ''; 
         function renderQuiz() {
             if (currentQId === 'END') { showQuizResult(); return; }
-            const q = questions[currentQId]; document.getElementById('q-title').innerText = q.q;
+            const q = quizQuestions[currentQId]; document.getElementById('q-title').innerText = q.q;
             let h = ''; q.opts.forEach((o, index) => {
                 h += `<button onclick="answerQ('${o.next}', ${index})" class="w-full text-left p-4 rounded-xl border mb-3 hover:bg-rose-50 hover:border-rose-200 transition text-xs shadow-sm bg-white leading-relaxed">${o.label}</button>`;
             });
             if (historyStack.length > 0) { h += `<button onclick="goBack()" class="w-full text-center p-3 mt-2 rounded-xl text-gray-400 hover:bg-gray-100 transition text-xs font-bold border border-transparent hover:border-gray-200">🔙 返回上一題</button>`; }
             document.getElementById('q-options').innerHTML = h; 
-            document.getElementById('quiz-progress').style.width = ((historyStack.length + 1) / 8 * 100) + '%';
         }
         function answerQ(nextQId, optIndex) {
             if (currentQId === 'Q1') { chosenBranch = optIndex === 0 ? 'A' : 'B'; }
@@ -415,7 +644,6 @@
             }
             document.getElementById('result-content').innerHTML = conclusionHTML;
         }
-        window.onload = () => { renderQuiz(); runPremium(); };
     </script>
 </body>
 </html>
