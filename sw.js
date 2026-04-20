@@ -1,5 +1,5 @@
-// ====== 版本號 v3.10 ======
-const CACHE_NAME = 'ava-system-v3.10'; 
+// ====== 每次更新 HTML，請務必更改這個版本號 ======
+const CACHE_NAME = 'ava-system-v3.1.0'; 
 // ================================================
 
 const urlsToCache = [
@@ -11,7 +11,9 @@ const urlsToCache = [
 ];
 
 self.addEventListener('install', event => {
+  // 強制要求新的 Service Worker 立即接管，不等待舊版關閉
   self.skipWaiting(); 
+  
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
   );
@@ -30,10 +32,11 @@ self.addEventListener('activate', event => {
       return Promise.all(
         cacheNames.map(cacheName => {
           if (cacheWhitelist.indexOf(cacheName) === -1) {
+            // 刪除所有舊版本的 Cache
             return caches.delete(cacheName);
           }
         })
       );
-    }).then(() => self.clients.claim()) 
+    }).then(() => self.clients.claim()) // 強制立即控制所有打開的頁面
   );
 });
