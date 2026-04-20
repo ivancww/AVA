@@ -1,5 +1,5 @@
-// ====== 版本號 v2.12.0 ======
-const CACHE_NAME = 'ava-system-v2.12.0'; 
+// ====== 版本號 v3.10 ======
+const CACHE_NAME = 'ava-system-v3.10'; 
 // ================================================
 
 const urlsToCache = [
