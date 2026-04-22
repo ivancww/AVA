@@ -1,5 +1,5 @@
 // ====== 每次更新 HTML，請務必更改這個版本號 ======
-const CACHE_NAME = 'ava-system-v3.1.3'; 
+const CACHE_NAME = 'ava-system-v3.1.4'; 
 // ================================================
 
 const urlsToCache = [
