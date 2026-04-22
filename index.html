@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 專業顧問實戰系統v3.1.4</title>
+    <title>AVA 專業顧問實戰系統 v3.1.5</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -53,7 +53,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v3.1.4</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v3.1.5</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -67,8 +67,13 @@
         <div id="portal-tab" class="tab-content active space-y-5">
             <div class="card border-t-4 border-gray-800 bg-gray-900 text-white">
                 <h2 class="text-xl font-bold mb-2 flex items-center gap-2"><span>⚙️</span> 系統核心設定</h2>
-                <p class="text-xs text-gray-400 mb-4">輸入您的 Gemini API Key 以啟用 AI 銷售教練及普通話翻譯功能。</p>
-                <input type="password" id="api-key" placeholder="貼上 Gemini API Key..." class="text-black mb-3">
+                <p class="text-xs text-gray-400 mb-2">輸入您的 Gemini API Key 以啟用 AI 銷售教練及普通話翻譯功能。</p>
+                
+                <div class="relative mb-4">
+                    <input type="password" id="api-key" placeholder="貼上 Gemini API Key..." class="w-full text-black pr-10 py-3 rounded-xl outline-none">
+                    <button onclick="toggleApiKey()" class="absolute right-3 top-2.5 text-xl" title="顯示/隱藏 API Key">👁️</button>
+                </div>
+                
                 <button onclick="saveApiKey()" class="bg-gray-700 hover:bg-gray-600 text-white p-3 rounded-xl text-sm font-bold w-full transition">💾 儲存並啟動 AI 引擎</button>
                 <div id="api-status" class="text-[10px] text-green-400 mt-2 hidden text-center">✅ API Key 已安全儲存於本機</div>
             </div>
@@ -295,6 +300,17 @@
         // ==========================================
         // 核心 AI 引擎 (整合 Cloudflare 中途站)
         // ==========================================
+        
+        // 👁️ 切換密碼顯示/隱藏
+        function toggleApiKey() {
+            const apiKeyInput = document.getElementById("api-key");
+            if (apiKeyInput.type === "password") {
+                apiKeyInput.type = "text";
+            } else {
+                apiKeyInput.type = "password";
+            }
+        }
+        
         function saveApiKey() {
             const key = document.getElementById('api-key').value;
             if(key) {
@@ -314,7 +330,7 @@
             const apiKey = localStorage.getItem('gemini_api_key');
             if (!apiKey) throw new Error("請先在主頁輸入 API Key！");
             
-            // 使用專屬中途站，並切換回 gemini-pro 以兼容 proxy 舊設定
+            // 使用專屬中途站，並明確指定使用 gemini-pro 模型，確保指令直達
             const baseUrl = "https://chinese-proxy.wahchiu0903.workers.dev"; 
             const url = `${baseUrl}/v1beta/models/gemini-pro:generateContent?key=${apiKey.trim()}`;
             
@@ -327,6 +343,7 @@
                 
                 if (!response.ok) {
                     const errData = await response.json().catch(()=>({}));
+                    // 顯示完整錯誤訊息，方便 debug
                     throw new Error(errData.error?.message || "API 請求失敗，請檢查 Key 或網絡設定。");
                 }
                 
