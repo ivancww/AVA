@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 專業顧問實戰系統 v3.1.5</title>
+    <title>AVA 專業顧問實戰系統 v3.2.1</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -53,7 +53,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v3.1.5</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v3.2.1</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -67,11 +67,11 @@
         <div id="portal-tab" class="tab-content active space-y-5">
             <div class="card border-t-4 border-gray-800 bg-gray-900 text-white">
                 <h2 class="text-xl font-bold mb-2 flex items-center gap-2"><span>⚙️</span> 系統核心設定</h2>
-                <p class="text-xs text-gray-400 mb-2">輸入您的 Gemini API Key 以啟用 AI 銷售教練及普通話翻譯功能。</p>
+                <p class="text-xs text-gray-400 mb-4">輸入您的 Gemini API Key 以啟用 AI 銷售教練及普通話翻譯功能。</p>
                 
                 <div class="relative mb-4">
-                    <input type="password" id="api-key" placeholder="貼上 Gemini API Key..." class="w-full text-black pr-10 py-3 rounded-xl outline-none">
-                    <button onclick="toggleApiKey()" class="absolute right-3 top-2.5 text-xl" title="顯示/隱藏 API Key">👁️</button>
+                    <input type="password" id="api-key" placeholder="貼上 Gemini API Key..." class="w-full text-black pr-10 py-3 rounded-xl outline-none font-mono text-sm">
+                    <button onclick="toggleApiKey()" class="absolute right-3 top-3 text-xl" title="顯示/隱藏 API Key">👁️</button>
                 </div>
                 
                 <button onclick="saveApiKey()" class="bg-gray-700 hover:bg-gray-600 text-white p-3 rounded-xl text-sm font-bold w-full transition">💾 儲存並啟動 AI 引擎</button>
@@ -298,10 +298,8 @@
         }
 
         // ==========================================
-        // 核心 AI 引擎 (整合 Cloudflare 中途站)
+        // 核心 AI 引擎 (100% 抄足原本成功代碼)
         // ==========================================
-        
-        // 👁️ 切換密碼顯示/隱藏
         function toggleApiKey() {
             const apiKeyInput = document.getElementById("api-key");
             if (apiKeyInput.type === "password") {
@@ -310,7 +308,7 @@
                 apiKeyInput.type = "password";
             }
         }
-        
+
         function saveApiKey() {
             const key = document.getElementById('api-key').value;
             if(key) {
@@ -326,13 +324,13 @@
             renderQuiz(); runPremium(); 
         };
 
+        // 【原汁原味 API Call】
         async function callGeminiAPI(promptText) {
             const apiKey = localStorage.getItem('gemini_api_key');
             if (!apiKey) throw new Error("請先在主頁輸入 API Key！");
             
-            // 使用專屬中途站，並明確指定使用 gemini-pro 模型，確保指令直達
-            const baseUrl = "https://chinese-proxy.wahchiu0903.workers.dev"; 
-            const url = `${baseUrl}/v1beta/models/gemini-pro:generateContent?key=${apiKey.trim()}`;
+            // 完全跟足你原本 successful 的寫法
+            const url = `https://chinese-proxy.wahchiu0903.workers.dev/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey.trim()}`;
             
             try {
                 const response = await fetch(url, {
@@ -343,8 +341,7 @@
                 
                 if (!response.ok) {
                     const errData = await response.json().catch(()=>({}));
-                    // 顯示完整錯誤訊息，方便 debug
-                    throw new Error(errData.error?.message || "API 請求失敗，請檢查 Key 或網絡設定。");
+                    throw new Error(errData.error?.message || "API 請求失敗，請檢查 Key 設定。");
                 }
                 
                 const data = await response.json(); 
@@ -572,7 +569,7 @@
             Q4B: { q: "4. 如果有一天這把「借來的遮」不再為我們擋雨，而剛好身體出現狀況，您打算如何應對高昂的醫療費用？", opts: [{ label: "A. 可能只能靠老本積蓄去應付，或無奈轉去排公立醫院", next: "CQ1" }, { label: "B. 到時可能會考慮為自己配置一份專屬的醫療保險", next: "CQ1" }] },
             CQ1: { q: "【生活開支】如果因為這場大病，需要完全放下工作兩三年專心調理，家庭的日常開支、供樓負擔以及生活質素會否帶來壓力？", opts: [{ label: "A. 可能會有壓力", next: "CQ2" }, { label: "B. 沒什麼影響，我有足夠的被動收入支撐", next: "CQ2" }] },
             CQ2: { q: "【漫長作戰】隨著醫學進步，您認同現在「大病（如癌症）已經不再是絕症」，而是變成了一種需要長期作戰的「慢性病」嗎？", opts: [{ label: "A. 認同，身邊也有不少持續治療後康復的例子", next: "CQ3" }, { label: "B. 一半半，但確實存活率比以前高很多", next: "CQ3" }] },
-            CQ3: { q: "【殘酷現實】您是否知道一個事實：一旦確診大病，即使我們日後願意支付更昂貴的保費，甚至主動要求加價，保險公司都極大機會不再接受投保？", opts: [{ label: "A. 知道", next: "CQ4" }, { label: "B. 現在才知道，原來確診後會失去再投保的資格", next: "CQ4" }] },
+            CQ3: { q: "【殘酷現實】您是否知道一個事實：一旦確診大病，即使我們日後願意支付更昂貴的保費，甚至主 कटोच要求加價，保險公司都極大機會不再接受投保？", opts: [{ label: "A. 知道", next: "CQ4" }, { label: "B. 現在才知道，原來確診後會失去再投保的資格", next: "CQ4" }] },
             CQ4: { q: "既然大病不再是絕症，且康復後難以再買保險。面對漫長的未來及潛在的復發風險，您認為防護網具備「多次賠償」重要嗎？", opts: [{ label: "A. 都重要，因為原來之後不能再買保險", next: "CQ5" }, { label: "B. 以前沒想過，現在覺得的確需要", next: "CQ5" }] },
             CQ5: { q: "經過今天的審視，當「未來的您」看到今天這段對話時，您認為他/她的第一句話會是什麼？", opts: [{ label: "A. 「謝謝今天的你，令未來的我及身邊家人得到守護。」", next: "END" }, { label: "B. 「如果可以時光倒流，我會叫你今天為未來的我及時做好規劃。」", next: "END" }] }
         };
