@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 專業顧問實戰系統 v3.8.0</title>
+    <title>AVA 專業顧問實戰系統 v3.8.1</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -50,7 +50,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v3.8.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v3.8.1</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -310,13 +310,15 @@
             renderQuiz(); runPremium(); 
         };
 
-        // 【徹底移除 Cloudflare，鎖死 Google 官方直連 (需 VPN)】
+        // 【徹底移除 Cloudflare，鎖死 Google 官方直連 (需 VPN) + 強制使用 2.5 flash】
         async function callGeminiAPI(promptText) {
             var apiKey = localStorage.getItem('gemini_api_key');
             if (!apiKey) throw new Error("請先在主頁輸入 API Key！");
             
             var baseUrl = "https://generativelanguage.googleapis.com";
-            var model = "gemini-1.5-flash"; 
+            
+            // 👇 已經根據領袖要求，強制轉返做 gemini-2.5-flash 👇
+            var model = "gemini-2.5-flash"; 
             
             var url = baseUrl + "/v1beta/models/" + model + ":generateContent?key=" + apiKey.trim();
             
