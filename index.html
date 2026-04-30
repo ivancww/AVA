@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 專業顧問實戰系統 v3.4.1</title>
+    <title>AVA 專業顧問實戰系統 v3.7.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,12 +33,8 @@
         #lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in; }
         
         input[type="text"], input[type="password"], input[type="number"], select, textarea { width: 100%; border: 1px solid #e5e7eb; padding: 12px; border-radius: 12px; margin-top: 5px; outline: none; background: #f9fafb; font-size: 14px; }
-        .btn-simulator { background: linear-gradient(135deg, #d31145 0%, #ed1c24 100%); color: white; padding: 15px; border-radius: 15px; text-align: center; font-weight: bold; display: block; margin-bottom: 15px; }
         .btn-pdf { display: block; background: #f3f4f6; color: #2563eb; text-align: center; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: bold; margin-top: 8px; border: 1px solid #bfdbfe; }
         .btn-ai { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: white; padding: 12px; border-radius: 12px; font-weight: bold; width: 100%; transition: opacity 0.2s; }
-        
-        .hl-yellow { background-color: #fef08a; color: #713f12; font-weight: 900; padding: 2px 4px; border-radius: 4px; }
-        .hl-purple { background-color: #e9d5ff; color: #581c87; font-weight: 900; padding: 2px 4px; border-radius: 4px; }
         .pinyin-text { font-family: 'Courier New', Courier, monospace; letter-spacing: 1px; color: #4f46e5; }
     </style>
 </head>
@@ -53,12 +49,9 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v3.4.1</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v3.7.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
-        </div>
-        <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center border border-white/10">
-            <span class="text-white font-bold text-sm">AVA</span>
         </div>
     </nav>
 
@@ -66,208 +59,88 @@
 
         <div id="portal-tab" class="tab-content active space-y-5">
             <div class="card border-t-4 border-gray-800 bg-gray-900 text-white">
-                <h2 class="text-xl font-bold mb-2 flex items-center gap-2"><span>⚙️</span> AI 引擎設定</h2>
-                <p class="text-xs text-gray-400 mb-2">請輸入您的 Gemini API Key 以啟用 AI 銷售教練及普通話翻譯功能。</p>
+                <h2 class="text-xl font-bold mb-2 flex items-center gap-2"><span>⚙️</span> AI 設定 (官方直連)</h2>
+                <p class="text-[10px] text-gray-400 mb-3 bg-gray-800 p-2 rounded">🟢 目前系統已強制切換為 Google 官方直連模式。請確保您已開啟 VPN (如美國/台灣) 以進行連線。</p>
                 
+                <label class="text-[10px] text-gray-400 font-bold">GEMINI API KEY</label>
                 <div class="relative mb-4">
-                    <input type="password" id="api-key" placeholder="貼上您的 API Key..." class="w-full text-black pr-10 py-3 rounded-xl outline-none font-mono text-sm">
+                    <input type="password" id="api-key" placeholder="貼上 API Key..." class="w-full text-black pr-10 py-3 rounded-xl outline-none font-mono text-sm">
                     <button onclick="toggleApiKey()" class="absolute right-3 top-3 text-xl" title="顯示/隱藏 API Key">👁️</button>
                 </div>
                 
-                <button onclick="saveApiSettings()" class="bg-blue-600 hover:bg-blue-500 text-white p-3 rounded-xl text-sm font-bold w-full transition shadow-lg">💾 儲存並啟動 AI 引擎</button>
-                <div id="api-status" class="text-[10px] text-green-400 mt-2 hidden text-center">✅ API Key 已安全儲存於本機</div>
+                <button onclick="saveApiSettings()" class="bg-blue-600 hover:bg-blue-500 text-white p-3 rounded-xl text-sm font-bold w-full transition shadow-lg">💾 儲存並啟動 AI</button>
+                <div id="api-status" class="text-[10px] text-green-400 mt-2 hidden text-center">✅ 設定已安全儲存</div>
             </div>
 
             <div class="grid grid-cols-1 gap-4">
                 <button onclick="openApp('ava')" class="bg-white p-5 rounded-2xl shadow-sm border border-red-100 flex items-center gap-4 hover:shadow-md transition">
                     <div class="text-4xl bg-red-50 p-3 rounded-xl">💼</div>
-                    <div class="text-left">
-                        <h3 class="font-bold text-red-700 text-lg">AVA 實戰系統</h3>
-                        <p class="text-xs text-gray-500 mt-1">見客專用：對話問卷、醫療危疾圖解與精算。</p>
-                    </div>
+                    <div class="text-left"><h3 class="font-bold text-red-700 text-lg">AVA 實戰系統</h3><p class="text-xs text-gray-500 mt-1">見客專用：對話問卷、醫療危疾圖解。</p></div>
                 </button>
-
                 <button onclick="openApp('coach')" class="bg-white p-5 rounded-2xl shadow-sm border border-purple-100 flex items-center gap-4 hover:shadow-md transition">
                     <div class="text-4xl bg-purple-50 p-3 rounded-xl">🧠</div>
-                    <div class="text-left">
-                        <h3 class="font-bold text-purple-700 text-lg">TOT 銷售心法</h3>
-                        <p class="text-xs text-gray-500 mt-1">練功專用：銷售心法，及 AI 奧客應對演練。</p>
-                    </div>
+                    <div class="text-left"><h3 class="font-bold text-purple-700 text-lg">TOT 銷售心法</h3><p class="text-xs text-gray-500 mt-1">練功專用：無限奧客模擬、銷售心法。</p></div>
                 </button>
-
                 <button onclick="openApp('mandarin')" class="bg-white p-5 rounded-2xl shadow-sm border border-blue-100 flex items-center gap-4 hover:shadow-md transition">
                     <div class="text-4xl bg-blue-50 p-3 rounded-xl">🗣️</div>
-                    <div class="text-left">
-                        <h3 class="font-bold text-blue-700 text-lg">普通話特訓</h3>
-                        <p class="text-xs text-gray-500 mt-1">練功專用：即時廣東話轉普通話與發音對比。</p>
-                    </div>
+                    <div class="text-left"><h3 class="font-bold text-blue-700 text-lg">普通話特訓</h3><p class="text-xs text-gray-500 mt-1">練功專用：即時翻譯、發音診斷。</p></div>
                 </button>
             </div>
         </div>
 
         <div id="coach-tab" class="tab-content space-y-5">
             <h2 class="text-2xl font-bold text-gray-800">🧠 TOT 銷售心法</h2>
-            
             <div class="card border-t-4 border-indigo-500 bg-indigo-50">
                 <h3 class="font-bold text-indigo-800 mb-2 flex items-center gap-2"><span>🎲</span> AI 奧客應對演練</h3>
-                <p class="text-xs text-indigo-600 mb-3">輸入客人真實的刁鑽問題，或由系統隨機抽取，讓 AI 陪您演練。</p>
+                <p class="text-xs text-indigo-600 mb-3">輸入、抽內置題，或由 AI 網羅坊間最新刁鑽問題！</p>
                 
-                <textarea id="user-objection-input" rows="2" class="w-full text-sm font-bold text-indigo-900 p-3 rounded-xl border border-indigo-200 outline-none mb-3 bg-white shadow-inner" placeholder="在此打字輸入客人的反對說話，或點擊下方按鈕隨機抽取..."></textarea>
-                
-                <textarea id="user-objection-answer" rows="3" placeholder="請輸入您的應對話術，或使用語音輸入，交由教練評分..." class="mb-2 text-sm"></textarea>
+                <textarea id="user-objection-input" rows="2" class="w-full text-sm font-bold text-indigo-900 p-3 rounded-xl border border-indigo-200 outline-none mb-3 bg-white shadow-sm" placeholder="在此輸入問題，或點擊下方按鈕抽取..."></textarea>
+                <textarea id="user-objection-answer" rows="3" placeholder="請輸入您的答案，或使用語音輸入..." class="mb-2 text-sm border-gray-300"></textarea>
                 
                 <div class="flex gap-2 mb-4">
                     <button id="obj-mic-btn" onclick="toggleObjMic()" class="bg-gray-200 text-gray-700 p-2 rounded-xl text-xs font-bold w-1/3 hover:bg-gray-300">🎙️ 語音輸入</button>
-                    <button onclick="gradeObjection()" class="bg-green-600 text-white p-2 rounded-xl text-xs font-bold flex-1 shadow hover:bg-green-700">📤 提交教練評分</button>
+                    <button onclick="gradeObjection()" class="bg-green-600 text-white p-2 rounded-xl text-xs font-bold flex-1 shadow hover:bg-green-700">📤 提交評分</button>
                 </div>
-
-                <div class="flex gap-2 border-t border-indigo-200 pt-4">
-                    <button onclick="generateObjection()" class="bg-indigo-200 text-indigo-800 p-3 rounded-xl text-xs font-bold flex-1 hover:bg-indigo-300">🎲 隨機抽取問題</button>
-                    <button onclick="solveObjection()" class="bg-indigo-600 text-white p-3 rounded-xl text-xs font-bold flex-1 shadow-md hover:bg-indigo-700">💡 AI 教我點拆</button>
+                
+                <div class="flex gap-2 border-t border-indigo-200 pt-4 mb-2">
+                    <button onclick="generateObjection()" class="bg-indigo-100 text-indigo-800 p-3 rounded-xl text-xs font-bold flex-1 hover:bg-indigo-200 border border-indigo-200">🎲 抽內置 50 題</button>
+                    <button onclick="generateObjectionAI()" class="bg-indigo-300 text-indigo-900 p-3 rounded-xl text-xs font-bold flex-1 shadow-sm hover:bg-indigo-400">🌐 AI 坊間搜集</button>
                 </div>
+                <button onclick="solveObjection()" class="w-full bg-indigo-600 text-white p-3 rounded-xl text-xs font-bold shadow-md hover:bg-indigo-700">💡 AI 教我點拆 (三招示範)</button>
+                
                 <div id="objection-solution" class="mt-4 text-xs text-gray-700 bg-white p-4 rounded-xl border border-indigo-100 hidden leading-relaxed"></div>
             </div>
-
-            <div class="card border-l-4 border-purple-500">
-                <h3 class="font-bold text-purple-700 text-lg mb-3">⚔️ 逆轉銷售 (Reversing Sales)</h3>
-                <div class="mb-3">
-                    <span class="text-xs font-bold bg-purple-100 text-purple-800 px-2 py-1 rounded">🗣️ 實戰口訣</span>
-                    <ul class="text-xs text-gray-600 mt-2 space-y-1 list-disc pl-4">
-                        <li>先順從，後帶領 (Agree & Lead)</li>
-                        <li>不爭辯，只提問 (引導客人自己諗通)</li>
-                        <li>將抗拒化為動機 (將藉口變成要買嘅原因)</li>
-                    </ul>
-                </div>
-                <div class="mb-3">
-                    <span class="text-xs font-bold bg-gray-100 text-gray-800 px-2 py-1 rounded">💬 示範句子</span>
-                    <ul class="text-xs text-gray-600 mt-2 space-y-2 list-decimal pl-4 leading-relaxed">
-                        <li>「我完全明白你覺得保費貴，其實好多客一開始都係咁諗，但後來佢哋發現原來大病停工嘅代價仲貴...」</li>
-                        <li>「你講得啱，公司確實有醫保，但你有冇諗過萬一因病離職，呢把遮仲喺唔喺度？」</li>
-                        <li>「就係因為你而家後生又健康，所以先係保險公司求你買嘅時候；等到有事，就變成我哋求保險公司。」</li>
-                        <li>「與其話係買保險，不如話係幫未來的自己開個專屬醫療備用戶口。」</li>
-                    </ul>
-                </div>
-                <div class="flex gap-2 text-[10px] mt-3">
-                    <div class="flex-1 bg-green-50 p-2 rounded border border-green-100">
-                        <span class="font-bold text-green-700 block mb-1">✅ 建議字詞</span>我明白、其實、你有冇諗過、專屬戶口、掌握主動權
-                    </div>
-                    <div class="flex-1 bg-red-50 p-2 rounded border border-red-100">
-                        <span class="font-bold text-red-700 block mb-1">❌ 不建議字詞</span>你錯啦、但係、買保險、一定要買、風險好大
-                    </div>
-                </div>
-            </div>
-
-            <div class="card border-l-4 border-pink-500">
-                <h3 class="font-bold text-pink-700 text-lg mb-3">🌀 催眠式銷售 (Hypnotic Selling)</h3>
-                <div class="mb-3">
-                    <span class="text-xs font-bold bg-pink-100 text-pink-800 px-2 py-1 rounded">🗣️ 實戰口訣</span>
-                    <ul class="text-xs text-gray-600 mt-2 space-y-1 list-disc pl-4">
-                        <li>建立共鳴 (Pacing) - 語言與肢體同步</li>
-                        <li>隱藏指令 (Embedded Commands) - 繞過意識防線</li>
-                        <li>未來畫面植入 (Future Pacing) - 讓大腦預演擁有的感覺</li>
-                    </ul>
-                </div>
-                <div class="mb-3">
-                    <span class="text-xs font-bold bg-gray-100 text-gray-800 px-2 py-1 rounded">💬 示範句子</span>
-                    <ul class="text-xs text-gray-600 mt-2 space-y-2 list-decimal pl-4 leading-relaxed">
-                        <li>「想像一下，十年後當你睇返今日呢份規劃，你會覺得係一個非常安心嘅決定。」</li>
-                        <li>「好多客聽完之後，都會自然地發現，原來建立防護網比想像中輕鬆。」</li>
-                        <li>「當你完全唔洗為醫藥費而煩惱嘅時候，你可以將所有精力放喺康復同陪伴家人身上。」</li>
-                    </ul>
-                </div>
-                <div class="flex gap-2 text-[10px] mt-3">
-                    <div class="flex-1 bg-green-50 p-2 rounded border border-green-100">
-                        <span class="font-bold text-green-700 block mb-1">✅ 建議字詞</span>想像一下、自然地、你可能會發現、選擇權、安心
-                    </div>
-                    <div class="flex-1 bg-red-50 p-2 rounded border border-red-100">
-                        <span class="font-bold text-red-700 block mb-1">❌ 不建議字詞</span>你必須、聽我講、我教你、唔好諗啦
-                    </div>
-                </div>
-            </div>
-
-            <div class="card border-l-4 border-blue-500">
-                <h3 class="font-bold text-blue-700 text-lg mb-3">🤝 成交邏輯 (Closing Logic)</h3>
-                <div class="mb-3">
-                    <span class="text-xs font-bold bg-blue-100 text-blue-800 px-2 py-1 rounded">🗣️ 實戰口訣</span>
-                    <ul class="text-xs text-gray-600 mt-2 space-y-1 list-disc pl-4">
-                        <li>假設成交 (當客人已決定，直接傾細節)</li>
-                        <li>二選一法則 (俾選擇，唔俾 Yes/No)</li>
-                        <li>安撫恐懼 (給予最強大的售後安全感)</li>
-                    </ul>
-                </div>
-                <div class="mb-3">
-                    <span class="text-xs font-bold bg-gray-100 text-gray-800 px-2 py-1 rounded">💬 示範句子</span>
-                    <ul class="text-xs text-gray-600 mt-2 space-y-2 list-decimal pl-4 leading-relaxed">
-                        <li>「既然保障內容都符合你要求，你想用年繳（平啲）定係月繳（輕鬆啲）？」</li>
-                        <li>「我哋而家只需要花5分鐘做個簡單健康申報，就可以幫未來的你鎖定呢個保障。」</li>
-                        <li>「你放心，由今日開始，你同家人日後所有嘅理賠同跟進，我會親自負責。」</li>
-                    </ul>
-                </div>
-                <div class="flex gap-2 text-[10px] mt-3">
-                    <div class="flex-1 bg-green-50 p-2 rounded border border-green-100">
-                        <span class="font-bold text-green-700 block mb-1">✅ 建議字詞</span>啟動戶口、鎖定保障、二選一 (例如:年/月)、我親自負責
-                    </div>
-                    <div class="flex-1 bg-red-50 p-2 rounded border border-red-100">
-                        <span class="font-bold text-red-700 block mb-1">❌ 不建議字詞</span>簽名啦、買張單啦、你考慮成點、仲有冇問題？
-                    </div>
-                </div>
-            </div>
+            
+            <div class="card border-l-4 border-purple-500"><h3 class="font-bold text-purple-700 mb-1">⚔️ 逆轉銷售</h3><div class="text-[10px] text-gray-600">✅ 建議：我明白、其實、專屬戶口 | ❌ 不建議：你錯啦、但係</div></div>
+            <div class="card border-l-4 border-pink-500"><h3 class="font-bold text-pink-700 mb-1">🌀 催眠式銷售</h3><div class="text-[10px] text-gray-600">✅ 建議：想像一下、自然地、安心 | ❌ 不建議：你必須、聽我講</div></div>
+            <div class="card border-l-4 border-blue-500"><h3 class="font-bold text-blue-700 mb-1">🤝 成交邏輯</h3><div class="text-[10px] text-gray-600">✅ 建議：啟動戶口、二選一、我親自跟進 | ❌ 不建議：簽名啦、你諗成點</div></div>
         </div>
 
         <div id="mandarin-tab" class="tab-content space-y-5">
-            <h2 class="text-2xl font-bold text-gray-800">🗣️ 智能普通話教練</h2>
-            
-            <div class="card border-t-4 border-blue-400">
-                <h3 class="font-bold text-blue-800 mb-2">1. 廣東話轉標準內地用語</h3>
-                <textarea id="cantonese-input" rows="3" placeholder="輸入你想講嘅廣東話 (例如: 我幫你搞掂份單啦)..."></textarea>
-                <button onclick="translateToMandarin()" class="btn-ai mt-3 flex items-center justify-center gap-2"><span>🔄</span> AI 即時翻譯並標註拼音</button>
-            </div>
-
-            <div class="card bg-blue-50 border border-blue-100">
-                <h3 class="font-bold text-blue-800 mb-2">2. 翻譯結果與發音</h3>
-                <div id="translation-result" class="p-3 bg-white rounded-xl min-h-[60px] text-sm text-gray-700 border border-gray-200 mb-3 leading-loose">等待翻譯中...</div>
-                <div class="flex gap-2">
-                    <button onclick="playSpeech()" class="bg-blue-600 text-white p-2 rounded-xl text-xs flex-1 font-bold shadow hover:bg-blue-700">▶️ 播放讀音</button>
-                    <button onclick="pauseSpeech()" class="bg-blue-200 text-blue-800 p-2 rounded-xl text-xs flex-1 font-bold hover:bg-blue-300">⏸️ 暫停</button>
-                    <button onclick="resumeSpeech()" class="bg-blue-200 text-blue-800 p-2 rounded-xl text-xs flex-1 font-bold hover:bg-blue-300">⏯️ 繼續</button>
-                </div>
-            </div>
-
-            <div class="card border-t-4 border-green-400">
-                <h3 class="font-bold text-green-800 mb-2">3. 語音對比與診斷</h3>
-                <p class="text-xs text-gray-500 mb-3">按下錄音，跟著上面的普通話讀一次，系統會對比您的發音。</p>
-                <div class="flex gap-2 mb-3">
-                    <button id="mic-btn" onclick="startMic()" class="bg-red-100 text-red-700 p-3 rounded-xl text-sm font-bold flex-1 hover:bg-red-200 transition">🔴 開始錄音</button>
-                    <button onclick="finishMic()" class="bg-gray-800 text-white p-3 rounded-xl text-sm font-bold flex-1 hover:bg-gray-700 transition">⏹️ 停止並對比</button>
-                </div>
-                <div id="mandarin-feedback" class="p-3 bg-gray-100 rounded-xl text-xs text-gray-700 border border-gray-200 min-h-[50px] leading-relaxed">等待錄音對比...</div>
-            </div>
+            <h2 class="text-2xl font-bold text-gray-800">🗣️ 普通話教練</h2>
+            <textarea id="cantonese-input" rows="3" placeholder="輸入你想講嘅廣東話..."></textarea>
+            <button onclick="translateToMandarin()" class="btn-ai mt-3 flex items-center justify-center gap-2"><span>🔄</span> AI 即時翻譯</button>
+            <div id="translation-result" class="p-3 bg-white rounded-xl min-h-[60px] text-sm text-gray-700 border border-gray-200 mt-3 leading-loose"></div>
+            <div class="flex gap-2 mt-2"><button onclick="playSpeech()" class="bg-blue-600 text-white p-2 rounded-xl text-xs flex-1 font-bold">▶️ 播放</button><button onclick="pauseSpeech()" class="bg-blue-200 text-blue-800 p-2 rounded-xl text-xs flex-1 font-bold">⏸️ 暫停</button></div>
+            <div class="card border-t-4 border-green-400 mt-4"><div class="flex gap-2 mb-3"><button id="mic-btn" onclick="startMic()" class="bg-red-100 text-red-700 p-3 rounded-xl text-sm font-bold flex-1">🔴 錄音</button><button onclick="finishMic()" class="bg-gray-800 text-white p-3 rounded-xl text-sm font-bold flex-1">⏹️ 對比</button></div><div id="mandarin-feedback" class="p-3 bg-gray-100 rounded-xl text-xs text-gray-700"></div></div>
         </div>
 
         <div id="home-tab" class="tab-content">
-            <div class="card border-t-4 border-rose-300" id="quiz-section">
-                <h2 class="text-lg font-bold text-gray-800 mb-1">💌 致未來的一封信</h2>
-                <p class="text-xs text-gray-500 mb-6 italic">「停下腳步，為未來的健康與收入做一次溫柔的檢視。」</p>
-                <div id="question-container" class="min-h-[160px]"><h3 id="q-title" class="font-bold text-gray-700 mb-4 text-sm leading-relaxed italic"></h3><div id="q-options" class="space-y-3"></div></div>
-            </div>
-            <div id="result-section" class="card border-t-4 border-rose-400 hidden bg-rose-50">
-                <h2 class="text-lg font-bold text-rose-800 mb-2 text-center">📜 未來的回信</h2>
-                <div id="result-content" class="text-sm leading-relaxed p-2 text-gray-700 border-l-2 border-rose-200"></div>
-                <button onclick="resetQuiz()" class="w-full mt-6 bg-white border border-rose-300 text-rose-600 font-bold py-3 rounded-xl shadow-sm text-xs">🔄 重新對話</button>
-            </div>
+            <div class="card border-t-4 border-rose-300" id="quiz-section"><h2 class="text-lg font-bold mb-1">💌 致未來的一封信</h2><div id="question-container"><h3 id="q-title" class="font-bold text-gray-700 mb-4 text-sm leading-relaxed italic"></h3><div id="q-options" class="space-y-3"></div></div></div>
+            <div id="result-section" class="card border-t-4 border-rose-400 hidden bg-rose-50"><h2 class="text-lg font-bold mb-2 text-center">📜 未來的回信</h2><div id="result-content" class="text-sm leading-relaxed p-2 text-gray-700"></div><button onclick="resetQuiz()" class="w-full mt-6 bg-white border border-rose-300 text-rose-600 font-bold py-3 rounded-xl text-xs">🔄 重新對話</button></div>
         </div>
-        <div id="concept-tab" class="tab-content space-y-4"><h2 class="text-2xl font-bold text-gray-800">💡 概念釐清 (點擊放大)</h2><div class="card p-2 shadow-sm"><h3 class="font-bold text-blue-800 mb-2 text-sm text-center">場景一：汽車比喻</h3><img src="https://i.postimg.cc/dDPGj4Kg/場景1.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div><div class="card p-2 shadow-sm"><h3 class="font-bold text-orange-700 mb-2 text-sm text-center">場景二：打工比喻</h3><img src="https://i.postimg.cc/rzX5NQk6/場景2.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div><div class="card p-2 shadow-sm"><h3 class="font-bold text-green-700 mb-2 text-sm text-center">場景三：房屋比喻</h3><img src="https://i.postimg.cc/6TJCfYXJ/場景3.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div></div>
-        <div id="medcalc-tab" class="tab-content space-y-4"><h2 class="text-2xl font-bold text-gray-800">🧮 計算與工具</h2><a href="https://ivancww.github.io/medicalclaims" target="_blank" class="bg-red-600 text-white p-4 rounded-xl text-center font-bold block shadow-lg">🚀 開啟：進階模擬理賠分析器</a><div class="card border-t-4 border-blue-500 mt-6"><h3 class="font-bold text-blue-700 mb-3">💰 醫療計劃保費與扣稅對比</h3><p class="text-[10px] text-gray-500 mb-3 italic">*系統已內置 100% 官方真實保費庫，無需估算。</p><div class="grid grid-cols-2 gap-3 mb-3"><div><label class="text-[10px] font-bold text-gray-500">受保人年齡</label><input type="number" id="age" value="30" min="0" max="80" onchange="runPremium()"></div><div><label class="text-[10px] font-bold text-gray-500">性別</label><select id="gender" onchange="runPremium()"><option value="M">男</option><option value="F">女</option></select></div></div><div class="grid grid-cols-2 gap-3 mb-3"><div><label class="text-[10px] font-bold text-gray-500">睿選 (AVSW)</label><select id="deductAVSW" onchange="runPremium()"><option value="0">$0</option><option value="8800">$8,800</option><option value="18000" selected>$18,000</option><option value="30000">$30,000</option></select></div><div><label class="text-[10px] font-bold text-gray-500">尊耀 (AVPU)</label><select id="deductAVPU" onchange="runPremium()"><option value="0">$0</option><option value="16000" selected>$16,000</option><option value="25000">$25,000</option></select></div></div><div class="grid grid-cols-2 gap-3 mb-4"><div><label class="text-[10px] font-bold text-gray-500">繳費模式</label><select id="payMode" onchange="runPremium()"><option value="annual">年繳 (較抵)</option><option value="monthly">月繳</option></select></div><div><label class="text-[10px] font-bold text-gray-500">預計稅階</label><select id="taxRate" onchange="runPremium()"><option value="0.17">17% (高薪)</option><option value="0.10">10%</option><option value="0.02">2%</option><option value="0">0% (無扣稅)</option></select></div></div><label class="flex items-center mb-4 bg-pink-50 p-4 rounded-xl border border-pink-200 cursor-pointer w-full"><input type="checkbox" id="vitality" onchange="runPremium()" checked class="w-5 h-5 accent-pink-600"><span class="text-[12px] font-bold text-pink-800 ml-3 flex-1">參加 AIA Vitality (即享首年 9 折)</span></label><div id="premiumResult" class="bg-blue-50 p-3 rounded-xl text-xs shadow-inner border border-blue-100 overflow-hidden"></div></div></div>
-        <div id="ci-tab" class="tab-content space-y-6"><h2 class="text-2xl font-bold text-gray-800">🛡️ 危疾防護</h2><div class="card p-2 shadow-sm"><img src="https://i.postimg.cc/tg2XMSVC/3CI對比.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div><div class="card p-2 shadow-sm"><img src="https://i.postimg.cc/yNvVbQS8/三大CI種類對比.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div></div>
-        <div id="uw-tab" class="tab-content space-y-6"><h2 class="text-2xl font-bold text-gray-800">🔍 核保真相</h2><div class="card p-2 shadow-sm"><h3 class="font-bold text-indigo-700 mb-2 text-sm text-center">🏠 房屋裂縫 (已知隱患)</h3><img src="https://i.postimg.cc/7h3BG2gp/房屋比喻不保事項.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div><div class="card p-2 shadow-sm"><h3 class="font-bold text-teal-700 mb-2 text-sm text-center">⚙️ 零件損耗 (未來概率)</h3><img src="https://i.postimg.cc/cJzkVZ14/零件比喻不保事項.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div><div class="card border-l-4 border-gray-500 p-4"><h4 class="font-bold text-gray-700 text-lg mb-1">📋 核保指引</h4><p class="text-[11px] text-gray-600 mb-3 bg-gray-50 p-2 rounded">💡 <strong>說明：</strong> 了解保險公司對各類疾病、手術及健康狀況的承保標準與處理方案。</p><a href="https://drive.google.com/file/d/1IbPbbX6Ezu6-_6dGbUGv0UwTs91ALRiG/view?usp=drivesdk" target="_blank" class="btn-pdf">📱 點擊打開 核保指引</a></div></div>
-        <div id="claim-tab" class="tab-content space-y-6"><h2 class="text-2xl font-bold text-gray-800">🏥 索償流程</h2><div class="card p-2"><h3 class="font-bold text-red-600 mb-2 text-sm text-center">🌟 AIA 網絡 (預先批核)</h3><img src="https://i.postimg.cc/Gt6NKL6w/IMG_4575.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div><div class="card p-2"><h3 class="font-bold text-blue-600 mb-2 text-sm text-center">📝 全港通用 (標準流程)</h3><img src="https://i.postimg.cc/L5G7D9Gp/IMG_4574.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div></div>
-        <div id="docs-tab" class="tab-content space-y-5"><h2 class="text-2xl font-bold text-gray-800 mb-2">📚 產品百科 (PDF)</h2><p class="text-[10px] text-red-500 mb-4 italic">*若 iOS 手機無法顯示畫面，請點擊藍色按鈕直接開啟。</p><div class="card border-l-4 border-red-500 p-4"><h4 class="font-bold text-red-700 text-lg mb-1">AVF 靈活計劃</h4><p class="text-[11px] text-gray-600 mb-3 bg-red-50 p-2 rounded leading-relaxed">💡 <strong>定位：基礎防護盾。</strong>適合由 $0 起步實報實銷。需接受每個細項設有上限限制（超額部分由 SMM 補底承擔 80%，其餘需自行負擔）。</p><iframe src="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/preview" class="w-full h-32 border rounded"></iframe><a href="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/view" target="_blank" class="btn-pdf">📱 點擊打開 AVF 條款</a></div><div class="card border-l-4 border-blue-500 p-4"><h4 class="font-bold text-blue-700 text-lg mb-1">AVSW 睿選計劃</h4><p class="text-[11px] text-gray-600 mb-3 bg-blue-50 p-2 rounded leading-relaxed">💡 <strong>定位：高性價比全保。</strong>只要自行承擔「墊底費」，餘下合資格醫療開支（含標靶藥/免疫治療）全數賠償，無細項上限。需配合醫療網絡入住半私家房。</p><iframe src="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/preview" class="w-full h-32 border rounded"></iframe><a href="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/view" target="_blank" class="btn-pdf">📱 點擊打開 AVSW 條款</a></div><div class="card border-l-4 border-purple-500 p-4"><h4 class="font-bold text-purple-700 text-lg mb-1">AVPU 尊耀計劃</h4><p class="text-[11px] text-gray-600 mb-3 bg-purple-50 p-2 rounded leading-relaxed">💡 <strong>定位：頂級全球尊貴醫療。</strong>無需受制於醫療網絡，自由選擇優質半私家病房。扣除墊底費後，真正做到全數找數，頂級安心。</p><iframe src="https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_b/preview" class="w-full h-32 border rounded"></iframe><a href="https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_b/view" target="_blank" class="btn-pdf">📱 點擊打開 AVPU 條款</a></div><div class="card border-l-4 border-teal-500 p-4"><h4 class="font-bold text-teal-700 text-lg mb-1">EOYS 簡緻愛伴航</h4><p class="text-[11px] text-gray-600 mb-3 bg-teal-50 p-2 rounded leading-relaxed">💡 <strong>定位：高槓桿終身危疾 (上車盤)。</strong>保費固定且具分紅。針對三大殺手（癌症/心臟病/中風）提供 1+1 兩次賠償，並獨創 365 日免供期緩衝。</p><iframe src="https://drive.google.com/file/d/1OC3omzsXdKp3QzHyfm7GHWPNvJu-tRjm/preview" class="w-full h-32 border rounded"></iframe><a href="https://drive.google.com/file/d/1OC3omzsXdKp3QzHyfm7GHWPNvJu-tRjm/view?usp=drivesdk" target="_blank" class="btn-pdf">📱 點擊打開 EOYS 條款</a></div><div class="card border-l-4 border-red-600 p-4"><h4 class="font-bold text-red-800 text-lg mb-1">OYS 2 愛伴航</h4><p class="text-[11px] text-gray-600 mb-3 bg-red-50 p-2 rounded leading-relaxed">💡 <strong>定位：旗艦級無限次重啟防護 (傳承大宅)。</strong>市場頂級保障，提供最高 10 次無限次危疾賠償。最獨特優勢：全方位涵蓋「未發現之兒童先天性疾病」。</p><iframe src="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/preview" class="w-full h-32 border rounded"></iframe><a href="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/view" target="_blank" class="btn-pdf">📱 點擊打開 OYS2 條款</a></div><div class="card border-l-4 border-gray-400 p-4"><h4 class="font-bold text-gray-700 text-lg mb-1">SCE 簡護危疾</h4><p class="text-[11px] text-gray-600 mb-3 bg-gray-100 p-2 rounded leading-relaxed">💡 <strong>定位：極致槓桿定期危疾 (租屋)。</strong>以極低保費換取 115 種疾病全面保障（單次賠償）。適合剛步入社會、創業期或需加大短期保額的客戶。</p><iframe src="https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/preview" class="w-full h-32 border rounded"></iframe><a href="https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/view" target="_blank" class="btn-pdf">📱 點擊打開 SCE 條款</a></div></div>
-        <div id="vitality-tab" class="tab-content space-y-6"><h2 class="text-2xl font-bold text-gray-800">🏃 健康程式</h2><div class="card p-2 bg-pink-50 border-t-4 border-pink-500"><img src="https://i.postimg.cc/XvwKjb4d/健康程式.png" class="rounded-xl shadow-md mb-4 zoom-img" onclick="zoom(this)"><p class="text-[13px] px-2 text-pink-900 font-bold">投資健康，是回報率最高的理財。</p></div></div>
+        <div id="concept-tab" class="tab-content space-y-4"><h2 class="text-2xl font-bold text-gray-800">💡 概念釐清</h2><div class="card p-2"><img src="https://i.postimg.cc/dDPGj4Kg/場景1.png" class="zoom-img" onclick="zoom(this)"></div><div class="card p-2"><img src="https://i.postimg.cc/rzX5NQk6/場景2.png" class="zoom-img" onclick="zoom(this)"></div><div class="card p-2"><img src="https://i.postimg.cc/6TJCfYXJ/場景3.png" class="zoom-img" onclick="zoom(this)"></div></div>
+        <div id="medcalc-tab" class="tab-content space-y-4"><h2 class="text-2xl font-bold">🧮 計算與工具</h2><a href="https://ivancww.github.io/medicalclaims" target="_blank" class="bg-red-600 text-white p-4 rounded-xl text-center font-bold block shadow-lg">🚀 開啟：進階模擬理賠分析器</a><div class="card border-t-4 border-blue-500 mt-6"><div class="grid grid-cols-2 gap-3 mb-3"><div><label class="text-[10px] font-bold">年齡</label><input type="number" id="age" value="30" onchange="runPremium()"></div><div><label class="text-[10px] font-bold">性別</label><select id="gender" onchange="runPremium()"><option value="M">男</option><option value="F">女</option></select></div></div><div class="grid grid-cols-2 gap-3 mb-3"><div><label class="text-[10px] font-bold">睿選 (AVSW)</label><select id="deductAVSW" onchange="runPremium()"><option value="0">$0</option><option value="8800">$8,800</option><option value="18000" selected>$18,000</option><option value="30000">$30,000</option></select></div><div><label class="text-[10px] font-bold">尊耀 (AVPU)</label><select id="deductAVPU" onchange="runPremium()"><option value="0">$0</option><option value="16000" selected>$16,000</option><option value="25000">$25,000</option></select></div></div><div class="grid grid-cols-2 gap-3 mb-4"><div><label class="text-[10px] font-bold">繳費模式</label><select id="payMode" onchange="runPremium()"><option value="annual">年繳</option><option value="monthly">月繳</option></select></div><div><label class="text-[10px] font-bold">預計稅階</label><select id="taxRate" onchange="runPremium()"><option value="0.17">17%</option><option value="0.10">10%</option><option value="0">0%</option></select></div></div><label class="flex items-center mb-4 bg-pink-50 p-4 rounded-xl border border-pink-200"><input type="checkbox" id="vitality" onchange="runPremium()" checked class="w-5 h-5 accent-pink-600 ml-3 flex-1"> <span class="text-xs font-bold text-pink-800">參加 Vitality (首年 9 折)</span></label><div id="premiumResult" class="bg-blue-50 p-3 rounded-xl text-xs overflow-hidden"></div></div></div>
+        <div id="ci-tab" class="tab-content"><h2 class="text-2xl font-bold">🛡️ 危疾防護</h2><div class="card p-2"><img src="https://i.postimg.cc/tg2XMSVC/3CI對比.png" class="zoom-img" onclick="zoom(this)"></div><div class="card p-2"><img src="https://i.postimg.cc/yNvVbQS8/三大CI種類對比.png" class="zoom-img" onclick="zoom(this)"></div></div>
+        <div id="uw-tab" class="tab-content"><h2 class="text-2xl font-bold">🔍 核保真相</h2><div class="card p-2"><img src="https://i.postimg.cc/7h3BG2gp/房屋比喻不保事項.png" class="zoom-img" onclick="zoom(this)"></div><div class="card p-2"><img src="https://i.postimg.cc/cJzkVZ14/零件比喻不保事項.png" class="zoom-img" onclick="zoom(this)"></div><div class="card p-2 border-l-4 border-gray-500"><h4 class="font-bold">📋 核保指引</h4><a href="https://drive.google.com/file/d/1IbPbbX6Ezu6-_6dGbUGv0UwTs91ALRiG/view?usp=drivesdk" target="_blank" class="btn-pdf">📱 打開指引</a></div></div>
+        <div id="claim-tab" class="tab-content"><h2 class="text-2xl font-bold">🏥 索償流程</h2><div class="card p-2"><h3 class="font-bold text-red-600 mb-2 text-sm text-center">🌟 AIA 網絡</h3><img src="https://i.postimg.cc/Gt6NKL6w/IMG_4575.png" class="zoom-img" onclick="zoom(this)"></div><div class="card p-2"><h3 class="font-bold text-blue-600 mb-2 text-sm text-center">📝 全港通用</h3><img src="https://i.postimg.cc/L5G7D9Gp/IMG_4574.png" class="zoom-img" onclick="zoom(this)"></div></div>
+        <div id="docs-tab" class="tab-content space-y-5"><h2 class="text-2xl font-bold">📚 產品百科</h2><div class="card border-l-4 border-red-500"><h4 class="font-bold">AVF 靈活</h4><a href="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/view" target="_blank" class="btn-pdf">📱 打開條款</a></div><div class="card border-l-4 border-blue-500"><h4 class="font-bold">AVSW 睿選</h4><a href="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/view" target="_blank" class="btn-pdf">📱 打開條款</a></div><div class="card border-l-4 border-purple-500"><h4 class="font-bold">AVPU 尊耀</h4><a href="https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_b/view" target="_blank" class="btn-pdf">📱 打開條款</a></div><div class="card border-l-4 border-teal-500"><h4 class="font-bold">EOYS 簡緻愛伴航</h4><a href="https://drive.google.com/file/d/1OC3omzsXdKp3QzHyfm7GHWPNvJu-tRjm/view?usp=drivesdk" target="_blank" class="btn-pdf">📱 打開條款</a></div><div class="card border-l-4 border-red-600"><h4 class="font-bold">OYS 2 愛伴航</h4><a href="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/view" target="_blank" class="btn-pdf">📱 打開條款</a></div><div class="card border-l-4 border-gray-400"><h4 class="font-bold">SCE 簡護危疾</h4><a href="https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/view" target="_blank" class="btn-pdf">📱 打開條款</a></div></div>
+        <div id="vitality-tab" class="tab-content"><h2 class="text-2xl font-bold">🏃 健康程式</h2><div class="card p-2 bg-pink-50 border-t-4 border-pink-500"><img src="https://i.postimg.cc/XvwKjb4d/健康程式.png" class="rounded-xl shadow-md mb-4 zoom-img" onclick="zoom(this)"></div></div>
     </div>
 
     <div id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t flex overflow-x-auto py-3 px-2 shadow-lg z-50 hide-scrollbar justify-start hidden">
-        <button onclick="goToPortal()" class="nav-item" id="nav-portal"><span class="text-xl">🏠</span><p class="text-[9px]">主頁</p></button>
-        <div id="nav-group-ava" class="hidden flex-1 w-full flex justify-around">
+        <button onclick="goToPortal()" class="nav-item"><span class="text-xl">🏠</span><p class="text-[9px]">主頁</p></button>
+        <div id="nav-group-ava" class="hidden flex-1 flex justify-around">
             <button onclick="switchTab('home')" class="nav-item nav-active" id="nav-home"><span class="text-xl">💌</span><p class="text-[9px]">對話</p></button>
             <button onclick="switchTab('concept')" class="nav-item" id="nav-concept"><span class="text-xl">💡</span><p class="text-[9px]">醫危</p></button>
             <button onclick="switchTab('medcalc')" class="nav-item" id="nav-medcalc"><span class="text-xl">🧮</span><p class="text-[9px]">計算</p></button>
@@ -277,12 +150,8 @@
             <button onclick="switchTab('docs')" class="nav-item" id="nav-docs"><span class="text-xl">📚</span><p class="text-[9px]">百科</p></button>
             <button onclick="switchTab('vitality')" class="nav-item" id="nav-vitality"><span class="text-xl">🏃</span><p class="text-[9px]">健康</p></button>
         </div>
-        <div id="nav-group-coach" class="hidden flex-1 w-full flex justify-around">
-            <button onclick="switchTab('coach')" class="nav-item nav-active" id="nav-coach"><span class="text-xl">🧠</span><p class="text-[9px]">心法</p></button>
-        </div>
-        <div id="nav-group-mandarin" class="hidden flex-1 w-full flex justify-around">
-            <button onclick="switchTab('mandarin')" class="nav-item nav-active" id="nav-mandarin"><span class="text-xl">🗣️</span><p class="text-[9px]">教練</p></button>
-        </div>
+        <div id="nav-group-coach" class="hidden flex-1 flex justify-around"><button onclick="switchTab('coach')" class="nav-item nav-active" id="nav-coach"><span class="text-xl">🧠</span><p class="text-[9px]">心法</p></button></div>
+        <div id="nav-group-mandarin" class="hidden flex-1 flex justify-around"><button onclick="switchTab('mandarin')" class="nav-item nav-active" id="nav-mandarin"><span class="text-xl">🗣️</span><p class="text-[9px]">教練</p></button></div>
     </div>
 
     <script>
@@ -298,17 +167,13 @@
             document.getElementById('bottom-nav').classList.add('hidden'); 
             window.scrollTo(0,0);
         }
-
         function openApp(app) {
             document.getElementById('bottom-nav').classList.remove('hidden'); 
             document.getElementById('nav-group-ava').style.display = app === 'ava' ? 'flex' : 'none';
             document.getElementById('nav-group-coach').style.display = app === 'coach' ? 'flex' : 'none';
             document.getElementById('nav-group-mandarin').style.display = app === 'mandarin' ? 'flex' : 'none';
-            if(app === 'ava') switchTab('home');
-            if(app === 'coach') switchTab('coach');
-            if(app === 'mandarin') switchTab('mandarin');
+            if(app === 'ava') switchTab('home'); else if(app === 'coach') switchTab('coach'); else switchTab('mandarin');
         }
-
         function switchTab(t) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('nav-active'));
@@ -316,166 +181,150 @@
             if(document.getElementById('nav-' + t)) document.getElementById('nav-' + t).classList.add('nav-active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        function toggleApiKey() {
-            const apiKeyInput = document.getElementById("api-key");
-            apiKeyInput.type = apiKeyInput.type === "password" ? "text" : "password";
-        }
+        
+        function toggleApiKey() { const i = document.getElementById("api-key"); i.type = i.type === "password" ? "text" : "password"; }
         
         function saveApiSettings() {
             const key = document.getElementById('api-key').value;
-            if(key) {
-                localStorage.setItem('gemini_api_key', key.trim());
-                document.getElementById('api-status').classList.remove('hidden');
-                setTimeout(() => document.getElementById('api-status').classList.add('hidden'), 3000);
+            if(key) { 
+                localStorage.setItem('gemini_api_key', key.trim()); 
+                document.getElementById('api-status').classList.remove('hidden'); 
+                setTimeout(() => document.getElementById('api-status').classList.add('hidden'), 3000); 
             }
         }
         
         window.onload = () => { 
-            const savedKey = localStorage.getItem('gemini_api_key');
-            if(savedKey) document.getElementById('api-key').value = savedKey;
+            const savedKey = localStorage.getItem('gemini_api_key'); 
+            if(savedKey) document.getElementById('api-key').value = savedKey; 
             renderQuiz(); runPremium(); 
         };
 
+        // 徹底移除 Cloudflare，鎖死使用 Google 官方直連 (必須開 VPN)
         async function callGeminiAPI(promptText) {
             const apiKey = localStorage.getItem('gemini_api_key');
-            const baseUrl = "https://chinese-proxy.wahchiu0903.workers.dev";
-            const model = "gemini-2.5-flash";
             if (!apiKey) throw new Error("請先在主頁輸入 API Key！");
-            const url = baseUrl + "/v1beta/models/" + model + ":generateContent?key=" + apiKey.trim();
+            
+            const baseUrl = "https://generativelanguage.googleapis.com";
+            const model = "gemini-1.5-flash"; 
+            
+            const url = `${baseUrl}/v1beta/models/${model}:generateContent?key=${apiKey.trim()}`;
+            
             try {
                 const response = await fetch(url, {
                     method: "POST", headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
                 });
+                
                 if (!response.ok) {
                     const errData = await response.json().catch(function(){ return {}; });
-                    let errMsg = "API 請求失敗 (狀態碼: " + response.status + ")";
+                    let errMsg = `請求失敗 (${response.status})`;
                     if(errData && errData.error && errData.error.message) {
                         errMsg = errData.error.message;
                     }
                     throw new Error(errMsg);
                 }
-                const data = await response.json(); 
-                return data.candidates[0].content.parts[0].text;
-            } catch (e) { throw new Error("連線失敗：" + e.message); }
+                const data = await response.json(); return data.candidates[0].content.parts[0].text;
+            } catch (e) { throw new Error("連線失敗：" + e.message + " (請確保您已開啟海外 VPN)"); }
         }
 
+        // 大容量 50 題庫 (保留備用及手動抽取)
         const hardObjections = [
             "我而家供樓同小朋友讀書好大壓力，邊有閒錢買危疾呀？", "我公司份醫保好齊，包埋家屬，我都唔洗再買啦！",
             "大病都係整定嘅，有事我都唔想醫，唔買啦。", "我銀行有幾百萬現金，有事我自己俾得起，洗咩俾保險公司賺？",
-            "保險全部都係呃人㗎，買就易，賠就難！", "我好健康，年年驗身都冇事，遲啲老啲先買啦。"
+            "保險全部都係呃人㗎，買就易，賠就難！", "我好健康，年年驗身都冇事，遲啲老啲先買啦。",
+            "加息加到咁勁，我寧願擺錢喺銀行收息，好過買保險。", "我老婆反對買保險，佢話不如買股票仲好。",
+            "我已經買咗好幾份啦，保障應該夠晒啦。", "保險要供咁耐，萬一我中途失業無錢供點算？",
+            "我朋友話買保險最重要係買意外，醫療危疾唔係咁急。", "政府而家推緊自願醫保，去公立醫院都有保障啦，洗乜買咁貴？",
+            "我睇過啲新聞，好多理賠都攞唔足，覺得無保障。", "我而家啲錢想留返嚟投資移民/小朋友去外國讀書。",
+            "我有個親戚做保險，我有需要搵返佢買就得啦。", "保費年年加，我覺得負擔好重。",
+            "呢份危疾賠得一次，如果我有第二次大病咁點？", "我諗下先啦，遲啲先再搵你。",
+            "我本身有慢性病，你哋保險公司都唔會保我㗎啦。", "我成日運動，生活好規律，唔覺得自己會病。",
+            "如果我供咗幾年無事，啲保費係咪白俾？", "我有買保單，但係幾年前買落，應該仲work。",
+            "我而家想買金/買加密貨幣，啲錢唔想鎖死喺保險度。", "你哋呢間公司大唔大？萬一倒閉點算？",
+            "保險合約咁多字，我都睇唔明，驚中伏。", "我公司醫保包埋手術，點解仲要買額外嘅醫療？",
+            "我單身一個人，無牽無掛，唔洗買保險啦。", "我聽人講買保險要入醫院先賠，平時睇門診都無得賠。",
+            "如果我有咗身孕，你哋保唔保？", "點解你呢份保費貴過我朋友嗰份咁多？",
+            "危疾保險係咪一定要死咗先賠得？", "我寧願等我有咗病徵，我先至即刻買返份保險。",
+            "我有公司醫保，退休後先再買返份個人醫保唔得咩？", "我而家嘅投資回報率高過保險好多，我唔想分散資金。",
+            "我後生嗰陣買咗份細單，而家應該唔洗加啦。", "你哋話賠全數，但係咪真係一毫子都唔洗俾先？",
+            "如果我移民去外國，你呢份保險仲有無效？", "保險公司會唔會因為我病過就加我保費或者唔俾我續保？",
+            "我唔鍾意買保險，因為我覺得好唔老利。", "點解要買危疾？不如買份大啲嘅醫療保好過啦。",
+            "我朋友話保險係俾有錢人買，我呢啲基層唔洗啦。", "保險理賠手續係咪好麻煩？要準備好多文件？",
+            "我淨係想買定期保險，唔想買儲蓄型保險。", "點解保險公司要問咁多個人私隱？我覺得好無私隱。",
+            "我已經買咗好多儲蓄保險，保障應該已經包埋入去。", "如果保險公司唔賠，我有乜渠道可以投訴？",
+            "我每日都食補品，身體好強壯，唔洗擔心醫療費。", "如果你唔係度做，我份單變咗孤兒單點算？",
+            "我而家手頭上完全無多餘現金，下個月先講啦。", "我想比較多幾間公司嘅產品先再決定。"
         ];
 
+        // 抽取內置 50 題
         function generateObjection() {
             const random = hardObjections[Math.floor(Math.random() * hardObjections.length)];
             document.getElementById('user-objection-input').value = random;
             document.getElementById('user-objection-answer').value = "";
             document.getElementById('objection-solution').classList.add('hidden');
         }
+
+        // AI 網羅坊間最新問題
+        async function generateObjectionAI() {
+            const display = document.getElementById('user-objection-input');
+            const box = document.getElementById('objection-solution');
+            
+            box.classList.remove('hidden');
+            box.innerHTML = "🤖 AI 正在網羅坊間最新刁鑽問題...";
+            display.value = "加載中...";
+            document.getElementById('user-objection-answer').value = "";
+            
+            try {
+                const prompt = "作為香港保險業資深總監，請模擬一個現今香港坊間、網上論壇常見的刁鑽保險反對問題 (Objection)。只需輸出客人的原話，用廣東話口語，大約20字內，不要加引號或其他解釋語句。";
+                const aiQuestion = await callGeminiAPI(prompt);
+                display.value = aiQuestion.trim();
+                box.classList.add('hidden');
+            } catch (e) {
+                // 若網絡不通，退回使用內置題庫
+                const random = hardObjections[Math.floor(Math.random() * hardObjections.length)];
+                display.value = random;
+                box.innerHTML = "⚠️ 網絡或 VPN 異常，已自動為您抽取內置題庫。";
+            }
+        }
         
         async function solveObjection() {
-            const currentObjection = document.getElementById('user-objection-input').value.trim();
-            if(!currentObjection) return alert("請先輸入或隨機抽取一條客人反對問題！");
+            const q = document.getElementById('user-objection-input').value.trim();
+            if(!q || q === "加載中...") return alert("請先輸入或抽取問題！");
             const box = document.getElementById('objection-solution');
             box.classList.remove('hidden'); box.innerHTML = "🤖 TOT 教練思考中...";
             try {
-                const prompt = "作為頂尖保險TOT，請用香港廣東話口語，回應客人這個反對問題：「" + currentObjection + "」。請分別提供三個不同版本的回答，對應以下三種銷售心法：\n1. 逆轉銷售 (先順從後帶領)\n2. 催眠式銷售 (建立共鳴，植入未來畫面)\n3. 成交邏輯 (二選一，安撫恐懼)\n請排版清晰，每個版本控制在80字內。";
+                const prompt = `作為頂尖保險TOT，請用香港廣東話口語，回應客人這個反對問題：「${q}」。請分別提供三個不同版本的回答：1. 逆轉銷售 (先順從後帶領) 2. 催眠式銷售 (建立共鳴) 3. 成交邏輯 (二選一)。字數100字內。`;
                 const ans = await callGeminiAPI(prompt);
-                box.innerHTML = "<b>【教練示範 - 三種心法】</b><br><br>" + ans.replace(/\n/g, '<br>');
+                box.innerHTML = `<b>【教練示範 - 三招拆解】</b><br><br>` + ans.replace(/\n/g, '<br>');
             } catch (e) { box.innerHTML = "❌ " + e.message; }
         }
-
         async function gradeObjection() {
-            const currentObjection = document.getElementById('user-objection-input').value.trim();
+            const q = document.getElementById('user-objection-input').value.trim();
             const ans = document.getElementById('user-objection-answer').value.trim();
-            if(!currentObjection) return alert('請先輸入或抽取客人的反對問題！');
-            if(!ans) return alert('請先輸入您的應對答案！');
+            if(!q || !ans) return alert('請先輸入問題同答案！');
             const box = document.getElementById('objection-solution');
-            box.classList.remove('hidden'); box.innerHTML = "🤖 TOT 教練評分中...";
+            box.classList.remove('hidden'); box.innerHTML = "🤖 教練評分中...";
             try {
-                const prompt = "作為頂尖保險TOT，客人的反對問題是：「" + currentObjection + "」。我的回答是：「" + ans + "」。請嚴格點評我的回答，給出1-10分，指出優點及盲點，並示範更好的香港廣東話說法。字數150字內。";
-                const result = await callGeminiAPI(prompt);
-                box.innerHTML = "<b>【教練評分與指導】</b><br><br>" + result.replace(/\n/g, '<br>');
+                const prompt = `客人的反對問題是：「${q}」。我的回答是：「${ans}」。請用廣東話嚴格點評我的回答，給出1-10分，指出盲點，並示範更好的香港廣東話說法。150字內。`;
+                box.innerHTML = `<b>【教練評語】</b><br><br>` + (await callGeminiAPI(prompt)).replace(/\n/g, '<br>');
             } catch (e) { box.innerHTML = "❌ " + e.message; }
         }
 
-        let recognition; let accumulatedSpeech = ""; let micTarget = ""; 
-        function initSpeech() {
-            if (!('webkitSpeechRecognition' in window)) return false;
-            if (!recognition) {
-                recognition = new webkitSpeechRecognition(); recognition.continuous = true;
-                recognition.onresult = (event) => {
-                    let trans = "";
-                    for (let i = event.resultIndex; i < event.results.length; ++i) { trans += event.results[i][0].transcript; }
-                    if (micTarget === 'objection') document.getElementById('user-objection-answer').value += trans;
-                    else if (micTarget === 'mandarin') accumulatedSpeech += trans;
-                };
-            }
-            return true;
-        }
-
+        // 語音輸入邏輯
+        let rec; let accumulatedSpeech = ""; let micTarget = ""; 
+        function initSpeech() { if (!('webkitSpeechRecognition' in window)) return false; if (!rec) { rec = new webkitSpeechRecognition(); rec.continuous = true; rec.onresult = (e) => { let trans = ""; for (let i = e.resultIndex; i < e.results.length; ++i) { trans += e.results[i][0].transcript; } if (micTarget === 'objection') document.getElementById('user-objection-answer').value += trans; else accumulatedSpeech += trans; }; } return true; }
         let isObjRecording = false;
-        function toggleObjMic() {
-            if(!initSpeech()) return alert("瀏覽器不支援錄音");
-            if(isObjRecording) {
-                recognition.stop(); isObjRecording = false;
-                document.getElementById('obj-mic-btn').innerHTML = "🎙️ 語音輸入";
-                document.getElementById('obj-mic-btn').classList.replace('bg-red-500', 'bg-gray-200');
-                document.getElementById('obj-mic-btn').classList.replace('text-white', 'text-gray-700');
-            } else {
-                micTarget = 'objection'; recognition.lang = "zh-HK"; recognition.start(); isObjRecording = true;
-                document.getElementById('obj-mic-btn').innerHTML = "🔴 錄音中...";
-                document.getElementById('obj-mic-btn').classList.replace('bg-gray-200', 'bg-red-500');
-                document.getElementById('obj-mic-btn').classList.replace('text-gray-700', 'text-white');
-            }
-        }
+        function toggleObjMic() { if(!initSpeech()) return alert("不支援錄音"); if(isObjRecording) { rec.stop(); isObjRecording = false; document.getElementById('obj-mic-btn').innerHTML = "🎙️ 語音輸入"; } else { micTarget = 'objection'; rec.lang = "zh-HK"; rec.start(); isObjRecording = true; document.getElementById('obj-mic-btn').innerHTML = "🔴 錄音中..."; } }
 
+        // 普通話翻譯邏輯
         let currentTranslatedText = "";
-        async function translateToMandarin() {
-            const text = document.getElementById('cantonese-input').value;
-            const display = document.getElementById('translation-result');
-            if (!text) return alert("請輸入內容");
-            display.innerHTML = "⏳ 正在翻譯及生成拼音...";
-            try {
-                const prompt = "將以下香港廣東話口語，翻譯成最地道、專業的內地職場普通話，只輸出翻譯結果：\n\n廣東話：" + text;
-                const result = await callGeminiAPI(prompt); currentTranslatedText = result;
-                const { pinyin } = window.pinyinPro; const pinyinStr = pinyin(result, { toneType: 'num', v: true });
-                const chars = result.split(''); const pinyins = pinyinStr.split(' ');
-                let html = '<div style="display:flex; flex-wrap:wrap; gap:8px;">';
-                for (let i = 0; i < chars.length; i++) { html += `<div style="text-align:center;"><div class="pinyin-text text-[11px]">${pinyins[i]||''}</div><div class="text-lg font-bold">${chars[i]}</div></div>`; }
-                display.innerHTML = html + '</div>';
-            } catch (e) { display.innerHTML = "❌ " + e.message; }
-        }
-        function playSpeech() {
-            if (!currentTranslatedText) return; window.speechSynthesis.cancel();
-            const ut = new SpeechSynthesisUtterance(currentTranslatedText); ut.lang = 'zh-CN'; ut.rate = 0.8; window.speechSynthesis.speak(ut);
-        }
+        async function translateToMandarin() { const text = document.getElementById('cantonese-input').value; if (!text) return alert("請輸入內容"); const display = document.getElementById('translation-result'); display.innerHTML = "⏳ 正在翻譯..."; try { const prompt = "將以下廣東話口語翻譯成地道職場普通話，只輸出翻譯結果：\n" + text; const result = await callGeminiAPI(prompt); currentTranslatedText = result; const { pinyin } = window.pinyinPro; const pinyinStr = pinyin(result, { toneType: 'num', v: true }); const chars = result.split(''); const pinyins = pinyinStr.split(' '); let html = '<div style="display:flex; flex-wrap:wrap; gap:8px;">'; for (let i = 0; i < chars.length; i++) { html += `<div style="text-align:center;"><div class="pinyin-text text-[11px]">${pinyins[i]||''}</div><div class="text-lg font-bold">${chars[i]}</div></div>`; } display.innerHTML = html + '</div>'; } catch (e) { display.innerHTML = "❌ " + e.message; } }
+        function playSpeech() { if (!currentTranslatedText) return; window.speechSynthesis.cancel(); const ut = new SpeechSynthesisUtterance(currentTranslatedText); ut.lang = 'zh-CN'; ut.rate = 0.8; window.speechSynthesis.speak(ut); }
         function pauseSpeech() { window.speechSynthesis.pause(); }
-        function resumeSpeech() { window.speechSynthesis.resume(); }
+        function startMic() { if(!initSpeech()) return alert("不支援錄音"); micTarget = 'mandarin'; accumulatedSpeech = ""; rec.lang = "zh-CN"; rec.start(); document.getElementById('mic-btn').innerHTML = "🎙️ 聆聽中..."; }
+        async function finishMic() { rec.stop(); document.getElementById('mic-btn').innerHTML = "🔴 錄音"; const feedback = document.getElementById('mandarin-feedback'); if(!accumulatedSpeech) { feedback.innerHTML = "未能聽到聲音"; return; } feedback.innerHTML = `聽到：${accumulatedSpeech}<br>⏳ 對比中...`; try { const prompt = `我想用普通話講：「${currentTranslatedText}」。但我講成：「${accumulatedSpeech}」。請用廣東話簡短指出我的發音錯誤。100字內。`; feedback.innerHTML = `聽到：${accumulatedSpeech}<br><br>💡 <b>AI 點評：</b><br>${await callGeminiAPI(prompt)}`; } catch(e) { feedback.innerHTML += `<br>❌ ${e.message}`; } }
 
-        function startMic() {
-            if(!initSpeech()) return alert("瀏覽器不支援錄音");
-            micTarget = 'mandarin'; accumulatedSpeech = ""; recognition.lang = "zh-CN"; recognition.start();
-            document.getElementById('mic-btn').innerHTML = "🎙️ 聆聽中...";
-            document.getElementById('mic-btn').classList.replace('bg-red-100', 'bg-red-500');
-            document.getElementById('mic-btn').classList.replace('text-red-700', 'text-white');
-        }
-        async function finishMic() {
-            recognition.stop();
-            document.getElementById('mic-btn').innerHTML = "🔴 開始錄音";
-            document.getElementById('mic-btn').classList.replace('bg-red-500', 'bg-red-100');
-            document.getElementById('mic-btn').classList.replace('text-white', 'text-red-700');
-            const feedback = document.getElementById('mandarin-feedback');
-            if(!accumulatedSpeech) { feedback.innerHTML = "未能聽到聲音，請重試。"; return; }
-            feedback.innerHTML = `🗣️ 聽到：<span class="font-bold text-blue-700">${accumulatedSpeech}</span><br>⏳ 對比中...`;
-            try {
-                const prompt = "我想用普通話講：「" + currentTranslatedText + "」。但我實際講變成：「" + accumulatedSpeech + "」。請作為老師，用廣東話簡短指出我的發音錯誤及指導。字數100字內。";
-                const ans = await callGeminiAPI(prompt);
-                feedback.innerHTML = `🗣️ 聽到：<span class="font-bold text-blue-700">${accumulatedSpeech}</span><br><br>💡 <b>AI 教練點評：</b><br>${ans}`;
-            } catch(e) { feedback.innerHTML += `<br>❌ ${e.message}`; }
-        }
-
+        // AVA 系統邏輯
         const db = {
             AVF_M_A: [5855, 5855, 5855, 5855, 5855, 3474, 3474, 3474, 3474, 3474, 3293, 3293, 3293, 3293, 3293, 3293, 3522, 3742, 3890, 3972, 3972, 4143, 4188, 4233, 4249, 4396, 4480, 4612, 4716, 4776, 4880, 4964, 5048, 5134, 5246, 5405, 5623, 5824, 5988, 6232, 6548, 6892, 7254, 7680, 8005, 8312, 8639, 8935, 9357, 9764, 10556, 11165, 11620, 12147, 12704, 13304, 14136, 14839, 15572, 16372, 17477, 18711, 19908, 21114, 22164, 23657, 24985, 26321, 27669, 29072, 30820, 32856, 34892, 36928, 38964, 41363, 43416, 45469, 47524, 49577, 52084],
             AVF_M_M: [517, 517, 517, 517, 517, 306, 306, 306, 306, 306, 290, 290, 290, 290, 290, 290, 311, 330, 343, 350, 350, 365, 369, 373, 375, 388, 395, 407, 416, 421, 430, 438, 445, 453, 463, 477, 496, 514, 528, 550, 578, 608, 640, 678, 706, 734, 762, 788, 826, 862, 932, 985, 1026, 1072, 1121, 1174, 1248, 1310, 1375, 1445, 1543, 1652, 1757, 1864, 1957, 2088, 2206, 2324, 2443, 2567, 2721, 2901, 3081, 3260, 3440, 3652, 3833, 4014, 4196, 4377, 4599],
@@ -564,53 +413,13 @@
             document.getElementById('premiumResult').innerHTML = html;
         }
 
-        const quizQuestions = {
-            Q1: { q: "1. 想像一下，如果身體突然出現警號，醫生建議盡快進行詳細檢查或手術，您會傾向哪一種選擇？", opts: [{ label: "A. 公立醫院（排期等候，盡量節省開支）", next: "Q2A" }, { label: "B. 私家醫療（立刻確診，掌握治療黃金時間）", next: "Q2B" }] },
-            Q2A: { q: "2. 公立醫院排期做 MRI 或大手術往往需要漫長等待。面對「病情有機會惡化」的未知數與煎熬，您會？", opts: [{ label: "A. 繼續無奈地等，因為不想動用辛苦儲下的積蓄", next: "Q3A" }, { label: "B. 轉去私家醫院，寧願自己畀錢買個快同安心", next: "CQ1" }] },
-            Q3A: { q: "3. 面對幾萬至數十萬不等的突發醫療費，您目前會用什麼方法找數？", opts: [{ label: "A. 咬緊牙關，動用原本留作其他用途的銀行積蓄", next: "CQ1" }, { label: "B. 如果有一個「醫療備用庫」幫我找數就好了", next: "CQ1" }] },
-            Q2B: { q: "2. 私家醫療收費動輒幾萬至數十萬不等，大家都唔想用自己辛苦賺來的錢去睇醫生。您目前應付這筆開支的「主力防線」是？", opts: [{ label: "A. 自己的銀行儲蓄", next: "Q3B" }, { label: "B. 公司的團體醫保 (借來的遮)", next: "Q3B" }, { label: "C. 自己購買的個人醫療保險", next: "Q3B" }] },
-            Q3B: { q: "3. 很多人依賴公司的醫療福利，但您有否了解過公司醫保的「住院額度」是否足夠？以及當我們轉換工作、退休，或者因大病而無法繼續上班時，這份福利就有機會未來失去保障？", opts: [{ label: "A. 確實未仔細了解過額度，也明白未來有機會失去保障", next: "Q4B" }, { label: "B. 有了解過，保障額度確實有限，同時也明白未來有機會失去保障", next: "Q4B" }] },
-            Q4B: { q: "4. 如果有一天這把「借來的遮」不再為我們擋雨，而剛好身體出現狀況，您打算如何應對高昂的醫療費用？", opts: [{ label: "A. 可能只能靠老本積蓄去應付，或無奈轉去排公立醫院", next: "CQ1" }, { label: "B. 到時可能會考慮為自己配置一份專屬的醫療保險", next: "CQ1" }] },
-            CQ1: { q: "【生活開支】如果因為這場大病，需要完全放下工作兩三年專心調理，家庭的日常開支、供樓負擔以及生活質素會否帶來壓力？", opts: [{ label: "A. 可能會有壓力", next: "CQ2" }, { label: "B. 沒什麼影響，我有足夠的被動收入支撐", next: "CQ2" }] },
-            CQ2: { q: "【漫長作戰】隨著醫學進步，您認同現在「大病（如癌症）已經不再是絕症」，而是變成了一種需要長期作戰的「慢性病」嗎？", opts: [{ label: "A. 認同，身邊也有不少持續治療後康復的例子", next: "CQ3" }, { label: "B. 一半半，但確實存活率比以前高很多", next: "CQ3" }] },
-            CQ3: { q: "【殘酷現實】您是否知道一個事實：一旦確診大病，即使我們日後願意支付更昂貴的保費，甚至主動要求加價，保險公司都極大機會不再接受投保？", opts: [{ label: "A. 知道", next: "CQ4" }, { label: "B. 現在才知道，原來確診後會失去再投保的資格", next: "CQ4" }] },
-            CQ4: { q: "既然大病不再是絕症，且康復後難以再買保險。面對漫長的未來及潛在的復發風險，您認為防護網具備「多次賠償」重要嗎？", opts: [{ label: "A. 都重要，因為原來之後不能再買保險", next: "CQ5" }, { label: "B. 以前沒想過，現在覺得的確需要", next: "CQ5" }] },
-            CQ5: { q: "經過今天的審視，當「未來的您」看到今天這段對話時，您認為他/她的第一句話會是什麼？", opts: [{ label: "A. 「謝謝今天的你，令未來的我及身邊家人得到守護。」", next: "END" }, { label: "B. 「如果可以時光倒流，我會叫你今天為未來的我及時做好規劃。」", next: "END" }] }
-        };
-
+        const quizQuestions = { Q1: { q: "1. 想像一下，如果身體突然出現警號，醫生建議盡快檢查，您會？", opts: [{ label: "A. 公立醫院（排期等候，盡量節省開支）", next: "Q2A" }, { label: "B. 私家醫療（立刻確診，掌握治療黃金時間）", next: "Q2B" }] }, Q2A: { q: "2. 公立醫院排期做 MRI 或大手術往往需要漫長等待。面對「病情有機會惡化」的未知數與煎熬，您會？", opts: [{ label: "A. 繼續無奈地等，因為不想動用辛苦儲下的積蓄", next: "Q3A" }, { label: "B. 轉去私家醫院，寧願自己畀錢買個快同安心", next: "CQ1" }] }, Q3A: { q: "3. 面對幾萬至數十萬不等的突發醫療費，您目前會用什麼方法找數？", opts: [{ label: "A. 咬緊牙關，動用原本留作其他用途的銀行積蓄", next: "CQ1" }, { label: "B. 如果有一個「醫療備用庫」幫我找數就好了", next: "CQ1" }] }, Q2B: { q: "2. 私家醫療收費動輒幾萬至數十萬不等，大家都唔想用自己辛苦賺來的錢去睇醫生。您目前應付這筆開支的「主力防線」是？", opts: [{ label: "A. 自己的銀行儲蓄", next: "Q3B" }, { label: "B. 公司的團體醫保 (借來的遮)", next: "Q3B" }, { label: "C. 自己購買的個人醫療保險", next: "Q3B" }] }, Q3B: { q: "3. 很多人依賴公司的醫療福利，但您有否了解過公司醫保的「住院額度」是否足夠？以及當我們轉換工作、退休，或者因大病而無法繼續上班時，這份福利就有機會未來失去保障？", opts: [{ label: "A. 確實未仔細了解過額度，也明白未來有機會失去保障", next: "Q4B" }, { label: "B. 有了解過，保障額度確實有限，同時也明白未來有機會失去保障", next: "Q4B" }] }, Q4B: { q: "4. 如果有一天這把「借來的遮」不再為我們擋雨，而剛好身體出現狀況，您打算如何應對高昂的醫療費用？", opts: [{ label: "A. 可能只能靠老本積蓄去應付，或無奈轉去排公立醫院", next: "CQ1" }, { label: "B. 到時可能會考慮為自己配置一份專屬的醫療保險", next: "CQ1" }] }, CQ1: { q: "【生活開支】如果因為這場大病，需要完全放下工作兩三年專心調理，家庭的日常開支、供樓負擔以及生活質素會否帶來壓力？", opts: [{ label: "A. 可能會有壓力", next: "CQ2" }, { label: "B. 沒什麼影響，我有足夠的被動收入支撐", next: "CQ2" }] }, CQ2: { q: "【漫長作戰】隨著醫學進步，您認同現在「大病（如癌症）已經不再是絕症」，而是變成了一種需要長期作戰的「慢性病」嗎？", opts: [{ label: "A. 認同，身邊也有不少持續治療後康復的例子", next: "CQ3" }, { label: "B. 一半半，但確實存活率比以前高很多", next: "CQ3" }] }, CQ3: { q: "【殘酷現實】您是否知道一個事實：一旦確診大病，即使我們日後願意支付更昂貴的保費，甚至主動要求加價，保險公司都極大機會不再接受投保？", opts: [{ label: "A. 知道", next: "CQ4" }, { label: "B. 現在才知道，原來確診後會失去再投保的資格", next: "CQ4" }] }, CQ4: { q: "既然大病不再是絕症，且康復後難以再買保險。面對漫長的未來及潛在的復發風險，您認為防護網具備「多次賠償」重要嗎？", opts: [{ label: "A. 都重要，因為原來之後不能再買保險", next: "CQ5" }, { label: "B. 以前沒想過，現在覺得的確需要", next: "CQ5" }] }, CQ5: { q: "經過今天的審視，當「未來的您」看到今天這段對話時，您認為他/她的第一句話會是什麼？", opts: [{ label: "A. 「謝謝今天的你，令未來的我及身邊家人得到守護。」", next: "END" }, { label: "B. 「如果可以時光倒流，我會叫你今天為未來的我及時做好規劃。」", next: "END" }] } };
         let currentQId = 'Q1'; let historyStack = []; let chosenBranch = ''; 
-        function renderQuiz() {
-            if (currentQId === 'END') { showQuizResult(); return; }
-            const q = quizQuestions[currentQId]; document.getElementById('q-title').innerText = q.q;
-            let h = ''; q.opts.forEach((o, index) => {
-                h += `<button onclick="answerQ('${o.next}', ${index})" class="w-full text-left p-4 rounded-xl border mb-3 hover:bg-rose-50 hover:border-rose-200 transition text-xs shadow-sm bg-white leading-relaxed">${o.label}</button>`;
-            });
-            if (historyStack.length > 0) { h += `<button onclick="goBack()" class="w-full text-center p-3 mt-2 rounded-xl text-gray-400 hover:bg-gray-100 transition text-xs font-bold border border-transparent hover:border-gray-200">🔙 返回上一題</button>`; }
-            document.getElementById('q-options').innerHTML = h; 
-        }
-        function answerQ(nextQId, optIndex) {
-            if (currentQId === 'Q1') { chosenBranch = optIndex === 0 ? 'A' : 'B'; }
-            historyStack.push(currentQId); currentQId = nextQId; renderQuiz();
-        }
+        function renderQuiz() { if (currentQId === 'END') { showQuizResult(); return; } const q = quizQuestions[currentQId]; document.getElementById('q-title').innerText = q.q; let h = ''; q.opts.forEach((o, index) => { h += `<button onclick="answerQ('${o.next}', ${index})" class="w-full text-left p-4 rounded-xl border mb-3 hover:bg-rose-50 hover:border-rose-200 transition text-xs shadow-sm bg-white leading-relaxed">${o.label}</button>`; }); if (historyStack.length > 0) { h += `<button onclick="goBack()" class="w-full text-center p-3 mt-2 rounded-xl text-gray-400 hover:bg-gray-100 transition text-xs font-bold border border-transparent hover:border-gray-200">🔙 返回上一題</button>`; } document.getElementById('q-options').innerHTML = h; }
+        function answerQ(nextQId, optIndex) { if (currentQId === 'Q1') { chosenBranch = optIndex === 0 ? 'A' : 'B'; } historyStack.push(currentQId); currentQId = nextQId; renderQuiz(); }
         function goBack() { if (historyStack.length > 0) { currentQId = historyStack.pop(); renderQuiz(); } }
-        function resetQuiz() {
-            currentQId = 'Q1'; historyStack = []; chosenBranch = '';
-            document.getElementById('result-section').classList.add('hidden');
-            document.getElementById('quiz-section').classList.remove('hidden'); renderQuiz();
-        }
-        function showQuizResult() {
-            document.getElementById('quiz-section').classList.add('hidden');
-            document.getElementById('result-section').classList.remove('hidden');
-            let conclusionHTML = '';
-            const warningText = `<p class="text-red-600 font-bold my-3 flex items-start"><span class="mr-1">⚠️</span><span>提醒！曾進行過檢查或手術後，都有機會變成不保事項，嚴重的話甚至會被保險公司直接拒保。</span></p>`;
-            const commonPart = `<p>此外，既然大病已逐漸演變成需要長期作戰的慢性病，加上確診後極難再購買保險的事實，我們不但要解決高昂的醫療開支，更要確保在停工調理期間，有一筆實質的「危疾收入補償」來維持家人的生活質素與供樓開支。面對漫長的未來，這份防護網必須具備「多次賠償的延續性」。</p><p class="mt-2">很高興您選擇了對未來的自己說聲：「謝謝今天的你」。現在，我們一齊研究及規劃未來的你的保障喇。</p>`;
-            if (chosenBranch === 'A') {
-                conclusionHTML = `<p>致親愛的您：</p><p class="mt-2">您是一位明白黃金治療重要性的人。然而分析顯示，當面對公立排期導致「病情惡化」的風險時，您最後可能考慮私營醫療。若無奈動用數萬至數十萬的積蓄來應付，無疑會打亂家庭的未來計劃。因此，及時為自己配置一份專屬的「個人醫療保險」，給你快速得到治療及由保險公司代你支付費用。</p>` + warningText + commonPart;
-            } else {
-                conclusionHTML = `<p>致親愛的您：</p><p class="mt-2">您非常重視治療的黃金時間與醫療質素。然而，若單靠「借來的」公司醫保，一旦因大病停工或退休而失去保障，屆時可能只能消耗老本，甚至可能用回公立醫院排期。因此，及時為自己配置一份專屬的「個人醫療保險」，由自己掌握主動權就可以。</p>` + warningText + commonPart;
-            }
-            document.getElementById('result-content').innerHTML = conclusionHTML;
-        }
+        function resetQuiz() { currentQId = 'Q1'; historyStack = []; chosenBranch = ''; document.getElementById('result-section').classList.add('hidden'); document.getElementById('quiz-section').classList.remove('hidden'); renderQuiz(); }
+        function showQuizResult() { document.getElementById('quiz-section').classList.add('hidden'); document.getElementById('result-section').classList.remove('hidden'); let conclusionHTML = ''; const warningText = `<p class="text-red-600 font-bold my-3 flex items-start"><span class="mr-1">⚠️</span><span>提醒！曾進行過檢查或手術後，都有機會變成不保事項，嚴重的話甚至會被保險公司直接拒保。</span></p>`; const commonPart = `<p>此外，既然大病已逐漸演變成需要長期作戰的慢性病，加上確診後極難再購買保險的事實，我們不但要解決高昂的醫療開支，更要確保在停工調理期間，有一筆實質的「危疾收入補償」來維持家人的生活質素與供樓開支。面對漫長的未來，這份防護網必須具備「多次賠償的延續性」。</p><p class="mt-2">很高興您選擇了對未來的自己說聲：「謝謝今天的你」。現在，我們一齊研究及規劃未來的你的保障喇。</p>`; if (chosenBranch === 'A') { conclusionHTML = `<p>致親愛的您：</p><p class="mt-2">您是一位明白黃金治療重要性的人。然而分析顯示，當面對公立排期導致「病情惡化」的風險時，您最後可能考慮私營醫療。若無奈動用數萬至數十萬的積蓄來應付，無疑會打亂家庭的未來計劃。因此，及時為自己配置一份專屬的「個人醫療保險」，給你快速得到治療及由保險公司代你支付費用。</p>` + warningText + commonPart; } else { conclusionHTML = `<p>致親愛的您：</p><p class="mt-2">您非常重視治療的黃金時間與醫療質素。然而，若單靠「借來的」公司醫保，一旦因大病停工或退休而失去保障，屆時可能只能消耗老本，甚至可能用回公立醫院排期。因此，及時為自己配置一份專屬的「個人醫療保險」，由自己掌握主動權就可以。</p>` + warningText + commonPart; } document.getElementById('result-content').innerHTML = conclusionHTML; }
     </script>
 </body>
 </html>
