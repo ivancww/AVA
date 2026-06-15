@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v4.6.0</title>
+    <title>AVA 實戰系統 v4.7.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -35,11 +35,10 @@
         .btn-large-flat { background: white; border-radius: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid #eef2f6; display: flex; align-items: center; padding: 20px; width: 100%; transition: transform 0.2s; margin-bottom: 12px;}
         .btn-large-flat:active { transform: scale(0.98); }
         
-        /* AIA Logo 融合 */
         .logo-full-width { width: 100%; text-align: center; background: #fff; margin-bottom: 15px; padding: 10px 0; mix-blend-mode: multiply; }
         .logo-full-width img { max-width: 80%; height: auto; max-height: 50px; object-fit: contain; }
         
-        .quote-block { background: #f8fafc; border-radius: 8px; padding: 18px; margin: 15px 0; font-size: 1rem; color: #334155; line-height: 1.7; border-left: 4px solid #4a148c; font-style: italic; }
+        .quote-block { background: #f8fafc; border-radius: 12px; padding: 20px; margin: 15px 0; font-size: 0.95rem; color: #334155; line-height: 1.8; border-left: 4px solid #4a148c; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
     </style>
 </head>
 <body class="bg-gray-50 pb-10 text-gray-800">
@@ -53,7 +52,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v4.6.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v4.7.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -116,25 +115,22 @@
             <p class="text-xs text-gray-500 italic mb-4 bg-gray-100 p-3 rounded-xl leading-relaxed">💡 <b>領袖提示：</b> 點擊進入對應招式。見客唔係一味 Hard Sell，多用<b>「請教」</b>與<b>「想像一下」</b>！</p>
             
             <div class="space-y-4">
-                <!-- 第一式：點擊跳轉大氣頁面 -->
                 <button onclick="switchTab('step1-company')" class="w-full text-left card border-l-4 border-blue-600 p-4 active:scale-95 transition-transform hover:shadow-md flex justify-between items-center m-0">
                     <div>
                         <span class="text-[10px] font-bold text-blue-600">第一式 · 建立信任</span>
-                        <h4 class="font-bold text-sm text-gray-800 mt-0.5">公司實力 + 賠償歷史 (點擊進入)</h4>
+                        <h4 class="font-bold text-sm text-gray-800 mt-0.5">介紹公司 (點擊進入)</h4>
                     </div>
                     <div class="text-2xl text-blue-500">🏢</div>
                 </button>
 
-                <!-- 第二式：點擊跳轉大氣頁面 -->
                 <button onclick="switchTab('step2-profile')" class="w-full text-left card border-l-4 border-indigo-600 p-4 active:scale-95 transition-transform hover:shadow-md flex justify-between items-center m-0">
                     <div>
                         <span class="text-[10px] font-bold text-indigo-600">第二式 · 初心建立</span>
-                        <h4 class="font-bold text-sm text-gray-800 mt-0.5">介紹自己、願景及專業 (點擊進入)</h4>
+                        <h4 class="font-bold text-sm text-gray-800 mt-0.5">個人願景及承諾 (點擊進入)</h4>
                     </div>
                     <div class="text-2xl text-indigo-500">👨‍💼</div>
                 </button>
 
-                <!-- 其餘 3-11 式 -->
                 <div class="card border-l-4 border-red-500 bg-red-50/50 p-4">
                     <span class="text-[10px] font-bold text-red-500">第三式 · 請教模式 (★核心核心)</span>
                     <h4 class="font-bold text-sm text-red-900 mt-0.5">了解客人對保險、仔女關注及退休的想法</h4>
@@ -161,28 +157,21 @@
         <!-- 🌟 第一式：公司實力 (獨立大氣頁面) -->
         <!-- ========================================== -->
         <div id="step1-company-tab" class="tab-content space-y-4">
-            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">第一式：建立信任<br><span class="text-lg text-gray-500 font-normal">公司實力與賠償歷史</span></h2>
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">第一式：介紹公司</h2>
             
-            <p class="text-xs text-gray-600 leading-relaxed bg-blue-50 border border-blue-100 p-3 rounded-xl italic">
-                🛳️ <b>領袖類比話術：</b>「買保險就好似出海，你都想將財富放喺一隻最大最穩固嘅超級郵輪，對嗎？」
-            </p>
-
-            <div class="card p-4 shadow-md">
+            <div class="card p-4 shadow-md mt-4">
                 <div class="logo-full-width border-b border-gray-100 pb-3 mb-3">
                     <img src="https://i.postimg.cc/kgP5H68H/Screenshot-2026-05-05-12-18-56-996-com-android-chrome-edit.jpg" alt="AIA">
                 </div>
                 
                 <h3 class="font-bold text-blue-800 mb-2 text-sm text-center">🏆 信心指標：全港最多保單公司</h3>
                 <img src="https://i.postimg.cc/qv4SSp1t/492.jpg" class="zoom-img mb-3" onclick="zoom(this)">
-                <p class="text-[11px] text-gray-500 text-center mb-4">每 4 個香港人就有 1 個是客戶。多人信賴，抗風險能力極強。</p>
-
-                <h3 class="font-bold text-orange-700 mb-2 text-sm text-center border-t border-gray-100 pt-4">💰 實力承諾：驚人賠償金額</h3>
-                <img src="https://i.postimg.cc/nhpggn39/490.jpg" class="zoom-img mb-3" onclick="zoom(this)">
-                <p class="text-[11px] text-gray-500 text-center mb-4">擁有極深厚底氣的金庫，保證在您最需要時為您找數。</p>
-
-                <h3 class="font-bold text-emerald-700 mb-2 text-sm text-center border-t border-gray-100 pt-4">🏥 醫療後盾：龐大專屬醫療網絡</h3>
+                
+                <h3 class="font-bold text-emerald-700 mb-2 text-sm text-center border-t border-gray-100 pt-4">🏥 多元化產品及貼心服務</h3>
                 <img src="https://i.postimg.cc/9QCKKcLR/491.jpg" class="zoom-img mb-3" onclick="zoom(this)">
-                <p class="text-[11px] text-gray-500 text-center mb-2">猶如 VIP 特快救護通道，全港最龐大優質醫療網絡為您候命。</p>
+
+                <h3 class="font-bold text-orange-700 mb-2 text-sm text-center border-t border-gray-100 pt-4">💰 實力承諾：驚人賠償總額及守護每位客戶</h3>
+                <img src="https://i.postimg.cc/nhpggn39/490.jpg" class="zoom-img mb-3" onclick="zoom(this)">
             </div>
 
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
@@ -192,23 +181,38 @@
         <!-- 👨‍💼 第二式：個人專業 (獨立大氣頁面) -->
         <!-- ========================================== -->
         <div id="step2-profile-tab" class="tab-content space-y-4">
-            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">第二式：初心建立<br><span class="text-lg text-gray-500 font-normal">專屬理財與醫療防護網</span></h2>
-            
-            <p class="text-xs text-gray-600 leading-relaxed bg-indigo-50 border border-indigo-100 p-3 rounded-xl italic">
-                🧰 <b>領袖類比話術：</b>「我想請教下，萬一有事，你想自己徬徨四圍撲，定係有一個處理過百宗理賠嘅專屬管家幫你搞掂？」
-            </p>
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">第二式：個人願景及承諾</h2>
 
-            <div class="card p-5 shadow-md">
+            <div class="card p-5 shadow-md mt-4">
                 <div class="quote-block">
-                    「買保險最怕係有事嗰陣唔知點算。我每年處理超過 <span class="text-purple-700 font-bold">100宗索償</span>，好清楚理賠細節。萬一有需要，我會教你點同醫生溝通，確保你最快收到賠償金。」
+                    「借助保險嘅特殊力量，我哋可以協助您從容面對突如其來嘅開支，守護您嘅財富，填補停工期間嘅收入中斷；<br><br>同時借助理財嘅時間複利，穩健達成您嘅人生目標——無論係退休規劃，定係仔女嘅教育基金。<br><br>我建立團隊，正正係為咗傳承呢份願景與承諾，令更多客人得到真正嘅保障與安心。」
                 </div>
                 
-                <h3 class="text-sm font-bold text-indigo-800 mt-5 mb-1 flex items-center gap-2">🏆 卓越顧問 (Premier Advisor)</h3>
-                <p class="text-[11px] text-gray-500 mb-3">自 2021年起榮獲此殊榮。每年嚴格控制服務 24 位新客戶（半數為醫療/危疾），保證高質量一對一專屬服務。</p>
-                <img src="https://i.postimg.cc/vZCbTXWc/IMG-20260505-143201.jpg" class="zoom-img max-w-[200px] mx-auto block mb-4 border-2 border-indigo-100" onclick="zoom(this)">
+                <!-- 卓越顧問及個人獎項 -->
+                <div class="border-t border-gray-100 pt-5 mt-2">
+                    <h3 class="text-base font-bold text-indigo-800 mb-3 flex items-center gap-2">🏆 卓越顧問及個人獎項</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <img src="https://i.postimg.cc/vZCbTXWc/IMG-20260505-143201.jpg" class="zoom-img max-w-[200px] mx-auto block mb-2 border-2 border-indigo-100" onclick="zoom(this)">
+                            <p class="text-[11px] text-gray-500 text-center font-bold">卓越顧問 (Premier Advisor)</p>
+                        </div>
+                        
+                        <div>
+                            <img src="https://i.postimg.cc/qBjS6Pwv/IMG-20250625-084613.jpg" class="zoom-img border border-gray-200" onclick="zoom(this)">
+                            <p class="text-[11px] text-gray-500 text-center mt-1">專業成就殊榮</p>
+                        </div>
 
-                <div class="border-t border-gray-100 pt-4 mb-4">
-                    <h3 class="text-sm font-bold text-indigo-800 mb-1 flex items-center gap-2">📈 首席強積金退休顧問</h3>
+                        <div class="bg-indigo-50 p-3 rounded-xl border border-indigo-100">
+                            <img src="https://i.postimg.cc/CxZ3gcjL/IMG-20260527-WA0018.jpg" class="zoom-img border border-gray-200 mb-2" onclick="zoom(this)">
+                            <p class="text-xs text-indigo-900 text-center font-bold">⭐ 全 AIA 銷售醫療保障及意外保障最多保單 ⭐</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 首席強積金退休顧問 -->
+                <div class="border-t border-gray-100 pt-5 mt-5">
+                    <h3 class="text-sm font-bold text-indigo-800 mb-2 flex items-center gap-2">📈 首席強積金退休顧問</h3>
                     <p class="text-[11px] text-gray-500 mb-3">管理 80+ 客戶，資產超過 4,000萬。配合團隊專屬 App 主動提醒組合調配，對抗通脹。</p>
                     <div class="grid grid-cols-2 gap-3">
                         <img src="https://i.postimg.cc/2SgryT45/IMG-20260505-143235.jpg" class="zoom-img border border-gray-200" onclick="zoom(this)">
@@ -216,11 +220,17 @@
                     </div>
                 </div>
 
-                <div class="border-t border-gray-100 pt-4">
-                    <h3 class="text-sm font-bold text-indigo-800 mb-1 flex items-center gap-2">
-                        <img src="https://i.postimg.cc/vZwmKg9N/IMG-20260505-121936.jpg" class="h-5 mix-blend-multiply"> 全面生活保障
-                    </h3>
-                    <p class="text-[11px] text-gray-500 m-0">透過藍十字 (Blue Cross)，為客戶提供一站式旅遊、家居保險等日常業務，確保生活保障無縫接軌。</p>
+                <!-- 高層及成功家族掌舵人合照 -->
+                <div class="border-t border-gray-100 pt-5 mt-5">
+                    <h3 class="text-sm font-bold text-indigo-800 mb-3 flex items-center gap-2">🤝 業界認可與最強後盾</h3>
+                    <p class="text-[11px] text-gray-500 mb-3 text-center">與公司高層及 AIA 最大區域——成功家族掌舵人合照</p>
+                    <div class="space-y-3">
+                        <img src="https://i.postimg.cc/prGSNjrn/IMG-20260526-200858.jpg" class="zoom-img border border-gray-200 rounded-lg shadow-sm" onclick="zoom(this)">
+                        <div class="grid grid-cols-2 gap-3">
+                            <img src="https://i.postimg.cc/6p7kXMdT/IMG-20260527-WA0024.jpg" class="zoom-img border border-gray-200 rounded-lg shadow-sm" onclick="zoom(this)">
+                            <img src="https://i.postimg.cc/2SqsD04y/IMG-20260527-WA0017.jpg" class="zoom-img border border-gray-200 rounded-lg shadow-sm" onclick="zoom(this)">
+                        </div>
+                    </div>
                 </div>
             </div>
 
