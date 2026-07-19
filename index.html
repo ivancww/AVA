@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v5.0.0</title>
+    <title>AVA 實戰系統 v5.1.1</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -44,6 +44,13 @@
         .img-input-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
         .btn-icon { background: #fee2e2; color: #b91c1c; border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; flex-shrink: 0; }
         .btn-add-img { background: #e0f2fe; color: #1d4ed8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; display: inline-block; cursor: pointer; margin-top: 4px; }
+
+        /* 電腦版左右佈局 */
+        @media (min-width: 768px) {
+            .desktop-layout { display: flex; gap: 24px; align-items: flex-start; }
+            .desktop-layout > .side-left { flex: 0 0 40%; position: sticky; top: 100px; }
+            .desktop-layout > .side-right { flex: 0 0 60%; }
+        }
     </style>
 </head>
 <body class="bg-gray-50 pb-10 text-gray-800">
@@ -58,7 +65,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.0.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.1.1</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -67,57 +74,74 @@
         </div>
     </nav>
 
-    <div class="max-w-md mx-auto px-4 mt-6">
+    <div class="max-w-4xl mx-auto px-4 mt-6">
 
         <!-- ========================================== -->
-        <!-- 🏠 主頁門戶 -->
+        <!-- 🏠 主頁門戶 (左右佈局) -->
         <!-- ========================================== -->
         <div id="portal-tab" class="tab-content active space-y-4">
-            <div class="card border-t-4 border-gray-800 bg-slate-900 text-white p-5 mb-6">
-                <div class="flex items-center gap-2 mb-3">
-                    <span class="text-2xl">🌟</span>
-                    <h2 class="text-lg font-bold tracking-wider">A.V.A 團隊願景與目標</h2>
+            <div class="desktop-layout">
+                <!-- 左邊：AVA 願景 -->
+                <div class="side-left">
+                    <div class="card border-t-4 border-gray-800 bg-slate-900 text-white p-5 mb-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-2xl">🌟</span>
+                            <h2 class="text-lg font-bold tracking-wider">A.V.A 團隊願景與目標</h2>
+                        </div>
+                        <div class="space-y-3 text-xs leading-relaxed border-b border-gray-800 pb-4 mb-3">
+                            <p><b class="text-red-400 text-sm block">🔺 APEX (頂尖 / 巔峰)</b>追求卓越，以最高專業標準引領行業巔峰，有效建立贏家習慣，克服恐懼與心魔。</p>
+                            <p><b class="text-blue-400 text-sm block">👁️ VISION (遠見 / 願景)</b>具備長遠目光，向客戶展示有溫度、可感受的保險，規劃真正可展望未來的理財藍圖。</p>
+                            <p><b class="text-emerald-400 text-sm block">🤝 ALLIANCE (聯盟 / 凝聚)</b>強強聯手，建立一套高效實戰系統，幫助新同事消除迷茫、快速適應並融入團隊。</p>
+                        </div>
+                        <p class="text-[10px] text-gray-400 italic text-center">「做保險唔洗盲摸摸，AVA 系統就是你的人生 GPS。」</p>
+                    </div>
                 </div>
-                <div class="space-y-3 text-xs leading-relaxed border-b border-gray-800 pb-4 mb-3">
-                    <p><b class="text-red-400 text-sm block">🔺 APEX (頂尖 / 巔峰)</b>追求卓越，以最高專業標準引領行業巔峰，有效建立贏家習慣，克服恐懼與心魔。</p>
-                    <p><b class="text-blue-400 text-sm block">👁️ VISION (遠見 / 願景)</b>具備長遠目光，向客戶展示有溫度、可感受的保險，規劃真正可展望未來的理財藍圖。</p>
-                    <p><b class="text-emerald-400 text-sm block">🤝 ALLIANCE (聯盟 / 凝聚)</b>強強聯手，建立一套高效實戰系統，幫助新同事消除迷茫、快速適應並融入團隊。</p>
+
+                <!-- 右邊：卡片導航 -->
+                <div class="side-right space-y-2">
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest px-2 mb-2">系統導航</h3>
+                    
+                    <button onclick="switchTab('steps11')" class="btn-large-flat border-l-4 border-red-500 gap-4">
+                        <div class="text-4xl bg-red-50 p-2 rounded-xl">🎯</div>
+                        <div class="text-left">
+                            <h4 class="font-bold text-gray-800 text-base">成功之路 11 式導航</h4>
+                            <p class="text-[10px] text-gray-400 mt-0.5">從破冰、提問到 Closing 與轉介的完整路線圖</p>
+                        </div>
+                    </button>
+
+                    <button onclick="switchTab('toolkits')" class="btn-large-flat border-l-4 border-blue-500 gap-4">
+                        <div class="text-4xl bg-blue-50 p-2 rounded-xl">🧰</div>
+                        <div class="text-left">
+                            <h4 class="font-bold text-gray-800 text-base">成功錦囊</h4>
+                            <p class="text-[10px] text-gray-400 mt-0.5">圖解、核保真相及官方文件庫</p>
+                        </div>
+                    </button>
+
+                    <!-- 新增：全網絡醫生名單 -->
+                    <button onclick="window.open('https://www.aia.com.hk/zh-hk/help-and-support/individuals/network-doctor-search', '_blank')" class="btn-large-flat border-l-4 border-emerald-500 gap-4">
+                        <div class="text-4xl bg-emerald-50 p-2 rounded-xl">👨‍⚕️</div>
+                        <div class="text-left">
+                            <h4 class="font-bold text-gray-800 text-base">全網絡醫生名單</h4>
+                            <p class="text-[10px] text-gray-400 mt-0.5">快速搜尋及查閱醫療網絡</p>
+                        </div>
+                    </button>
+
+                    <button onclick="switchTab('armory')" class="btn-large-flat border-l-4 border-indigo-500 gap-4">
+                        <div class="text-4xl bg-indigo-50 p-2 rounded-xl">⚔️</div>
+                        <div class="text-left">
+                            <h4 class="font-bold text-gray-800 text-base">成功武器</h4>
+                            <p class="text-[10px] text-gray-400 mt-0.5">高階數據分析器與財富管理工具</p>
+                        </div>
+                    </button>
                 </div>
-                <p class="text-[10px] text-gray-400 italic text-center">「做保險唔洗盲摸摸，AVA 系統就是你的人生 GPS。」</p>
             </div>
-
-            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest px-2 mb-2">系統導航</h3>
-            
-            <button onclick="switchTab('steps11')" class="btn-large-flat border-l-4 border-red-500 gap-4">
-                <div class="text-4xl bg-red-50 p-2 rounded-xl">🎯</div>
-                <div class="text-left">
-                    <h4 class="font-bold text-gray-800 text-base">見客系統 11 式導航</h4>
-                    <p class="text-[10px] text-gray-400 mt-0.5">從破冰、提問到 Closing 與轉介的完整路線圖</p>
-                </div>
-            </button>
-
-            <button onclick="switchTab('toolkits')" class="btn-large-flat border-l-4 border-blue-500 gap-4">
-                <div class="text-4xl bg-blue-50 p-2 rounded-xl">🧰</div>
-                <div class="text-left">
-                    <h4 class="font-bold text-gray-800 text-base">實戰工具百科</h4>
-                    <p class="text-[10px] text-gray-400 mt-0.5">圖解、核保真相、保費精算及官方文件庫</p>
-                </div>
-            </button>
-
-            <button onclick="switchTab('armory')" class="btn-large-flat border-l-4 border-indigo-500 gap-4">
-                <div class="text-4xl bg-indigo-50 p-2 rounded-xl">⚔️</div>
-                <div class="text-left">
-                    <h4 class="font-bold text-gray-800 text-base">終極武器庫</h4>
-                    <p class="text-[10px] text-gray-400 mt-0.5">高階數據分析器：危疾對比與醫療理賠模擬</p>
-                </div>
-            </button>
         </div>
 
         <!-- ========================================== -->
-        <!-- 🎯 見客系統 11 式導航 -->
+        <!-- 🎯 成功之路 11 式導航 -->
         <!-- ========================================== -->
         <div id="steps11-tab" class="tab-content space-y-4">
-            <h2 class="text-xl font-bold text-gray-800 mb-2">🎯 見客系統 11 式導航</h2>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">🎯 成功之路 11 式導航</h2>
             <p class="text-xs text-gray-500 italic mb-4 bg-gray-100 p-3 rounded-xl leading-relaxed">💡 <b>領袖提示：</b> 點擊進入對應招式。見客唔係一味 Hard Sell，多用<b>「請教」</b>與<b>「想像一下」</b>！</p>
             
             <div class="space-y-4">
@@ -157,7 +181,7 @@
         </div>
 
         <!-- ========================================== -->
-        <!-- 👨‍💼 第二式：個人願景 (完全動態生成) -->
+        <!-- 👨‍💼 第二式：個人願景 -->
         <!-- ========================================== -->
         <div id="step2-profile-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">第二式：個人願景及承諾</h2>
@@ -178,7 +202,7 @@
         <!-- ========================================== -->
         <div id="settings-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-teal-600 pl-3">⚙️ 個人化設定 (變裝房)</h2>
-            <p class="text-xs text-gray-500 italic mb-4 bg-teal-50 p-3 rounded-xl leading-relaxed">💡 <b>裁縫變裝房：</b> 喺度自訂多張「情境卡片」，每張卡可無限加入相片。見唔同嘅客，展示唔同嘅實力！</p>
+            <p class="text-xs text-gray-500 italic mb-4 bg-teal-50 p-3 rounded-xl leading-relaxed">💡 <b>裁寡變裝房：</b> 喺度自訂多張「情境卡片」，每張卡可無限加入相片。見唔同嘅客，展示唔同嘅實力！</p>
             
             <div class="card p-5 shadow-md border-t-4 border-teal-500">
                 <label class="block text-xs font-bold text-teal-800 mb-1">您的尊稱</label>
@@ -212,26 +236,26 @@
         </div>
 
         <!-- ========================================== -->
-        <!-- 🧰 實戰工具百科 (集中所有小工具) -->
+        <!-- 🧰 成功錦囊 (保留 6 個小工具) -->
         <!-- ========================================== -->
         <div id="toolkits-tab" class="tab-content space-y-4">
-            <div class="flex items-center gap-2 mb-4 px-2"><div class="text-3xl">🧰</div><h2 class="text-xl font-bold text-gray-800">實戰工具百科</h2></div>
+            <div class="flex items-center gap-2 mb-4 px-2"><div class="text-3xl">🧰</div><h2 class="text-xl font-bold text-gray-800">成功錦囊</h2></div>
             <div class="grid grid-cols-2 gap-4">
                 <button onclick="switchTab('concept')" class="menu-btn border-b-4 border-blue-400"><div class="text-4xl mb-2 drop-shadow-sm">💡</div><h3 class="font-bold text-gray-700 text-xs">醫療/危疾的分別</h3></button>
-                <button onclick="switchTab('medcalc')" class="menu-btn border-b-4 border-emerald-400"><div class="text-4xl mb-2 drop-shadow-sm">🧮</div><h3 class="font-bold text-gray-700 text-xs">保費精算扣稅</h3></button>
                 <button onclick="switchTab('ci')" class="menu-btn border-b-4 border-rose-400"><div class="text-4xl mb-2 drop-shadow-sm">🛡️</div><h3 class="font-bold text-gray-700 text-xs">危疾防護對比</h3></button>
                 <button onclick="switchTab('uw')" class="menu-btn border-b-4 border-purple-400"><div class="text-4xl mb-2 drop-shadow-sm">🔍</div><h3 class="font-bold text-gray-700 text-xs">核保真相指引</h3></button>
                 <button onclick="switchTab('claim')" class="menu-btn border-b-4 border-orange-400"><div class="text-4xl mb-2 drop-shadow-sm">🏥</div><h3 class="font-bold text-gray-700 text-xs">網絡索償流程</h3></button>
                 <button onclick="switchTab('docs')" class="menu-btn border-b-4 border-indigo-400"><div class="text-4xl mb-2 drop-shadow-sm">📚</div><h3 class="font-bold text-gray-700 text-xs">官方產品百科</h3></button>
-                <button onclick="switchTab('vitality')" class="menu-btn border-b-4 border-pink-400 col-span-2"><div class="text-4xl mb-2 drop-shadow-sm">🏃</div><h3 class="font-bold text-gray-700 text-xs">AIA Vitality 健康程式</h3></button>
+                <button onclick="switchTab('vitality')" class="menu-btn border-b-4 border-pink-400"><div class="text-4xl mb-2 drop-shadow-sm">🏃</div><h3 class="font-bold text-gray-700 text-xs">AIA Vitality</h3></button>
             </div>
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
         </div>
 
-        <!-- ⚔️ 終極武器庫 -->
+        <!-- ⚔️ 成功武器 -->
         <div id="armory-tab" class="tab-content space-y-4">
-            <div class="flex items-center gap-2 mb-4 px-2"><div class="text-3xl">⚔️</div><h2 class="text-xl font-bold text-gray-800">終極武器庫</h2></div>
+            <div class="flex items-center gap-2 mb-4 px-2"><div class="text-3xl">⚔️</div><h2 class="text-xl font-bold text-gray-800">成功武器</h2></div>
             <p class="text-xs text-gray-500 italic mb-4 bg-indigo-50 p-3 rounded-xl leading-relaxed">💡 <b>領袖提示：</b> 呢度嘅進階分析器係幫客人做「財務 X 光」。</p>
+            
             <a href="https://ivancww.github.io/CIApp" target="_blank" class="card border-l-4 border-rose-500 flex items-center gap-4 active:scale-95 transition-transform hover:shadow-md">
                 <img src="https://ivancww.github.io/CIApp/icon-192.png" alt="CI App Logo" class="w-14 h-14 rounded-xl shadow-sm object-cover border border-gray-100">
                 <div><h3 class="font-bold text-rose-700 text-base">危疾進階分析器</h3><p class="text-[11px] text-gray-500 mt-1">精準對比三大危疾保障範圍及家庭財務缺口壓力測試。</p></div>
@@ -240,45 +264,31 @@
                 <img src="https://ivancww.github.io/medicalclaims/icon-192.png" alt="Medical Claims Logo" class="w-14 h-14 rounded-xl shadow-sm object-cover border border-gray-100">
                 <div><h3 class="font-bold text-emerald-700 text-base">醫療理賠精算器</h3><p class="text-[11px] text-gray-500 mt-1">模擬真實醫療理賠數據，即時計出各計劃淨成本及扣稅優惠。</p></div>
             </a>
+            
+            <!-- 新增的 AVA Wealth 連結 -->
+            <a href="https://ivancww.github.io/avawealth" target="_blank" class="card border-l-4 border-yellow-500 flex items-center gap-4 active:scale-95 transition-transform hover:shadow-md">
+                <div class="w-14 h-14 bg-yellow-100 text-3xl flex items-center justify-center rounded-xl shadow-sm border border-yellow-200">💎</div>
+                <div><h3 class="font-bold text-yellow-700 text-base">AVA Wealth 系統</h3><p class="text-[11px] text-gray-500 mt-1">全方位資產配置及財富管理工具。</p></div>
+            </a>
+
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
         </div>
 
         <!-- ========================================== -->
-        <!-- 工具百科細節頁面 -->
+        <!-- 成功錦囊細節頁面 -->
         <!-- ========================================== -->
         <div id="concept-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800">💡 醫療/危疾的分別</h2>
             <div class="card p-2 shadow-sm"><h3 class="font-bold text-blue-800 mb-2 text-sm text-center">醫療的索償概念，點樣減輕治療費用的憂慮</h3><img src="https://i.postimg.cc/fLyFL66J/IMG-5625.png" class="zoom-img" onclick="zoom(this)"></div>
             <div class="card p-2 shadow-sm"><h3 class="font-bold text-orange-700 mb-2 text-sm text-center">危疾的賠償概念及點樣幫助減少對儲蓄衝擊</h3><img src="https://i.postimg.cc/xC87CWWX/IMG-5624.png" class="zoom-img" onclick="zoom(this)"></div>
-            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回工具百科</button>
-        </div>
-        
-        <div id="medcalc-tab" class="tab-content space-y-4">
-            <h2 class="text-2xl font-bold text-gray-800">🧮 保費與扣稅精算</h2>
-            <div class="card border-t-4 border-blue-500 mt-2">
-                <div class="grid grid-cols-2 gap-3 mb-3">
-                    <div><label class="text-[10px] font-bold text-gray-500">受保人年齡</label><input type="number" id="age" value="30" min="0" max="80" onchange="runPremium()"></div>
-                    <div><label class="text-[10px] font-bold text-gray-500">性別</label><select id="gender" onchange="runPremium()"><option value="M">男</option><option value="F">女</option></select></div>
-                </div>
-                <div class="grid grid-cols-2 gap-3 mb-3">
-                    <div><label class="text-[10px] font-bold text-gray-500">睿選 (AVSW)</label><select id="deductAVSW" onchange="runPremium()"><option value="0">$0</option><option value="8800">$8,800</option><option value="18000" selected>$18,000</option><option value="30000">$30,000</option></select></div>
-                    <div><label class="text-[10px] font-bold text-gray-500">尊耀 (AVPU)</label><select id="deductAVPU" onchange="runPremium()"><option value="0">$0</option><option value="16000" selected>$16,000</option><option value="25000">$25,000</option></select></div>
-                </div>
-                <div class="grid grid-cols-2 gap-3 mb-4">
-                    <div><label class="text-[10px] font-bold text-gray-500">繳費模式</label><select id="payMode" onchange="runPremium()"><option value="annual">年繳</option><option value="monthly">月繳</option></select></div>
-                    <div><label class="text-[10px] font-bold text-gray-500">預計稅階</label><select id="taxRate" onchange="runPremium()"><option value="0.17">17%</option><option value="0.10">10%</option><option value="0.02">2%</option><option value="0">0%</option></select></div>
-                </div>
-                <label class="flex items-center mb-4 bg-pink-50 p-4 rounded-xl border border-pink-200 cursor-pointer w-full"><input type="checkbox" id="vitality" onchange="runPremium()" checked class="w-5 h-5 accent-pink-600"><span class="text-[12px] font-bold text-pink-800 ml-3 flex-1">參加 AIA Vitality (首年 9 折)</span></label>
-                <div id="premiumResult" class="bg-blue-50 p-3 rounded-xl text-xs shadow-inner border border-blue-100 overflow-hidden"></div>
-            </div>
-            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回工具百科</button>
+            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
         
         <div id="ci-tab" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-gray-800">🛡️ 危疾防護對比</h2>
             <div class="card p-2 shadow-sm"><img src="https://i.postimg.cc/tg2XMSVC/3CI對比.png" class="zoom-img" onclick="zoom(this)"></div>
             <div class="card p-2 shadow-sm"><img src="https://i.postimg.cc/yNvVbQS8/三大CI種類對比.png" class="zoom-img" onclick="zoom(this)"></div>
-            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回工具百科</button>
+            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
         
         <div id="uw-tab" class="tab-content space-y-6">
@@ -286,14 +296,14 @@
             <div class="card p-2 shadow-sm"><h3 class="font-bold text-indigo-700 mb-2 text-sm text-center">健康身體係買保險的必要因素</h3><img src="https://i.postimg.cc/C15t1WWn/IMG-5623.png" class="zoom-img" onclick="zoom(this)"></div>
             <div class="card p-2 shadow-sm"><h3 class="font-bold text-teal-700 mb-2 text-sm text-center">醫生睇今時今刻，保險公司睇未來風險</h3><img src="https://i.postimg.cc/Y90V9JJj/IMG-5626.png" class="zoom-img" onclick="zoom(this)"></div>
             <div class="card border-l-4 border-gray-500 p-4 shadow-sm"><h4 class="font-bold text-gray-700 text-lg mb-1">📋 官方核保指引</h4><a href="https://drive.google.com/file/d/1IbPbbX6Ezu6-_6dGbUGv0UwTs91ALRiG/view?usp=drivesdk" target="_blank" class="btn-pdf">📱 點擊打開</a></div>
-            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回工具百科</button>
+            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
         
         <div id="claim-tab" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-gray-800">🏥 網絡與索償流程</h2>
             <div class="card p-2 shadow-sm"><img src="https://i.postimg.cc/Gt6NKL6w/IMG_4575.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
             <div class="card p-2 shadow-sm"><img src="https://i.postimg.cc/L5G7D9Gp/IMG_4574.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
-            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回工具百科</button>
+            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
         
         <div id="docs-tab" class="tab-content space-y-5">
@@ -304,13 +314,13 @@
             <div class="card border-l-4 border-teal-500 p-4 shadow-sm"><h4 class="font-bold text-teal-700 text-lg mb-1">EOYS 簡緻愛伴航</h4><a href="https://drive.google.com/file/d/1OC3omzsXdKp3QzHyfm7GHWPNvJu-tRjm/view?usp=drivesdk" target="_blank" class="btn-pdf">📱 點擊打開 EOYS 條款</a></div>
             <div class="card border-l-4 border-red-600 p-4 shadow-sm"><h4 class="font-bold text-red-800 text-lg mb-1">OYS 2 愛伴航</h4><a href="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/view" target="_blank" class="btn-pdf">📱 點擊打開 OYS2 條款</a></div>
             <div class="card border-l-4 border-gray-400 p-4 shadow-sm"><h4 class="font-bold text-gray-700 text-lg mb-1">SCE 簡護危疾</h4><a href="https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/view" target="_blank" class="btn-pdf">📱 點擊打開 SCE 條款</a></div>
-            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回工具百科</button>
+            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
         
         <div id="vitality-tab" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-gray-800">🏃 AIA Vitality</h2>
             <div class="card p-2 bg-pink-50 border-t-4 border-pink-500 shadow-sm"><img src="https://i.postimg.cc/XvwKjb4d/健康程式.png" class="rounded-xl shadow-md mb-4 zoom-img" onclick="zoom(this)"></div>
-            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回工具百科</button>
+            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
     </div>
 
@@ -495,51 +505,8 @@
         }
         
         window.onload = function() { 
-            runPremium(); 
             applySettingsToUI();
         };
-
-        const db = {
-            AVF_M_A: [5855, 5855, 5855, 5855, 5855, 3474, 3474, 3474, 3474, 3474, 3293, 3293, 3293, 3293, 3293, 3293, 3522, 3742, 3890, 3972, 3972, 4143, 4188, 4233, 4249, 4396, 4480, 4612, 4716, 4776, 4880, 4964, 5048, 5134, 5246, 5405, 5623, 5824, 5988, 6232, 6548, 6892, 7254, 7680, 8005, 8312, 8639, 8935, 9357, 9764, 10556, 11165, 11620, 12147, 12704, 13304, 14136, 14839, 15572, 16372, 17477, 18711, 19908, 21114, 22164, 23657, 24985, 26321, 27669, 29072, 30820, 32856, 34892, 36928, 38964, 41363, 43416, 45469, 47524, 49577, 52084],
-            AVF_M_M: [517, 517, 517, 517, 517, 306, 306, 306, 306, 306, 290, 290, 290, 290, 290, 290, 311, 330, 343, 350, 350, 365, 369, 373, 375, 388, 395, 407, 416, 421, 430, 438, 445, 453, 463, 477, 496, 514, 528, 550, 578, 608, 640, 678, 706, 734, 762, 788, 826, 862, 932, 985, 1026, 1072, 1121, 1174, 1248, 1310, 1375, 1445, 1543, 1652, 1757, 1864, 1957, 2088, 2206, 2324, 2443, 2567, 2721, 2901, 3081, 3260, 3440, 3652, 3833, 4014, 4196, 4377, 4599],
-            AVF_F_A: [4532, 4532, 4532, 4532, 4532, 3461, 3461, 3461, 3461, 3461, 3311, 3311, 3311, 3311, 3311, 3312, 3556, 3745, 3884, 4054, 4054, 4373, 4630, 4804, 4997, 5148, 5208, 5436, 5627, 5812, 6053, 6167, 6404, 6629, 6858, 7089, 7413, 7726, 8088, 8486, 9126, 9797, 10380, 10708, 10957, 11140, 11378, 11552, 11809, 12048, 12636, 12828, 12878, 13046, 13168, 13491, 13847, 14216, 14744, 15324, 16059, 17063, 18054, 19260, 20279, 21943, 22986, 24170, 25365, 26604, 28201, 29995, 31788, 33581, 35374, 37496, 39306, 41114, 42924, 44733, 46951],
-            AVF_F_M: [400, 400, 400, 400, 400, 305, 305, 305, 305, 305, 292, 292, 292, 292, 292, 292, 314, 330, 343, 358, 358, 386, 408, 424, 441, 454, 459, 480, 496, 513, 534, 544, 565, 585, 605, 626, 654, 682, 714, 749, 805, 865, 916, 945, 967, 983, 1004, 1020, 1042, 1063, 1115, 1132, 1137, 1152, 1162, 1191, 1222, 1255, 1302, 1353, 1418, 1506, 1594, 1700, 1790, 1937, 2029, 2134, 2239, 2349, 2490, 2648, 2806, 2965, 3123, 3310, 3470, 3630, 3790, 3950, 4145],
-            AVSW_0_A: [9352, 9352, 9352, 9352, 9352, 9016, 8680, 8344, 8008, 7672, 7336, 7336, 7336, 7336, 7336, 7336, 7336, 7336, 7336, 7416, 7576, 7776, 8144, 8592, 8984, 9792, 10536, 11296, 11992, 12520, 12888, 13248, 13432, 13792, 14328, 14592, 14600, 14872, 15240, 15320, 15496, 15936, 16616, 17360, 18568, 19688, 20616, 21480, 22328, 23392, 24440, 26600, 28592, 30536, 32880, 35192, 37264, 39672, 41512, 44272, 47152, 50128, 53528, 57960, 63568, 68696, 74544, 78944, 82232, 86496, 90504, 96432, 101768, 107024, 112480, 117744, 124056, 129016, 133864, 134864, 137656],
-            AVSW_0_M: [824, 824, 824, 824, 824, 800, 768, 736, 704, 680, 648, 648, 648, 648, 648, 648, 648, 648, 648, 656, 672, 688, 720, 760, 792, 864, 928, 1000, 1056, 1104, 1136, 1168, 1184, 1216, 1264, 1288, 1288, 1312, 1344, 1352, 1368, 1408, 1464, 1536, 1640, 1736, 1824, 1896, 1968, 2064, 2160, 2352, 2528, 2696, 2904, 3104, 3288, 3504, 3664, 3912, 4160, 4424, 4728, 5120, 5616, 6064, 6584, 6968, 7264, 7640, 7992, 8512, 8984, 9448, 9928, 10400, 10952, 11392, 11824, 11912, 12152],
-            AVSW_18000_A: [3560, 3560, 3560, 3560, 3560, 3264, 3168, 3064, 2968, 2872, 2768, 2768, 2768, 2768, 2768, 2768, 2768, 2768, 2768, 2880, 2880, 2928, 3192, 3312, 3704, 3896, 4080, 4520, 4712, 4944, 5112, 5160, 5232, 5312, 5456, 5528, 5824, 5824, 5984, 5984, 6064, 6496, 6776, 7088, 7392, 7840, 8160, 8720, 9104, 9536, 10016, 10856, 11440, 12416, 13320, 14168, 15112, 16072, 17016, 18248, 19288, 20440, 21896, 23816, 26008, 28000, 30816, 32576, 34064, 35920, 37704, 40152, 42400, 44592, 47040, 49560, 51648, 53728, 55288, 57112, 58672],
-            AVSW_18000_M: [312, 312, 312, 312, 312, 288, 280, 272, 264, 256, 248, 248, 248, 248, 248, 248, 248, 248, 248, 256, 256, 256, 280, 296, 328, 344, 360, 400, 416, 440, 448, 456, 464, 472, 480, 488, 512, 512, 528, 528, 536, 576, 600, 624, 656, 696, 720, 768, 800, 840, 888, 960, 1008, 1096, 1176, 1248, 1336, 1416, 1504, 1608, 1704, 1808, 1936, 2104, 2296, 2472, 2720, 2880, 3008, 3168, 3328, 3544, 3744, 3936, 4152, 4376, 4560, 4744, 4880, 5040, 5184],
-            AVPU_16000_A: [4880, 4880, 4880, 4880, 4880, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4608, 4784, 4784, 4784, 5136, 5248, 5784, 6000, 6184, 6752, 6944, 7176, 7320, 7392, 7496, 7608, 7816, 7920, 8336, 8336, 8568, 8568, 8680, 9296, 9704, 10144, 10584, 11224, 11688, 12488, 13040, 13648, 14336, 15080, 15424, 16256, 16960, 17552, 18728, 19912, 21088, 22616, 23904, 25328, 27136, 29512, 32224, 34696, 37808, 39976, 41776, 43944, 46176, 49208, 52064, 54384, 57664, 60688, 63296, 65720, 67704, 69976, 71904],
-            AVPU_16000_M: [432, 432, 432, 432, 432, 408, 408, 408, 408, 408, 408, 408, 408, 408, 408, 408, 408, 408, 408, 424, 424, 424, 456, 464, 512, 528, 544, 600, 616, 632, 648, 656, 664, 672, 688, 696, 736, 736, 760, 760, 768, 824, 856, 896, 936, 992, 1032, 1104, 1152, 1208, 1264, 1328, 1360, 1432, 1496, 1552, 1656, 1760, 1864, 2000, 2112, 2240, 2400, 2608, 2848, 3064, 3336, 3528, 3688, 3880, 4080, 4344, 4600, 4800, 5088, 5360, 5592, 5800, 5976, 6176, 6352],
-        };
-
-        function runPremium() {
-            var inputAge = parseInt(document.getElementById('age').value) || 30;
-            var age = Math.min(80, Math.max(0, inputAge)); 
-            var gender = document.getElementById('gender').value;
-            var mode = document.getElementById('payMode').value;
-            var tax = parseFloat(document.getElementById('taxRate').value);
-            var isVit = document.getElementById('vitality').checked;
-            var dAVSW = document.getElementById('deductAVSW').value;
-            var dAVPU = document.getElementById('deductAVPU').value;
-            var modeKey = mode === 'annual' ? 'A' : 'M';
-
-            var baseAVF = db["AVF_" + gender + "_" + modeKey][age] || 0;
-            var baseAVSW = db["AVSW_" + dAVSW + "_" + modeKey] ? db["AVSW_" + dAVSW + "_" + modeKey][age] : 0;
-            var baseAVPU = db["AVPU_" + dAVPU + "_" + modeKey] ? db["AVPU_" + dAVPU + "_" + modeKey][age] : 0;
-
-            if (mode === 'monthly') { baseAVF *= 12; baseAVSW *= 12; baseAVPU *= 12; }
-
-            var pAVF = isVit ? baseAVF * 0.9 : baseAVF;
-            var pAVSW = isVit ? baseAVSW * 0.9 : baseAVSW;
-            var pAVPU = isVit ? baseAVPU * 0.9 : baseAVPU;
-
-            var displayMode = mode === 'annual' ? "年繳總額" : "月繳全年總額";
-            var rAVF = Math.min(pAVF, 8000) * tax;
-            var rAVSW = Math.min(pAVSW, 8000) * tax;
-            var rAVPU = Math.min(pAVPU, 8000) * tax;
-
-            document.getElementById('premiumResult').innerHTML = '<table class="w-full text-center text-[11px] leading-loose"><tr class="text-blue-800 border-b border-blue-200"><th class="py-1 text-left w-[25%] font-normal text-gray-500">' + displayMode + '</th><th class="py-1 w-[25%]">靈活</th><th class="py-1 w-[25%]">睿選</th><th class="py-1 w-[25%]">尊耀</th></tr><tr><td class="py-1 text-left font-bold text-gray-700">首年保費</td><td class="py-1">$' + Math.round(pAVF).toLocaleString() + '</td><td class="py-1">$' + Math.round(pAVSW).toLocaleString() + '</td><td class="py-1">$' + Math.round(pAVPU).toLocaleString() + '</td></tr><tr class="text-green-600 border-b border-blue-100"><td class="py-1 text-left">扣稅回贈</td><td class="py-1">-$' + Math.round(rAVF).toLocaleString() + '</td><td class="py-1">-$' + Math.round(rAVSW).toLocaleString() + '</td><td class="py-1">-$' + Math.round(rAVPU).toLocaleString() + '</td></tr><tr class="font-bold text-[12px]"><td class="py-2 text-left text-gray-800">實際淨成本</td><td class="py-2 text-red-600">$' + Math.round(pAVF - rAVF).toLocaleString() + '</td><td class="py-2 text-red-600">$' + Math.round(pAVSW - rAVSW).toLocaleString() + '</td><td class="py-2 text-red-600">$' + Math.round(pAVPU - rAVPU).toLocaleString() + '</td></tr></table>';
-        }
     </script>
 </body>
 </html>
