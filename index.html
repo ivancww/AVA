@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>AVA 實戰系統 v6.0.0</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>AVA 實戰系統 v5.1.0</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="logo-192.png">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .gradient-primary { background: linear-gradient(135deg, #1f2937 0%, #111827 100%); }
@@ -11,12 +18,17 @@
         .tab-content { display: none; animation: fadeIn 0.2s ease-in-out; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .menu-btn { background: white; border-radius: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid #f3f4f6; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 10px; transition: transform 0.2s, box-shadow 0.2s; }
+        .menu-btn:active { transform: scale(0.96); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .btn-large-flat { background: white; border-radius: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid #eef2f6; display: flex; align-items: center; padding: 20px; width: 100%; transition: transform 0.2s; margin-bottom: 12px;}
         .btn-large-flat:active { transform: scale(0.98); }
+        .quote-block { background: #f8fafc; border-radius: 12px; padding: 20px; margin: 15px 0; font-size: 0.95rem; color: #334155; line-height: 1.8; border-left: 4px solid #4a148c; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
     </style>
 </head>
-<body class="bg-gray-50 pb-10 text-gray-800">
+<body class="bg-gray-50 pb-10 text-gray-800" onload="loadLocalSettings()">
 
+    <!-- 全新 Lightbox (支援左右切換與圖文並茂) -->
     <div id="lightbox" class="hidden fixed inset-0 bg-black/95 z-[9999] flex flex-col justify-center items-center">
         <button onclick="closeLightbox(event)" class="absolute top-6 right-6 text-white text-3xl z-50">×</button>
         <div class="relative w-full h-[70vh] flex items-center justify-center">
@@ -25,24 +37,32 @@
             <button onclick="nextImage(event)" class="absolute right-2 p-4 text-white text-4xl z-50">›</button>
         </div>
         <div id="lightbox-desc" class="w-full max-w-md px-6 mt-4 text-white text-sm leading-relaxed text-center bg-black/50 py-3 rounded-xl min-h-[60px]">
-            </div>
+            <!-- 動態文字 -->
+        </div>
     </div>
 
+    <!-- 頂部 Header -->
     <nav class="gradient-primary text-white p-5 rounded-b-3xl shadow-lg sticky top-0 z-50 flex justify-between items-end">
         <div onclick="goToPortal()" class="cursor-pointer">
             <div class="flex items-center gap-2">
-              <h1 class="text-xl font-bold text-red-500 italic">AVA <span class="text-white not-italic text-lg">實戰系統 v5.0.0</span></h1>
+              <h1 class="text-xl font-bold text-red-500 italic">AVA <span class="text-white not-italic text-lg">系統</span></h1>
+              <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.1.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
+        <!-- 登入後台按鈕 -->
         <div onclick="triggerLogin()" class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center border border-white/10 cursor-pointer">
             <span class="text-white font-bold text-sm">⚙️</span>
         </div>
     </nav>
 
     <div class="max-w-4xl mx-auto px-4 mt-6">
+        <!-- ========================================== -->
+        <!-- 🏠 主頁門戶 -->
+        <!-- ========================================== -->
         <div id="portal-tab" class="tab-content active">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 左邊：願景與目標 -->
                 <div class="card border-t-4 border-gray-800 bg-slate-900 text-white p-5 h-full">
                     <div class="flex items-center gap-2 mb-3">
                         <span class="text-2xl">🌟</span>
@@ -56,6 +76,7 @@
                     <p class="text-xs text-gray-400 italic text-center mt-4">「做保險唔洗盲摸摸，AVA 系統就是你的人生 GPS。」</p>
                 </div>
 
+                <!-- 右邊：四大系統卡片 -->
                 <div class="space-y-4">
                     <button onclick="switchTab('success-path')" class="btn-large-flat border-l-4 border-red-500 gap-4">
                         <div class="text-4xl bg-red-50 p-2 rounded-xl">🎯</div>
@@ -77,85 +98,192 @@
             </div>
         </div>
 
+        <!-- ========================================== -->
+        <!-- 🎯 成功之路 (完整 11 式) -->
+        <!-- ========================================== -->
         <div id="success-path-tab" class="tab-content space-y-4 max-w-md mx-auto">
             <h2 class="text-xl font-bold text-gray-800 mb-2">🎯 成功之路</h2>
-            <button onclick="switchTab('step1-company')" class="w-full text-left card border-l-4 border-blue-600 p-4 flex justify-between items-center m-0">
-                <div><span class="text-[10px] font-bold text-blue-600">第一式</span><h4 class="font-bold text-sm mt-0.5">介紹公司</h4></div><div class="text-2xl">🏢</div>
-            </button>
-            <button onclick="switchTab('step2-profile')" class="w-full text-left card border-l-4 border-indigo-600 p-4 flex justify-between items-center m-0 mt-3">
-                <div><span class="text-[10px] font-bold text-indigo-600">第二式</span><h4 class="font-bold text-sm mt-0.5">個人願景及承諾</h4></div><div class="text-2xl">👨‍💼</div>
-            </button>
-            <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl mt-4">🔙 返回主目錄</button>
-        </div>
-
-        <div id="treasure-box-tab" class="tab-content space-y-4 max-w-md mx-auto">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">🧰 成功百寶箱</h2>
-            <div class="grid grid-cols-2 gap-4">
-                <button class="card flex flex-col items-center justify-center p-4 border-b-4 border-blue-400"><div class="text-3xl mb-2">💡</div><h3 class="font-bold text-xs">醫療/危疾的分別</h3></button>
-                <button class="card flex flex-col items-center justify-center p-4 border-b-4 border-rose-400"><div class="text-3xl mb-2">🛡️</div><h3 class="font-bold text-xs">危疾防護對比</h3></button>
-                <button class="card flex flex-col items-center justify-center p-4 border-b-4 border-indigo-400 col-span-2" onclick="loadEncyclopedia()"><div class="text-3xl mb-2">📚</div><h3 class="font-bold text-xs">官方產品百科 (動態加載)</h3></button>
+            <p class="text-xs text-gray-500 italic mb-4 bg-gray-100 p-3 rounded-xl leading-relaxed">💡 <b>領袖提示：</b> 點擊進入對應招式。見客唔係一味 Hard Sell，多用<b>「請教」</b>與<b>「想像一下」</b>！</p>
+            
+            <div class="space-y-4">
+                <button onclick="switchTab('step1-company')" class="w-full text-left card border-l-4 border-blue-600 p-4 active:scale-95 transition-transform hover:shadow-md flex justify-between items-center m-0">
+                    <div><span class="text-[10px] font-bold text-blue-600">第一式 · 建立信任</span><h4 class="font-bold text-sm text-gray-800 mt-0.5">介紹公司 (點擊進入)</h4></div><div class="text-2xl text-blue-500">🏢</div>
+                </button>
+                <button onclick="switchTab('step2-profile')" class="w-full text-left card border-l-4 border-indigo-600 p-4 active:scale-95 transition-transform hover:shadow-md flex justify-between items-center m-0">
+                    <div><span class="text-[10px] font-bold text-indigo-600">第二式 · 初心建立</span><h4 class="font-bold text-sm text-gray-800 mt-0.5">個人願景及承諾 (點擊進入)</h4></div><div class="text-2xl text-indigo-500">👨‍💼</div>
+                </button>
+                <div class="card border-l-4 border-red-500 bg-red-50/50 p-4"><span class="text-[10px] font-bold text-red-500">第三式 · 請教模式 (★核心核心)</span><h4 class="font-bold text-sm text-red-900 mt-0.5">了解客人對保險、仔女關注及退休的想法</h4><p class="text-xs text-red-900 font-bold bg-white border border-red-200 p-2 rounded-lg mt-2 mb-1">⚠️ 秘訣：必須經常用「請教」二字！</p></div>
+                <div class="card border-l-4 border-indigo-500 bg-indigo-50/50 p-4"><span class="text-[10px] font-bold text-indigo-600">第四式 · 想像模式 (★核心核心)</span><h4 class="font-bold text-sm text-indigo-900 mt-0.5">合適提問，了解客戶核心問題與關注位</h4><p class="text-xs text-indigo-900 font-bold bg-white border border-indigo-200 p-2 rounded-lg mt-2 mb-1">⚠️ 秘訣：必須經常用「想像一下」！</p></div>
+                <div class="card border-l-4 border-gray-800 p-4"><span class="text-[10px] font-bold text-gray-400">第五式 · 方案對焦</span><h4 class="font-bold text-sm text-gray-800 mt-0.5">針對核心及關注點提供精準解決方案</h4></div>
+                <div class="card border-l-4 border-orange-500 bg-orange-50/40 p-4"><span class="text-[10px] font-bold text-orange-600">第六式 · 規避損失 (按客需要介紹)</span><h4 class="font-bold text-sm text-orange-900 mt-0.5">介紹醫療/危疾/人壽點幫客降低損失</h4></div>
+                <div class="card border-l-4 border-emerald-500 bg-emerald-50/40 p-4"><span class="text-[10px] font-bold text-emerald-600">第七式 · 財富鎖定 (按客需要介紹)</span><h4 class="font-bold text-sm text-emerald-900 mt-0.5">教育及退休規劃、做同唔做的分別</h4></div>
+                <div class="card border-l-4 border-purple-500 bg-purple-50/40 p-4"><span class="text-[10px] font-bold text-purple-600">第八式 · 承諾預告</span><h4 class="font-bold text-sm text-purple-900 mt-0.5">Closing 後的後續 Follow-up 承諾</h4></div>
+                <div class="card border-l-4 border-gray-800 p-4"><span class="text-[10px] font-bold text-gray-400">第九式 · 專業跟進</span><h4 class="font-bold text-sm text-gray-800 mt-0.5">賠償的全程跟進服務</h4></div>
+                <div class="card border-l-4 border-gray-800 p-4"><span class="text-[10px] font-bold text-gray-400">第十式 · 信任收割 A</span><h4 class="font-bold text-sm text-gray-800 mt-0.5">承第 8 點的 Review 服務，順理成章加單及攞 Refer</h4></div>
+                <div class="card border-l-4 border-rose-500 bg-rose-50/40 p-4"><span class="text-[10px] font-bold text-rose-600">第十一式 · 信任收割 B (★黃金轉介點)</span><h4 class="font-bold text-sm text-rose-900 mt-0.5">承第 9 點成功賠償後，順水推舟加單或攞 Refer</h4></div>
             </div>
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl mt-4">🔙 返回主目錄</button>
         </div>
 
+        <!-- 展現第一式與第二式 -->
+        <div id="step1-company-tab" class="tab-content space-y-4 max-w-md mx-auto">
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">第一式：介紹公司</h2>
+            <div class="card p-4 shadow-md mt-4">
+                <h3 class="font-bold text-blue-800 mb-2 text-sm text-center">🏆 信心指標：全港最多保單公司</h3><img src="https://i.postimg.cc/qv4SSp1t/492.jpg" class="w-full rounded-xl mb-3 cursor-zoom-in" onclick="openSingleImage(this.src)">
+                <h3 class="font-bold text-emerald-700 mb-2 text-sm text-center border-t border-gray-100 pt-4">🏥 多元化產品及貼心服務</h3><img src="https://i.postimg.cc/9QCKKcLR/491.jpg" class="w-full rounded-xl mb-3 cursor-zoom-in" onclick="openSingleImage(this.src)">
+                <h3 class="font-bold text-orange-700 mb-2 text-sm text-center border-t border-gray-100 pt-4">💰 實力承諾：驚人賠償總額</h3><img src="https://i.postimg.cc/nhpggn39/490.jpg" class="w-full rounded-xl mb-3 cursor-zoom-in" onclick="openSingleImage(this.src)">
+            </div>
+            <button onclick="switchTab('success-path')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl mt-4">🔙 返回成功之路</button>
+        </div>
+
+        <div id="step2-profile-tab" class="tab-content space-y-4 max-w-md mx-auto">
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">第二式：個人願景及承諾</h2>
+            <div class="card p-5 shadow-md mt-4">
+                <h3 class="text-lg font-bold text-indigo-900 mb-2 border-b border-indigo-100 pb-2"><span id="display-name">團隊顧問</span> 的承諾</h3>
+                <div class="quote-block" id="display-vision">系統預設願景：提供有溫度的理財規劃。</div>
+            </div>
+            <button onclick="switchTab('success-path')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl mt-4">🔙 返回成功之路</button>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- 🧰 成功百寶箱 (6 大功能還原) -->
+        <!-- ========================================== -->
+        <div id="treasure-box-tab" class="tab-content space-y-4 max-w-md mx-auto">
+            <div class="flex items-center gap-2 mb-4 px-2"><div class="text-3xl">🧰</div><h2 class="text-xl font-bold text-gray-800">成功百寶箱</h2></div>
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="switchTab('concept')" class="menu-btn border-b-4 border-blue-400"><div class="text-4xl mb-2 drop-shadow-sm">💡</div><h3 class="font-bold text-gray-700 text-xs">醫療/危疾的分別</h3></button>
+                <button onclick="switchTab('ci')" class="menu-btn border-b-4 border-rose-400"><div class="text-4xl mb-2 drop-shadow-sm">🛡️</div><h3 class="font-bold text-gray-700 text-xs">危疾防護對比</h3></button>
+                <button onclick="switchTab('uw')" class="menu-btn border-b-4 border-purple-400"><div class="text-4xl mb-2 drop-shadow-sm">🔍</div><h3 class="font-bold text-gray-700 text-xs">核保真相指引</h3></button>
+                <button onclick="switchTab('claim')" class="menu-btn border-b-4 border-orange-400"><div class="text-4xl mb-2 drop-shadow-sm">🏥</div><h3 class="font-bold text-gray-700 text-xs">網絡索償流程</h3></button>
+                <button onclick="switchTab('vitality')" class="menu-btn border-b-4 border-pink-400"><div class="text-4xl mb-2 drop-shadow-sm">🏃</div><h3 class="font-bold text-gray-700 text-xs">AIA Vitality</h3></button>
+                <button onclick="loadEncyclopediaFront()" class="menu-btn border-b-4 border-indigo-400"><div class="text-4xl mb-2 drop-shadow-sm">📚</div><h3 class="font-bold text-gray-700 text-xs">官方產品百科</h3></button>
+            </div>
+            <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl mt-4">🔙 返回主目錄</button>
+        </div>
+        
+        <!-- 百科前台展示 -->
+        <div id="encyclopedia-tab" class="tab-content space-y-4 max-w-md mx-auto">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 border-l-4 border-indigo-500 pl-3">📚 官方產品百科</h2>
+            <div id="encyclopedia-list" class="space-y-4"></div>
+            <button onclick="switchTab('treasure-box')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl mt-4">🔙 返回百寶箱</button>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- 🏥 網絡醫生名單 (完整專科選單) -->
+        <!-- ========================================== -->
         <div id="doctor-list-tab" class="tab-content space-y-4 max-w-md mx-auto">
             <h2 class="text-xl font-bold text-gray-800 mb-4 border-l-4 border-emerald-500 pl-3">🏥 網絡醫生名單</h2>
             <div class="card p-4 bg-emerald-50/50 border border-emerald-100">
-                <select id="doc-plan" class="w-full p-3 rounded-xl border mb-3 text-sm" onchange="toggleHospitalField()">
-                    <option value="">選擇醫療計劃</option>
+                <select id="doc-plan" class="w-full p-3 rounded-xl border mb-3 text-sm font-bold text-gray-700 outline-none" onchange="toggleHospitalField()">
+                    <option value="">1️⃣ 選擇醫療計劃</option>
                     <option value="睿選醫療">睿選醫療</option>
                     <option value="自願醫保">自願醫保</option>
                     <option value="友心意">友心意</option>
                 </select>
-                <input type="text" id="doc-specialty" placeholder="輸入專科 (例如: 兒科)" class="w-full p-3 rounded-xl border mb-3 text-sm">
-                <select id="doc-gender" class="w-full p-3 rounded-xl border mb-3 text-sm">
-                    <option value="">不限性別</option>
+                
+                <select id="doc-specialty" class="w-full p-3 rounded-xl border mb-3 text-sm font-bold text-gray-700 outline-none">
+                    <option value="">2️⃣ 選擇專科 (必須選擇)</option>
+                    <option value="神經科">神經科</option>
+                    <option value="兒科">兒科</option>
+                    <option value="小兒外科">小兒外科</option>
+                    <option value="婦科腫瘤科">婦科腫瘤科</option>
+                    <option value="血液及血液腫瘤科">血液及血液腫瘤科</option>
+                    <option value="神經外科">神經外科</option>
+                    <option value="腎病科">腎病科</option>
+                    <option value="血管外科">血管外科</option>
+                    <option value="骨科及創傷科">骨科及創傷科</option>
+                    <option value="臨床腫瘤科">臨床腫瘤科</option>
+                    <option value="臨床放射科">臨床放射科</option>
+                    <option value="眼科">眼科</option>
+                    <option value="內科腫瘤科">內科腫瘤科</option>
+                    <option value="呼吸系統科">呼吸系統科</option>
+                    <option value="心胸外科">心胸外科</option>
+                    <option value="泌、糖尿及新陳代謝">泌、糖尿及新陳代謝</option>
+                    <option value="婦產科">婦產科</option>
+                    <option value="普通外科">普通外科</option>
+                    <option value="心臟科">心臟科</option>
+                    <option value="腸胃肝臟科">腸胃肝臟科</option>
+                    <option value="耳鼻喉科">耳鼻喉科</option>
+                    <option value="泌尿科">泌尿科</option>
+                    <option value="泌尿外科">泌尿外科</option>
+                </select>
+
+                <select id="doc-gender" class="w-full p-3 rounded-xl border mb-3 text-sm font-bold text-gray-700 outline-none">
+                    <option value="">3️⃣ 醫生性別 (選填)</option>
                     <option value="男">男醫生</option>
                     <option value="女">女醫生</option>
                 </select>
-                <select id="doc-hospital" class="w-full p-3 rounded-xl border mb-4 text-sm hidden">
-                    <option value="">不限醫院</option>
+                
+                <select id="doc-hospital" class="w-full p-3 rounded-xl border mb-4 text-sm font-bold text-gray-700 outline-none hidden">
+                    <option value="">4️⃣ 醫院名單 (僅限睿選)</option>
                     <option value="浸會醫院">浸會醫院</option>
                     <option value="仁安醫院">仁安醫院</option>
                     <option value="聖德肋撒(法國)醫院">聖德肋撒(法國)醫院</option>
                 </select>
-                <button onclick="fetchDoctors()" class="w-full bg-emerald-600 text-white font-bold py-3 rounded-xl">🔍 搜尋醫生</button>
+                <button onclick="fetchDoctors()" class="w-full bg-emerald-600 active:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-md">🔍 即時搜尋醫生</button>
             </div>
             <div id="doctor-results" class="space-y-3 mt-4"></div>
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl mt-4">🔙 返回主目錄</button>
         </div>
 
+        <!-- ========================================== -->
+        <!-- ⚔️ 終極武器庫 (載入獨立 App Logo) -->
+        <!-- ========================================== -->
         <div id="armory-tab" class="tab-content space-y-4 max-w-md mx-auto">
-            <h2 class="text-xl font-bold text-gray-800 mb-4 border-l-4 border-indigo-500 pl-3">⚔️ 終極武器庫</h2>
-            <a href="https://ivancww.github.io/CIApp" target="_blank" class="card border-l-4 border-rose-500 flex items-center gap-4 hover:shadow-md">
-                <div class="text-3xl">🛡️</div>
-                <div><h3 class="font-bold text-rose-700">危疾進階分析器</h3><p class="text-[11px] text-gray-500">財務缺口壓力測試</p></div>
+            <div class="flex items-center gap-2 mb-4 px-2"><div class="text-3xl">⚔️</div><h2 class="text-xl font-bold text-gray-800">終極武器庫</h2></div>
+            <p class="text-xs text-gray-500 italic mb-4 bg-indigo-50 p-3 rounded-xl leading-relaxed">💡 <b>領袖提示：</b> 呢度嘅進階分析器係幫客人做「財務 X 光」。</p>
+            
+            <a href="https://ivancww.github.io/CIApp" target="_blank" class="card border-l-4 border-rose-500 flex items-center gap-4 active:scale-95 transition-transform hover:shadow-md m-0">
+                <img src="https://ivancww.github.io/CIApp/icon-192.png" alt="CI App Logo" class="w-14 h-14 rounded-xl shadow-sm object-cover border border-gray-100">
+                <div><h3 class="font-bold text-rose-700 text-base">危疾進階分析器</h3><p class="text-[11px] text-gray-500 mt-1">精準對比三大危疾保障範圍及家庭財務缺口壓力測試。</p></div>
             </a>
-            <a href="https://ivancww.github.io/avawealth" target="_blank" class="card border-l-4 border-yellow-500 flex items-center gap-4 hover:shadow-md mt-4">
-                <div class="text-3xl">💰</div>
-                <div><h3 class="font-bold text-yellow-700">財富管理工具</h3><p class="text-[11px] text-gray-500">資產傳承與規劃</p></div>
+            
+            <a href="https://ivancww.github.io/avawealth" target="_blank" class="card border-l-4 border-yellow-500 flex items-center gap-4 active:scale-95 transition-transform hover:shadow-md mt-4">
+                <img src="https://ivancww.github.io/avawealth/icon-192.png" alt="Wealth App Logo" class="w-14 h-14 rounded-xl shadow-sm object-cover border border-gray-100">
+                <div><h3 class="font-bold text-yellow-700 text-base">Asset Inheritance Planning System Pro v1.0</h3><p class="text-[11px] text-gray-500 mt-1">財富管理工具：資產傳承與規劃</p></div>
             </a>
+            
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl mt-4">🔙 返回主目錄</button>
         </div>
 
+        <!-- ========================================== -->
+        <!-- ⚙️ 系統內容管理後台 (Local + Firebase) -->
+        <!-- ========================================== -->
         <div id="backend-cms-tab" class="tab-content space-y-4 max-w-md mx-auto p-4">
-            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-red-500 pl-3">⚙️ 系統內容管理後台</h2>
-            <div class="card p-4 shadow-md bg-red-50/30">
-                <h3 class="font-bold mb-3">📂 新增 / 更新百科內容</h3>
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-teal-600 pl-3 mb-4">⚙️ 系統管理後台</h2>
+            
+            <!-- 區域 1: 獨立裝置設定 (Local Storage) -->
+            <div class="card p-4 shadow-md border-t-4 border-teal-500">
+                <h3 class="font-bold mb-3 text-teal-800 text-sm">📱 獨立裝置設定 (只限本機)</h3>
+                <label class="block text-xs font-bold text-gray-600 mb-1">您的尊稱 (第二式)</label>
+                <input type="text" id="setting-name" class="w-full p-3 border rounded-xl mb-3 text-sm" placeholder="例如：Ivan Chiu">
+                <label class="block text-xs font-bold text-gray-600 mb-1">個人願景與承諾 (第二式)</label>
+                <textarea id="setting-vision" rows="3" class="w-full p-3 border rounded-xl mb-3 text-sm" placeholder="輸入專屬願景..."></textarea>
+                <button onclick="saveLocalSettings()" class="w-full bg-teal-600 text-white font-bold py-3 rounded-xl shadow-md text-sm">💾 儲存本機設定</button>
+            </div>
+
+            <!-- 區域 2: 全局雲端同步 (Firebase) -->
+            <div class="card p-4 shadow-md border-t-4 border-red-500 mt-6 bg-red-50/30">
+                <h3 class="font-bold mb-3 text-red-800 text-sm">☁️ 全局內容更新 (團隊同步)</h3>
+                <label class="block text-xs font-bold text-gray-600 mb-1">新增產品百科</label>
                 <input type="text" id="cms-title" placeholder="產品名稱 (例如：尊享明珠)" class="w-full p-3 border rounded-xl mb-3 text-sm">
                 <textarea id="cms-desc" rows="3" placeholder="圖文並茂說明文字..." class="w-full p-3 border rounded-xl mb-3 text-sm"></textarea>
-                <input type="file" id="cms-file" accept="image/*,application/pdf" class="mb-4">
-                <button onclick="uploadContentToFirebase()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow-md">📤 上載並發佈</button>
+                <input type="file" id="cms-file" accept="image/*,application/pdf" class="mb-4 text-sm w-full">
+                <button onclick="uploadContentToFirebase()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow-md text-sm">📤 上載並發佈至全團隊</button>
+                
+                <h4 class="font-bold text-gray-700 mt-6 mb-2 border-b pb-2">📋 已上載之百科文件</h4>
+                <div id="cms-list" class="space-y-2 mt-2"></div>
             </div>
-            <div id="cms-list" class="space-y-2 mt-4"></div>
-            <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl mt-4">登出後台</button>
+
+            <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl mt-4">🚪 安全登出後台</button>
         </div>
     </div>
 
+    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
-        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDkrnaRrWodQvgorLFFIFU1HbFXSit37Lg",
@@ -170,7 +298,6 @@
         window.storage = getStorage(app);
         window.db = getFirestore(app);
         
-        // 綁定 Firebase 函數到 window 供全域調用
         window.uploadContentToFirebase = async function() {
             let title = document.getElementById('cms-title').value;
             let desc = document.getElementById('cms-desc').value;
@@ -178,59 +305,91 @@
             
             if(!title || !fileInput) return alert("請填寫標題及選擇檔案");
             
-            alert("上載中，請稍候...");
+            alert("上載中，請耐心等候...");
             try {
-                // 1. 上載檔案到 Storage
                 let storageRef = ref(window.storage, 'encyclopedia/' + Date.now() + '_' + fileInput.name);
                 await uploadBytes(storageRef, fileInput);
                 let fileUrl = await getDownloadURL(storageRef);
                 
-                // 2. 寫入資料到 Firestore
                 await addDoc(collection(window.db, "encyclopedia"), {
                     title: title,
                     desc: desc,
                     url: fileUrl,
                     filePath: storageRef.fullPath,
+                    type: fileInput.type,
                     timestamp: Date.now()
                 });
                 
                 alert("上載成功！");
                 document.getElementById('cms-title').value = '';
                 document.getElementById('cms-desc').value = '';
+                document.getElementById('cms-file').value = '';
                 loadEncyclopediaAdmin();
-            } catch (e) {
-                alert("上載失敗：" + e.message);
-            }
+            } catch (e) { alert("上載失敗：" + e.message); }
         }
         
         window.deleteContent = async function(docId, filePath) {
-            if(!confirm("確定要刪除這筆資料嗎？此動作將同步刪除雲端檔案。")) return;
+            if(!confirm("確定要刪除這筆資料嗎？此動作將同步刪除雲端檔案，且無法復原。")) return;
             try {
                 await deleteObject(ref(window.storage, filePath));
                 await deleteDoc(doc(window.db, "encyclopedia", docId));
                 alert("已徹底刪除");
                 loadEncyclopediaAdmin();
-            } catch (e) {
-                alert("刪除失敗：" + e.message);
-            }
+            } catch (e) { alert("刪除失敗：" + e.message); }
         }
 
         window.loadEncyclopediaAdmin = async function() {
             let listDiv = document.getElementById('cms-list');
-            listDiv.innerHTML = "載入中...";
-            const querySnapshot = await getDocs(collection(window.db, "encyclopedia"));
+            listDiv.innerHTML = "<p class='text-sm text-gray-500'>載入中...</p>";
+            const q = query(collection(window.db, "encyclopedia"), orderBy("timestamp", "desc"));
+            const querySnapshot = await getDocs(q);
             let html = "";
             querySnapshot.forEach((docSnap) => {
                 let data = docSnap.data();
-                html += `<div class="card p-3 flex justify-between items-center text-sm">
-                    <span>${data.title}</span>
-                    <button onclick="deleteContent('${docSnap.id}', '${data.filePath}')" class="bg-red-500 text-white px-3 py-1 rounded">刪除</button>
+                html += `<div class="bg-white p-3 rounded-xl border flex justify-between items-center text-sm shadow-sm">
+                    <span class="font-bold text-gray-700 truncate w-2/3">${data.title}</span>
+                    <button onclick="deleteContent('${docSnap.id}', '${data.filePath}')" class="bg-red-500 text-white px-3 py-1 rounded-lg">刪除</button>
                 </div>`;
             });
-            listDiv.innerHTML = html;
+            listDiv.innerHTML = html || "<p class='text-sm text-gray-400'>尚無百科資料</p>";
+        }
+
+        window.loadEncyclopediaFront = async function() {
+            switchTab('encyclopedia');
+            let listDiv = document.getElementById('encyclopedia-list');
+            listDiv.innerHTML = "<p class='text-center text-gray-500 my-4'>正在連線至系統資料庫...</p>";
+            try {
+                const q = query(collection(window.db, "encyclopedia"), orderBy("timestamp", "desc"));
+                const querySnapshot = await getDocs(q);
+                let html = "";
+                let imgArr = [];
+                let idx = 0;
+
+                querySnapshot.forEach((docSnap) => {
+                    let data = docSnap.data();
+                    let isPdf = data.type && data.type.includes('pdf');
+                    
+                    html += `<div class="card p-4 border-l-4 border-indigo-500 m-0">
+                        <h3 class="font-bold text-lg text-indigo-900">${data.title}</h3>
+                        <p class="text-xs text-gray-600 mt-2 mb-3 bg-gray-50 p-2 rounded-lg">${data.desc || '無備註說明'}</p>`;
+                    
+                    if (isPdf) {
+                        html += `<a href="${data.url}" target="_blank" class="block w-full text-center bg-indigo-50 text-indigo-700 font-bold py-3 rounded-xl border border-indigo-200">📄 點擊開啟 PDF 檔案</a>`;
+                    } else {
+                        imgArr.push({url: data.url, desc: data.desc});
+                        html += `<img src="${data.url}" class="w-full rounded-xl cursor-zoom-in border border-gray-100" onclick="openLightboxFromArr(${idx})">`;
+                        idx++;
+                    }
+                    html += `</div>`;
+                });
+                
+                listDiv.innerHTML = html || "<p class='text-center text-gray-400'>後台尚未上載任何產品百科</p>";
+                window.encyclopediaImages = imgArr; // 儲存至全域供 Lightbox 使用
+            } catch (e) { listDiv.innerHTML = "<p class='text-center text-red-500'>無法載入資料</p>"; }
         }
     </script>
 
+    <!-- UI 與一般邏輯 -->
     <script>
         const GAS_URL = "https://script.google.com/macros/s/AKfycby0bCPSDHHgmdQikt77bSIbxVQ5L9_uYBKgYoAxSyStIVyfdHXXbUz0hnOo8qLlKfOwyA/exec";
 
@@ -241,13 +400,36 @@
         }
         function goToPortal() { switchTab('portal'); }
 
-        async function triggerLogin() {
+        // Local Storage 設定
+        function loadLocalSettings() {
+            let name = localStorage.getItem("ava_name");
+            let vision = localStorage.getItem("ava_vision");
+            if(name) {
+                document.getElementById('setting-name').value = name;
+                document.getElementById('display-name').innerText = name;
+            }
+            if(vision) {
+                document.getElementById('setting-vision').value = vision;
+                document.getElementById('display-vision').innerText = vision;
+            }
+        }
+        
+        function saveLocalSettings() {
+            let name = document.getElementById('setting-name').value;
+            let vision = document.getElementById('setting-vision').value;
+            localStorage.setItem("ava_name", name);
+            localStorage.setItem("ava_vision", vision);
+            document.getElementById('display-name').innerText = name || "團隊顧問";
+            document.getElementById('display-vision').innerText = vision || "提供有溫度的理財規劃。";
+            alert("本機設定儲存成功！");
+        }
+
+        // 登入後台
+        function triggerLogin() {
             let pwd = prompt("請輸入系統管理密碼：");
             if (!pwd) return;
-    
-            // 只保留本地密碼驗證
             if (pwd === "renew") {
-                alert("登入成功");
+                alert("登入成功，進入管理後台");
                 switchTab('backend-cms');
                 if(window.loadEncyclopediaAdmin) window.loadEncyclopediaAdmin();
             } else { 
@@ -272,11 +454,12 @@
             let gender = document.getElementById("doc-gender").value;
             let hospital = document.getElementById("doc-hospital").value;
             
-            if(!plan) return alert("必須選擇醫療計劃");
-            if(plan === "睿選醫療" && !specialty) return alert("睿選醫療必須輸入專科名稱！");
+            if(!plan) return alert("請先選擇醫療計劃");
+            if(plan === "睿選醫療" && !specialty) return alert("搜尋睿選醫療必須選擇專科名稱！");
+            if(!specialty) return alert("必須選擇專科");
 
             let resultDiv = document.getElementById("doctor-results");
-            resultDiv.innerHTML = "<p class='text-center text-gray-500'>🔍 正在連接系統搜尋中...</p>";
+            resultDiv.innerHTML = "<div class='card p-4 text-center'><span class='animate-pulse text-emerald-600 font-bold'>🔍 正在連接系統數據庫搜尋中...</span></div>";
             
             let url = `${GAS_URL}?action=getDoctors&plan=${plan}&specialty=${specialty}&gender=${gender}&hospital=${hospital}`;
             try {
@@ -284,49 +467,63 @@
                 let json = await res.json();
                 
                 if(json.data.length === 0) {
-                    resultDiv.innerHTML = "<p class='text-center text-red-500 font-bold'>找不到符合條件的醫生</p>";
+                    resultDiv.innerHTML = "<div class='card p-4 text-center text-red-500 font-bold'>找不到符合條件的醫生，請嘗試更改搜尋條件。</div>";
                     return;
                 }
                 
-                let html = "";
+                let html = `<p class="text-xs text-gray-500 text-right mb-2">✅ 成功為您找到 ${json.data.length} 位醫生</p>`;
                 json.data.forEach(doc => {
-                    html += `<div class="card p-3 border-l-4 border-emerald-500 m-0 text-sm">
-                        <p class="font-bold text-lg">${doc['醫生名'] || doc['醫生姓名'] || '未知'}</p>
-                        <p class="text-gray-600">專科: ${doc['專科'] || specialty}</p>
-                        <p class="text-gray-600">性別: ${doc['性別'] || '不詳'}</p>
+                    html += `<div class="card p-3 border-l-4 border-emerald-500 m-0 mb-3 text-sm flex justify-between items-center shadow-sm">
+                        <div>
+                            <p class="font-bold text-lg text-gray-800">${doc['醫生名'] || doc['醫生姓名'] || '未知'}</p>
+                            <p class="text-gray-500 mt-1">專科: ${doc['專科'] || specialty}</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold border border-emerald-100">${doc['性別'] || '不詳'}</span>
+                        </div>
                     </div>`;
                 });
                 resultDiv.innerHTML = html;
             } catch (e) {
-                resultDiv.innerHTML = "<p class='text-center text-red-500'>伺服器連線錯誤</p>";
+                resultDiv.innerHTML = "<div class='card p-4 text-center text-red-500'>伺服器連線錯誤，請稍後再試。</div>";
             }
         }
 
-        // Lightbox 邏輯 (圖文並茂 + 左右滑動)
-        let galleryImages = [];
+        // Lightbox 邏輯
         let currentImgIndex = 0;
+        let isSingle = false;
 
-        function openLightbox(imagesArray, index) {
-            galleryImages = imagesArray;
+        function openSingleImage(src) {
+            isSingle = true;
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox-desc').innerHTML = "";
+            document.getElementById('lightbox').classList.remove('hidden');
+        }
+
+        function openLightboxFromArr(index) {
+            if(!window.encyclopediaImages || window.encyclopediaImages.length === 0) return;
+            isSingle = false;
             currentImgIndex = index;
             updateLightboxUI();
             document.getElementById('lightbox').classList.remove('hidden');
         }
 
         function updateLightboxUI() {
-            let item = galleryImages[currentImgIndex];
+            let item = window.encyclopediaImages[currentImgIndex];
             document.getElementById('lightbox-img').src = item.url;
-            document.getElementById('lightbox-desc').innerHTML = item.desc || "無說明";
+            document.getElementById('lightbox-desc').innerHTML = item.desc || "無備註說明";
         }
 
         function prevImage(e) {
             e.stopPropagation();
+            if(isSingle || !window.encyclopediaImages) return;
             if(currentImgIndex > 0) { currentImgIndex--; updateLightboxUI(); }
         }
 
         function nextImage(e) {
             e.stopPropagation();
-            if(currentImgIndex < galleryImages.length - 1) { currentImgIndex++; updateLightboxUI(); }
+            if(isSingle || !window.encyclopediaImages) return;
+            if(currentImgIndex < window.encyclopediaImages.length - 1) { currentImgIndex++; updateLightboxUI(); }
         }
 
         function closeLightbox(e) {
