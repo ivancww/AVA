@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v5.3.1</title>
+    <title>AVA 實戰系統 v5.4.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -26,7 +26,7 @@
         .zoom-img { cursor: zoom-in; transition: transform 0.2s; width: 100%; border-radius: 12px; border: 1px solid #f1f5f9; object-fit: contain; }
         .img-container { max-width: 650px; margin: 0 auto; }
         
-        /* 圖片放大 Lightbox 及關閉按紐 */
+        /* 圖片放大 Lightbox 及關閉按鈕 */
         #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); justify-content: center; align-items: center; overflow: auto; }
         #lightbox img { max-width: 90%; max-height: 85vh; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in; }
         
@@ -63,7 +63,7 @@
 </head>
 <body class="bg-gray-50 pb-10 text-gray-800">
 
-    <!-- 圖片放大視窗 (新增右上角返回/關閉按鈕) -->
+    <!-- 圖片放大 Lightbox -->
     <div id="lightbox" onclick="closeLightbox(event)">
         <button class="close-btn" onclick="forceCloseLightbox(event)">✕</button>
         <img id="lightbox-img" src="" alt="Zoomed View" onclick="toggleLightboxZoom(event)">
@@ -75,7 +75,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.3.1</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.4.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -143,11 +143,12 @@
                             </div>
                         </button>
 
-                        <button onclick="window.open('https://www.aia.com.hk/zh-hk/help-and-support/individuals/network-doctor-search', '_blank')" class="btn-large-flat border-l-4 border-emerald-500 gap-3">
+                        <!-- 切換至全網絡醫生搜尋頁面 -->
+                        <button onclick="switchTab('doctor')" class="btn-large-flat border-l-4 border-emerald-500 gap-3">
                             <div class="text-3xl bg-emerald-50 p-2.5 rounded-xl">👨‍⚕️</div>
                             <div class="text-left">
                                 <h4 class="font-bold text-gray-800 text-sm">全網絡醫生名單</h4>
-                                <p class="text-[10px] text-gray-400 mt-0.5">快速搜尋及查閱醫療網絡</p>
+                                <p class="text-[10px] text-gray-400 mt-0.5">快速搜尋及查閱醫療網絡與醫生資料</p>
                             </div>
                         </button>
 
@@ -161,6 +162,86 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- 👨‍⚕️ 全網絡醫生名單卡片頁面 -->
+        <div id="doctor-tab" class="tab-content space-y-4">
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-emerald-600 pl-3 mb-2">👨‍⚕️ 全網絡醫生名單</h2>
+            <p class="text-xs text-gray-500 italic bg-emerald-50 p-3 rounded-xl border border-emerald-100">
+                💡 請選擇<b>醫療服務</b>與<b>專科</b>，系統將自動實時讀取並彈出相關醫生資料。
+            </p>
+
+            <div class="card p-5 shadow-md border-t-4 border-emerald-500 space-y-4">
+                <!-- 1. 醫療服務選擇 -->
+                <div>
+                    <label class="block text-xs font-bold text-emerald-800 mb-1">1. 選擇醫療服務</label>
+                    <select id="doc-service" onchange="onDoctorQueryChange()" class="font-bold text-gray-700">
+                        <option value="">-- 請選擇醫療服務 --</option>
+                        <option value="睿選">睿選 (AVSW)</option>
+                        <option value="自願醫保">自願醫保 (VHIS)</option>
+                        <option value="友心意">友心意</option>
+                    </select>
+                </div>
+
+                <!-- 2. 專科選擇 -->
+                <div>
+                    <label class="block text-xs font-bold text-emerald-800 mb-1">2. 選擇專科</label>
+                    <select id="doc-specialty" onchange="onDoctorQueryChange()" class="font-bold text-gray-700">
+                        <option value="">-- 請選擇專科 --</option>
+                        <!-- 動態整合圖片二專科名稱 -->
+                        <option value="普通外科">普通外科 / 外科</option>
+                        <option value="婦產科">婦產科</option>
+                        <option value="心臟科">心臟科</option>
+                        <option value="腸胃肝臟科">腸胃肝臟科</option>
+                        <option value="耳鼻喉科">耳鼻喉科</option>
+                        <option value="骨科(矯形及創傷外科)">骨科 (矯形及創傷外科)</option>
+                        <option value="眼科">眼科</option>
+                        <option value="泌尿科">泌尿科 / 泌尿外科</option>
+                        <option value="皮膚及性病科">皮膚及性病科</option>
+                        <option value="腦內科">腦內科 / 神經科</option>
+                        <option value="腦外科">腦外科 / 神經外科</option>
+                        <option value="兒科">兒科</option>
+                        <option value="小兒外科">小兒外科</option>
+                        <option value="心胸外科">心胸外科</option>
+                        <option value="呼吸系統科">呼吸系統科</option>
+                        <option value="腎病科">腎病科 / 腎科</option>
+                        <option value="血管外科">血管外科</option>
+                        <option value="風濕病科">風濕病科 / 風濕科</option>
+                        <option value="臨床腫瘤科">臨床腫瘤科</option>
+                        <option value="內科腫瘤科">內科腫瘤科</option>
+                        <option value="婦科腫瘤科">婦科腫瘤科</option>
+                        <option value="血液及血液腫瘤科">血液及血液腫瘤科</option>
+                        <option value="內分泌及血糖與新陳代謝">內分泌及糖尿病科 / 泌、糖尿及新陳代謝</option>
+                        <option value="基層保健醫生">基層保健醫生</option>
+                        <option value="老人科">老人科</option>
+                        <option value="急症科">急症科</option>
+                        <option value="兒童心臟科">兒童心臟科</option>
+                        <option value="手術中心">手術中心</option>
+                        <option value="化驗所">化驗所</option>
+                    </select>
+                </div>
+
+                <!-- 7. 掛單醫院 (只 for 睿選) -->
+                <div id="hospital-filter-block" class="hidden bg-yellow-50 p-3 rounded-xl border border-yellow-200">
+                    <label class="block text-xs font-bold text-yellow-800 mb-1">🏥 篩選掛單醫院 (睿選專屬)</label>
+                    <select id="doc-hospital" onchange="onDoctorQueryChange()" class="text-xs">
+                        <option value="全部">全部醫院 (浸會/法國/聖保祿/仁安)</option>
+                        <option value="浸會">香港浸信會醫院 (浸會)</option>
+                        <option value="法國">聖德肋撒醫院 (法國)</option>
+                        <option value="聖保祿">聖保祿醫院</option>
+                        <option value="仁安">仁安醫院</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 3-6. 自動彈出醫生結果區域 -->
+            <div id="doctor-results-container" class="space-y-3">
+                <div class="card p-8 text-center text-gray-400 text-xs">
+                    👈 請在上方選取「醫療服務」與「專科」以載入醫生名單
+                </div>
+            </div>
+
+            <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
         </div>
 
         <!-- 🎯 成功之路 11 式導航 -->
@@ -343,6 +424,8 @@
 
     <script>
         const APP_GAS_LINK = "https://script.google.com/macros/s/AKfycbyT8YXG4LylNj9qf6M3RIo2FLYhGhArJ8XCUHtlcq1MVUSaHc55jGlWbFF_mpAg4dy4_A/exec";
+        // 全網絡醫生名單 GAS 連結
+        const DOCTOR_GAS_LINK = "https://script.google.com/macros/s/AKfycby0bCPSDHHgmdQikt77bSIbxVQ5L9_uYBKgYoAxSyStIVyfdHXXbUz0hnOo8qLlKfOwyA/exec";
 
         window.onload = function() { 
             checkAppLogin();
@@ -398,6 +481,87 @@
                 switchTab('backstage');
             } else {
                 alert("❌ 後台密碼錯誤！");
+            }
+        }
+
+        /* ----- 全網絡醫生查詢邏輯 ----- */
+        async function onDoctorQueryChange() {
+            const service = document.getElementById('doc-service').value;
+            const specialty = document.getElementById('doc-specialty').value;
+            const hospitalElem = document.getElementById('doc-hospital');
+            const hospitalFilterBlock = document.getElementById('hospital-filter-block');
+            const container = document.getElementById('doctor-results-container');
+
+            // 顯示/隱藏掛單醫院 (睿選專屬)
+            if (service === "睿選") {
+                hospitalFilterBlock.classList.remove('hidden');
+            } else {
+                hospitalFilterBlock.classList.add('hidden');
+            }
+
+            // 必須同時選擇服務與專科才進行發送
+            if (!service || !specialty) {
+                container.innerHTML = `<div class="card p-8 text-center text-gray-400 text-xs">👈 請在上方選取「醫療服務」與「專科」以載入醫生名單</div>`;
+                return;
+            }
+
+            container.innerHTML = `
+            <div class="card p-8 text-center text-emerald-600 font-bold text-xs animate-pulse">
+                🔍 正在向網路數據庫查詢 ${service} - ${specialty} 醫生名單，請稍候...
+            </div>`;
+
+            const selectedHospital = (service === "睿選") ? hospitalElem.value : "";
+
+            try {
+                // 向 GAS 發送查詢
+                const url = `${DOCTOR_GAS_LINK}?service=${encodeURIComponent(service)}&specialty=${encodeURIComponent(specialty)}&hospital=${encodeURIComponent(selectedHospital)}`;
+                let response = await fetch(url);
+                let data = await response.json();
+
+                let doctors = [];
+                if (Array.isArray(data)) {
+                    doctors = data;
+                } else if (data && data.doctors) {
+                    doctors = data.doctors;
+                }
+
+                if (!doctors || doctors.length === 0) {
+                    container.innerHTML = `
+                    <div class="card p-6 text-center text-gray-500 text-xs">
+                        ⚠️ 暫未找到符合條件的網絡醫生。請嘗試選擇其他專科或服務類別。
+                    </div>`;
+                    return;
+                }
+
+                container.innerHTML = '';
+                doctors.forEach((doc, idx) => {
+                    let name = doc.name || doc.doctorName || doc["醫生名"] || "醫生";
+                    let gender = doc.gender || doc["性別"] || "未提供";
+                    let district = doc.district || doc["地區"] || "未提供";
+                    let address = doc.address || doc["地址"] || "未提供";
+                    let hospital = doc.hospital || doc["掛單醫院"] || "";
+
+                    let hospitalBadge = (service === "睿選" && hospital) ? 
+                        `<div class="mt-2 text-[11px] bg-yellow-50 text-yellow-800 p-2 rounded-lg border border-yellow-200">🏥 <b>掛單醫院：</b> ${hospital}</div>` : '';
+
+                    let cardHtml = `
+                    <div class="card p-4 border-l-4 border-emerald-500 shadow-sm space-y-1.5">
+                        <div class="flex justify-between items-center border-b border-gray-100 pb-2 mb-1">
+                            <span class="font-bold text-base text-gray-800">🩺 ${name}</span>
+                            <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">${gender}</span>
+                        </div>
+                        <p class="text-xs text-gray-600"><b>📍 地區：</b> ${district}</p>
+                        <p class="text-xs text-gray-600"><b>🏢 地址：</b> ${address}</p>
+                        ${hospitalBadge}
+                    </div>`;
+                    container.innerHTML += cardHtml;
+                });
+
+            } catch (err) {
+                container.innerHTML = `
+                <div class="card p-6 text-center text-red-500 text-xs font-bold">
+                    ❌ 數據載入失敗，請檢查網路連線或確定 GAS 存取權限。
+                </div>`;
             }
         }
 
@@ -575,7 +739,7 @@
             }
         }
 
-        /* 圖片放大及關閉邏輯修復 */
+        /* 圖片放大及關閉邏輯 */
         let isZoomed = false;
         function zoom(el) { 
             isZoomed = false; 
