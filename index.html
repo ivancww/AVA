@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v5.2.4</title>
+    <title>AVA 實戰系統 v5.3.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -41,12 +41,16 @@
         .logo-full-width img { max-width: 80%; height: auto; max-height: 50px; object-fit: contain; }
         .quote-block { background: #f8fafc; border-radius: 12px; padding: 20px; margin: 15px 0; font-size: 0.95rem; color: #334155; line-height: 1.8; border-left: 4px solid #4a148c; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
 
+        /* PPT 幻燈片橫向滾動容器 */
+        .ppt-slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; gap: 16px; border-radius: 16px; }
+        .ppt-slider::-webkit-scrollbar { display: none; }
+        .ppt-slide { flex: 0 0 100%; scroll-snap-align: start; min-width: 100%; }
+
         .edit-card { border: 1px solid #cbd5e1; border-radius: 12px; padding: 15px; background: #fff; margin-bottom: 15px; position: relative; }
         .img-input-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
         .btn-icon { background: #fee2e2; color: #b91c1c; border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; flex-shrink: 0; }
         .btn-add-img { background: #e0f2fe; color: #1d4ed8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; display: inline-block; cursor: pointer; margin-top: 4px; }
 
-        /* 50% : 50% 大體顯眼視覺排版 */
         @media (min-width: 768px) {
             .desktop-layout { display: flex; gap: 24px; align-items: stretch; }
             .desktop-layout > .side-left { flex: 0 0 50%; }
@@ -66,7 +70,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.2.4</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.3.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -81,7 +85,7 @@
         <div id="portal-tab" class="tab-content active space-y-4">
             <div class="desktop-layout">
                 
-                <!-- 左邊：AVA 願景 (50% 大體顯眼) -->
+                <!-- 左邊：AVA 願景 -->
                 <div class="side-left">
                     <div class="card border-t-8 border-red-600 bg-slate-900 text-white p-7 shadow-2xl h-full flex flex-col justify-between">
                         <div>
@@ -154,57 +158,67 @@
             </div>
         </div>
 
-        <!-- 🎯 成功之路 11 式導航 -->
+        <!-- 🎯 成功之路 11 式導航 (動態可編輯渲染) -->
         <div id="steps11-tab" class="tab-content space-y-4">
             <h2 class="text-xl font-bold text-gray-800 mb-2">🎯 成功之路 11 式導航</h2>
             <p class="text-xs text-gray-500 italic mb-4 bg-gray-100 p-3 rounded-xl leading-relaxed">💡 <b>領袖提示：</b> 點擊進入對應招式。見客唔係一味 Hard Sell，多用<b>「請教」</b>與<b>「想像一下」</b>！</p>
             
-            <div class="space-y-4">
-                <button onclick="switchTab('step1-company')" class="w-full text-left card border-l-4 border-blue-600 p-4 active:scale-95 transition-transform hover:shadow-md flex justify-between items-center m-0">
-                    <div><span class="text-[10px] font-bold text-blue-600">第一式 · 建立信任</span><h4 class="font-bold text-sm text-gray-800 mt-0.5">介紹公司 (點擊進入)</h4></div><div class="text-2xl text-blue-500">🏢</div>
-                </button>
-                <button onclick="switchTab('step2-profile')" class="w-full text-left card border-l-4 border-indigo-600 p-4 active:scale-95 transition-transform hover:shadow-md flex justify-between items-center m-0">
-                    <div><span class="text-[10px] font-bold text-indigo-600">第二式 · 初心建立</span><h4 class="font-bold text-sm text-gray-800 mt-0.5">個人願景及承諾 (點擊進入)</h4></div><div class="text-2xl text-indigo-500">👨‍💼</div>
-                </button>
-
-                <div class="card border-l-4 border-red-500 bg-red-50/50 p-4"><span class="text-[10px] font-bold text-red-500">第三式 · 請教模式 (★核心核心)</span><h4 class="font-bold text-sm text-red-900 mt-0.5">了解客人對保險、仔女關注及退休的想法</h4><p class="text-xs text-red-900 font-bold bg-white border border-red-200 p-2 rounded-lg mt-2 mb-1">⚠️ 秘訣：必須經常用「請教」二字！</p></div>
-                <div class="card border-l-4 border-indigo-500 bg-indigo-50/50 p-4"><span class="text-[10px] font-bold text-indigo-600">第四式 · 想像模式 (★核心核心)</span><h4 class="font-bold text-sm text-indigo-900 mt-0.5">合適提問，了解客戶核心問題與關注位</h4><p class="text-xs text-indigo-900 font-bold bg-white border border-indigo-200 p-2 rounded-lg mt-2 mb-1">⚠️ 秘訣：必須經常用「想像一下」！</p></div>
-                <div class="card border-l-4 border-gray-800 p-4"><span class="text-[10px] font-bold text-gray-400">第五式 · 方案對焦</span><h4 class="font-bold text-sm text-gray-800 mt-0.5">針對核心及關注點提供精準解決方案</h4></div>
-                <div class="card border-l-4 border-orange-500 bg-orange-50/40 p-4"><span class="text-[10px] font-bold text-orange-600">第六式 · 規避損失 (按客需要介紹)</span><h4 class="font-bold text-sm text-orange-900 mt-0.5">介紹醫療/危疾/人壽點幫客降低損失</h4></div>
-                <div class="card border-l-4 border-emerald-500 bg-emerald-50/40 p-4"><span class="text-[10px] font-bold text-emerald-600">第七式 · 財富鎖定 (按客需要介紹)</span><h4 class="font-bold text-sm text-emerald-900 mt-0.5">教育及退休規劃、做同唔做的分別</h4></div>
-                <div class="card border-l-4 border-purple-500 bg-purple-50/40 p-4"><span class="text-[10px] font-bold text-purple-600">第八式 · 承諾預告</span><h4 class="font-bold text-sm text-purple-900 mt-0.5">Closing 後的後續 Follow-up 承諾</h4></div>
-                <div class="card border-l-4 border-gray-800 p-4"><span class="text-[10px] font-bold text-gray-400">第九式 · 專業跟進</span><h4 class="font-bold text-sm text-gray-800 mt-0.5">賠償的全程跟進服務</h4></div>
-                <div class="card border-l-4 border-gray-800 p-4"><span class="text-[10px] font-bold text-gray-400">第十式 · 信任收割 A</span><h4 class="font-bold text-sm text-gray-800 mt-0.5">承第 8 點的 Review 服務，順理成章加單及攞 Refer</h4></div>
-                <div class="card border-l-4 border-rose-500 bg-rose-50/40 p-4"><span class="text-[10px] font-bold text-rose-600">第十一式 · 信任收割 B (★黃金轉介點)</span><h4 class="font-bold text-sm text-rose-900 mt-0.5">承第 9 點成功賠償後，順水推舟加單或攞 Refer</h4></div>
-            </div>
+            <div id="dynamic-steps11-container" class="space-y-4"></div>
 
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
         </div>
 
-        <!-- 第一式：公司實力 -->
+        <!-- 第一式：公司實力 (PPT 滑動簡報模式) -->
         <div id="step1-company-tab" class="tab-content space-y-4">
-            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">第一式：介紹公司</h2>
-            <div class="card p-4 shadow-md mt-4 img-container">
-                <div class="logo-full-width border-b border-gray-100 pb-3 mb-3"><img src="https://i.postimg.cc/kgP5H68H/Screenshot-2026-05-05-12-18-56-996-com-android-chrome-edit.jpg" alt="AIA"></div>
-                <h3 class="font-bold text-blue-800 mb-2 text-sm text-center">🏆 信心指標：全港最多保單公司</h3><img src="https://i.postimg.cc/qv4SSp1t/492.jpg" class="zoom-img mb-3" onclick="zoom(this)">
-                <h3 class="font-bold text-emerald-700 mb-2 text-sm text-center border-t border-gray-100 pt-4">🏥 多元化產品及貼心服務</h3><img src="https://i.postimg.cc/9QCKKcLR/491.jpg" class="zoom-img mb-3" onclick="zoom(this)">
-                <h3 class="font-bold text-orange-700 mb-2 text-sm text-center border-t border-gray-100 pt-4">💰 實力承諾：驚人賠償總額及守護每位客戶</h3><img src="https://i.postimg.cc/nhpggn39/490.jpg" class="zoom-img mb-3" onclick="zoom(this)">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">第一式：介紹公司</h2>
+                <span class="text-xs text-gray-400 italic">👈 左右滑動查看卡片 👉</span>
             </div>
+            
+            <div class="ppt-slider" id="company-ppt-slider">
+                <!-- Slide 1 -->
+                <div class="ppt-slide card p-5 shadow-lg border-t-4 border-blue-600">
+                    <div class="logo-full-width border-b border-gray-100 pb-3 mb-3"><img src="https://i.postimg.cc/kgP5H68H/Screenshot-2026-05-05-12-18-56-996-com-android-chrome-edit.jpg" alt="AIA"></div>
+                    <h3 class="font-bold text-blue-800 mb-3 text-base text-center">🏆 信心指標：全港最多保單公司</h3>
+                    <img src="https://i.postimg.cc/qv4SSp1t/492.jpg" class="zoom-img mb-3 max-h-[55vh]" onclick="zoom(this)">
+                    <p class="text-xs text-gray-600 leading-relaxed bg-blue-50 p-3 rounded-xl">以強大市場佔有率及品牌實力，為客戶提供最穩健的財務承諾與強大後盾。</p>
+                </div>
+                <!-- Slide 2 -->
+                <div class="ppt-slide card p-5 shadow-lg border-t-4 border-emerald-600">
+                    <h3 class="font-bold text-emerald-800 mb-3 text-base text-center">🏥 多元化產品及貼心服務</h3>
+                    <img src="https://i.postimg.cc/9QCKKcLR/491.jpg" class="zoom-img mb-3 max-h-[55vh]" onclick="zoom(this)">
+                    <p class="text-xs text-gray-600 leading-relaxed bg-emerald-50 p-3 rounded-xl">從醫療網絡、危疾防護到財富傳承，全方位覆蓋人生不同階段的需要。</p>
+                </div>
+                <!-- Slide 3 -->
+                <div class="ppt-slide card p-5 shadow-lg border-t-4 border-orange-600">
+                    <h3 class="font-bold text-orange-800 mb-3 text-base text-center">💰 實力承諾：驚人賠償總額與安心守護</h3>
+                    <img src="https://i.postimg.cc/nhpggn39/490.jpg" class="zoom-img mb-3 max-h-[55vh]" onclick="zoom(this)">
+                    <p class="text-xs text-gray-600 leading-relaxed bg-orange-50 p-3 rounded-xl">真實理賠數據證明實力，迅速跟進理賠索償，讓每位客戶後顧無憂。</p>
+                </div>
+            </div>
+
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
         </div>
 
-        <!-- 第二式：個人願景 -->
+        <!-- 第二式：個人願景 (PPT 滑動簡報模式) -->
         <div id="step2-profile-tab" class="tab-content space-y-4">
-            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">第二式：個人願景及承諾</h2>
-            <div class="card p-5 shadow-md mt-4">
-                <h3 class="text-lg font-bold text-indigo-900 mb-2 border-b border-indigo-100 pb-2"><span class="dyn-name">TOT 頂尖顧問</span> 的承諾</h3>
-                <div class="quote-block dyn-vision"></div>
-                <div id="dynamic-profile-cards"></div>
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">第二式：個人願景及承諾</h2>
+                <span class="text-xs text-gray-400 italic">👈 左右滑動查看卡片 👉</span>
             </div>
+
+            <div class="card p-5 shadow-md mb-4">
+                <h3 class="text-lg font-bold text-indigo-900 mb-2 border-b border-indigo-100 pb-2"><span class="dyn-name">TOT 頂尖顧問</span> 的承諾</h3>
+                <div class="quote-block dyn-vision mb-0"></div>
+            </div>
+
+            <!-- PPT 橫向滑動區 (動態注入) -->
+            <div class="ppt-slider" id="dynamic-profile-ppt-container"></div>
+
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
         </div>
 
-        <!-- ⚙️ 個人化設定 (變裝房) -->
+        <!-- ⚙️ 個人化設定 (變裝房後台) -->
         <div id="settings-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-teal-600 pl-3">⚙️ 個人化設定 (變裝房)</h2>
             <div class="card p-5 shadow-md border-t-4 border-teal-500">
@@ -212,13 +226,16 @@
                 <input type="text" id="setting-name" class="mb-4 text-sm" placeholder="例如：Ivan Chiu">
 
                 <label class="block text-xs font-bold text-teal-800 mb-1">個人願景與承諾</label>
-                <textarea id="setting-vision" rows="6" class="mb-6" placeholder="輸入您的專屬願景..."></textarea>
+                <textarea id="setting-vision" rows="5" class="mb-6" placeholder="輸入您的專屬願景..."></textarea>
 
-                <h3 class="font-bold text-gray-800 border-b pb-2 mb-3">🗂️ 管理專屬情境卡片</h3>
+                <h3 class="font-bold text-gray-800 border-b pb-2 mb-3">🖼️ 管理第二式情境卡片 (大圖+文字 PPT)</h3>
                 <div id="settings-cards-container"></div>
+                <button onclick="addSettingCard()" class="w-full bg-teal-50 text-teal-700 font-bold py-3 rounded-xl border border-teal-200 mb-8 border-dashed">➕ 加入新情境 PPT 卡片</button>
 
-                <button onclick="addSettingCard()" class="w-full bg-gray-100 text-gray-700 font-bold py-3 rounded-xl border border-gray-300 mb-6 border-dashed">➕ 加入新情境卡片</button>
-                <button onclick="saveSettings()" class="w-full bg-teal-600 active:bg-teal-700 text-white font-bold py-4 rounded-xl shadow-md">💾 儲存並替換系統資料</button>
+                <h3 class="font-bold text-gray-800 border-b pb-2 mb-3">🎯 管理 3-11 式招式內容 (可自訂文字與圖片)</h3>
+                <div id="settings-steps-container"></div>
+
+                <button onclick="saveSettings()" class="w-full bg-teal-600 active:bg-teal-700 text-white font-bold py-4 rounded-xl shadow-md text-base mt-4">💾 儲存所有變裝設定</button>
             </div>
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 離開設定</button>
         </div>
@@ -262,8 +279,9 @@
                 <div><h3 class="font-bold text-emerald-700 text-base">醫療理賠精算器</h3><p class="text-[11px] text-gray-500 mt-1">模擬真實理賠數據，計算淨成本及扣稅優惠。</p></div>
             </a>
             
+            <!-- 已修正 Logo 名為 avawealth-192.png -->
             <a href="https://ivancww.github.io/avawealth" target="_blank" class="card border-l-4 border-yellow-500 flex items-center gap-4 active:scale-95 transition-transform hover:shadow-md">
-                <img src="https://ivancww.github.io/avawealth/icon-192.png" alt="AVA Wealth Logo" class="w-14 h-14 rounded-xl shadow-sm object-cover border border-gray-100">
+                <img src="https://ivancww.github.io/avawealth/avawealth-192.png" onerror="this.onerror=null; this.src='https://ivancww.github.io/avawealth/icon-192.png';" alt="AVA Wealth Logo" class="w-14 h-14 rounded-xl shadow-sm object-cover border border-gray-100">
                 <div><h3 class="font-bold text-yellow-700 text-base">AVA Wealth 系統</h3><p class="text-[11px] text-gray-500 mt-1">全方位資產配置及財富管理工具。</p></div>
             </a>
 
@@ -273,36 +291,51 @@
         <!-- 錦囊細節頁面 -->
         <div id="concept-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800">💡 醫療/危疾的分別</h2>
-            <div class="card p-3 shadow-sm img-container"><img src="https://i.postimg.cc/fLyFL66J/IMG-5625.png" class="zoom-img" onclick="zoom(this)"></div>
-            <div class="card p-3 shadow-sm img-container"><img src="https://i.postimg.cc/xC87CWWX/IMG-5624.png" class="zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-3 shadow-sm img-container"><h3 class="font-bold text-blue-800 mb-2 text-sm text-center">醫療的索償概念，點樣減輕治療費用的憂慮</h3><img src="https://i.postimg.cc/fLyFL66J/IMG-5625.png" class="zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-3 shadow-sm img-container"><h3 class="font-bold text-orange-700 mb-2 text-sm text-center">危疾的賠償概念及點樣幫助減少對儲蓄衝擊</h3><img src="https://i.postimg.cc/xC87CWWX/IMG-5624.png" class="zoom-img" onclick="zoom(this)"></div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
+        
         <div id="ci-tab" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-gray-800">🛡️ 危疾防護對比</h2>
             <div class="card p-3 shadow-sm img-container"><img src="https://i.postimg.cc/tg2XMSVC/3CI對比.png" class="zoom-img" onclick="zoom(this)"></div>
             <div class="card p-3 shadow-sm img-container"><img src="https://i.postimg.cc/yNvVbQS8/三大CI種類對比.png" class="zoom-img" onclick="zoom(this)"></div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
+        
+        <!-- 已補回《官方核保指引》PDF -->
         <div id="uw-tab" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-gray-800">🔍 核保真相指引</h2>
-            <div class="card p-3 shadow-sm img-container"><img src="https://i.postimg.cc/C15t1WWn/IMG-5623.png" class="zoom-img" onclick="zoom(this)"></div>
-            <div class="card p-3 shadow-sm img-container"><img src="https://i.postimg.cc/Y90V9JJj/IMG-5626.png" class="zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-3 shadow-sm img-container"><h3 class="font-bold text-indigo-700 mb-2 text-sm text-center">健康身體係買保險的必要因素</h3><img src="https://i.postimg.cc/C15t1WWn/IMG-5623.png" class="zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-3 shadow-sm img-container"><h3 class="font-bold text-teal-700 mb-2 text-sm text-center">醫生睇今時今刻，保險公司睇未來風險</h3><img src="https://i.postimg.cc/Y90V9JJj/IMG-5626.png" class="zoom-img" onclick="zoom(this)"></div>
+            <div class="card border-l-4 border-gray-500 p-4 shadow-sm img-container">
+                <h4 class="font-bold text-gray-700 text-lg mb-1">📋 官方核保指引</h4>
+                <a href="https://drive.google.com/file/d/1IbPbbX6Ezu6-_6dGbUGv0UwTs91ALRiG/view?usp=drivesdk" target="_blank" class="btn-pdf">📱 點擊打開官方核保指引 PDF</a>
+            </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
+        
         <div id="claim-tab" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-gray-800">🏥 網絡與索償流程</h2>
             <div class="card p-3 shadow-sm img-container"><img src="https://i.postimg.cc/Gt6NKL6w/IMG_4575.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
             <div class="card p-3 shadow-sm img-container"><img src="https://i.postimg.cc/L5G7D9Gp/IMG_4574.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
+        
+        <!-- 已補齊全部 6 份官方產品條款 PDF -->
         <div id="docs-tab" class="tab-content space-y-5">
             <h2 class="text-2xl font-bold text-gray-800 mb-2">📚 官方產品百科</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="card border-l-4 border-red-500 p-4 shadow-sm"><h4 class="font-bold text-red-700 text-lg mb-1">AVF 靈活計劃</h4><a href="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/view" target="_blank" class="btn-pdf">📱 點擊打開 AVF 條款</a></div>
                 <div class="card border-l-4 border-blue-500 p-4 shadow-sm"><h4 class="font-bold text-blue-700 text-lg mb-1">AVSW 睿選計劃</h4><a href="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/view" target="_blank" class="btn-pdf">📱 點擊打開 AVSW 條款</a></div>
+                <div class="card border-l-4 border-purple-500 p-4 shadow-sm"><h4 class="font-bold text-purple-700 text-lg mb-1">AVPU 尊耀計劃</h4><a href="https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_b/view" target="_blank" class="btn-pdf">📱 點擊打開 AVPU 條款</a></div>
+                <div class="card border-l-4 border-teal-500 p-4 shadow-sm"><h4 class="font-bold text-teal-700 text-lg mb-1">EOYS 簡緻愛伴航</h4><a href="https://drive.google.com/file/d/1OC3omzsXdKp3QzHyfm7GHWPNvJu-tRjm/view?usp=drivesdk" target="_blank" class="btn-pdf">📱 點擊打開 EOYS 條款</a></div>
+                <div class="card border-l-4 border-red-600 p-4 shadow-sm"><h4 class="font-bold text-red-800 text-lg mb-1">OYS 2 愛伴航</h4><a href="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/view" target="_blank" class="btn-pdf">📱 點擊打開 OYS2 條款</a></div>
+                <div class="card border-l-4 border-gray-400 p-4 shadow-sm"><h4 class="font-bold text-gray-700 text-lg mb-1">SCE 簡護危疾</h4><a href="https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/view" target="_blank" class="btn-pdf">📱 點擊打開 SCE 條款</a></div>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
+        
         <div id="vitality-tab" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-gray-800">🏃 AIA Vitality</h2>
             <div class="card p-3 bg-pink-50 border-t-4 border-pink-500 shadow-sm img-container"><img src="https://i.postimg.cc/XvwKjb4d/健康程式.png" class="rounded-xl shadow-md mb-4 zoom-img" onclick="zoom(this)"></div>
@@ -353,7 +386,6 @@
             }
         }
 
-        // 後台入口解鎖修復版
         function enterBackstage(event) {
             event.stopPropagation(); 
             var rawPassword = prompt("🔒 請輸入後台密碼：");
@@ -362,39 +394,58 @@
             var pass = rawPassword.trim().toLowerCase();
 
             if (pass === "avasystem") {
-                loadSettingsToForm(); // 載入設定資料到表單
-                switchTab('settings'); // 正確切換到變裝房
+                loadSettingsToForm();
+                switchTab('settings');
             } else if (pass === "0903") {
-                switchTab('backstage'); // 切換到團隊派發頁面
+                switchTab('backstage');
             } else {
                 alert("❌ 後台密碼錯誤！");
             }
         }
 
-        /* ----- 專屬設定與動態卡片邏輯 ----- */
-        const defaultVision = "「借助保險嘅特殊力量，我哋可以協助您從容面對突如其來嘅開支，守護您嘅財富，填補停工期間嘅收入中斷；\n\n同時借助理財嘅時間複利，穩健達成您嘅人生目標——無論係退休規劃，定係仔女嘅教育基金。\n\n我建立團隊，正正係為咗傳承呢份願景與承諾，令更多客人得到真正嘅保障與安心。」";
+        /* 預設資料與動態 LocalStorage 管理 */
+        const defaultVision = "「借助保險嘅特殊力量，我哋可以協助您從容面對突如其來嘅開支，守護您嘅財富...」";
         
         const defaultCards = [
             {
                 title: "🏆 卓越顧問及個人獎項",
                 desc: "自 2021年起榮獲卓越顧問 (Premier Advisor) 殊榮。每年嚴格控制服務新客戶數量，保證高質量一對一專屬服務。",
                 images: ["https://i.postimg.cc/vZCbTXWc/IMG-20260505-143201.jpg", "https://i.postimg.cc/qBjS6Pwv/IMG-20250625-084613.jpg"]
+            },
+            {
+                title: "📈 首席強積金退休顧問",
+                desc: "管理 80+ 客戶，資產超過 4,000萬。配合團隊專屬 App 主動提醒組合調配，對抗通脹。",
+                images: ["https://i.postimg.cc/2SgryT45/IMG-20260505-143235.jpg"]
             }
         ];
 
+        const defaultSteps = [
+            { num: 3, tag: "第三式 · 請教模式 (★核心核心)", title: "了解客人對保險、仔女關注及退休的想法", tip: "⚠️ 秘訣：必須經常用「請教」二字！", img: "" },
+            { num: 4, tag: "第四式 · 想像模式 (★核心核心)", title: "合適提問，了解客戶核心問題與關注位", tip: "⚠️ 秘訣：必須經常用「想像一下」！", img: "" },
+            { num: 5, tag: "第五式 · 方案對焦", title: "針對核心及關注點提供精準解決方案", tip: "", img: "" },
+            { num: 6, tag: "第六式 · 規避損失", title: "介紹醫療/危疾/人壽點幫客降低損失", tip: "", img: "" },
+            { num: 7, tag: "第七式 · 財富鎖定", title: "教育及退休規劃、做同唔做的分別", tip: "", img: "" },
+            { num: 8, tag: "第八式 · 承諾預告", title: "Closing 後的後續 Follow-up 承諾", tip: "", img: "" },
+            { num: 9, tag: "第九式 · 專業跟進", title: "賠償的全程跟進服務", tip: "", img: "" },
+            { num: 10, tag: "第十式 · 信任收割 A", title: "承第 8 點的 Review 服務，順理成章加單及攞 Refer", tip: "", img: "" },
+            { num: 11, tag: "第十一式 · 信任收割 B (★黃金轉介點)", title: "承第 9 點成功賠償後，順水推舟加單或攞 Refer", tip: "", img: "" }
+        ];
+
         let currentCards = [];
+        let currentSteps = [];
 
         function loadSettingsToForm() {
             document.getElementById('setting-name').value = localStorage.getItem('ava_name') || "TOT 頂尖顧問";
             document.getElementById('setting-vision').value = localStorage.getItem('ava_vision') || defaultVision;
             
             let savedCards = localStorage.getItem('ava_cards');
-            if (savedCards) {
-                currentCards = JSON.parse(savedCards);
-            } else {
-                currentCards = JSON.parse(JSON.stringify(defaultCards));
-            }
+            currentCards = savedCards ? JSON.parse(savedCards) : JSON.parse(JSON.stringify(defaultCards));
+
+            let savedSteps = localStorage.getItem('ava_steps');
+            currentSteps = savedSteps ? JSON.parse(savedSteps) : JSON.parse(JSON.stringify(defaultSteps));
+
             renderEditCards();
+            renderEditSteps();
         }
 
         function renderEditCards() {
@@ -406,54 +457,63 @@
                 card.images.forEach((img, iIndex) => {
                     imgHtml += `
                     <div class="img-input-row">
-                        <input type="text" class="card-img-val text-xs text-gray-500" value="${img}" placeholder="貼上相片網址..." onchange="updateImageData(${cIndex}, ${iIndex}, this.value)">
-                        <button onclick="removeImage(${cIndex}, ${iIndex})" class="btn-icon" title="移除相片">➖</button>
+                        <input type="text" class="text-xs text-gray-500" value="${img}" placeholder="貼上相片網址..." onchange="updateImageData(${cIndex}, ${iIndex}, this.value)">
+                        <button onclick="removeImage(${cIndex}, ${iIndex})" class="btn-icon">➖</button>
                     </div>`;
                 });
 
                 let cardHtml = `
                 <div class="edit-card">
-                    <button onclick="removeCard(${cIndex})" class="absolute top-2 right-2 text-red-500 font-bold text-xs bg-red-50 px-2 py-1 rounded">🗑️ 刪除此卡</button>
+                    <button onclick="removeCard(${cIndex})" class="absolute top-2 right-2 text-red-500 font-bold text-xs bg-red-50 px-2 py-1 rounded">🗑️ 刪除卡片</button>
                     <label class="block text-[11px] font-bold text-gray-500 mb-1">卡片標題</label>
-                    <input type="text" class="mb-3 text-sm font-bold text-indigo-900" value="${card.title}" onchange="updateCardData(${cIndex}, 'title', this.value)">
-                    
+                    <input type="text" class="mb-2 text-sm font-bold text-indigo-900" value="${card.title}" onchange="updateCardData(${cIndex}, 'title', this.value)">
                     <label class="block text-[11px] font-bold text-gray-500 mb-1">情境描述</label>
-                    <textarea rows="2" class="mb-3 text-xs" onchange="updateCardData(${cIndex}, 'desc', this.value)">${card.desc}</textarea>
-                    
-                    <label class="block text-[11px] font-bold text-gray-500 mb-1">相片畫廊 (可無限增加)</label>
+                    <textarea rows="2" class="mb-2 text-xs" onchange="updateCardData(${cIndex}, 'desc', this.value)">${card.desc}</textarea>
+                    <label class="block text-[11px] font-bold text-gray-500 mb-1">相片畫廊 (大圖 PPT)</label>
                     ${imgHtml}
-                    <div class="text-right"><button onclick="addImage(${cIndex})" class="btn-add-img">➕ 加入相片網址</button></div>
+                    <div class="text-right"><button onclick="addImage(${cIndex})" class="btn-add-img">➕ 加入相片</button></div>
                 </div>`;
                 container.innerHTML += cardHtml;
             });
         }
 
+        function renderEditSteps() {
+            const container = document.getElementById('settings-steps-container');
+            container.innerHTML = '';
+
+            currentSteps.forEach((step, sIndex) => {
+                let stepHtml = `
+                <div class="edit-card bg-slate-50 border-teal-200">
+                    <span class="text-xs font-bold text-teal-800 block mb-1">第 ${step.num} 式標籤</span>
+                    <input type="text" class="mb-2 text-xs font-bold text-gray-700" value="${step.tag}" onchange="updateStepData(${sIndex}, 'tag', this.value)">
+                    <label class="block text-[11px] font-bold text-gray-500 mb-1">招式內容與核心說明</label>
+                    <input type="text" class="mb-2 text-xs" value="${step.title}" onchange="updateStepData(${sIndex}, 'title', this.value)">
+                    <label class="block text-[11px] font-bold text-gray-500 mb-1">重點提示 / 秘訣</label>
+                    <input type="text" class="mb-2 text-xs text-red-600" value="${step.tip || ''}" placeholder="例如：秘訣：必須經常用..." onchange="updateStepData(${sIndex}, 'tip', this.value)">
+                    <label class="block text-[11px] font-bold text-gray-500 mb-1">招式圖片網址 (選填)</label>
+                    <input type="text" class="text-xs text-gray-500" value="${step.img || ''}" placeholder="貼上示意圖片網址..." onchange="updateStepData(${sIndex}, 'img', this.value)">
+                </div>`;
+                container.innerHTML += stepHtml;
+            });
+        }
+
         function updateCardData(cIndex, key, value) { currentCards[cIndex][key] = value; }
         function updateImageData(cIndex, iIndex, value) { currentCards[cIndex].images[iIndex] = value; }
+        function updateStepData(sIndex, key, value) { currentSteps[sIndex][key] = value; }
         
-        function addSettingCard() {
-            currentCards.push({ title: "新情境卡片", desc: "請輸入描述...", images: [""] });
-            renderEditCards();
-        }
-        function removeCard(cIndex) {
-            if(confirm("確定刪除此卡片？")) { currentCards.splice(cIndex, 1); renderEditCards(); }
-        }
-        function addImage(cIndex) {
-            currentCards[cIndex].images.push("");
-            renderEditCards();
-        }
-        function removeImage(cIndex, iIndex) {
-            currentCards[cIndex].images.splice(iIndex, 1);
-            renderEditCards();
-        }
+        function addSettingCard() { currentCards.push({ title: "新情境卡片", desc: "請輸入描述...", images: [""] }); renderEditCards(); }
+        function removeCard(cIndex) { if(confirm("確定刪除此卡片？")) { currentCards.splice(cIndex, 1); renderEditCards(); } }
+        function addImage(cIndex) { currentCards[cIndex].images.push(""); renderEditCards(); }
+        function removeImage(cIndex, iIndex) { currentCards[cIndex].images.splice(iIndex, 1); renderEditCards(); }
 
         function saveSettings() {
             localStorage.setItem('ava_name', document.getElementById('setting-name').value);
             localStorage.setItem('ava_vision', document.getElementById('setting-vision').value);
             localStorage.setItem('ava_cards', JSON.stringify(currentCards));
+            localStorage.setItem('ava_steps', JSON.stringify(currentSteps));
             
             applySettingsToUI();
-            alert("✅ 個人專屬變裝已成功儲存！");
+            alert("✅ 所有個人化設定及招式修改已成功儲存！");
             switchTab('step2-profile');
         }
 
@@ -463,30 +523,58 @@
             var savedCards = localStorage.getItem('ava_cards');
             var displayCards = savedCards ? JSON.parse(savedCards) : defaultCards;
 
+            var savedSteps = localStorage.getItem('ava_steps');
+            var displaySteps = savedSteps ? JSON.parse(savedSteps) : defaultSteps;
+
             document.querySelectorAll('.dyn-name').forEach(e => e.innerText = name);
             document.querySelectorAll('.dyn-vision').forEach(e => e.innerHTML = vision.replace(/\n/g, '<br>'));
 
-            const profileContainer = document.getElementById('dynamic-profile-cards');
-            if (profileContainer) {
-                profileContainer.innerHTML = '';
+            // 渲染第二式 PPT 橫向滑動卡片
+            const pptContainer = document.getElementById('dynamic-profile-ppt-container');
+            if (pptContainer) {
+                pptContainer.innerHTML = '';
                 displayCards.forEach((card) => {
                     if(card.title.trim() === '') return;
 
-                    let gridClass = card.images.length > 1 ? "grid grid-cols-2 gap-3" : "flex justify-center";
                     let imgHtml = '';
                     card.images.forEach(img => {
                         if(img.trim() !== '') {
-                            imgHtml += `<img src="${img}" class="zoom-img border border-gray-200 rounded-lg shadow-sm ${card.images.length === 1 ? 'max-w-[300px]' : 'w-full'}" onclick="zoom(this)">`;
+                            imgHtml += `<img src="${img}" class="zoom-img my-2 max-h-[50vh]" onclick="zoom(this)">`;
                         }
                     });
 
-                    let blockHtml = `
-                    <div class="border-t border-gray-100 pt-5 mt-5">
-                        <h3 class="text-base font-bold text-indigo-800 mb-2">${card.title}</h3>
-                        <p class="text-[12px] text-gray-600 mb-4 leading-relaxed">${card.desc.replace(/\n/g, '<br>')}</p>
-                        <div class="${gridClass}">${imgHtml}</div>
+                    let slideHtml = `
+                    <div class="ppt-slide card p-5 shadow-lg border-t-4 border-indigo-600">
+                        <h3 class="text-base font-bold text-indigo-900 mb-2">${card.title}</h3>
+                        <p class="text-xs text-gray-600 mb-3 leading-relaxed">${card.desc.replace(/\n/g, '<br>')}</p>
+                        ${imgHtml}
                     </div>`;
-                    profileContainer.innerHTML += blockHtml;
+                    pptContainer.innerHTML += slideHtml;
+                });
+            }
+
+            // 渲染 3-11 式動態內容
+            const stepsContainer = document.getElementById('dynamic-steps11-container');
+            if (stepsContainer) {
+                stepsContainer.innerHTML = `
+                <button onclick="switchTab('step1-company')" class="w-full text-left card border-l-4 border-blue-600 p-4 active:scale-95 transition-transform hover:shadow-md flex justify-between items-center m-0">
+                    <div><span class="text-[10px] font-bold text-blue-600">第一式 · 建立信任</span><h4 class="font-bold text-sm text-gray-800 mt-0.5">介紹公司 (點擊進入 PPT)</h4></div><div class="text-2xl text-blue-500">🏢</div>
+                </button>
+                <button onclick="switchTab('step2-profile')" class="w-full text-left card border-l-4 border-indigo-600 p-4 active:scale-95 transition-transform hover:shadow-md flex justify-between items-center m-0">
+                    <div><span class="text-[10px] font-bold text-indigo-600">第二式 · 初心建立</span><h4 class="font-bold text-sm text-gray-800 mt-0.5">個人願景及承諾 (點擊進入 PPT)</h4></div><div class="text-2xl text-indigo-500">👨‍💼</div>
+                </button>`;
+
+                displaySteps.forEach((st) => {
+                    let tipHtml = st.tip ? `<p class="text-xs text-red-900 font-bold bg-white border border-red-200 p-2 rounded-lg mt-2 mb-1">${st.tip}</p>` : '';
+                    let imgHtml = st.img ? `<img src="${st.img}" class="zoom-img mt-2 rounded-lg max-h-[250px]" onclick="zoom(this)">` : '';
+
+                    stepsContainer.innerHTML += `
+                    <div class="card border-l-4 border-indigo-500 p-4">
+                        <span class="text-[10px] font-bold text-indigo-600">${st.tag}</span>
+                        <h4 class="font-bold text-sm text-gray-800 mt-0.5">${st.title}</h4>
+                        ${tipHtml}
+                        ${imgHtml}
+                    </div>`;
                 });
             }
         }
@@ -510,4 +598,4 @@
         }
     </script>
 </body>
-</html>.
+</html>
