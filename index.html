@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v5.2.3</title>
+    <title>AVA 實戰系統 v5.2.4</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -41,7 +41,12 @@
         .logo-full-width img { max-width: 80%; height: auto; max-height: 50px; object-fit: contain; }
         .quote-block { background: #f8fafc; border-radius: 12px; padding: 20px; margin: 15px 0; font-size: 0.95rem; color: #334155; line-height: 1.8; border-left: 4px solid #4a148c; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
 
-        /* 50% : 50% 顯眼視覺排版 */
+        .edit-card { border: 1px solid #cbd5e1; border-radius: 12px; padding: 15px; background: #fff; margin-bottom: 15px; position: relative; }
+        .img-input-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
+        .btn-icon { background: #fee2e2; color: #b91c1c; border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; flex-shrink: 0; }
+        .btn-add-img { background: #e0f2fe; color: #1d4ed8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; display: inline-block; cursor: pointer; margin-top: 4px; }
+
+        /* 50% : 50% 大體顯眼視覺排版 */
         @media (min-width: 768px) {
             .desktop-layout { display: flex; gap: 24px; align-items: stretch; }
             .desktop-layout > .side-left { flex: 0 0 50%; }
@@ -61,7 +66,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.2.3</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.2.4</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -199,15 +204,15 @@
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
         </div>
 
-        <!-- ⚙️ 個人化設定 -->
+        <!-- ⚙️ 個人化設定 (變裝房) -->
         <div id="settings-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-teal-600 pl-3">⚙️ 個人化設定 (變裝房)</h2>
             <div class="card p-5 shadow-md border-t-4 border-teal-500">
                 <label class="block text-xs font-bold text-teal-800 mb-1">您的尊稱</label>
-                <input type="text" id="setting-name" class="mb-4 text-sm">
+                <input type="text" id="setting-name" class="mb-4 text-sm" placeholder="例如：Ivan Chiu">
 
                 <label class="block text-xs font-bold text-teal-800 mb-1">個人願景與承諾</label>
-                <textarea id="setting-vision" rows="6" class="mb-6"></textarea>
+                <textarea id="setting-vision" rows="6" class="mb-6" placeholder="輸入您的專屬願景..."></textarea>
 
                 <h3 class="font-bold text-gray-800 border-b pb-2 mb-3">🗂️ 管理專屬情境卡片</h3>
                 <div id="settings-cards-container"></div>
@@ -257,7 +262,6 @@
                 <div><h3 class="font-bold text-emerald-700 text-base">醫療理賠精算器</h3><p class="text-[11px] text-gray-500 mt-1">模擬真實理賠數據，計算淨成本及扣稅優惠。</p></div>
             </a>
             
-            <!-- AVA Wealth 使用 icon-192.png -->
             <a href="https://ivancww.github.io/avawealth" target="_blank" class="card border-l-4 border-yellow-500 flex items-center gap-4 active:scale-95 transition-transform hover:shadow-md">
                 <img src="https://ivancww.github.io/avawealth/icon-192.png" alt="AVA Wealth Logo" class="w-14 h-14 rounded-xl shadow-sm object-cover border border-gray-100">
                 <div><h3 class="font-bold text-yellow-700 text-base">AVA Wealth 系統</h3><p class="text-[11px] text-gray-500 mt-1">全方位資產配置及財富管理工具。</p></div>
@@ -307,7 +311,6 @@
     </div>
 
     <script>
-        // App 登入用 GAS Link
         const APP_GAS_LINK = "https://script.google.com/macros/s/AKfycbyT8YXG4LylNj9qf6M3RIo2FLYhGhArJ8XCUHtlcq1MVUSaHc55jGlWbFF_mpAg4dy4_A/exec";
 
         window.onload = function() { 
@@ -315,7 +318,6 @@
             applySettingsToUI();
         };
 
-        // App 登入驗證
         async function checkAppLogin() {
             let isAuth = localStorage.getItem('ava_app_auth');
             if (isAuth === 'true') return; 
@@ -351,21 +353,141 @@
             }
         }
 
-        // 直接在程式碼內驗證後台密碼 (avasystem)
+        // 後台入口解鎖修復版
         function enterBackstage(event) {
             event.stopPropagation(); 
             var rawPassword = prompt("🔒 請輸入後台密碼：");
             if (!rawPassword) return;
 
-            var pass = rawPassword.trim();
+            var pass = rawPassword.trim().toLowerCase();
 
             if (pass === "avasystem") {
-                loadSettingsToForm();
-                switchTab('settings');
+                loadSettingsToForm(); // 載入設定資料到表單
+                switchTab('settings'); // 正確切換到變裝房
             } else if (pass === "0903") {
-                switchTab('backstage');
+                switchTab('backstage'); // 切換到團隊派發頁面
             } else {
                 alert("❌ 後台密碼錯誤！");
+            }
+        }
+
+        /* ----- 專屬設定與動態卡片邏輯 ----- */
+        const defaultVision = "「借助保險嘅特殊力量，我哋可以協助您從容面對突如其來嘅開支，守護您嘅財富，填補停工期間嘅收入中斷；\n\n同時借助理財嘅時間複利，穩健達成您嘅人生目標——無論係退休規劃，定係仔女嘅教育基金。\n\n我建立團隊，正正係為咗傳承呢份願景與承諾，令更多客人得到真正嘅保障與安心。」";
+        
+        const defaultCards = [
+            {
+                title: "🏆 卓越顧問及個人獎項",
+                desc: "自 2021年起榮獲卓越顧問 (Premier Advisor) 殊榮。每年嚴格控制服務新客戶數量，保證高質量一對一專屬服務。",
+                images: ["https://i.postimg.cc/vZCbTXWc/IMG-20260505-143201.jpg", "https://i.postimg.cc/qBjS6Pwv/IMG-20250625-084613.jpg"]
+            }
+        ];
+
+        let currentCards = [];
+
+        function loadSettingsToForm() {
+            document.getElementById('setting-name').value = localStorage.getItem('ava_name') || "TOT 頂尖顧問";
+            document.getElementById('setting-vision').value = localStorage.getItem('ava_vision') || defaultVision;
+            
+            let savedCards = localStorage.getItem('ava_cards');
+            if (savedCards) {
+                currentCards = JSON.parse(savedCards);
+            } else {
+                currentCards = JSON.parse(JSON.stringify(defaultCards));
+            }
+            renderEditCards();
+        }
+
+        function renderEditCards() {
+            const container = document.getElementById('settings-cards-container');
+            container.innerHTML = '';
+            
+            currentCards.forEach((card, cIndex) => {
+                let imgHtml = '';
+                card.images.forEach((img, iIndex) => {
+                    imgHtml += `
+                    <div class="img-input-row">
+                        <input type="text" class="card-img-val text-xs text-gray-500" value="${img}" placeholder="貼上相片網址..." onchange="updateImageData(${cIndex}, ${iIndex}, this.value)">
+                        <button onclick="removeImage(${cIndex}, ${iIndex})" class="btn-icon" title="移除相片">➖</button>
+                    </div>`;
+                });
+
+                let cardHtml = `
+                <div class="edit-card">
+                    <button onclick="removeCard(${cIndex})" class="absolute top-2 right-2 text-red-500 font-bold text-xs bg-red-50 px-2 py-1 rounded">🗑️ 刪除此卡</button>
+                    <label class="block text-[11px] font-bold text-gray-500 mb-1">卡片標題</label>
+                    <input type="text" class="mb-3 text-sm font-bold text-indigo-900" value="${card.title}" onchange="updateCardData(${cIndex}, 'title', this.value)">
+                    
+                    <label class="block text-[11px] font-bold text-gray-500 mb-1">情境描述</label>
+                    <textarea rows="2" class="mb-3 text-xs" onchange="updateCardData(${cIndex}, 'desc', this.value)">${card.desc}</textarea>
+                    
+                    <label class="block text-[11px] font-bold text-gray-500 mb-1">相片畫廊 (可無限增加)</label>
+                    ${imgHtml}
+                    <div class="text-right"><button onclick="addImage(${cIndex})" class="btn-add-img">➕ 加入相片網址</button></div>
+                </div>`;
+                container.innerHTML += cardHtml;
+            });
+        }
+
+        function updateCardData(cIndex, key, value) { currentCards[cIndex][key] = value; }
+        function updateImageData(cIndex, iIndex, value) { currentCards[cIndex].images[iIndex] = value; }
+        
+        function addSettingCard() {
+            currentCards.push({ title: "新情境卡片", desc: "請輸入描述...", images: [""] });
+            renderEditCards();
+        }
+        function removeCard(cIndex) {
+            if(confirm("確定刪除此卡片？")) { currentCards.splice(cIndex, 1); renderEditCards(); }
+        }
+        function addImage(cIndex) {
+            currentCards[cIndex].images.push("");
+            renderEditCards();
+        }
+        function removeImage(cIndex, iIndex) {
+            currentCards[cIndex].images.splice(iIndex, 1);
+            renderEditCards();
+        }
+
+        function saveSettings() {
+            localStorage.setItem('ava_name', document.getElementById('setting-name').value);
+            localStorage.setItem('ava_vision', document.getElementById('setting-vision').value);
+            localStorage.setItem('ava_cards', JSON.stringify(currentCards));
+            
+            applySettingsToUI();
+            alert("✅ 個人專屬變裝已成功儲存！");
+            switchTab('step2-profile');
+        }
+
+        function applySettingsToUI() {
+            var name = localStorage.getItem('ava_name') || "TOT 頂尖顧問";
+            var vision = localStorage.getItem('ava_vision') || defaultVision;
+            var savedCards = localStorage.getItem('ava_cards');
+            var displayCards = savedCards ? JSON.parse(savedCards) : defaultCards;
+
+            document.querySelectorAll('.dyn-name').forEach(e => e.innerText = name);
+            document.querySelectorAll('.dyn-vision').forEach(e => e.innerHTML = vision.replace(/\n/g, '<br>'));
+
+            const profileContainer = document.getElementById('dynamic-profile-cards');
+            if (profileContainer) {
+                profileContainer.innerHTML = '';
+                displayCards.forEach((card) => {
+                    if(card.title.trim() === '') return;
+
+                    let gridClass = card.images.length > 1 ? "grid grid-cols-2 gap-3" : "flex justify-center";
+                    let imgHtml = '';
+                    card.images.forEach(img => {
+                        if(img.trim() !== '') {
+                            imgHtml += `<img src="${img}" class="zoom-img border border-gray-200 rounded-lg shadow-sm ${card.images.length === 1 ? 'max-w-[300px]' : 'w-full'}" onclick="zoom(this)">`;
+                        }
+                    });
+
+                    let blockHtml = `
+                    <div class="border-t border-gray-100 pt-5 mt-5">
+                        <h3 class="text-base font-bold text-indigo-800 mb-2">${card.title}</h3>
+                        <p class="text-[12px] text-gray-600 mb-4 leading-relaxed">${card.desc.replace(/\n/g, '<br>')}</p>
+                        <div class="${gridClass}">${imgHtml}</div>
+                    </div>`;
+                    profileContainer.innerHTML += blockHtml;
+                });
             }
         }
 
@@ -382,19 +504,10 @@
 
         function switchTab(t) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.getElementById(t + '-tab').classList.add('active');
+            var target = document.getElementById(t + '-tab');
+            if (target) target.classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        const defaultVision = "「借助保險嘅特殊力量，我哋可以協助您從容面對突如其來嘅開支...」";
-        const defaultCards = [{ title: "🏆 卓越顧問及個人獎項", desc: "自 2021年起榮獲卓越顧問殊榮...", images: ["https://i.postimg.cc/vZCbTXWc/IMG-20260505-143201.jpg"] }];
-
-        function applySettingsToUI() {
-            var name = localStorage.getItem('ava_name') || "TOT 頂尖顧問";
-            var vision = localStorage.getItem('ava_vision') || defaultVision;
-            document.querySelectorAll('.dyn-name').forEach(e => e.innerText = name);
-            document.querySelectorAll('.dyn-vision').forEach(e => e.innerHTML = vision.replace(/\n/g, '<br>'));
         }
     </script>
 </body>
-</html>
+</html>.
