@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ava-standalone-v5.2.4';
+const CACHE_NAME = 'ava-standalone-v5.3.0';
 const urlsToCache = [
   '/',
   '/index.html',
