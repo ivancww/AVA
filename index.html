@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v5.4.0</title>
+    <title>AVA 實戰系統 v5.4.1</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -26,7 +26,7 @@
         .zoom-img { cursor: zoom-in; transition: transform 0.2s; width: 100%; border-radius: 12px; border: 1px solid #f1f5f9; object-fit: contain; }
         .img-container { max-width: 650px; margin: 0 auto; }
         
-        /* 圖片放大 Lightbox 及關閉按鈕 */
+        /* 圖片放大 Lightbox 及關閉按紐 */
         #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); justify-content: center; align-items: center; overflow: auto; }
         #lightbox img { max-width: 90%; max-height: 85vh; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in; }
         
@@ -75,7 +75,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.4.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.4.1</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -143,7 +143,6 @@
                             </div>
                         </button>
 
-                        <!-- 切換至全網絡醫生搜尋頁面 -->
                         <button onclick="switchTab('doctor')" class="btn-large-flat border-l-4 border-emerald-500 gap-3">
                             <div class="text-3xl bg-emerald-50 p-2.5 rounded-xl">👨‍⚕️</div>
                             <div class="text-left">
@@ -183,45 +182,44 @@
                     </select>
                 </div>
 
-                <!-- 2. 專科選擇 -->
+                <!-- 2. 專科選擇 (關鍵字最佳化匹配) -->
                 <div>
                     <label class="block text-xs font-bold text-emerald-800 mb-1">2. 選擇專科</label>
                     <select id="doc-specialty" onchange="onDoctorQueryChange()" class="font-bold text-gray-700">
                         <option value="">-- 請選擇專科 --</option>
-                        <!-- 動態整合圖片二專科名稱 -->
-                        <option value="普通外科">普通外科 / 外科</option>
+                        <option value="外科">普通外科 / 外科</option>
                         <option value="婦產科">婦產科</option>
                         <option value="心臟科">心臟科</option>
                         <option value="腸胃肝臟科">腸胃肝臟科</option>
                         <option value="耳鼻喉科">耳鼻喉科</option>
-                        <option value="骨科(矯形及創傷外科)">骨科 (矯形及創傷外科)</option>
+                        <option value="骨科">骨科 (矯形及創傷外科)</option>
                         <option value="眼科">眼科</option>
-                        <option value="泌尿科">泌尿科 / 泌尿外科</option>
-                        <option value="皮膚及性病科">皮膚及性病科</option>
+                        <option value="泌尿">泌尿科 / 泌尿外科</option>
+                        <option value="皮膚">皮膚及性病科</option>
                         <option value="腦內科">腦內科 / 神經科</option>
                         <option value="腦外科">腦外科 / 神經外科</option>
                         <option value="兒科">兒科</option>
                         <option value="小兒外科">小兒外科</option>
                         <option value="心胸外科">心胸外科</option>
-                        <option value="呼吸系統科">呼吸系統科</option>
-                        <option value="腎病科">腎病科 / 腎科</option>
+                        <option value="呼吸系統">呼吸系統科</option>
+                        <option value="腎">腎病科 / 腎科</option>
                         <option value="血管外科">血管外科</option>
-                        <option value="風濕病科">風濕病科 / 風濕科</option>
-                        <option value="臨床腫瘤科">臨床腫瘤科</option>
-                        <option value="內科腫瘤科">內科腫瘤科</option>
-                        <option value="婦科腫瘤科">婦科腫瘤科</option>
-                        <option value="血液及血液腫瘤科">血液及血液腫瘤科</option>
-                        <option value="內分泌及血糖與新陳代謝">內分泌及糖尿病科 / 泌、糖尿及新陳代謝</option>
-                        <option value="基層保健醫生">基層保健醫生</option>
+                        <option value="風濕">風濕病科 / 風濕科</option>
+                        <option value="臨床腫瘤">臨床腫瘤科</option>
+                        <option value="內科腫瘤">內科腫瘤科</option>
+                        <option value="婦科腫瘤">婦科腫瘤科</option>
+                        <option value="血液">血液及血液腫瘤科</option>
+                        <option value="內分泌">內分泌及糖尿病科 / 泌、糖尿及新陳代謝</option>
+                        <option value="基層保健">基層保健醫生</option>
                         <option value="老人科">老人科</option>
                         <option value="急症科">急症科</option>
-                        <option value="兒童心臟科">兒童心臟科</option>
+                        <option value="兒童心臟">兒童心臟科</option>
                         <option value="手術中心">手術中心</option>
                         <option value="化驗所">化驗所</option>
                     </select>
                 </div>
 
-                <!-- 7. 掛單醫院 (只 for 睿選) -->
+                <!-- 7. 掛單醫院 (睿選專屬) -->
                 <div id="hospital-filter-block" class="hidden bg-yellow-50 p-3 rounded-xl border border-yellow-200">
                     <label class="block text-xs font-bold text-yellow-800 mb-1">🏥 篩選掛單醫院 (睿選專屬)</label>
                     <select id="doc-hospital" onchange="onDoctorQueryChange()" class="text-xs">
@@ -507,7 +505,7 @@
 
             container.innerHTML = `
             <div class="card p-8 text-center text-emerald-600 font-bold text-xs animate-pulse">
-                🔍 正在向網路數據庫查詢 ${service} - ${specialty} 醫生名單，請稍候...
+                🔍 正在向網絡數據庫查詢 ${service} - ${specialty} 醫生名單，請稍候...
             </div>`;
 
             const selectedHospital = (service === "睿選") ? hospitalElem.value : "";
@@ -516,13 +514,13 @@
                 // 向 GAS 發送查詢
                 const url = `${DOCTOR_GAS_LINK}?service=${encodeURIComponent(service)}&specialty=${encodeURIComponent(specialty)}&hospital=${encodeURIComponent(selectedHospital)}`;
                 let response = await fetch(url);
-                let data = await response.json();
+                let resData = await response.json();
 
                 let doctors = [];
-                if (Array.isArray(data)) {
-                    doctors = data;
-                } else if (data && data.doctors) {
-                    doctors = data.doctors;
+                if (resData && resData.data && Array.isArray(resData.data)) {
+                    doctors = resData.data;
+                } else if (Array.isArray(resData)) {
+                    doctors = resData;
                 }
 
                 if (!doctors || doctors.length === 0) {
@@ -534,14 +532,14 @@
                 }
 
                 container.innerHTML = '';
-                doctors.forEach((doc, idx) => {
-                    let name = doc.name || doc.doctorName || doc["醫生名"] || "醫生";
-                    let gender = doc.gender || doc["性別"] || "未提供";
-                    let district = doc.district || doc["地區"] || "未提供";
-                    let address = doc.address || doc["地址"] || "未提供";
-                    let hospital = doc.hospital || doc["掛單醫院"] || "";
+                doctors.forEach((doc) => {
+                    let name = doc.name || "醫生";
+                    let gender = doc.gender || "未提供";
+                    let district = doc.district || "未提供";
+                    let address = doc.address || "未提供";
+                    let hospital = doc.hospital || "";
 
-                    let hospitalBadge = (service === "睿選" && hospital) ? 
+                    let hospitalBadge = (service === "睿選" && hospital && hospital !== "未有記載") ? 
                         `<div class="mt-2 text-[11px] bg-yellow-50 text-yellow-800 p-2 rounded-lg border border-yellow-200">🏥 <b>掛單醫院：</b> ${hospital}</div>` : '';
 
                     let cardHtml = `
