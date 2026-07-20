@@ -7,12 +7,12 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v5.2.0</title>
+    <title>AVA 實戰系統 v5.2.2</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="apple-touch-icon" href="logo-192.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -41,7 +41,7 @@
         .logo-full-width img { max-width: 80%; height: auto; max-height: 50px; object-fit: contain; }
         .quote-block { background: #f8fafc; border-radius: 12px; padding: 20px; margin: 15px 0; font-size: 0.95rem; color: #334155; line-height: 1.8; border-left: 4px solid #4a148c; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
 
-        /* 大畫面/iPad Layout 優化 (50% : 50%) */
+        /* 50% : 50% 顯眼視覺排版 */
         @media (min-width: 768px) {
             .desktop-layout { display: flex; gap: 24px; align-items: stretch; }
             .desktop-layout > .side-left { flex: 0 0 50%; }
@@ -61,7 +61,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.2.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.2.2</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -72,13 +72,11 @@
 
     <div class="max-w-5xl mx-auto px-4 mt-6">
 
-        <!-- ========================================== -->
-        <!-- 🏠 主頁門戶 (放大左邊 50% : 50% 顯眼視覺) -->
-        <!-- ========================================== -->
+        <!-- 🏠 主頁門戶 -->
         <div id="portal-tab" class="tab-content active space-y-4">
             <div class="desktop-layout">
                 
-                <!-- 左邊：AVA 願景 (大體且顯眼) -->
+                <!-- 左邊：AVA 願景 (50% 大體顯眼) -->
                 <div class="side-left">
                     <div class="card border-t-8 border-red-600 bg-slate-900 text-white p-7 shadow-2xl h-full flex flex-col justify-between">
                         <div>
@@ -151,9 +149,7 @@
             </div>
         </div>
 
-        <!-- ========================================== -->
         <!-- 🎯 成功之路 11 式導航 -->
-        <!-- ========================================== -->
         <div id="steps11-tab" class="tab-content space-y-4">
             <h2 class="text-xl font-bold text-gray-800 mb-2">🎯 成功之路 11 式導航</h2>
             <p class="text-xs text-gray-500 italic mb-4 bg-gray-100 p-3 rounded-xl leading-relaxed">💡 <b>領袖提示：</b> 點擊進入對應招式。見客唔係一味 Hard Sell，多用<b>「請教」</b>與<b>「想像一下」</b>！</p>
@@ -203,7 +199,7 @@
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
         </div>
 
-        <!-- ⚙️ 個人化設定 (後台變裝房) -->
+        <!-- ⚙️ 個人化設定 -->
         <div id="settings-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-teal-600 pl-3">⚙️ 個人化設定 (變裝房)</h2>
             <div class="card p-5 shadow-md border-t-4 border-teal-500">
@@ -261,19 +257,16 @@
                 <div><h3 class="font-bold text-emerald-700 text-base">醫療理賠精算器</h3><p class="text-[11px] text-gray-500 mt-1">模擬真實理賠數據，計算淨成本及扣稅優惠。</p></div>
             </a>
             
-            <!-- 已修復並優化 Logo 載入機制的 AVA Wealth -->
+            <!-- AVA Wealth 使用 icon-192.png -->
             <a href="https://ivancww.github.io/avawealth" target="_blank" class="card border-l-4 border-yellow-500 flex items-center gap-4 active:scale-95 transition-transform hover:shadow-md">
-                <img src="https://ivancww.github.io/avawealth/icon-192.png" 
-                     onerror="this.onerror=null; this.src='https://ivancww.github.io/avawealth/icon-192.png';" 
-                     alt="AVA Wealth Logo" 
-                     class="w-14 h-14 rounded-xl shadow-sm object-cover border border-gray-100">
+                <img src="https://ivancww.github.io/avawealth/icon-192.png" alt="AVA Wealth Logo" class="w-14 h-14 rounded-xl shadow-sm object-cover border border-gray-100">
                 <div><h3 class="font-bold text-yellow-700 text-base">AVA Wealth 系統</h3><p class="text-[11px] text-gray-500 mt-1">全方位資產配置及財富管理工具。</p></div>
             </a>
 
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
         </div>
 
-        <!-- 錦囊細節頁面 (略，保持不變) -->
+        <!-- 錦囊細節頁面 -->
         <div id="concept-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800">💡 醫療/危疾的分別</h2>
             <div class="card p-3 shadow-sm img-container"><img src="https://i.postimg.cc/fLyFL66J/IMG-5625.png" class="zoom-img" onclick="zoom(this)"></div>
@@ -314,20 +307,19 @@
     </div>
 
     <script>
-        const APP_GAS_LINK = "https://script.google.com/macros/s/AKfycbwmpVo8uGg8ZaC-oTFKdTdLAgCibw8FhD0UpcuMA6wWKwV0GWPWhO7hfFqL4NYRds2v/exec";
-        // 請在此填入下方第 2 點產生的「後台專屬 GAS Link」
-        const ADMIN_GAS_LINK = "https://script.google.com/macros/s/AKfycbwGfWnXGiHoT4Ow2YT5G_0VdZUdVDBDgrKavr2QUwRTprNhdGinP8QehmZ2rLxQO61U/exec"; 
+        // ⚠️ 請在此處貼上你重新部署的【新 GAS 網址】
+        const APP_GAS_LINK = "https://script.google.com/macros/s/AKfycbyT8YXG4LylNj9qf6M3RIo2FLYhGhArJ8XCUHtlcq1MVUSaHc55jGlWbFF_mpAg4dy4_A/exec";
+        const ADMIN_GAS_LINK = "https://script.google.com/macros/s/AKfycbGfWnXGiHoT4Ow2YT5G_0VdZUdVDBDgrKavr2QUwRTprNhdGinP8QehmZ2rLxQO61U/exec";
 
-        // 頁面初次載入，自動進行 App 登入檢查
         window.onload = function() { 
             checkAppLogin();
             applySettingsToUI();
         };
 
-        // 登入驗證邏輯 (LocalStorage 記憶 + GAS API 驗證)
+        // 改良版 App 登入驗證
         async function checkAppLogin() {
             let isAuth = localStorage.getItem('ava_app_auth');
-            if (isAuth === 'true') return; // 已驗證過，直接通過
+            if (isAuth === 'true') return; 
 
             let pass = prompt("🔒 請輸入 App 存取密碼：");
             if (!pass) {
@@ -336,11 +328,18 @@
             }
 
             try {
-                // 發送請求給 GAS 驗證密碼
-                let res = await fetch(`${APP_GAS_LINK}?password=${encodeURIComponent(pass)}`);
-                let data = await res.json();
+                let res = await fetch(`${APP_GAS_LINK}?pwd=${encodeURIComponent(pass.trim())}`);
+                let text = await res.text(); 
+                
+                let isSuccess = false;
+                try {
+                    let data = JSON.parse(text);
+                    if (data.status === "success" || data.valid === true) isSuccess = true;
+                } catch(e) {
+                    if (text.includes("success")) isSuccess = true;
+                }
 
-                if (data.status === "success" || data.valid === true) {
+                if (isSuccess) {
                     localStorage.setItem('ava_app_auth', 'true');
                     alert("✅ 驗證成功，歡迎使用 AVA 系統！");
                 } else {
@@ -348,13 +347,12 @@
                     location.reload();
                 }
             } catch (err) {
-                // 若 GAS 僅回傳純文字，亦進行比對處置
-                alert("🔒 密碼驗證完畢，請重新確認。");
-                localStorage.setItem('ava_app_auth', 'true');
+                alert("⚠️ 網路驗證回應，請確認密碼。");
+                location.reload();
             }
         }
 
-        // 後台解鎖功能 (點擊頂部標題)
+        // 後台驗證
         async function enterBackstage(event) {
             event.stopPropagation(); 
             var rawPassword = prompt("🔒 請輸入後台密碼：");
@@ -362,26 +360,24 @@
 
             var pass = rawPassword.trim();
 
-            // 如果已設定 ADMIN_GAS_LINK，則優先調用 Google Sheet 後台驗證
-            if (ADMIN_GAS_LINK && ADMIN_GAS_LINK !== "YOUR_ADMIN_GAS_LINK_HERE") {
-                try {
-                    let res = await fetch(`${ADMIN_GAS_LINK}?password=${encodeURIComponent(pass)}`);
-                    let data = await res.json();
-                    if (data.status === "success") {
-                        if (data.role === "backstage") switchTab('backstage');
-                        else { loadSettingsToForm(); switchTab('settings'); }
-                        return;
-                    }
-                } catch(e) { console.log(e); }
+            try {
+                let res = await fetch(`${ADMIN_GAS_LINK}?password=${encodeURIComponent(pass)}`);
+                let data = await res.json();
+                if (data.status === "success") {
+                    if (data.role === "backstage") switchTab('backstage');
+                    else { loadSettingsToForm(); switchTab('settings'); }
+                    return;
+                } else {
+                    alert("❌ 後台密碼錯誤！");
+                    return;
+                }
+            } catch(e) {
+                if (pass === "0903") switchTab('backstage');
+                else if (pass.toLowerCase() === "newuser") { loadSettingsToForm(); switchTab('settings'); }
+                else alert("❌ 後台密碼錯誤！");
             }
-
-            // 本地防呆備用方案
-            if (pass === "0903") switchTab('backstage');
-            else if (pass.toLowerCase() === "newuser") { loadSettingsToForm(); switchTab('settings'); }
-            else alert("❌ 後台密碼錯誤！");
         }
 
-        /* 圖片放大與 UI 邏輯 */
         let isZoomed = false;
         function zoom(el) { isZoomed = false; document.getElementById('lightbox-img').src = el.src; document.getElementById('lightbox').style.display = 'flex'; }
         function toggleLightboxZoom(e) { e.stopPropagation(); isZoomed = !isZoomed; document.getElementById('lightbox-img').style.transform = isZoomed ? 'scale(1.8)' : 'scale(1)'; }
@@ -399,7 +395,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        const defaultVision = "「借助保險嘅特殊力量，我哋可以協助您從容面對突如其來嘅開支，守護您嘅財富...」";
+        const defaultVision = "「借助保險嘅特殊力量，我哋可以協助您從容面對突如其來嘅開支...」";
         const defaultCards = [{ title: "🏆 卓越顧問及個人獎項", desc: "自 2021年起榮獲卓越顧問殊榮...", images: ["https://i.postimg.cc/vZCbTXWc/IMG-20260505-143201.jpg"] }];
 
         function applySettingsToUI() {
