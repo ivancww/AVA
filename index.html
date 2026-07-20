@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v5.1.2 </title>
+    <title>AVA 實戰系統 v5.1.2</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -23,9 +23,12 @@
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        .zoom-img { cursor: zoom-in; transition: transform 0.2s; width: 100%; border-radius: 12px; border: 1px solid #f1f5f9; }
+        /* 圖片縮放與 iPad 尺寸優化 */
+        .zoom-img { cursor: zoom-in; transition: transform 0.2s; width: 100%; border-radius: 12px; border: 1px solid #f1f5f9; object-fit: contain; }
+        .img-container { max-width: 650px; margin: 0 auto; }
+        
         #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; overflow: auto; }
-        #lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in; }
+        #lightbox img { max-width: 90%; max-height: 90vh; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in; }
         
         input[type="text"], input[type="number"], select, textarea { width: 100%; border: 1px solid #e5e7eb; padding: 12px; border-radius: 12px; margin-top: 5px; outline: none; background: #f9fafb; font-size: 14px; }
         .btn-pdf { display: block; background: #f3f4f6; color: #2563eb; text-align: center; padding: 12px; border-radius: 12px; font-size: 13px; font-weight: bold; margin-top: 8px; border: 1px solid #bfdbfe; transition: background 0.2s; }
@@ -45,7 +48,7 @@
         .btn-icon { background: #fee2e2; color: #b91c1c; border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; flex-shrink: 0; }
         .btn-add-img { background: #e0f2fe; color: #1d4ed8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; display: inline-block; cursor: pointer; margin-top: 4px; }
 
-        /* 電腦版左右佈局 */
+        /* 電腦/iPad 雙欄佈局 */
         @media (min-width: 768px) {
             .desktop-layout { display: flex; gap: 24px; align-items: flex-start; }
             .desktop-layout > .side-left { flex: 0 0 40%; position: sticky; top: 100px; }
@@ -65,7 +68,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.1.1</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.1.2</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -117,7 +120,7 @@
                         </div>
                     </button>
 
-                    <!-- 新增：全網絡醫生名單 -->
+                    <!-- 全網絡醫生名單 -->
                     <button onclick="window.open('https://www.aia.com.hk/zh-hk/help-and-support/individuals/network-doctor-search', '_blank')" class="btn-large-flat border-l-4 border-emerald-500 gap-4">
                         <div class="text-4xl bg-emerald-50 p-2 rounded-xl">👨‍⚕️</div>
                         <div class="text-left">
@@ -171,7 +174,7 @@
         <!-- ========================================== -->
         <div id="step1-company-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">第一式：介紹公司</h2>
-            <div class="card p-4 shadow-md mt-4">
+            <div class="card p-4 shadow-md mt-4 img-container">
                 <div class="logo-full-width border-b border-gray-100 pb-3 mb-3"><img src="https://i.postimg.cc/kgP5H68H/Screenshot-2026-05-05-12-18-56-996-com-android-chrome-edit.jpg" alt="AIA"></div>
                 <h3 class="font-bold text-blue-800 mb-2 text-sm text-center">🏆 信心指標：全港最多保單公司</h3><img src="https://i.postimg.cc/qv4SSp1t/492.jpg" class="zoom-img mb-3" onclick="zoom(this)">
                 <h3 class="font-bold text-emerald-700 mb-2 text-sm text-center border-t border-gray-100 pt-4">🏥 多元化產品及貼心服務</h3><img src="https://i.postimg.cc/9QCKKcLR/491.jpg" class="zoom-img mb-3" onclick="zoom(this)">
@@ -202,7 +205,7 @@
         <!-- ========================================== -->
         <div id="settings-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-teal-600 pl-3">⚙️ 個人化設定 (變裝房)</h2>
-            <p class="text-xs text-gray-500 italic mb-4 bg-teal-50 p-3 rounded-xl leading-relaxed">💡 <b>裁寡變裝房：</b> 喺度自訂多張「情境卡片」，每張卡可無限加入相片。見唔同嘅客，展示唔同嘅實力！</p>
+            <p class="text-xs text-gray-500 italic mb-4 bg-teal-50 p-3 rounded-xl leading-relaxed">💡 <b>裁縫變裝房：</b> 喺度自訂多張「情境卡片」，每張卡可無限加入相片。見唔同嘅客，展示唔同嘅實力！</p>
             
             <div class="card p-5 shadow-md border-t-4 border-teal-500">
                 <label class="block text-xs font-bold text-teal-800 mb-1">您的尊稱</label>
@@ -240,7 +243,7 @@
         <!-- ========================================== -->
         <div id="toolkits-tab" class="tab-content space-y-4">
             <div class="flex items-center gap-2 mb-4 px-2"><div class="text-3xl">🧰</div><h2 class="text-xl font-bold text-gray-800">成功錦囊</h2></div>
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                 <button onclick="switchTab('concept')" class="menu-btn border-b-4 border-blue-400"><div class="text-4xl mb-2 drop-shadow-sm">💡</div><h3 class="font-bold text-gray-700 text-xs">醫療/危疾的分別</h3></button>
                 <button onclick="switchTab('ci')" class="menu-btn border-b-4 border-rose-400"><div class="text-4xl mb-2 drop-shadow-sm">🛡️</div><h3 class="font-bold text-gray-700 text-xs">危疾防護對比</h3></button>
                 <button onclick="switchTab('uw')" class="menu-btn border-b-4 border-purple-400"><div class="text-4xl mb-2 drop-shadow-sm">🔍</div><h3 class="font-bold text-gray-700 text-xs">核保真相指引</h3></button>
@@ -265,9 +268,9 @@
                 <div><h3 class="font-bold text-emerald-700 text-base">醫療理賠精算器</h3><p class="text-[11px] text-gray-500 mt-1">模擬真實醫療理賠數據，即時計出各計劃淨成本及扣稅優惠。</p></div>
             </a>
             
-            <!-- 新增的 AVA Wealth 連結 -->
+            <!-- 還原原本的 AVA Wealth Logo -->
             <a href="https://ivancww.github.io/avawealth" target="_blank" class="card border-l-4 border-yellow-500 flex items-center gap-4 active:scale-95 transition-transform hover:shadow-md">
-                <div class="w-14 h-14 bg-yellow-100 text-3xl flex items-center justify-center rounded-xl shadow-sm border border-yellow-200">💎</div>
+                <img src="https://ivancww.github.io/avawealth/icon-192.png" alt="AVA Wealth Logo" class="w-14 h-14 rounded-xl shadow-sm object-cover border border-gray-100">
                 <div><h3 class="font-bold text-yellow-700 text-base">AVA Wealth 系統</h3><p class="text-[11px] text-gray-500 mt-1">全方位資產配置及財富管理工具。</p></div>
             </a>
 
@@ -275,51 +278,53 @@
         </div>
 
         <!-- ========================================== -->
-        <!-- 成功錦囊細節頁面 -->
+        <!-- 成功錦囊細節頁面 (適應 iPad 尺寸修訂) -->
         <!-- ========================================== -->
         <div id="concept-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800">💡 醫療/危疾的分別</h2>
-            <div class="card p-2 shadow-sm"><h3 class="font-bold text-blue-800 mb-2 text-sm text-center">醫療的索償概念，點樣減輕治療費用的憂慮</h3><img src="https://i.postimg.cc/fLyFL66J/IMG-5625.png" class="zoom-img" onclick="zoom(this)"></div>
-            <div class="card p-2 shadow-sm"><h3 class="font-bold text-orange-700 mb-2 text-sm text-center">危疾的賠償概念及點樣幫助減少對儲蓄衝擊</h3><img src="https://i.postimg.cc/xC87CWWX/IMG-5624.png" class="zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-3 shadow-sm img-container"><h3 class="font-bold text-blue-800 mb-2 text-sm text-center">醫療的索償概念，點樣減輕治療費用的憂慮</h3><img src="https://i.postimg.cc/fLyFL66J/IMG-5625.png" class="zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-3 shadow-sm img-container"><h3 class="font-bold text-orange-700 mb-2 text-sm text-center">危疾的賠償概念及點樣幫助減少對儲蓄衝擊</h3><img src="https://i.postimg.cc/xC87CWWX/IMG-5624.png" class="zoom-img" onclick="zoom(this)"></div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
         
         <div id="ci-tab" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-gray-800">🛡️ 危疾防護對比</h2>
-            <div class="card p-2 shadow-sm"><img src="https://i.postimg.cc/tg2XMSVC/3CI對比.png" class="zoom-img" onclick="zoom(this)"></div>
-            <div class="card p-2 shadow-sm"><img src="https://i.postimg.cc/yNvVbQS8/三大CI種類對比.png" class="zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-3 shadow-sm img-container"><img src="https://i.postimg.cc/tg2XMSVC/3CI對比.png" class="zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-3 shadow-sm img-container"><img src="https://i.postimg.cc/yNvVbQS8/三大CI種類對比.png" class="zoom-img" onclick="zoom(this)"></div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
         
         <div id="uw-tab" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-gray-800">🔍 核保真相指引</h2>
-            <div class="card p-2 shadow-sm"><h3 class="font-bold text-indigo-700 mb-2 text-sm text-center">健康身體係買保險的必要因素</h3><img src="https://i.postimg.cc/C15t1WWn/IMG-5623.png" class="zoom-img" onclick="zoom(this)"></div>
-            <div class="card p-2 shadow-sm"><h3 class="font-bold text-teal-700 mb-2 text-sm text-center">醫生睇今時今刻，保險公司睇未來風險</h3><img src="https://i.postimg.cc/Y90V9JJj/IMG-5626.png" class="zoom-img" onclick="zoom(this)"></div>
-            <div class="card border-l-4 border-gray-500 p-4 shadow-sm"><h4 class="font-bold text-gray-700 text-lg mb-1">📋 官方核保指引</h4><a href="https://drive.google.com/file/d/1IbPbbX6Ezu6-_6dGbUGv0UwTs91ALRiG/view?usp=drivesdk" target="_blank" class="btn-pdf">📱 點擊打開</a></div>
+            <div class="card p-3 shadow-sm img-container"><h3 class="font-bold text-indigo-700 mb-2 text-sm text-center">健康身體係買保險的必要因素</h3><img src="https://i.postimg.cc/C15t1WWn/IMG-5623.png" class="zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-3 shadow-sm img-container"><h3 class="font-bold text-teal-700 mb-2 text-sm text-center">醫生睇今時今刻，保險公司睇未來風險</h3><img src="https://i.postimg.cc/Y90V9JJj/IMG-5626.png" class="zoom-img" onclick="zoom(this)"></div>
+            <div class="card border-l-4 border-gray-500 p-4 shadow-sm img-container"><h4 class="font-bold text-gray-700 text-lg mb-1">📋 官方核保指引</h4><a href="https://drive.google.com/file/d/1IbPbbX6Ezu6-_6dGbUGv0UwTs91ALRiG/view?usp=drivesdk" target="_blank" class="btn-pdf">📱 點擊打開</a></div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
         
         <div id="claim-tab" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-gray-800">🏥 網絡與索償流程</h2>
-            <div class="card p-2 shadow-sm"><img src="https://i.postimg.cc/Gt6NKL6w/IMG_4575.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
-            <div class="card p-2 shadow-sm"><img src="https://i.postimg.cc/L5G7D9Gp/IMG_4574.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-3 shadow-sm img-container"><img src="https://i.postimg.cc/Gt6NKL6w/IMG_4575.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-3 shadow-sm img-container"><img src="https://i.postimg.cc/L5G7D9Gp/IMG_4574.png" class="rounded-xl zoom-img" onclick="zoom(this)"></div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
         
         <div id="docs-tab" class="tab-content space-y-5">
             <h2 class="text-2xl font-bold text-gray-800 mb-2">📚 官方產品百科</h2>
-            <div class="card border-l-4 border-red-500 p-4 shadow-sm"><h4 class="font-bold text-red-700 text-lg mb-1">AVF 靈活計劃</h4><a href="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/view" target="_blank" class="btn-pdf">📱 點擊打開 AVF 條款</a></div>
-            <div class="card border-l-4 border-blue-500 p-4 shadow-sm"><h4 class="font-bold text-blue-700 text-lg mb-1">AVSW 睿選計劃</h4><a href="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/view" target="_blank" class="btn-pdf">📱 點擊打開 AVSW 條款</a></div>
-            <div class="card border-l-4 border-purple-500 p-4 shadow-sm"><h4 class="font-bold text-purple-700 text-lg mb-1">AVPU 尊耀計劃</h4><a href="https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_b/view" target="_blank" class="btn-pdf">📱 點擊打開 AVPU 條款</a></div>
-            <div class="card border-l-4 border-teal-500 p-4 shadow-sm"><h4 class="font-bold text-teal-700 text-lg mb-1">EOYS 簡緻愛伴航</h4><a href="https://drive.google.com/file/d/1OC3omzsXdKp3QzHyfm7GHWPNvJu-tRjm/view?usp=drivesdk" target="_blank" class="btn-pdf">📱 點擊打開 EOYS 條款</a></div>
-            <div class="card border-l-4 border-red-600 p-4 shadow-sm"><h4 class="font-bold text-red-800 text-lg mb-1">OYS 2 愛伴航</h4><a href="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/view" target="_blank" class="btn-pdf">📱 點擊打開 OYS2 條款</a></div>
-            <div class="card border-l-4 border-gray-400 p-4 shadow-sm"><h4 class="font-bold text-gray-700 text-lg mb-1">SCE 簡護危疾</h4><a href="https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/view" target="_blank" class="btn-pdf">📱 點擊打開 SCE 條款</a></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="card border-l-4 border-red-500 p-4 shadow-sm"><h4 class="font-bold text-red-700 text-lg mb-1">AVF 靈活計劃</h4><a href="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/view" target="_blank" class="btn-pdf">📱 點擊打開 AVF 條款</a></div>
+                <div class="card border-l-4 border-blue-500 p-4 shadow-sm"><h4 class="font-bold text-blue-700 text-lg mb-1">AVSW 睿選計劃</h4><a href="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/view" target="_blank" class="btn-pdf">📱 點擊打開 AVSW 條款</a></div>
+                <div class="card border-l-4 border-purple-500 p-4 shadow-sm"><h4 class="font-bold text-purple-700 text-lg mb-1">AVPU 尊耀計劃</h4><a href="https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_b/view" target="_blank" class="btn-pdf">📱 點擊打開 AVPU 條款</a></div>
+                <div class="card border-l-4 border-teal-500 p-4 shadow-sm"><h4 class="font-bold text-teal-700 text-lg mb-1">EOYS 簡緻愛伴航</h4><a href="https://drive.google.com/file/d/1OC3omzsXdKp3QzHyfm7GHWPNvJu-tRjm/view?usp=drivesdk" target="_blank" class="btn-pdf">📱 點擊打開 EOYS 條款</a></div>
+                <div class="card border-l-4 border-red-600 p-4 shadow-sm"><h4 class="font-bold text-red-800 text-lg mb-1">OYS 2 愛伴航</h4><a href="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/view" target="_blank" class="btn-pdf">📱 點擊打開 OYS2 條款</a></div>
+                <div class="card border-l-4 border-gray-400 p-4 shadow-sm"><h4 class="font-bold text-gray-700 text-lg mb-1">SCE 簡護危疾</h4><a href="https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/view" target="_blank" class="btn-pdf">📱 點擊打開 SCE 條款</a></div>
+            </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
         
         <div id="vitality-tab" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-gray-800">🏃 AIA Vitality</h2>
-            <div class="card p-2 bg-pink-50 border-t-4 border-pink-500 shadow-sm"><img src="https://i.postimg.cc/XvwKjb4d/健康程式.png" class="rounded-xl shadow-md mb-4 zoom-img" onclick="zoom(this)"></div>
+            <div class="card p-3 bg-pink-50 border-t-4 border-pink-500 shadow-sm img-container"><img src="https://i.postimg.cc/XvwKjb4d/健康程式.png" class="rounded-xl shadow-md mb-4 zoom-img" onclick="zoom(this)"></div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
     </div>
@@ -346,15 +351,13 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ==========================================
-        // 隱藏後台解鎖功能 (智能防呆雙軌制)
-        // ==========================================
+        // 隱藏後台解鎖功能
         function enterBackstage(event) {
             event.stopPropagation(); 
             var rawPassword = prompt("🔒 請輸入系統存取密碼：\n(提示：派發碼 或 設定碼)");
             
             if (rawPassword !== null) {
-                var password = rawPassword.toLowerCase().trim(); // 防呆：自動轉小寫及去除空格
+                var password = rawPassword.toLowerCase().trim();
 
                 if (password === "0903") {
                     switchTab('backstage');
@@ -367,12 +370,9 @@
             }
         }
 
-        // ==========================================
         // 動態卡片系統邏輯 (LocalStorage)
-        // ==========================================
         const defaultVision = "「借助保險嘅特殊力量，我哋可以協助您從容面對突如其來嘅開支，守護您嘅財富，填補停工期間嘅收入中斷；\n\n同時借助理財嘅時間複利，穩健達成您嘅人生目標——無論係退休規劃，定係仔女嘅教育基金。\n\n我建立團隊，正正係為咗傳承呢份願景與承諾，令更多客人得到真正嘅保障與安心。」";
         
-        // 預設示範卡片資料
         const defaultCards = [
             {
                 title: "🏆 卓越顧問及個人獎項",
@@ -401,12 +401,11 @@
             if (savedCards) {
                 currentCards = JSON.parse(savedCards);
             } else {
-                currentCards = JSON.parse(JSON.stringify(defaultCards)); // 深拷貝預設
+                currentCards = JSON.parse(JSON.stringify(defaultCards));
             }
             renderEditCards();
         }
 
-        // 渲染後台編輯器卡片
         function renderEditCards() {
             const container = document.getElementById('settings-cards-container');
             container.innerHTML = '';
@@ -467,7 +466,6 @@
             switchTab('step2-profile');
         }
 
-        // 渲染前台 (第二式) 展示畫面
         function applySettingsToUI() {
             var name = localStorage.getItem('ava_name') || "TOT 頂尖顧問";
             var vision = localStorage.getItem('ava_vision') || defaultVision;
@@ -481,14 +479,13 @@
             profileContainer.innerHTML = '';
 
             displayCards.forEach((card) => {
-                // 如果沒有圖片或標題空白，跳過渲染
                 if(card.title.trim() === '') return;
 
                 let gridClass = card.images.length > 1 ? "grid grid-cols-2 gap-3" : "flex justify-center";
                 let imgHtml = '';
                 card.images.forEach(img => {
                     if(img.trim() !== '') {
-                        imgHtml += `<img src="${img}" class="zoom-img border border-gray-200 rounded-lg shadow-sm ${card.images.length === 1 ? 'max-w-[200px]' : 'w-full'}" onclick="zoom(this)">`;
+                        imgHtml += `<img src="${img}" class="zoom-img border border-gray-200 rounded-lg shadow-sm ${card.images.length === 1 ? 'max-w-[300px]' : 'w-full'}" onclick="zoom(this)">`;
                     }
                 });
 
