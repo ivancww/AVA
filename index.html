@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v5.2.2 </title>
+    <title>AVA 實戰系統 v5.2.3</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -61,7 +61,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.2.2</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.2.3</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -307,16 +307,15 @@
     </div>
 
     <script>
-        // ⚠️ 請在此處貼上你重新部署的【新 GAS 網址】
+        // App 登入用 GAS Link
         const APP_GAS_LINK = "https://script.google.com/macros/s/AKfycbyT8YXG4LylNj9qf6M3RIo2FLYhGhArJ8XCUHtlcq1MVUSaHc55jGlWbFF_mpAg4dy4_A/exec";
-        const ADMIN_GAS_LINK = "https://script.google.com/macros/s/AKfycbGfWnXGiHoT4Ow2YT5G_0VdZUdVDBDgrKavr2QUwRTprNhdGinP8QehmZ2rLxQO61U/exec";
 
         window.onload = function() { 
             checkAppLogin();
             applySettingsToUI();
         };
 
-        // 改良版 App 登入驗證
+        // App 登入驗證
         async function checkAppLogin() {
             let isAuth = localStorage.getItem('ava_app_auth');
             if (isAuth === 'true') return; 
@@ -352,29 +351,21 @@
             }
         }
 
-        // 後台驗證
-        async function enterBackstage(event) {
+        // 直接在程式碼內驗證後台密碼 (avasystem)
+        function enterBackstage(event) {
             event.stopPropagation(); 
             var rawPassword = prompt("🔒 請輸入後台密碼：");
             if (!rawPassword) return;
 
             var pass = rawPassword.trim();
 
-            try {
-                let res = await fetch(`${ADMIN_GAS_LINK}?password=${encodeURIComponent(pass)}`);
-                let data = await res.json();
-                if (data.status === "success") {
-                    if (data.role === "backstage") switchTab('backstage');
-                    else { loadSettingsToForm(); switchTab('settings'); }
-                    return;
-                } else {
-                    alert("❌ 後台密碼錯誤！");
-                    return;
-                }
-            } catch(e) {
-                if (pass === "0903") switchTab('backstage');
-                else if (pass.toLowerCase() === "newuser") { loadSettingsToForm(); switchTab('settings'); }
-                else alert("❌ 後台密碼錯誤！");
+            if (pass === "avasystem") {
+                loadSettingsToForm();
+                switchTab('settings');
+            } else if (pass === "0903") {
+                switchTab('backstage');
+            } else {
+                alert("❌ 後台密碼錯誤！");
             }
         }
 
