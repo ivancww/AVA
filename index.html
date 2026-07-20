@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v5.3.0</title>
+    <title>AVA 實戰系統 v5.3.1</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -26,9 +26,13 @@
         .zoom-img { cursor: zoom-in; transition: transform 0.2s; width: 100%; border-radius: 12px; border: 1px solid #f1f5f9; object-fit: contain; }
         .img-container { max-width: 650px; margin: 0 auto; }
         
-        #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; overflow: auto; }
-        #lightbox img { max-width: 90%; max-height: 90vh; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in; }
+        /* 圖片放大 Lightbox 及關閉按紐 */
+        #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); justify-content: center; align-items: center; overflow: auto; }
+        #lightbox img { max-width: 90%; max-height: 85vh; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in; }
         
+        .close-btn { position: fixed; top: 20px; right: 20px; z-index: 10000; background: rgba(255,255,255,0.25); color: white; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; cursor: pointer; backdrop-filter: blur(5px); }
+        .close-btn:active { transform: scale(0.9); background: rgba(255,255,255,0.4); }
+
         input[type="text"], input[type="password"], input[type="number"], select, textarea { width: 100%; border: 1px solid #e5e7eb; padding: 12px; border-radius: 12px; margin-top: 5px; outline: none; background: #f9fafb; font-size: 14px; }
         .btn-pdf { display: block; background: #f3f4f6; color: #2563eb; text-align: center; padding: 12px; border-radius: 12px; font-size: 13px; font-weight: bold; margin-top: 8px; border: 1px solid #bfdbfe; transition: background 0.2s; }
         
@@ -41,7 +45,6 @@
         .logo-full-width img { max-width: 80%; height: auto; max-height: 50px; object-fit: contain; }
         .quote-block { background: #f8fafc; border-radius: 12px; padding: 20px; margin: 15px 0; font-size: 0.95rem; color: #334155; line-height: 1.8; border-left: 4px solid #4a148c; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
 
-        /* PPT 幻燈片橫向滾動容器 */
         .ppt-slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; gap: 16px; border-radius: 16px; }
         .ppt-slider::-webkit-scrollbar { display: none; }
         .ppt-slide { flex: 0 0 100%; scroll-snap-align: start; min-width: 100%; }
@@ -60,9 +63,11 @@
 </head>
 <body class="bg-gray-50 pb-10 text-gray-800">
 
+    <!-- 圖片放大視窗 (新增右上角返回/關閉按鈕) -->
     <div id="lightbox" onclick="closeLightbox(event)">
+        <button class="close-btn" onclick="forceCloseLightbox(event)">✕</button>
         <img id="lightbox-img" src="" alt="Zoomed View" onclick="toggleLightboxZoom(event)">
-        <p class="fixed bottom-10 left-1/2 transform -translate-x-1/2 text-white text-[10px] bg-black/60 px-4 py-2 rounded-full pointer-events-none tracking-widest">點擊圖片或雙指縮放查看細節</p>
+        <p class="fixed bottom-8 left-1/2 transform -translate-x-1/2 text-white text-[11px] bg-black/70 px-4 py-2 rounded-full pointer-events-none tracking-widest border border-white/20">點擊右上角 ✕ 或空白處返回</p>
     </div>
 
     <!-- 頂部 Header -->
@@ -70,7 +75,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.3.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.3.1</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -158,7 +163,7 @@
             </div>
         </div>
 
-        <!-- 🎯 成功之路 11 式導航 (動態可編輯渲染) -->
+        <!-- 🎯 成功之路 11 式導航 -->
         <div id="steps11-tab" class="tab-content space-y-4">
             <h2 class="text-xl font-bold text-gray-800 mb-2">🎯 成功之路 11 式導航</h2>
             <p class="text-xs text-gray-500 italic mb-4 bg-gray-100 p-3 rounded-xl leading-relaxed">💡 <b>領袖提示：</b> 點擊進入對應招式。見客唔係一味 Hard Sell，多用<b>「請教」</b>與<b>「想像一下」</b>！</p>
@@ -168,7 +173,7 @@
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
         </div>
 
-        <!-- 第一式：公司實力 (PPT 滑動簡報模式) -->
+        <!-- 第一式：公司實力 -->
         <div id="step1-company-tab" class="tab-content space-y-4">
             <div class="flex justify-between items-center mb-2">
                 <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">第一式：介紹公司</h2>
@@ -176,20 +181,17 @@
             </div>
             
             <div class="ppt-slider" id="company-ppt-slider">
-                <!-- Slide 1 -->
                 <div class="ppt-slide card p-5 shadow-lg border-t-4 border-blue-600">
                     <div class="logo-full-width border-b border-gray-100 pb-3 mb-3"><img src="https://i.postimg.cc/kgP5H68H/Screenshot-2026-05-05-12-18-56-996-com-android-chrome-edit.jpg" alt="AIA"></div>
                     <h3 class="font-bold text-blue-800 mb-3 text-base text-center">🏆 信心指標：全港最多保單公司</h3>
                     <img src="https://i.postimg.cc/qv4SSp1t/492.jpg" class="zoom-img mb-3 max-h-[55vh]" onclick="zoom(this)">
                     <p class="text-xs text-gray-600 leading-relaxed bg-blue-50 p-3 rounded-xl">以強大市場佔有率及品牌實力，為客戶提供最穩健的財務承諾與強大後盾。</p>
                 </div>
-                <!-- Slide 2 -->
                 <div class="ppt-slide card p-5 shadow-lg border-t-4 border-emerald-600">
                     <h3 class="font-bold text-emerald-800 mb-3 text-base text-center">🏥 多元化產品及貼心服務</h3>
                     <img src="https://i.postimg.cc/9QCKKcLR/491.jpg" class="zoom-img mb-3 max-h-[55vh]" onclick="zoom(this)">
                     <p class="text-xs text-gray-600 leading-relaxed bg-emerald-50 p-3 rounded-xl">從醫療網絡、危疾防護到財富傳承，全方位覆蓋人生不同階段的需要。</p>
                 </div>
-                <!-- Slide 3 -->
                 <div class="ppt-slide card p-5 shadow-lg border-t-4 border-orange-600">
                     <h3 class="font-bold text-orange-800 mb-3 text-base text-center">💰 實力承諾：驚人賠償總額與安心守護</h3>
                     <img src="https://i.postimg.cc/nhpggn39/490.jpg" class="zoom-img mb-3 max-h-[55vh]" onclick="zoom(this)">
@@ -200,7 +202,7 @@
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
         </div>
 
-        <!-- 第二式：個人願景 (PPT 滑動簡報模式) -->
+        <!-- 第二式：個人願景 -->
         <div id="step2-profile-tab" class="tab-content space-y-4">
             <div class="flex justify-between items-center mb-2">
                 <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">第二式：個人願景及承諾</h2>
@@ -212,7 +214,6 @@
                 <div class="quote-block dyn-vision mb-0"></div>
             </div>
 
-            <!-- PPT 橫向滑動區 (動態注入) -->
             <div class="ppt-slider" id="dynamic-profile-ppt-container"></div>
 
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
@@ -232,7 +233,7 @@
                 <div id="settings-cards-container"></div>
                 <button onclick="addSettingCard()" class="w-full bg-teal-50 text-teal-700 font-bold py-3 rounded-xl border border-teal-200 mb-8 border-dashed">➕ 加入新情境 PPT 卡片</button>
 
-                <h3 class="font-bold text-gray-800 border-b pb-2 mb-3">🎯 管理 3-11 式招式內容 (可自訂文字與圖片)</h3>
+                <h3 class="font-bold text-gray-800 border-b pb-2 mb-3">🎯 管理 3-11 式招式內容</h3>
                 <div id="settings-steps-container"></div>
 
                 <button onclick="saveSettings()" class="w-full bg-teal-600 active:bg-teal-700 text-white font-bold py-4 rounded-xl shadow-md text-base mt-4">💾 儲存所有變裝設定</button>
@@ -279,7 +280,6 @@
                 <div><h3 class="font-bold text-emerald-700 text-base">醫療理賠精算器</h3><p class="text-[11px] text-gray-500 mt-1">模擬真實理賠數據，計算淨成本及扣稅優惠。</p></div>
             </a>
             
-            <!-- 已修正 Logo 名為 avawealth-192.png -->
             <a href="https://ivancww.github.io/avawealth" target="_blank" class="card border-l-4 border-yellow-500 flex items-center gap-4 active:scale-95 transition-transform hover:shadow-md">
                 <img src="https://ivancww.github.io/avawealth/avawealth-192.png" onerror="this.onerror=null; this.src='https://ivancww.github.io/avawealth/icon-192.png';" alt="AVA Wealth Logo" class="w-14 h-14 rounded-xl shadow-sm object-cover border border-gray-100">
                 <div><h3 class="font-bold text-yellow-700 text-base">AVA Wealth 系統</h3><p class="text-[11px] text-gray-500 mt-1">全方位資產配置及財富管理工具。</p></div>
@@ -303,7 +303,6 @@
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
         
-        <!-- 已補回《官方核保指引》PDF -->
         <div id="uw-tab" class="tab-content space-y-6">
             <h2 class="text-2xl font-bold text-gray-800">🔍 核保真相指引</h2>
             <div class="card p-3 shadow-sm img-container"><h3 class="font-bold text-indigo-700 mb-2 text-sm text-center">健康身體係買保險的必要因素</h3><img src="https://i.postimg.cc/C15t1WWn/IMG-5623.png" class="zoom-img" onclick="zoom(this)"></div>
@@ -322,7 +321,6 @@
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
         
-        <!-- 已補齊全部 6 份官方產品條款 PDF -->
         <div id="docs-tab" class="tab-content space-y-5">
             <h2 class="text-2xl font-bold text-gray-800 mb-2">📚 官方產品百科</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -529,7 +527,6 @@
             document.querySelectorAll('.dyn-name').forEach(e => e.innerText = name);
             document.querySelectorAll('.dyn-vision').forEach(e => e.innerHTML = vision.replace(/\n/g, '<br>'));
 
-            // 渲染第二式 PPT 橫向滑動卡片
             const pptContainer = document.getElementById('dynamic-profile-ppt-container');
             if (pptContainer) {
                 pptContainer.innerHTML = '';
@@ -553,7 +550,6 @@
                 });
             }
 
-            // 渲染 3-11 式動態內容
             const stepsContainer = document.getElementById('dynamic-steps11-container');
             if (stepsContainer) {
                 stepsContainer.innerHTML = `
@@ -579,10 +575,28 @@
             }
         }
 
+        /* 圖片放大及關閉邏輯修復 */
         let isZoomed = false;
-        function zoom(el) { isZoomed = false; document.getElementById('lightbox-img').src = el.src; document.getElementById('lightbox').style.display = 'flex'; }
-        function toggleLightboxZoom(e) { e.stopPropagation(); isZoomed = !isZoomed; document.getElementById('lightbox-img').style.transform = isZoomed ? 'scale(1.8)' : 'scale(1)'; }
-        function closeLightbox(e) { document.getElementById('lightbox').style.display = 'none'; }
+        function zoom(el) { 
+            isZoomed = false; 
+            document.getElementById('lightbox-img').src = el.src; 
+            document.getElementById('lightbox-img').style.transform = 'scale(1)'; 
+            document.getElementById('lightbox').style.display = 'flex'; 
+        }
+        function toggleLightboxZoom(e) { 
+            e.stopPropagation(); 
+            isZoomed = !isZoomed; 
+            document.getElementById('lightbox-img').style.transform = isZoomed ? 'scale(1.8)' : 'scale(1)'; 
+        }
+        function closeLightbox(e) { 
+            if (e.target.id === 'lightbox') {
+                document.getElementById('lightbox').style.display = 'none'; 
+            }
+        }
+        function forceCloseLightbox(e) {
+            e.stopPropagation();
+            document.getElementById('lightbox').style.display = 'none';
+        }
 
         function goToPortal() {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
