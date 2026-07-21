@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v5.4.1</title>
+    <title>AVA 實戰系統 v5.5.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -75,7 +75,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.4.1</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.5.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -171,7 +171,6 @@
             </p>
 
             <div class="card p-5 shadow-md border-t-4 border-emerald-500 space-y-4">
-                <!-- 1. 醫療服務選擇 -->
                 <div>
                     <label class="block text-xs font-bold text-emerald-800 mb-1">1. 選擇醫療服務</label>
                     <select id="doc-service" onchange="onDoctorQueryChange()" class="font-bold text-gray-700">
@@ -182,7 +181,6 @@
                     </select>
                 </div>
 
-                <!-- 2. 專科選擇 (關鍵字最佳化匹配) -->
                 <div>
                     <label class="block text-xs font-bold text-emerald-800 mb-1">2. 選擇專科</label>
                     <select id="doc-specialty" onchange="onDoctorQueryChange()" class="font-bold text-gray-700">
@@ -219,7 +217,6 @@
                     </select>
                 </div>
 
-                <!-- 7. 掛單醫院 (睿選專屬) -->
                 <div id="hospital-filter-block" class="hidden bg-yellow-50 p-3 rounded-xl border border-yellow-200">
                     <label class="block text-xs font-bold text-yellow-800 mb-1">🏥 篩選掛單醫院 (睿選專屬)</label>
                     <select id="doc-hospital" onchange="onDoctorQueryChange()" class="text-xs">
@@ -232,7 +229,6 @@
                 </div>
             </div>
 
-            <!-- 3-6. 自動彈出醫生結果區域 -->
             <div id="doctor-results-container" class="space-y-3">
                 <div class="card p-8 text-center text-gray-400 text-xs">
                     👈 請在上方選取「醫療服務」與「專科」以載入醫生名單
@@ -252,31 +248,15 @@
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
         </div>
 
-        <!-- 第一式：公司實力 -->
+        <!-- 第一式：公司實力 (動態可自訂 PPT 模式) -->
         <div id="step1-company-tab" class="tab-content space-y-4">
             <div class="flex justify-between items-center mb-2">
                 <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">第一式：介紹公司</h2>
                 <span class="text-xs text-gray-400 italic">👈 左右滑動查看卡片 👉</span>
             </div>
             
-            <div class="ppt-slider" id="company-ppt-slider">
-                <div class="ppt-slide card p-5 shadow-lg border-t-4 border-blue-600">
-                    <div class="logo-full-width border-b border-gray-100 pb-3 mb-3"><img src="https://i.postimg.cc/kgP5H68H/Screenshot-2026-05-05-12-18-56-996-com-android-chrome-edit.jpg" alt="AIA"></div>
-                    <h3 class="font-bold text-blue-800 mb-3 text-base text-center">🏆 信心指標：全港最多保單公司</h3>
-                    <img src="https://i.postimg.cc/qv4SSp1t/492.jpg" class="zoom-img mb-3 max-h-[55vh]" onclick="zoom(this)">
-                    <p class="text-xs text-gray-600 leading-relaxed bg-blue-50 p-3 rounded-xl">以強大市場佔有率及品牌實力，為客戶提供最穩健的財務承諾與強大後盾。</p>
-                </div>
-                <div class="ppt-slide card p-5 shadow-lg border-t-4 border-emerald-600">
-                    <h3 class="font-bold text-emerald-800 mb-3 text-base text-center">🏥 多元化產品及貼心服務</h3>
-                    <img src="https://i.postimg.cc/9QCKKcLR/491.jpg" class="zoom-img mb-3 max-h-[55vh]" onclick="zoom(this)">
-                    <p class="text-xs text-gray-600 leading-relaxed bg-emerald-50 p-3 rounded-xl">從醫療網絡、危疾防護到財富傳承，全方位覆蓋人生不同階段的需要。</p>
-                </div>
-                <div class="ppt-slide card p-5 shadow-lg border-t-4 border-orange-600">
-                    <h3 class="font-bold text-orange-800 mb-3 text-base text-center">💰 實力承諾：驚人賠償總額與安心守護</h3>
-                    <img src="https://i.postimg.cc/nhpggn39/490.jpg" class="zoom-img mb-3 max-h-[55vh]" onclick="zoom(this)">
-                    <p class="text-xs text-gray-600 leading-relaxed bg-orange-50 p-3 rounded-xl">真實理賠數據證明實力，迅速跟進理賠索償，讓每位客戶後顧無憂。</p>
-                </div>
-            </div>
+            <!-- 動態渲染第一式 PPT 簡報 -->
+            <div class="ppt-slider" id="dynamic-company-ppt-container"></div>
 
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
         </div>
@@ -308,9 +288,13 @@
                 <label class="block text-xs font-bold text-teal-800 mb-1">個人願景與承諾</label>
                 <textarea id="setting-vision" rows="5" class="mb-6" placeholder="輸入您的專屬願景..."></textarea>
 
-                <h3 class="font-bold text-gray-800 border-b pb-2 mb-3">🖼️ 管理第二式情境卡片 (大圖+文字 PPT)</h3>
+                <h3 class="font-bold text-blue-900 border-b pb-2 mb-3">🏢 管理第一式公司介紹卡片 (大圖+文字 PPT)</h3>
+                <div id="settings-company-cards-container"></div>
+                <button onclick="addCompanyCard()" class="w-full bg-blue-50 text-blue-700 font-bold py-3 rounded-xl border border-blue-200 mb-8 border-dashed">➕ 加入新公司介紹 PPT 卡片</button>
+
+                <h3 class="font-bold text-indigo-900 border-b pb-2 mb-3">🖼️ 管理第二式情境卡片 (大圖+文字 PPT)</h3>
                 <div id="settings-cards-container"></div>
-                <button onclick="addSettingCard()" class="w-full bg-teal-50 text-teal-700 font-bold py-3 rounded-xl border border-teal-200 mb-8 border-dashed">➕ 加入新情境 PPT 卡片</button>
+                <button onclick="addSettingCard()" class="w-full bg-indigo-50 text-indigo-700 font-bold py-3 rounded-xl border border-indigo-200 mb-8 border-dashed">➕ 加入新情境 PPT 卡片</button>
 
                 <h3 class="font-bold text-gray-800 border-b pb-2 mb-3">🎯 管理 3-11 式招式內容</h3>
                 <div id="settings-steps-container"></div>
@@ -422,7 +406,6 @@
 
     <script>
         const APP_GAS_LINK = "https://script.google.com/macros/s/AKfycbyT8YXG4LylNj9qf6M3RIo2FLYhGhArJ8XCUHtlcq1MVUSaHc55jGlWbFF_mpAg4dy4_A/exec";
-        // 全網絡醫生名單 GAS 連結
         const DOCTOR_GAS_LINK = "https://script.google.com/macros/s/AKfycby0bCPSDHHgmdQikt77bSIbxVQ5L9_uYBKgYoAxSyStIVyfdHXXbUz0hnOo8qLlKfOwyA/exec";
 
         window.onload = function() { 
@@ -490,14 +473,12 @@
             const hospitalFilterBlock = document.getElementById('hospital-filter-block');
             const container = document.getElementById('doctor-results-container');
 
-            // 顯示/隱藏掛單醫院 (睿選專屬)
             if (service === "睿選") {
                 hospitalFilterBlock.classList.remove('hidden');
             } else {
                 hospitalFilterBlock.classList.add('hidden');
             }
 
-            // 必須同時選擇服務與專科才進行發送
             if (!service || !specialty) {
                 container.innerHTML = `<div class="card p-8 text-center text-gray-400 text-xs">👈 請在上方選取「醫療服務」與「專科」以載入醫生名單</div>`;
                 return;
@@ -511,7 +492,6 @@
             const selectedHospital = (service === "睿選") ? hospitalElem.value : "";
 
             try {
-                // 向 GAS 發送查詢
                 const url = `${DOCTOR_GAS_LINK}?service=${encodeURIComponent(service)}&specialty=${encodeURIComponent(specialty)}&hospital=${encodeURIComponent(selectedHospital)}`;
                 let response = await fetch(url);
                 let resData = await response.json();
@@ -566,6 +546,26 @@
         /* 預設資料與動態 LocalStorage 管理 */
         const defaultVision = "「借助保險嘅特殊力量，我哋可以協助您從容面對突如其來嘅開支，守護您嘅財富...」";
         
+        // 第一式：預設公司介紹卡片
+        const defaultCompanyCards = [
+            {
+                title: "🏆 信心指標：全港最多保單公司",
+                desc: "以強大市場佔有率及品牌實力，為客戶提供最穩健的財務承諾與強大後盾。",
+                images: ["https://i.postimg.cc/kgP5H68H/Screenshot-2026-05-05-12-18-56-996-com-android-chrome-edit.jpg", "https://i.postimg.cc/qv4SSp1t/492.jpg"]
+            },
+            {
+                title: "🏥 多元化產品及貼心服務",
+                desc: "從醫療網絡、危疾防護到財富傳承，全方位覆蓋人生不同階段的需要。",
+                images: ["https://i.postimg.cc/9QCKKcLR/491.jpg"]
+            },
+            {
+                title: "💰 實力承諾：驚人賠償總額與安心守護",
+                desc: "真實理賠數據證明實力，迅速跟進理賠索償，讓每位客戶後顧無憂。",
+                images: ["https://i.postimg.cc/nhpggn39/490.jpg"]
+            }
+        ];
+
+        // 第二式：預設個人卡片
         const defaultCards = [
             {
                 title: "🏆 卓越顧問及個人獎項",
@@ -591,6 +591,7 @@
             { num: 11, tag: "第十一式 · 信任收割 B (★黃金轉介點)", title: "承第 9 點成功賠償後，順水推舟加單或攞 Refer", tip: "", img: "" }
         ];
 
+        let currentCompanyCards = [];
         let currentCards = [];
         let currentSteps = [];
 
@@ -598,16 +599,51 @@
             document.getElementById('setting-name').value = localStorage.getItem('ava_name') || "TOT 頂尖顧問";
             document.getElementById('setting-vision').value = localStorage.getItem('ava_vision') || defaultVision;
             
+            let savedCompany = localStorage.getItem('ava_company_cards');
+            currentCompanyCards = savedCompany ? JSON.parse(savedCompany) : JSON.parse(JSON.stringify(defaultCompanyCards));
+
             let savedCards = localStorage.getItem('ava_cards');
             currentCards = savedCards ? JSON.parse(savedCards) : JSON.parse(JSON.stringify(defaultCards));
 
             let savedSteps = localStorage.getItem('ava_steps');
             currentSteps = savedSteps ? JSON.parse(savedSteps) : JSON.parse(JSON.stringify(defaultSteps));
 
+            renderEditCompanyCards();
             renderEditCards();
             renderEditSteps();
         }
 
+        // 渲染第一式編輯區
+        function renderEditCompanyCards() {
+            const container = document.getElementById('settings-company-cards-container');
+            container.innerHTML = '';
+            
+            currentCompanyCards.forEach((card, cIndex) => {
+                let imgHtml = '';
+                card.images.forEach((img, iIndex) => {
+                    imgHtml += `
+                    <div class="img-input-row">
+                        <input type="text" class="text-xs text-gray-500" value="${img}" placeholder="貼上相片網址..." onchange="updateCompanyImageData(${cIndex}, ${iIndex}, this.value)">
+                        <button onclick="removeCompanyImage(${cIndex}, ${iIndex})" class="btn-icon">➖</button>
+                    </div>`;
+                });
+
+                let cardHtml = `
+                <div class="edit-card bg-blue-50/50 border-blue-200">
+                    <button onclick="removeCompanyCard(${cIndex})" class="absolute top-2 right-2 text-red-500 font-bold text-xs bg-red-50 px-2 py-1 rounded">🗑️ 刪除卡片</button>
+                    <label class="block text-[11px] font-bold text-blue-800 mb-1">第一式卡片標題</label>
+                    <input type="text" class="mb-2 text-sm font-bold text-blue-900" value="${card.title}" onchange="updateCompanyCardData(${cIndex}, 'title', this.value)">
+                    <label class="block text-[11px] font-bold text-blue-800 mb-1">卡片描述</label>
+                    <textarea rows="2" class="mb-2 text-xs" onchange="updateCompanyCardData(${cIndex}, 'desc', this.value)">${card.desc}</textarea>
+                    <label class="block text-[11px] font-bold text-blue-800 mb-1">相片網址</label>
+                    ${imgHtml}
+                    <div class="text-right"><button onclick="addCompanyImage(${cIndex})" class="btn-add-img">➕ 加入相片</button></div>
+                </div>`;
+                container.innerHTML += cardHtml;
+            });
+        }
+
+        // 渲染第二式編輯區
         function renderEditCards() {
             const container = document.getElementById('settings-cards-container');
             container.innerHTML = '';
@@ -629,7 +665,7 @@
                     <input type="text" class="mb-2 text-sm font-bold text-indigo-900" value="${card.title}" onchange="updateCardData(${cIndex}, 'title', this.value)">
                     <label class="block text-[11px] font-bold text-gray-500 mb-1">情境描述</label>
                     <textarea rows="2" class="mb-2 text-xs" onchange="updateCardData(${cIndex}, 'desc', this.value)">${card.desc}</textarea>
-                    <label class="block text-[11px] font-bold text-gray-500 mb-1">相片畫廊 (大圖 PPT)</label>
+                    <label class="block text-[11px] font-bold text-gray-500 mb-1">相片網址</label>
                     ${imgHtml}
                     <div class="text-right"><button onclick="addImage(${cIndex})" class="btn-add-img">➕ 加入相片</button></div>
                 </div>`;
@@ -657,10 +693,18 @@
             });
         }
 
+        // 第一式資料操作
+        function updateCompanyCardData(cIndex, key, value) { currentCompanyCards[cIndex][key] = value; }
+        function updateCompanyImageData(cIndex, iIndex, value) { currentCompanyCards[cIndex].images[iIndex] = value; }
+        function addCompanyCard() { currentCompanyCards.push({ title: "新公司介紹卡片", desc: "請輸入描述...", images: [""] }); renderEditCompanyCards(); }
+        function removeCompanyCard(cIndex) { if(confirm("確定刪除此第一式卡片？")) { currentCompanyCards.splice(cIndex, 1); renderEditCompanyCards(); } }
+        function addCompanyImage(cIndex) { currentCompanyCards[cIndex].images.push(""); renderEditCompanyCards(); }
+        function removeCompanyImage(cIndex, iIndex) { currentCompanyCards[cIndex].images.splice(iIndex, 1); renderEditCompanyCards(); }
+
+        // 第二式與 3-11 式資料操作
         function updateCardData(cIndex, key, value) { currentCards[cIndex][key] = value; }
         function updateImageData(cIndex, iIndex, value) { currentCards[cIndex].images[iIndex] = value; }
         function updateStepData(sIndex, key, value) { currentSteps[sIndex][key] = value; }
-        
         function addSettingCard() { currentCards.push({ title: "新情境卡片", desc: "請輸入描述...", images: [""] }); renderEditCards(); }
         function removeCard(cIndex) { if(confirm("確定刪除此卡片？")) { currentCards.splice(cIndex, 1); renderEditCards(); } }
         function addImage(cIndex) { currentCards[cIndex].images.push(""); renderEditCards(); }
@@ -669,17 +713,22 @@
         function saveSettings() {
             localStorage.setItem('ava_name', document.getElementById('setting-name').value);
             localStorage.setItem('ava_vision', document.getElementById('setting-vision').value);
+            localStorage.setItem('ava_company_cards', JSON.stringify(currentCompanyCards));
             localStorage.setItem('ava_cards', JSON.stringify(currentCards));
             localStorage.setItem('ava_steps', JSON.stringify(currentSteps));
             
             applySettingsToUI();
-            alert("✅ 所有個人化設定及招式修改已成功儲存！");
-            switchTab('step2-profile');
+            alert("✅ 所有個人化設定及第一至十一式修改已成功儲存！");
+            switchTab('step1-company');
         }
 
         function applySettingsToUI() {
             var name = localStorage.getItem('ava_name') || "TOT 頂尖顧問";
             var vision = localStorage.getItem('ava_vision') || defaultVision;
+            
+            var savedCompany = localStorage.getItem('ava_company_cards');
+            var displayCompanyCards = savedCompany ? JSON.parse(savedCompany) : defaultCompanyCards;
+
             var savedCards = localStorage.getItem('ava_cards');
             var displayCards = savedCards ? JSON.parse(savedCards) : defaultCards;
 
@@ -689,6 +738,31 @@
             document.querySelectorAll('.dyn-name').forEach(e => e.innerText = name);
             document.querySelectorAll('.dyn-vision').forEach(e => e.innerHTML = vision.replace(/\n/g, '<br>'));
 
+            // 渲染第一式 PPT
+            const companyPptContainer = document.getElementById('dynamic-company-ppt-container');
+            if (companyPptContainer) {
+                companyPptContainer.innerHTML = '';
+                displayCompanyCards.forEach((card) => {
+                    if(card.title.trim() === '') return;
+
+                    let imgHtml = '';
+                    card.images.forEach(img => {
+                        if(img.trim() !== '') {
+                            imgHtml += `<img src="${img}" class="zoom-img my-2 max-h-[50vh]" onclick="zoom(this)">`;
+                        }
+                    });
+
+                    let slideHtml = `
+                    <div class="ppt-slide card p-5 shadow-lg border-t-4 border-blue-600">
+                        <h3 class="text-base font-bold text-blue-800 mb-2">${card.title}</h3>
+                        <p class="text-xs text-gray-600 mb-3 leading-relaxed bg-blue-50 p-3 rounded-xl">${card.desc.replace(/\n/g, '<br>')}</p>
+                        ${imgHtml}
+                    </div>`;
+                    companyPptContainer.innerHTML += slideHtml;
+                });
+            }
+
+            // 渲染第二式 PPT
             const pptContainer = document.getElementById('dynamic-profile-ppt-container');
             if (pptContainer) {
                 pptContainer.innerHTML = '';
@@ -712,6 +786,7 @@
                 });
             }
 
+            // 渲染 3-11 式導航
             const stepsContainer = document.getElementById('dynamic-steps11-container');
             if (stepsContainer) {
                 stepsContainer.innerHTML = `
