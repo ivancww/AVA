@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v5.5.0</title>
+    <title>AVA 實戰系統 v5.8.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -26,7 +26,7 @@
         .zoom-img { cursor: zoom-in; transition: transform 0.2s; width: 100%; border-radius: 12px; border: 1px solid #f1f5f9; object-fit: contain; }
         .img-container { max-width: 650px; margin: 0 auto; }
         
-        /* 圖片放大 Lightbox 及關閉按紐 */
+        /* 圖片放大 Lightbox 及關閉按鈕 */
         #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); justify-content: center; align-items: center; overflow: auto; }
         #lightbox img { max-width: 90%; max-height: 85vh; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in; }
         
@@ -41,8 +41,6 @@
         .btn-large-flat { background: white; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid #eef2f6; display: flex; align-items: center; padding: 16px; width: 100%; transition: transform 0.2s; margin-bottom: 10px;}
         .btn-large-flat:active { transform: scale(0.98); }
         
-        .logo-full-width { width: 100%; text-align: center; background: #fff; margin-bottom: 15px; padding: 10px 0; mix-blend-mode: multiply; }
-        .logo-full-width img { max-width: 80%; height: auto; max-height: 50px; object-fit: contain; }
         .quote-block { background: #f8fafc; border-radius: 12px; padding: 20px; margin: 15px 0; font-size: 0.95rem; color: #334155; line-height: 1.8; border-left: 4px solid #4a148c; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
 
         .ppt-slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; gap: 16px; border-radius: 16px; }
@@ -54,10 +52,11 @@
         .btn-icon { background: #fee2e2; color: #b91c1c; border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; flex-shrink: 0; }
         .btn-add-img { background: #e0f2fe; color: #1d4ed8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; display: inline-block; cursor: pointer; margin-top: 4px; }
 
-        @media (min-width: 768px) {
-            .desktop-layout { display: flex; gap: 24px; align-items: stretch; }
-            .desktop-layout > .side-left { flex: 0 0 50%; }
-            .desktop-layout > .side-right { flex: 0 0 50%; }
+        /* Honor Magic V5 展開大屏與 iPad 專屬雙欄 50%:50% 排版 */
+        @media (min-width: 600px), (min-aspect-ratio: 1/1) {
+            .fold-desktop-layout { display: flex; gap: 20px; align-items: stretch; }
+            .fold-desktop-layout > .fold-left { flex: 0 0 50%; width: 50%; }
+            .fold-desktop-layout > .fold-right { flex: 0 0 50%; width: 50%; }
         }
     </style>
 </head>
@@ -75,7 +74,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.5.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.8.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -86,80 +85,83 @@
 
     <div class="max-w-5xl mx-auto px-4 mt-6">
 
-        <!-- 🏠 主頁門戶 -->
+        <!-- 🏠 主頁門戶 (適應 Honor Magic V5 展開屏與 iPad 全屏 50%:50% 排版) -->
         <div id="portal-tab" class="tab-content active space-y-4">
-            <div class="desktop-layout">
+            <div class="fold-desktop-layout">
                 
-                <!-- 左邊：AVA 願景 -->
-                <div class="side-left">
-                    <div class="card border-t-8 border-red-600 bg-slate-900 text-white p-7 shadow-2xl h-full flex flex-col justify-between">
+                <!-- 左側：AVA 願景 -->
+                <div class="fold-left">
+                    <div class="card border-t-8 border-red-600 bg-slate-900 text-white p-6 shadow-2xl h-full flex flex-col justify-between m-0">
                         <div>
-                            <div class="flex items-center gap-3 mb-5 border-b border-gray-800 pb-4">
-                                <span class="text-4xl">🌟</span>
+                            <div class="flex items-center gap-3 mb-4 border-b border-gray-800 pb-3">
+                                <span class="text-3xl">🌟</span>
                                 <div>
-                                    <h2 class="text-xl font-extrabold tracking-wider text-white">A.V.A 團隊願景</h2>
-                                    <p class="text-xs text-red-400 font-medium">Apex Vision Alliance</p>
+                                    <h2 class="text-lg font-extrabold tracking-wider text-white">A.V.A 團隊願景</h2>
+                                    <p class="text-[10px] text-red-400 font-medium">Apex Vision Alliance</p>
                                 </div>
                             </div>
-                            <div class="space-y-5 text-sm leading-relaxed">
-                                <div class="bg-gray-800/60 p-3.5 rounded-xl border border-gray-700">
-                                    <b class="text-red-400 text-base block mb-1">🔺 APEX (頂尖 / 巔峰)</b>
-                                    <p class="text-gray-300 text-xs">追求卓越，以最高專業標準引領行業巔峰，有效建立贏家習慣，克服恐懼與心魔。</p>
+                            <div class="space-y-3 text-xs leading-relaxed">
+                                <div class="bg-gray-800/60 p-3 rounded-xl border border-gray-700">
+                                    <b class="text-red-400 text-sm block mb-1">🔺 APEX (頂尖 / 巔峰)</b>
+                                    <p class="text-gray-300 text-[11px]">追求卓越，以最高專業標準引領行業巔峰，有效建立贏家習慣，克服恐懼與心魔。</p>
                                 </div>
-                                <div class="bg-gray-800/60 p-3.5 rounded-xl border border-gray-700">
-                                    <b class="text-blue-400 text-base block mb-1">👁️ VISION (遠見 / 願景)</b>
-                                    <p class="text-gray-300 text-xs">具備長遠目光，向客戶展示有溫度、可感受的保險，規劃真正可展望未來的理財藍圖。</p>
+                                <div class="bg-gray-800/60 p-3 rounded-xl border border-gray-700">
+                                    <b class="text-blue-400 text-sm block mb-1">👁️ VISION (遠見 / 願景)</b>
+                                    <p class="text-gray-300 text-[11px]">具備長遠目光，向客戶展示有溫度、可感受的保險，規劃真正可展望未來的理財藍圖。</p>
                                 </div>
-                                <div class="bg-gray-800/60 p-3.5 rounded-xl border border-gray-700">
-                                    <b class="text-emerald-400 text-base block mb-1">🤝 ALLIANCE (聯盟 / 凝聚)</b>
-                                    <p class="text-gray-300 text-xs">強強聯手，建立一套高效實戰系統，幫助新同事消除迷茫、快速適應並融入團隊。</p>
+                                <div class="bg-gray-800/60 p-3 rounded-xl border border-gray-700">
+                                    <b class="text-emerald-400 text-sm block mb-1">🤝 ALLIANCE (聯盟 / 凝聚)</b>
+                                    <p class="text-gray-300 text-[11px]">強強聯手，建立一套高效實戰系統，幫助新同事消除迷茫、快速適應並融入團隊。</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-6 pt-4 border-t border-gray-800 text-center">
-                            <p class="text-xs text-yellow-400 font-bold italic">「做保險唔洗盲摸摸，AVA 系統就是你的人生 GPS。」</p>
+                        <div class="mt-4 pt-3 border-t border-gray-800 text-center">
+                            <p class="text-[11px] text-yellow-400 font-bold italic">「做保險唔洗盲摸摸，AVA 系統就是你的人生 GPS。」</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- 右邊：系統導航卡片 -->
-                <div class="side-right flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest px-2 mb-3">系統導航</h3>
-                        
-                        <button onclick="switchTab('steps11')" class="btn-large-flat border-l-4 border-red-500 gap-3">
-                            <div class="text-3xl bg-red-50 p-2.5 rounded-xl">🎯</div>
-                            <div class="text-left">
-                                <h4 class="font-bold text-gray-800 text-sm">成功之路 11 式導航</h4>
-                                <p class="text-[10px] text-gray-400 mt-0.5">破冰、提問到 Closing 完整路線圖</p>
-                            </div>
-                        </button>
+                <!-- 右側：系統導航 -->
+                <div class="fold-right mt-4 sm:mt-0">
+                    <div class="card p-6 shadow-xl h-full flex flex-col justify-between m-0 border-t-8 border-indigo-600">
+                        <div>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">系統導航</h3>
+                            
+                            <button onclick="switchTab('steps11')" class="btn-large-flat border-l-4 border-red-500 gap-3">
+                                <div class="text-2xl bg-red-50 p-2 rounded-xl">🎯</div>
+                                <div class="text-left">
+                                    <h4 class="font-bold text-gray-800 text-xs">成功之路 11 式導航</h4>
+                                    <p class="text-[9px] text-gray-400 mt-0.5">破冰、提問到 Closing 完整路線圖</p>
+                                </div>
+                            </button>
 
-                        <button onclick="switchTab('toolkits')" class="btn-large-flat border-l-4 border-blue-500 gap-3">
-                            <div class="text-3xl bg-blue-50 p-2.5 rounded-xl">🧰</div>
-                            <div class="text-left">
-                                <h4 class="font-bold text-gray-800 text-sm">成功錦囊</h4>
-                                <p class="text-[10px] text-gray-400 mt-0.5">圖解、核保真相及官方文件庫</p>
-                            </div>
-                        </button>
+                            <button onclick="switchTab('toolkits')" class="btn-large-flat border-l-4 border-blue-500 gap-3">
+                                <div class="text-2xl bg-blue-50 p-2 rounded-xl">🧰</div>
+                                <div class="text-left">
+                                    <h4 class="font-bold text-gray-800 text-xs">成功錦囊</h4>
+                                    <p class="text-[9px] text-gray-400 mt-0.5">圖解、核保真相及官方文件庫</p>
+                                </div>
+                            </button>
 
-                        <button onclick="switchTab('doctor')" class="btn-large-flat border-l-4 border-emerald-500 gap-3">
-                            <div class="text-3xl bg-emerald-50 p-2.5 rounded-xl">👨‍⚕️</div>
-                            <div class="text-left">
-                                <h4 class="font-bold text-gray-800 text-sm">全網絡醫生名單</h4>
-                                <p class="text-[10px] text-gray-400 mt-0.5">快速搜尋及查閱醫療網絡與醫生資料</p>
-                            </div>
-                        </button>
+                            <button onclick="switchTab('doctor')" class="btn-large-flat border-l-4 border-emerald-500 gap-3">
+                                <div class="text-2xl bg-emerald-50 p-2 rounded-xl">👨‍⚕️</div>
+                                <div class="text-left">
+                                    <h4 class="font-bold text-gray-800 text-xs">全網絡醫生名單</h4>
+                                    <p class="text-[9px] text-gray-400 mt-0.5">快速搜尋及查閱醫療網絡與醫生資料</p>
+                                </div>
+                            </button>
 
-                        <button onclick="switchTab('armory')" class="btn-large-flat border-l-4 border-indigo-500 gap-3">
-                            <div class="text-3xl bg-indigo-50 p-2.5 rounded-xl">⚔️</div>
-                            <div class="text-left">
-                                <h4 class="font-bold text-gray-800 text-sm">成功武器</h4>
-                                <p class="text-[10px] text-gray-400 mt-0.5">高階數據分析器與財富管理工具</p>
-                            </div>
-                        </button>
+                            <button onclick="switchTab('armory')" class="btn-large-flat border-l-4 border-indigo-500 gap-3">
+                                <div class="text-2xl bg-indigo-50 p-2 rounded-xl">⚔️</div>
+                                <div class="text-left">
+                                    <h4 class="font-bold text-gray-800 text-xs">成功武器</h4>
+                                    <p class="text-[9px] text-gray-400 mt-0.5">高階數據分析器與財富管理工具</p>
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -248,14 +250,13 @@
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
         </div>
 
-        <!-- 第一式：公司實力 (動態可自訂 PPT 模式) -->
+        <!-- 第一式：公司實力 -->
         <div id="step1-company-tab" class="tab-content space-y-4">
             <div class="flex justify-between items-center mb-2">
                 <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">第一式：介紹公司</h2>
                 <span class="text-xs text-gray-400 italic">👈 左右滑動查看卡片 👉</span>
             </div>
             
-            <!-- 動態渲染第一式 PPT 簡報 -->
             <div class="ppt-slider" id="dynamic-company-ppt-container"></div>
 
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
@@ -346,6 +347,11 @@
             <a href="https://ivancww.github.io/avawealth" target="_blank" class="card border-l-4 border-yellow-500 flex items-center gap-4 active:scale-95 transition-transform hover:shadow-md">
                 <img src="https://ivancww.github.io/avawealth/avawealth-192.png" onerror="this.onerror=null; this.src='https://ivancww.github.io/avawealth/icon-192.png';" alt="AVA Wealth Logo" class="w-14 h-14 rounded-xl shadow-sm object-cover border border-gray-100">
                 <div><h3 class="font-bold text-yellow-700 text-base">AVA Wealth 系統</h3><p class="text-[11px] text-gray-500 mt-1">全方位資產配置及財富管理工具。</p></div>
+            </a>
+
+            <a href="https://ivancww.github.io/DA" target="_blank" class="card border-l-4 border-blue-600 flex items-center gap-4 active:scale-95 transition-transform hover:shadow-md">
+                <img src="https://ivancww.github.io/DA/icon-192.png" onerror="this.onerror=null; this.src='https://ivancww.github.io/DA/icon-512.png';" alt="DA Logo" class="w-14 h-14 rounded-xl shadow-sm object-cover border border-gray-100">
+                <div><h3 class="font-bold text-blue-800 text-base">DA 數字分析系統</h3><p class="text-[11px] text-gray-500 mt-1">數字資產與智能理賠分析工具。</p></div>
             </a>
 
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
@@ -546,7 +552,6 @@
         /* 預設資料與動態 LocalStorage 管理 */
         const defaultVision = "「借助保險嘅特殊力量，我哋可以協助您從容面對突如其來嘅開支，守護您嘅財富...」";
         
-        // 第一式：預設公司介紹卡片
         const defaultCompanyCards = [
             {
                 title: "🏆 信心指標：全港最多保單公司",
@@ -565,7 +570,6 @@
             }
         ];
 
-        // 第二式：預設個人卡片
         const defaultCards = [
             {
                 title: "🏆 卓越顧問及個人獎項",
@@ -613,7 +617,6 @@
             renderEditSteps();
         }
 
-        // 渲染第一式編輯區
         function renderEditCompanyCards() {
             const container = document.getElementById('settings-company-cards-container');
             container.innerHTML = '';
@@ -643,7 +646,6 @@
             });
         }
 
-        // 渲染第二式編輯區
         function renderEditCards() {
             const container = document.getElementById('settings-cards-container');
             container.innerHTML = '';
@@ -693,7 +695,6 @@
             });
         }
 
-        // 第一式資料操作
         function updateCompanyCardData(cIndex, key, value) { currentCompanyCards[cIndex][key] = value; }
         function updateCompanyImageData(cIndex, iIndex, value) { currentCompanyCards[cIndex].images[iIndex] = value; }
         function addCompanyCard() { currentCompanyCards.push({ title: "新公司介紹卡片", desc: "請輸入描述...", images: [""] }); renderEditCompanyCards(); }
@@ -701,7 +702,6 @@
         function addCompanyImage(cIndex) { currentCompanyCards[cIndex].images.push(""); renderEditCompanyCards(); }
         function removeCompanyImage(cIndex, iIndex) { currentCompanyCards[cIndex].images.splice(iIndex, 1); renderEditCompanyCards(); }
 
-        // 第二式與 3-11 式資料操作
         function updateCardData(cIndex, key, value) { currentCards[cIndex][key] = value; }
         function updateImageData(cIndex, iIndex, value) { currentCards[cIndex].images[iIndex] = value; }
         function updateStepData(sIndex, key, value) { currentSteps[sIndex][key] = value; }
@@ -738,7 +738,6 @@
             document.querySelectorAll('.dyn-name').forEach(e => e.innerText = name);
             document.querySelectorAll('.dyn-vision').forEach(e => e.innerHTML = vision.replace(/\n/g, '<br>'));
 
-            // 渲染第一式 PPT
             const companyPptContainer = document.getElementById('dynamic-company-ppt-container');
             if (companyPptContainer) {
                 companyPptContainer.innerHTML = '';
@@ -762,7 +761,6 @@
                 });
             }
 
-            // 渲染第二式 PPT
             const pptContainer = document.getElementById('dynamic-profile-ppt-container');
             if (pptContainer) {
                 pptContainer.innerHTML = '';
@@ -786,7 +784,6 @@
                 });
             }
 
-            // 渲染 3-11 式導航
             const stepsContainer = document.getElementById('dynamic-steps11-container');
             if (stepsContainer) {
                 stepsContainer.innerHTML = `
@@ -812,7 +809,6 @@
             }
         }
 
-        /* 圖片放大及關閉邏輯 */
         let isZoomed = false;
         function zoom(el) { 
             isZoomed = false; 
