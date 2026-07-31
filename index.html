@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v5.8.0</title>
+    <title>AVA 實戰系統 v5.9.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -74,7 +74,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.8.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.9.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -169,10 +169,11 @@
         <div id="doctor-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-emerald-600 pl-3 mb-2">👨‍⚕️ 全網絡醫生名單</h2>
             <p class="text-xs text-gray-500 italic bg-emerald-50 p-3 rounded-xl border border-emerald-100">
-                💡 請選擇<b>醫療服務</b>與<b>專科</b>，系統將自動實時讀取並彈出相關醫生資料。
+                💡 請選擇<b>醫療服務</b>與<b>專科</b>，系統將自動連動 Google Sheet 分頁實時列出醫生姓名與診所地址。
             </p>
 
             <div class="card p-5 shadow-md border-t-4 border-emerald-500 space-y-4">
+                <!-- 1. 醫療服務選擇 -->
                 <div>
                     <label class="block text-xs font-bold text-emerald-800 mb-1">1. 選擇醫療服務</label>
                     <select id="doc-service" onchange="onDoctorQueryChange()" class="font-bold text-gray-700">
@@ -183,6 +184,7 @@
                     </select>
                 </div>
 
+                <!-- 2. 專科選擇 (完全對應 GAS cleanText 模糊比對) -->
                 <div>
                     <label class="block text-xs font-bold text-emerald-800 mb-1">2. 選擇專科</label>
                     <select id="doc-specialty" onchange="onDoctorQueryChange()" class="font-bold text-gray-700">
@@ -218,19 +220,9 @@
                         <option value="化驗所">化驗所</option>
                     </select>
                 </div>
-
-                <div id="hospital-filter-block" class="hidden bg-yellow-50 p-3 rounded-xl border border-yellow-200">
-                    <label class="block text-xs font-bold text-yellow-800 mb-1">🏥 篩選掛單醫院 (睿選專屬)</label>
-                    <select id="doc-hospital" onchange="onDoctorQueryChange()" class="text-xs">
-                        <option value="全部">全部醫院 (浸會/法國/聖保祿/仁安)</option>
-                        <option value="浸會">香港浸信會醫院 (浸會)</option>
-                        <option value="法國">聖德肋撒醫院 (法國)</option>
-                        <option value="聖保祿">聖保祿醫院</option>
-                        <option value="仁安">仁安醫院</option>
-                    </select>
-                </div>
             </div>
 
+            <!-- 自動彈出醫生結果區域 -->
             <div id="doctor-results-container" class="space-y-3">
                 <div class="card p-8 text-center text-gray-400 text-xs">
                     👈 請在上方選取「醫療服務」與「專科」以載入醫生名單
@@ -412,6 +404,7 @@
 
     <script>
         const APP_GAS_LINK = "https://script.google.com/macros/s/AKfycbyT8YXG4LylNj9qf6M3RIo2FLYhGhArJ8XCUHtlcq1MVUSaHc55jGlWbFF_mpAg4dy4_A/exec";
+        // 全網絡醫生名單 GAS 連結
         const DOCTOR_GAS_LINK = "https://script.google.com/macros/s/AKfycby0bCPSDHHgmdQikt77bSIbxVQ5L9_uYBKgYoAxSyStIVyfdHXXbUz0hnOo8qLlKfOwyA/exec";
 
         window.onload = function() { 
@@ -471,20 +464,13 @@
             }
         }
 
-        /* ----- 全網絡醫生查詢邏輯 ----- */
+        /* ----- 全網絡醫生發送與接收（完全對應 GAS 及 Google Sheet） ----- */
         async function onDoctorQueryChange() {
             const service = document.getElementById('doc-service').value;
             const specialty = document.getElementById('doc-specialty').value;
-            const hospitalElem = document.getElementById('doc-hospital');
-            const hospitalFilterBlock = document.getElementById('hospital-filter-block');
             const container = document.getElementById('doctor-results-container');
 
-            if (service === "睿選") {
-                hospitalFilterBlock.classList.remove('hidden');
-            } else {
-                hospitalFilterBlock.classList.add('hidden');
-            }
-
+            // 必須同時選取服務與專科
             if (!service || !specialty) {
                 container.innerHTML = `<div class="card p-8 text-center text-gray-400 text-xs">👈 請在上方選取「醫療服務」與「專科」以載入醫生名單</div>`;
                 return;
@@ -492,16 +478,16 @@
 
             container.innerHTML = `
             <div class="card p-8 text-center text-emerald-600 font-bold text-xs animate-pulse">
-                🔍 正在向網絡數據庫查詢 ${service} - ${specialty} 醫生名單，請稍候...
+                🔍 正在連動 Google Sheet 查詢 ${service} - ${specialty} 醫生名單，請稍候...
             </div>`;
 
-            const selectedHospital = (service === "睿選") ? hospitalElem.value : "";
-
             try {
-                const url = `${DOCTOR_GAS_LINK}?service=${encodeURIComponent(service)}&specialty=${encodeURIComponent(specialty)}&hospital=${encodeURIComponent(selectedHospital)}`;
+                // 發送 request (帶 service 及 specialty 參數)
+                const url = `${DOCTOR_GAS_LINK}?service=${encodeURIComponent(service)}&specialty=${encodeURIComponent(specialty)}`;
                 let response = await fetch(url);
                 let resData = await response.json();
 
+                // 解析 response (對應 GAS 回傳的 output.data)
                 let doctors = [];
                 if (resData && resData.data && Array.isArray(resData.data)) {
                     doctors = resData.data;
@@ -519,14 +505,11 @@
 
                 container.innerHTML = '';
                 doctors.forEach((doc) => {
+                    // 對應 GAS 解析自 Google Sheet D欄醫生名、C欄地區、E欄地址
                     let name = doc.name || "醫生";
                     let gender = doc.gender || "未提供";
                     let district = doc.district || "未提供";
                     let address = doc.address || "未提供";
-                    let hospital = doc.hospital || "";
-
-                    let hospitalBadge = (service === "睿選" && hospital && hospital !== "未有記載") ? 
-                        `<div class="mt-2 text-[11px] bg-yellow-50 text-yellow-800 p-2 rounded-lg border border-yellow-200">🏥 <b>掛單醫院：</b> ${hospital}</div>` : '';
 
                     let cardHtml = `
                     <div class="card p-4 border-l-4 border-emerald-500 shadow-sm space-y-1.5">
@@ -536,7 +519,6 @@
                         </div>
                         <p class="text-xs text-gray-600"><b>📍 地區：</b> ${district}</p>
                         <p class="text-xs text-gray-600"><b>🏢 地址：</b> ${address}</p>
-                        ${hospitalBadge}
                     </div>`;
                     container.innerHTML += cardHtml;
                 });
