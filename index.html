@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v5.9.0</title>
+    <title>AVA 實戰系統 v6.1.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -52,7 +52,6 @@
         .btn-icon { background: #fee2e2; color: #b91c1c; border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; flex-shrink: 0; }
         .btn-add-img { background: #e0f2fe; color: #1d4ed8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; display: inline-block; cursor: pointer; margin-top: 4px; }
 
-        /* Honor Magic V5 展開大屏與 iPad 專屬雙欄 50%:50% 排版 */
         @media (min-width: 600px), (min-aspect-ratio: 1/1) {
             .fold-desktop-layout { display: flex; gap: 20px; align-items: stretch; }
             .fold-desktop-layout > .fold-left { flex: 0 0 50%; width: 50%; }
@@ -74,7 +73,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v5.9.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.1.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -85,11 +84,10 @@
 
     <div class="max-w-5xl mx-auto px-4 mt-6">
 
-        <!-- 🏠 主頁門戶 (適應 Honor Magic V5 展開屏與 iPad 全屏 50%:50% 排版) -->
+        <!-- 🏠 主頁門戶 -->
         <div id="portal-tab" class="tab-content active space-y-4">
             <div class="fold-desktop-layout">
                 
-                <!-- 左側：AVA 願景 -->
                 <div class="fold-left">
                     <div class="card border-t-8 border-red-600 bg-slate-900 text-white p-6 shadow-2xl h-full flex flex-col justify-between m-0">
                         <div>
@@ -121,7 +119,6 @@
                     </div>
                 </div>
 
-                <!-- 右側：系統導航 -->
                 <div class="fold-right mt-4 sm:mt-0">
                     <div class="card p-6 shadow-xl h-full flex flex-col justify-between m-0 border-t-8 border-indigo-600">
                         <div>
@@ -169,11 +166,11 @@
         <div id="doctor-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-emerald-600 pl-3 mb-2">👨‍⚕️ 全網絡醫生名單</h2>
             <p class="text-xs text-gray-500 italic bg-emerald-50 p-3 rounded-xl border border-emerald-100">
-                💡 請選擇<b>醫療服務</b>與<b>專科</b>，系統將自動連動 Google Sheet 分頁實時列出醫生姓名與診所地址。
+                💡 請選擇<b>醫療服務</b>與<b>專科</b>，系統將實時顯示醫生姓名、地址及掛單醫院。
             </p>
 
             <div class="card p-5 shadow-md border-t-4 border-emerald-500 space-y-4">
-                <!-- 1. 醫療服務選擇 -->
+                <!-- 1. 醫療服務 -->
                 <div>
                     <label class="block text-xs font-bold text-emerald-800 mb-1">1. 選擇醫療服務</label>
                     <select id="doc-service" onchange="onDoctorQueryChange()" class="font-bold text-gray-700">
@@ -184,22 +181,22 @@
                     </select>
                 </div>
 
-                <!-- 2. 專科選擇 (完全對應 GAS cleanText 模糊比對) -->
+                <!-- 2. 專科選項 -->
                 <div>
                     <label class="block text-xs font-bold text-emerald-800 mb-1">2. 選擇專科</label>
                     <select id="doc-specialty" onchange="onDoctorQueryChange()" class="font-bold text-gray-700">
                         <option value="">-- 請選擇專科 --</option>
+                        <option value="耳鼻喉">耳鼻喉科</option>
                         <option value="外科">普通外科 / 外科</option>
-                        <option value="婦產科">婦產科</option>
-                        <option value="心臟科">心臟科</option>
-                        <option value="腸胃肝臟科">腸胃肝臟科</option>
-                        <option value="耳鼻喉科">耳鼻喉科</option>
+                        <option value="婦產">婦產科</option>
+                        <option value="心臟">心臟科</option>
+                        <option value="腸胃肝臟">腸胃肝臟科</option>
                         <option value="骨科">骨科 (矯形及創傷外科)</option>
                         <option value="眼科">眼科</option>
                         <option value="泌尿">泌尿科 / 泌尿外科</option>
                         <option value="皮膚">皮膚及性病科</option>
-                        <option value="腦內科">腦內科 / 神經科</option>
-                        <option value="腦外科">腦外科 / 神經外科</option>
+                        <option value="腦內">腦內科 / 神經科</option>
+                        <option value="腦外">腦外科 / 神經外科</option>
                         <option value="兒科">兒科</option>
                         <option value="小兒外科">小兒外科</option>
                         <option value="心胸外科">心胸外科</option>
@@ -213,16 +210,39 @@
                         <option value="血液">血液及血液腫瘤科</option>
                         <option value="內分泌">內分泌及糖尿病科 / 泌、糖尿及新陳代謝</option>
                         <option value="基層保健">基層保健醫生</option>
-                        <option value="老人科">老人科</option>
-                        <option value="急症科">急症科</option>
+                        <option value="老人">老人科</option>
+                        <option value="急症">急症科</option>
                         <option value="兒童心臟">兒童心臟科</option>
                         <option value="手術中心">手術中心</option>
-                        <option value="化驗所">化驗所</option>
+                        <option value="化驗">化驗所</option>
+                    </select>
+                </div>
+
+                <!-- 3. 區域選擇 -->
+                <div>
+                    <label class="block text-xs font-bold text-emerald-800 mb-1">3. 選擇區域 (可選)</label>
+                    <select id="doc-region" onchange="onDoctorQueryChange()" class="font-bold text-gray-700">
+                        <option value="全部">全部區域 (香港島 / 九龍 / 新界)</option>
+                        <option value="香港島">香港島</option>
+                        <option value="九龍">九龍</option>
+                        <option value="新界">新界</option>
+                    </select>
+                </div>
+
+                <!-- 4. 睿選專屬：掛單醫院過濾 -->
+                <div id="hospital-filter-block" class="hidden bg-yellow-50 p-3 rounded-xl border border-yellow-200">
+                    <label class="block text-xs font-bold text-yellow-800 mb-1">🏥 篩選掛單醫院 (睿選專屬)</label>
+                    <select id="doc-hospital" onchange="onDoctorQueryChange()" class="text-xs">
+                        <option value="全部">全部醫院 (仁安/浸信會/聖保祿/聖德肋撒)</option>
+                        <option value="仁安">仁安醫院</option>
+                        <option value="浸信會">浸信會醫院 (浸會)</option>
+                        <option value="聖保祿">聖保祿醫院</option>
+                        <option value="聖德肋撒">聖德肋撒醫院 (法國)</option>
                     </select>
                 </div>
             </div>
 
-            <!-- 自動彈出醫生結果區域 -->
+            <!-- 結果列出區域 -->
             <div id="doctor-results-container" class="space-y-3">
                 <div class="card p-8 text-center text-gray-400 text-xs">
                     👈 請在上方選取「醫療服務」與「專科」以載入醫生名單
@@ -236,9 +256,7 @@
         <div id="steps11-tab" class="tab-content space-y-4">
             <h2 class="text-xl font-bold text-gray-800 mb-2">🎯 成功之路 11 式導航</h2>
             <p class="text-xs text-gray-500 italic mb-4 bg-gray-100 p-3 rounded-xl leading-relaxed">💡 <b>領袖提示：</b> 點擊進入對應招式。見客唔係一味 Hard Sell，多用<b>「請教」</b>與<b>「想像一下」</b>！</p>
-            
             <div id="dynamic-steps11-container" class="space-y-4"></div>
-
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
         </div>
 
@@ -248,9 +266,7 @@
                 <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">第一式：介紹公司</h2>
                 <span class="text-xs text-gray-400 italic">👈 左右滑動查看卡片 👉</span>
             </div>
-            
             <div class="ppt-slider" id="dynamic-company-ppt-container"></div>
-
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
         </div>
 
@@ -260,14 +276,11 @@
                 <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">第二式：個人願景及承諾</h2>
                 <span class="text-xs text-gray-400 italic">👈 左右滑動查看卡片 👉</span>
             </div>
-
             <div class="card p-5 shadow-md mb-4">
                 <h3 class="text-lg font-bold text-indigo-900 mb-2 border-b border-indigo-100 pb-2"><span class="dyn-name">TOT 頂尖顧問</span> 的承諾</h3>
                 <div class="quote-block dyn-vision mb-0"></div>
             </div>
-
             <div class="ppt-slider" id="dynamic-profile-ppt-container"></div>
-
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
         </div>
 
@@ -404,7 +417,6 @@
 
     <script>
         const APP_GAS_LINK = "https://script.google.com/macros/s/AKfycbyT8YXG4LylNj9qf6M3RIo2FLYhGhArJ8XCUHtlcq1MVUSaHc55jGlWbFF_mpAg4dy4_A/exec";
-        // 全網絡醫生名單 GAS 連結
         const DOCTOR_GAS_LINK = "https://script.google.com/macros/s/AKfycby0bCPSDHHgmdQikt77bSIbxVQ5L9_uYBKgYoAxSyStIVyfdHXXbUz0hnOo8qLlKfOwyA/exec";
 
         window.onload = function() { 
@@ -464,13 +476,22 @@
             }
         }
 
-        /* ----- 全網絡醫生發送與接收（完全對應 GAS 及 Google Sheet） ----- */
+        /* ----- 全網絡醫生連動查詢 (含區域與睿選掛單醫院過濾) ----- */
         async function onDoctorQueryChange() {
             const service = document.getElementById('doc-service').value;
             const specialty = document.getElementById('doc-specialty').value;
+            const region = document.getElementById('doc-region').value;
+            const hospitalElem = document.getElementById('doc-hospital');
+            const hospitalFilterBlock = document.getElementById('hospital-filter-block');
             const container = document.getElementById('doctor-results-container');
 
-            // 必須同時選取服務與專科
+            // 睿選專屬：顯示/隱藏掛單醫院選單
+            if (service === "睿選") {
+                hospitalFilterBlock.classList.remove('hidden');
+            } else {
+                hospitalFilterBlock.classList.add('hidden');
+            }
+
             if (!service || !specialty) {
                 container.innerHTML = `<div class="card p-8 text-center text-gray-400 text-xs">👈 請在上方選取「醫療服務」與「專科」以載入醫生名單</div>`;
                 return;
@@ -481,13 +502,13 @@
                 🔍 正在連動 Google Sheet 查詢 ${service} - ${specialty} 醫生名單，請稍候...
             </div>`;
 
+            const selectedHospital = (service === "睿選") ? hospitalElem.value : "";
+
             try {
-                // 發送 request (帶 service 及 specialty 參數)
-                const url = `${DOCTOR_GAS_LINK}?service=${encodeURIComponent(service)}&specialty=${encodeURIComponent(specialty)}`;
+                const url = `${DOCTOR_GAS_LINK}?service=${encodeURIComponent(service)}&specialty=${encodeURIComponent(specialty)}&region=${encodeURIComponent(region)}&hospital=${encodeURIComponent(selectedHospital)}`;
                 let response = await fetch(url);
                 let resData = await response.json();
 
-                // 解析 response (對應 GAS 回傳的 output.data)
                 let doctors = [];
                 if (resData && resData.data && Array.isArray(resData.data)) {
                     doctors = resData.data;
@@ -498,18 +519,21 @@
                 if (!doctors || doctors.length === 0) {
                     container.innerHTML = `
                     <div class="card p-6 text-center text-gray-500 text-xs">
-                        ⚠️ 暫未找到符合條件的網絡醫生。請嘗試選擇其他專科或服務類別。
+                        ⚠️ 暫未找到符合條件的網絡醫生。請嘗試選擇其他專科、區域或醫院。
                     </div>`;
                     return;
                 }
 
                 container.innerHTML = '';
                 doctors.forEach((doc) => {
-                    // 對應 GAS 解析自 Google Sheet D欄醫生名、C欄地區、E欄地址
                     let name = doc.name || "醫生";
                     let gender = doc.gender || "未提供";
                     let district = doc.district || "未提供";
                     let address = doc.address || "未提供";
+                    let hospital = doc.hospital || "";
+
+                    let hospitalBadge = (service === "睿選" && hospital && hospital !== "未有記載") ? 
+                        `<div class="mt-2 text-[11px] bg-yellow-50 text-yellow-800 p-2 rounded-lg border border-yellow-200">🏥 <b>掛單醫院：</b> ${hospital}</div>` : '';
 
                     let cardHtml = `
                     <div class="card p-4 border-l-4 border-emerald-500 shadow-sm space-y-1.5">
@@ -519,6 +543,7 @@
                         </div>
                         <p class="text-xs text-gray-600"><b>📍 地區：</b> ${district}</p>
                         <p class="text-xs text-gray-600"><b>🏢 地址：</b> ${address}</p>
+                        ${hospitalBadge}
                     </div>`;
                     container.innerHTML += cardHtml;
                 });
