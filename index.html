@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v6.1.0</title>
+    <title>AVA 實戰系統 v6.2.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -26,7 +26,6 @@
         .zoom-img { cursor: zoom-in; transition: transform 0.2s; width: 100%; border-radius: 12px; border: 1px solid #f1f5f9; object-fit: contain; }
         .img-container { max-width: 650px; margin: 0 auto; }
         
-        /* 圖片放大 Lightbox 及關閉按鈕 */
         #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); justify-content: center; align-items: center; overflow: auto; }
         #lightbox img { max-width: 90%; max-height: 85vh; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in; }
         
@@ -73,7 +72,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.1.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.2.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -162,21 +161,21 @@
             </div>
         </div>
 
-        <!-- 👨‍⚕️ 全網絡醫生名單卡片頁面 -->
+        <!-- 👨‍⚕️ 全網絡醫生名單頁面 -->
         <div id="doctor-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-emerald-600 pl-3 mb-2">👨‍⚕️ 全網絡醫生名單</h2>
             <p class="text-xs text-gray-500 italic bg-emerald-50 p-3 rounded-xl border border-emerald-100">
-                💡 請選擇<b>醫療服務</b>與<b>專科</b>，系統將實時顯示醫生姓名、地址及掛單醫院。
+                💡 請選擇<b>醫療服務</b>與<b>專科</b>，系統將實時連動 Google Sheet 列出醫生姓名、地址及掛單醫院。
             </p>
 
             <div class="card p-5 shadow-md border-t-4 border-emerald-500 space-y-4">
-                <!-- 1. 醫療服務 -->
+                <!-- 1. 醫療服務 (與 GAS 100% 逐字相同) -->
                 <div>
                     <label class="block text-xs font-bold text-emerald-800 mb-1">1. 選擇醫療服務</label>
                     <select id="doc-service" onchange="onDoctorQueryChange()" class="font-bold text-gray-700">
                         <option value="">-- 請選擇醫療服務 --</option>
-                        <option value="睿選">睿選 (AVSW)</option>
-                        <option value="自願醫保">自願醫保 (VHIS)</option>
+                        <option value="睿選(AVSW)">睿選(AVSW)</option>
+                        <option value="自願醫保(VHIS)">自願醫保(VHIS)</option>
                         <option value="友心意">友心意</option>
                     </select>
                 </div>
@@ -226,18 +225,6 @@
                         <option value="香港島">香港島</option>
                         <option value="九龍">九龍</option>
                         <option value="新界">新界</option>
-                    </select>
-                </div>
-
-                <!-- 4. 睿選專屬：掛單醫院過濾 -->
-                <div id="hospital-filter-block" class="hidden bg-yellow-50 p-3 rounded-xl border border-yellow-200">
-                    <label class="block text-xs font-bold text-yellow-800 mb-1">🏥 篩選掛單醫院 (睿選專屬)</label>
-                    <select id="doc-hospital" onchange="onDoctorQueryChange()" class="text-xs">
-                        <option value="全部">全部醫院 (仁安/浸信會/聖保祿/聖德肋撒)</option>
-                        <option value="仁安">仁安醫院</option>
-                        <option value="浸信會">浸信會醫院 (浸會)</option>
-                        <option value="聖保祿">聖保祿醫院</option>
-                        <option value="聖德肋撒">聖德肋撒醫院 (法國)</option>
                     </select>
                 </div>
             </div>
@@ -476,21 +463,12 @@
             }
         }
 
-        /* ----- 全網絡醫生連動查詢 (含區域與睿選掛單醫院過濾) ----- */
+        /* ----- 全網絡醫生查詢邏輯 ----- */
         async function onDoctorQueryChange() {
             const service = document.getElementById('doc-service').value;
             const specialty = document.getElementById('doc-specialty').value;
             const region = document.getElementById('doc-region').value;
-            const hospitalElem = document.getElementById('doc-hospital');
-            const hospitalFilterBlock = document.getElementById('hospital-filter-block');
             const container = document.getElementById('doctor-results-container');
-
-            // 睿選專屬：顯示/隱藏掛單醫院選單
-            if (service === "睿選") {
-                hospitalFilterBlock.classList.remove('hidden');
-            } else {
-                hospitalFilterBlock.classList.add('hidden');
-            }
 
             if (!service || !specialty) {
                 container.innerHTML = `<div class="card p-8 text-center text-gray-400 text-xs">👈 請在上方選取「醫療服務」與「專科」以載入醫生名單</div>`;
@@ -502,10 +480,8 @@
                 🔍 正在連動 Google Sheet 查詢 ${service} - ${specialty} 醫生名單，請稍候...
             </div>`;
 
-            const selectedHospital = (service === "睿選") ? hospitalElem.value : "";
-
             try {
-                const url = `${DOCTOR_GAS_LINK}?service=${encodeURIComponent(service)}&specialty=${encodeURIComponent(specialty)}&region=${encodeURIComponent(region)}&hospital=${encodeURIComponent(selectedHospital)}`;
+                const url = `${DOCTOR_GAS_LINK}?service=${encodeURIComponent(service)}&specialty=${encodeURIComponent(specialty)}&region=${encodeURIComponent(region)}`;
                 let response = await fetch(url);
                 let resData = await response.json();
 
@@ -519,7 +495,7 @@
                 if (!doctors || doctors.length === 0) {
                     container.innerHTML = `
                     <div class="card p-6 text-center text-gray-500 text-xs">
-                        ⚠️ 暫未找到符合條件的網絡醫生。請嘗試選擇其他專科、區域或醫院。
+                        ⚠️ 暫未找到符合條件的網絡醫生。請嘗試選擇其他專科或區域。
                     </div>`;
                     return;
                 }
@@ -527,21 +503,20 @@
                 container.innerHTML = '';
                 doctors.forEach((doc) => {
                     let name = doc.name || "醫生";
-                    let gender = doc.gender || "未提供";
                     let district = doc.district || "未提供";
                     let address = doc.address || "未提供";
                     let hospital = doc.hospital || "";
 
-                    let hospitalBadge = (service === "睿選" && hospital && hospital !== "未有記載") ? 
+                    // 只有睿選且有記載掛單醫院時顯示黃色 Badge
+                    let hospitalBadge = (service === "睿選(AVSW)" && hospital && hospital !== "未有記載") ? 
                         `<div class="mt-2 text-[11px] bg-yellow-50 text-yellow-800 p-2 rounded-lg border border-yellow-200">🏥 <b>掛單醫院：</b> ${hospital}</div>` : '';
 
                     let cardHtml = `
                     <div class="card p-4 border-l-4 border-emerald-500 shadow-sm space-y-1.5">
                         <div class="flex justify-between items-center border-b border-gray-100 pb-2 mb-1">
                             <span class="font-bold text-base text-gray-800">🩺 ${name}</span>
-                            <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">${gender}</span>
                         </div>
-                        <p class="text-xs text-gray-600"><b>📍 地區：</b> ${district}</p>
+                        <p class="text-xs text-gray-600"><b>📍 區域：</b> ${district}</p>
                         <p class="text-xs text-gray-600"><b>🏢 地址：</b> ${address}</p>
                         ${hospitalBadge}
                     </div>`;
