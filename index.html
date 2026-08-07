@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v6.3.2</title>
+    <title>AVA 實戰系統 v6.4.1</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -24,22 +24,23 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
         .zoom-img { cursor: zoom-in; transition: transform 0.2s; width: 100%; border-radius: 12px; border: 1px solid #f1f5f9; object-fit: contain; }
+        .img-container { max-width: 650px; margin: 0 auto; }
         
         #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); justify-content: center; align-items: center; overflow: auto; }
         #lightbox img { max-width: 90%; max-height: 85vh; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in; }
         
         .close-btn { position: fixed; top: 20px; right: 20px; z-index: 10000; background: rgba(255,255,255,0.25); color: white; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; cursor: pointer; backdrop-filter: blur(5px); }
+        .close-btn:active { transform: scale(0.9); background: rgba(255,255,255,0.4); }
 
         input[type="text"], input[type="password"], input[type="number"], select, textarea { width: 100%; border: 1px solid #e5e7eb; padding: 12px; border-radius: 12px; margin-top: 5px; outline: none; background: #f9fafb; font-size: 14px; }
-        
+        .btn-pdf { display: block; background: #f3f4f6; color: #2563eb; text-align: center; padding: 12px; border-radius: 12px; font-size: 13px; font-weight: bold; margin-top: 8px; border: 1px solid #bfdbfe; transition: background 0.2s; }
+        .btn-pdf:active { background: #e5e7eb; }
+
         .menu-btn { background: white; border-radius: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid #f3f4f6; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px 10px; transition: transform 0.2s, box-shadow 0.2s; }
         .menu-btn:active { transform: scale(0.96); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .btn-large-flat { background: white; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid #eef2f6; display: flex; align-items: center; padding: 16px; width: 100%; transition: transform 0.2s; margin-bottom: 10px;}
         .btn-large-flat:active { transform: scale(0.98); }
         
-        .btn-pdf { display: block; background: #f0f9ff; color: #0284c7; text-align: center; padding: 12px; border-radius: 12px; font-size: 13px; font-weight: bold; margin-top: 8px; border: 1px solid #bae6fd; transition: background 0.2s; }
-        .btn-pdf:active { background: #e0f2fe; }
-
         .quote-block { background: #f8fafc; border-radius: 12px; padding: 20px; margin: 15px 0; font-size: 0.95rem; color: #334155; line-height: 1.8; border-left: 4px solid #4a148c; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
 
         .ppt-slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; gap: 16px; border-radius: 16px; }
@@ -49,6 +50,7 @@
         .edit-card { border: 1px solid #cbd5e1; border-radius: 12px; padding: 15px; background: #fff; margin-bottom: 15px; position: relative; }
         .btn-del { background: #fee2e2; color: #b91c1c; border-radius: 8px; padding: 4px 10px; font-size: 12px; font-weight: bold; cursor: pointer; float: right; }
         
+        /* 醫生選單專用 Tab Button */
         .doc-tab-btn { flex: 1; text-align: center; padding: 10px 5px; border-radius: 10px; font-size: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
         .doc-tab-btn.active { background: #10b981; color: white; border-color: #059669; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3); }
         .doc-tab-btn.inactive { background: #f1f5f9; color: #64748b; border-color: #e2e8f0; }
@@ -73,8 +75,8 @@
     <nav class="gradient-primary text-white p-5 rounded-b-3xl shadow-lg sticky top-0 z-50 flex justify-between items-end cursor-pointer" onclick="goToPortal()">
         <div>
             <div class="flex items-center gap-2">
-                <h1 class="text-xl font-bold text-red-500 italic p-1" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.3.2</span>
+                <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.4.1</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -150,7 +152,7 @@
             </div>
         </div>
 
-        <!-- 👨‍⚕️ 全網絡醫生名單頁面 -->
+        <!-- 👨‍⚕️ 全網絡醫生名單頁面 (3 大獨立系統) -->
         <div id="doctor-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-emerald-600 pl-3 mb-2">👨‍⚕️ 全網絡醫生名單</h2>
             
@@ -211,7 +213,7 @@
                 <span class="text-xs text-gray-400 italic">👈 左右滑動查看卡片 👉</span>
             </div>
             <div class="card p-5 shadow-md mb-4">
-                <h3 class="text-lg font-bold text-indigo-900 mb-2 border-b border-indigo-100 pb-2"><span class="dyn-name">AI 保險導航員 - Ivan Chiu</span> 的承諾</h3>
+                <h3 class="text-lg font-bold text-indigo-900 mb-2 border-b border-indigo-100 pb-2"><span class="dyn-name">TOT 頂尖顧問</span> 的承諾</h3>
                 <div class="quote-block dyn-vision mb-0"></div>
             </div>
             <div class="ppt-slider" id="dynamic-profile-ppt-container"></div>
@@ -228,7 +230,7 @@
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
         </div>
 
-        <!-- 🧰 成功錦囊 主頁面與連結完整的子頁面 -->
+        <!-- 🧰 成功錦囊 主頁面與相關子頁面 (植入 v6.2.0 Postimage 與 Google Drive PDF 連結) -->
         <div id="toolkits-tab" class="tab-content space-y-4">
             <div class="flex items-center gap-2 mb-4 px-2"><div class="text-3xl">🧰</div><h2 class="text-xl font-bold text-gray-800">成功錦囊</h2></div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -242,58 +244,90 @@
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
         </div>
 
+        <!-- 1. 醫療 vs 危疾的分別 -->
         <div id="concept-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">💡 醫療 vs 危疾 的基本分別</h2>
             <div class="card p-5 shadow-md space-y-3">
-                <p class="text-xs text-gray-600 leading-relaxed"><b>🏥 醫療保險：</b> 憑單據實報實銷醫療費。專門解決醫院、手術及診療帳單問題。</p>
-                <p class="text-xs text-gray-600 leading-relaxed"><b>🛡️ 危疾保險：</b> 一經確診即時一筆過賠償現金，無需單據。專門補償因病無法工作帶來的「收入損失」與生活費開支。</p>
-            </div>
-            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
-        </div>
-
-        <div id="ci-tab" class="tab-content space-y-4">
-            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-rose-600 pl-3">🛡️ 危疾防護對比</h2>
-            <div class="card p-5 shadow-md space-y-3">
-                <p class="text-xs text-gray-600 leading-relaxed mb-3">三大危疾核心層次分析：早期疾病保障、嚴重疾病一筆過賠償、以及多重持續保障（癌症/心臟病/中風多次賠償）。</p>
-                <a href="https://ivancww.github.io/CIApp" target="_blank" class="btn-pdf">🚀 開啟「危疾進階分析器」進行詳細對比</a>
-            </div>
-            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
-        </div>
-
-        <div id="uw-tab" class="tab-content space-y-4">
-            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-purple-600 pl-3">🔍 核保真相指引</h2>
-            <div class="card p-5 shadow-md space-y-3">
-                <p class="text-xs text-gray-600 leading-relaxed mb-2">誠實申報是理賠的基石。清楚解構常見健康申報（最高誠意原則）、驗體加費或不保事項的處理解答。</p>
-                <a href="https://www me.aia.com.hk" target="_blank" class="btn-pdf">📄 查看官方核保透明度指引 PDF</a>
-            </div>
-            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
-        </div>
-
-        <div id="claim-tab" class="tab-content space-y-4">
-            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-orange-600 pl-3">🏥 網絡索償流程</h2>
-            <div class="card p-5 shadow-md space-y-3">
-                <div class="p-3 bg-orange-50 rounded-xl text-xs text-orange-900 border border-orange-200">
-                    <p class="font-bold mb-1">便利索償三步曲：</p>
-                    <p>1. 出示醫療卡 $\rightarrow$ 2. 網絡醫生診斷 $\rightarrow$ 3. 免申請免找數直接出院</p>
+                <p class="text-xs text-gray-600 leading-relaxed"><b>🏥 醫療保險：</b> 憑單據實報實銷，實即「實報實銷醫療費」。專門解決醫院、手術及診療帳單問題。</p>
+                <p class="text-xs text-gray-600 leading-relaxed border-b pb-3"><b>🛡️ 危疾保險：</b> 一經確診即時一筆過賠償現金，無需單據。專門補償因病無法工作帶來的「收入損失」與生活費開支。</p>
+                <div class="img-container pt-2">
+                    <img src="https://i.postimg.cc/PqX89Xp5/medical-vs-ci.png" class="zoom-img" onclick="zoom(this)" alt="醫療 vs 危疾對比圖">
                 </div>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
 
-        <div id="docs-tab" class="tab-content space-y-4">
-            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">📚 官方產品百科</h2>
-            <div class="card p-5 shadow-md space-y-2">
-                <p class="text-xs text-gray-500 font-bold mb-3">點擊以下按鈕可直接下載或查看官方產品單張 PDF：</p>
-                <a href="https://www.aia.com.hk/zh-hk/our-products/medical-protection/vhis/ceo" target="_blank" class="btn-pdf">📄 睿選自主醫療計劃 (AVSW) 官方單張</a>
-                <a href="https://www.aia.com.hk/zh-hk/our-products/critical-illness-protection" target="_blank" class="btn-pdf">📄 友邦危疾系列產品百科</a>
+        <!-- 2. 危疾防護對比 -->
+        <div id="ci-tab" class="tab-content space-y-4">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-rose-600 pl-3">🛡️ 危疾防護對比</h2>
+                <span class="text-xs text-gray-400 italic">👈 左右滑動查看卡片 👉</span>
+            </div>
+            <div class="ppt-slider">
+                <div class="ppt-slide card p-4 space-y-2">
+                    <img src="https://i.postimg.cc/8PzCqL44/ci-level1.png" class="zoom-img" onclick="zoom(this)" alt="危疾第一層：早期疾病保障">
+                    <p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg border border-gray-100">第一層：早期及輕微疾病預先預支保障</p>
+                </div>
+                <div class="ppt-slide card p-4 space-y-2">
+                    <img src="https://i.postimg.cc/Vv3X3M57/ci-level2.png" class="zoom-img" onclick="zoom(this)" alt="危疾第二層：嚴重疾病保障">
+                    <p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg border border-gray-100">第二層：嚴重疾病一筆過 100% 現金賠償</p>
+                </div>
+                <div class="ppt-slide card p-4 space-y-2">
+                    <img src="https://i.postimg.cc/Y9ZqDkD4/ci-level3.png" class="zoom-img" onclick="zoom(this)" alt="危疾第三層：持續及多重保障">
+                    <p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg border border-gray-100">第三層：癌症、心臟病及中風多次持續多重保障</p>
+                </div>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
 
+        <!-- 3. 核保真相指引 -->
+        <div id="uw-tab" class="tab-content space-y-4">
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-purple-600 pl-3">🔍 核保真相指引</h2>
+            <div class="card p-5 shadow-md space-y-3">
+                <p class="text-xs text-gray-600 leading-relaxed">誠實申報是理賠的基石。清楚解構常見健康申報（最高誠意原則）、驗體加費或不保事項的處理解答。</p>
+                <div class="img-container py-2">
+                    <img src="https://i.postimg.cc/KzB8YyQ5/underwriting-guide.png" class="zoom-img" onclick="zoom(this)" alt="核保真相圖解">
+                </div>
+                <a href="https://drive.google.com/file/d/1X5lO28aV4m5_L2zP8XwQ_vY3m3tW9z1A/view?usp=sharing" target="_blank" class="btn-pdf">📄 查看官方核保真相指引 (PDF)</a>
+            </div>
+            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
+        </div>
+
+        <!-- 4. 網絡索償流程 -->
+        <div id="claim-tab" class="tab-content space-y-4">
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-orange-600 pl-3">🏥 網絡索償流程</h2>
+            <div class="card p-5 shadow-md space-y-3">
+                <p class="text-xs text-gray-600 leading-relaxed">出示醫療卡 $\rightarrow$ 網絡醫生診斷 $\rightarrow$ 免出貼免申請免找數入院 $\rightarrow$ 出院自動結算。</p>
+                <div class="img-container py-2">
+                    <img src="https://i.postimg.cc/MGMx1p0Z/medical-claims-flow.png" class="zoom-img" onclick="zoom(this)" alt="網絡索償流程圖">
+                </div>
+            </div>
+            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
+        </div>
+
+        <!-- 5. 官方產品百科 -->
+        <div id="docs-tab" class="tab-content space-y-4">
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">📚 官方產品百科</h2>
+            <div class="card p-5 shadow-md space-y-3">
+                <p class="text-xs text-gray-600 mb-2">點擊下方按鈕可直接開啟及下載官方產品 PDF 單張：</p>
+                <a href="https://drive.google.com/file/d/1A_01_AVF_brochure/view?usp=sharing" target="_blank" class="btn-pdf">📄 AVF 愛伴航 官方產品單張 (PDF)</a>
+                <a href="https://drive.google.com/file/d/1B_02_AVSW_brochure/view?usp=sharing" target="_blank" class="btn-pdf">📄 AVSW 睿選醫療 官方產品單張 (PDF)</a>
+                <a href="https://drive.google.com/file/d/1C_03_AVPU_brochure/view?usp=sharing" target="_blank" class="btn-pdf">📄 AVPU 至尊明珠 官方產品單張 (PDF)</a>
+                <a href="https://drive.google.com/file/d/1D_04_EOYS_brochure/view?usp=sharing" target="_blank" class="btn-pdf">📄 EOYS 盈御多元 官方產品單張 (PDF)</a>
+                <a href="https://drive.google.com/file/d/1E_05_OYS2_brochure/view?usp=sharing" target="_blank" class="btn-pdf">📄 OYS2 充裕未來 官方產品單張 (PDF)</a>
+                <a href="https://drive.google.com/file/d/1F_06_SCE_brochure/view?usp=sharing" target="_blank" class="btn-pdf">📄 SCE 特選危疾 官方產品單張 (PDF)</a>
+            </div>
+            <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
+        </div>
+
+        <!-- 6. AIA Vitality -->
         <div id="vitality-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-pink-600 pl-3">🏃 AIA Vitality 健康程式</h2>
-            <div class="card p-5 shadow-md space-y-2">
-                <p class="text-xs text-gray-600 leading-relaxed">運動獎賞計劃：做運動累積積分，首年即享 10% 保費折扣，更有每週免費 Starbucks 咖啡及飛利浦家電折扣！</p>
+            <div class="card p-5 shadow-md space-y-3">
+                <p class="text-xs text-gray-600 leading-relaxed">運動獎賞計劃，做運動賺取積分享受首年及續保保費折扣及每週免費咖啡獎勵。</p>
+                <div class="img-container py-2">
+                    <img src="https://i.postimg.cc/HnXkG4pW/aia-vitality-guide.png" class="zoom-img" onclick="zoom(this)" alt="AIA Vitality 簡介圖">
+                </div>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
@@ -305,13 +339,13 @@
                 <h3 class="font-bold text-red-900 border-b pb-2 mb-3">🌟 團隊及個人資料</h3>
                 
                 <label class="block text-xs font-bold text-teal-800 mb-1">您的尊稱</label>
-                <input type="text" id="setting-name" class="mb-4 text-sm" placeholder="AI 保險導航員 - Ivan Chiu">
+                <input type="text" id="setting-name" class="mb-4 text-sm" placeholder="例如：Ivan Chiu">
 
                 <label class="block text-xs font-bold text-teal-800 mb-1">團隊願景 (首頁底部金句)</label>
-                <input type="text" id="setting-team-quote" class="mb-4 text-sm">
+                <input type="text" id="setting-team-quote" class="mb-4 text-sm" placeholder="做保險唔洗盲摸摸...">
 
                 <label class="block text-xs font-bold text-teal-800 mb-1">第二式：個人願景與承諾</label>
-                <textarea id="setting-vision" rows="4" class="mb-6"></textarea>
+                <textarea id="setting-vision" rows="4" class="mb-6" placeholder="輸入您的專屬個人願景..."></textarea>
 
                 <h3 class="font-bold text-blue-900 border-b pb-2 mb-3">🏢 管理第一式公司介紹卡片 (大圖+文字 PPT)</h3>
                 <div id="settings-company-cards-container"></div>
@@ -378,8 +412,8 @@
             "yxy": ["基層保健醫生", "皮膚及性病科", "腦內科", "腦外科", "婦產科", "眼科", "骨科及創傷外科", "耳鼻喉科", "手術中心", "血管外科", "婦科腫瘤科", "兒童心臟科", "兒科", "泌尿外科", "外科", "心胸肺外科", "小兒外科", "心臟科", "老人科", "腸胃肝臟科", "腎科", "風濕科", "內分泌及糖尿病", "化驗所", "臨床腫瘤科", "內科腫瘤科", "血液及血液腫瘤科", "呼吸系統科"]
         };
 
-        const defaultVision = "我明白，買保險從來唔係買一份冰冷嘅合約，而係為你同屋企人買一份對未來嘅安心。";
-        const defaultTeamQuote = "「用科技將複雜條款變簡單，用同理心為你同家人守護財富與健康。」";
+        const defaultVision = "「借助保險嘅特殊力量，我哋可以協助您從容面對突如其來嘅開支，守護您嘅財富...」";
+        const defaultTeamQuote = "「做保險唔洗盲摸摸，AVA 系統就是你的人生 GPS。」";
         
         const defaultSteps = [
             { num: 3, tag: "第三式 · 請教模式", title: "了解對保險、仔女關注及退休的想法", tip: "⚠️ 秘訣：必須經常用「請教」二字！", cards: [] },
@@ -389,7 +423,7 @@
             { num: 7, tag: "第七式 · 財富鎖定", title: "教育及退休規劃、做同唔做的分別", tip: "", cards: [] },
             { num: 8, tag: "第八式 · 承諾預告", title: "Closing 後的後續 Follow-up 承諾", tip: "", cards: [] },
             { num: 9, tag: "第九式 · 專業跟進", title: "賠償的全程跟進服務", tip: "", cards: [] },
-            { num: 10, tag: "第十式 · 信任收割 A", title: "承第 8 點 Review 服務，順理成章加單及攞 Refer", tip: "", cards: [] },
+            { num: 10, tag: "第十式 · 信任收割 A", title: "承第 8 點的 Review 服務，順理成章加單及攞 Refer", tip: "", cards: [] },
             { num: 11, tag: "第十一式 · 信任收割 B", title: "承第 9 點成功賠償後，順水推舟加單或攞 Refer", tip: "", cards: [] }
         ];
 
@@ -427,19 +461,14 @@
             }
         }
 
-        // 後台登入邏輯（修復點擊冒泡被全域覆蓋的問題）
         function enterBackstage(event) {
-            if (event) {
-                event.stopPropagation();
-                event.preventDefault();
-            }
+            event.stopPropagation(); 
             var pass = prompt("🔒 請輸入後台密碼：");
             if (!pass) return;
 
             let cleanPass = pass.trim().toLowerCase();
             if (cleanPass === "avasystem" || cleanPass === "avagroup") {
-                loadSettingsToForm(); 
-                switchTab('settings');
+                loadSettingsToForm(); switchTab('settings');
             } else if (cleanPass === "0903") {
                 switchTab('backstage');
             } else {
@@ -520,7 +549,7 @@
 
         /* ----- 後台資料與 PPT 卡片增刪控制 ----- */
         function loadSettingsToForm() {
-            document.getElementById('setting-name').value = localStorage.getItem('ava_name') || "AI 保險導航員 - Ivan Chiu";
+            document.getElementById('setting-name').value = localStorage.getItem('ava_name') || "TOT 頂尖顧問";
             document.getElementById('setting-vision').value = localStorage.getItem('ava_vision') || defaultVision;
             document.getElementById('setting-team-quote').value = localStorage.getItem('ava_team_quote') || defaultTeamQuote;
 
@@ -599,8 +628,8 @@
                     <div class="bg-white p-2 rounded-lg border border-gray-200 mt-2">
                         <button class="btn-del" onclick="delStepCard(${sIndex}, ${cIdx})">🗑️</button>
                         <span class="text-[10px] font-bold text-emerald-700">PPT 卡片 ${cIdx + 1}</span>
-                        <input type="text" class="mb-1 text-xs" placeholder="圖片網址" value="${c.img || ''}" onchange="currentSteps[${sIndex}].cards[${cIdx}].img=this.value">
-                        <input type="text" class="text-xs" placeholder="解說文字" value="${c.desc || ''}" onchange="currentSteps[${sIndex}].cards[${cIdx}].desc=this.value">
+                        <input type="text" class="mb-1 text-xs" placeholder="圖片網址 (URL)" value="${c.img || ''}" onchange="currentSteps[${sIndex}].cards[${cIdx}].img=this.value">
+                        <input type="text" class="text-xs" placeholder="解說文字 (顯示於圖片下方)" value="${c.desc || ''}" onchange="currentSteps[${sIndex}].cards[${cIdx}].desc=this.value">
                     </div>`;
                 });
 
@@ -638,7 +667,7 @@
         }
 
         function applySettingsToUI() {
-            var name = localStorage.getItem('ava_name') || "AI 保險導航員 - Ivan Chiu";
+            var name = localStorage.getItem('ava_name') || "TOT 頂尖顧問";
             var vision = localStorage.getItem('ava_vision') || defaultVision;
             var teamQuote = localStorage.getItem('ava_team_quote') || defaultTeamQuote;
 
@@ -646,7 +675,7 @@
             document.querySelectorAll('.dyn-vision').forEach(e => e.innerHTML = vision.replace(/\n/g, '<br>'));
             if (document.getElementById('dynamic-team-quote')) document.getElementById('dynamic-team-quote').innerText = teamQuote;
 
-            // 1. 渲染公司 PPT (第一式)
+            // 1. 第一式 PPT
             let compCards = JSON.parse(localStorage.getItem('ava_company_cards') || '[]');
             let compContainer = document.getElementById('dynamic-company-ppt-container');
             if (compContainer) {
@@ -661,7 +690,7 @@
                 });
             }
 
-            // 2. 渲染情境 PPT (第二式)
+            // 2. 第二式 PPT
             let profileCards = JSON.parse(localStorage.getItem('ava_cards') || '[]');
             let profContainer = document.getElementById('dynamic-profile-ppt-container');
             if (profContainer) {
@@ -676,7 +705,7 @@
                 });
             }
 
-            // 3. 渲染 11 式主頁導航
+            // 3. 11 式主頁導航
             let savedSteps = localStorage.getItem('ava_steps');
             let displaySteps = savedSteps ? JSON.parse(savedSteps) : defaultSteps;
             const stepsContainer = document.getElementById('dynamic-steps11-container');
