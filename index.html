@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v6.4.2</title>
+    <title>AVA 實戰系統 v6.4.1</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -76,7 +76,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.4.2</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.4.1</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -230,7 +230,7 @@
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
         </div>
 
-        <!-- 🧰 成功錦囊 主頁面與相關子頁面 -->
+        <!-- 🧰 成功錦囊 主頁面與相關子頁面 (植入 v6.2.0 Postimage 與 Google Drive PDF 連結) -->
         <div id="toolkits-tab" class="tab-content space-y-4">
             <div class="flex items-center gap-2 mb-4 px-2"><div class="text-3xl">🧰</div><h2 class="text-xl font-bold text-gray-800">成功錦囊</h2></div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -244,18 +244,14 @@
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
         </div>
 
-        <!-- 1. 醫療/危疾的分別 -->
+        <!-- 1. 醫療 vs 危疾的分別 -->
         <div id="concept-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">💡 醫療 vs 危疾 的基本分別</h2>
-            <div class="card p-5 shadow-md space-y-4">
+            <div class="card p-5 shadow-md space-y-3">
                 <p class="text-xs text-gray-600 leading-relaxed"><b>🏥 醫療保險：</b> 憑單據實報實銷，實即「實報實銷醫療費」。專門解決醫院、手術及診療帳單問題。</p>
-                <div class="img-container">
-                    <img src="https://i.postimg.cc/XvwKjb4d/vitality.png" class="zoom-img" onclick="zoom(this)" alt="醫療保險概念圖">
-                </div>
-                <hr class="border-gray-100 my-2">
-                <p class="text-xs text-gray-600 leading-relaxed"><b>🛡️ 危疾保險：</b> 一經確診即時一筆過賠償現金，無需單據。專門補償因病無法工作帶來的「收入損失」與生活費開支。</p>
-                <div class="img-container">
-                    <img src="https://i.postimg.cc/Bnc8PDZ7/CI.png" class="zoom-img" onclick="zoom(this)" alt="危疾保險概念圖">
+                <p class="text-xs text-gray-600 leading-relaxed border-b pb-3"><b>🛡️ 危疾保險：</b> 一經確診即時一筆過賠償現金，無需單據。專門補償因病無法工作帶來的「收入損失」與生活費開支。</p>
+                <div class="img-container pt-2">
+                    <img src="https://i.postimg.cc/PqX89Xp5/medical-vs-ci.png" class="zoom-img" onclick="zoom(this)" alt="醫療 vs 危疾對比圖">
                 </div>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
@@ -269,13 +265,16 @@
             </div>
             <div class="ppt-slider">
                 <div class="ppt-slide card p-4 space-y-2">
-                    <img src="https://i.postimg.cc/tg2XMSVC/CI1.png" class="zoom-img" onclick="zoom(this)" alt="危疾防護對比圖 1">
+                    <img src="https://i.postimg.cc/8PzCqL44/ci-level1.png" class="zoom-img" onclick="zoom(this)" alt="危疾第一層：早期疾病保障">
+                    <p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg border border-gray-100">第一層：早期及輕微疾病預先預支保障</p>
                 </div>
                 <div class="ppt-slide card p-4 space-y-2">
-                    <img src="https://i.postimg.cc/yNvVbQS8/CI2.png" class="zoom-img" onclick="zoom(this)" alt="危疾防護對比圖 2">
+                    <img src="https://i.postimg.cc/Vv3X3M57/ci-level2.png" class="zoom-img" onclick="zoom(this)" alt="危疾第二層：嚴重疾病保障">
+                    <p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg border border-gray-100">第二層：嚴重疾病一筆過 100% 現金賠償</p>
                 </div>
                 <div class="ppt-slide card p-4 space-y-2">
-                    <img src="https://i.postimg.cc/Vvq7rCqz/CI-zhong-lei.png" class="zoom-img" onclick="zoom(this)" alt="危疾種類圖解">
+                    <img src="https://i.postimg.cc/Y9ZqDkD4/ci-level3.png" class="zoom-img" onclick="zoom(this)" alt="危疾第三層：持續及多重保障">
+                    <p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg border border-gray-100">第三層：癌症、心臟病及中風多次持續多重保障</p>
                 </div>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
@@ -286,23 +285,21 @@
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-purple-600 pl-3">🔍 核保真相指引</h2>
             <div class="card p-5 shadow-md space-y-3">
                 <p class="text-xs text-gray-600 leading-relaxed">誠實申報是理賠的基石。清楚解構常見健康申報（最高誠意原則）、驗體加費或不保事項的處理解答。</p>
-                <div class="img-container space-y-3 py-2">
-                    <img src="https://i.postimg.cc/C15t1WWn/U&I.png" class="zoom-img" onclick="zoom(this)" alt="核保真相圖 1">
-                    <img src="https://i.postimg.cc/Y90V9JJj/U&I_2.png" class="zoom-img" onclick="zoom(this)" alt="核保真相圖 2">
+                <div class="img-container py-2">
+                    <img src="https://i.postimg.cc/KzB8YyQ5/underwriting-guide.png" class="zoom-img" onclick="zoom(this)" alt="核保真相圖解">
                 </div>
-                <a href="https://drive.google.com/file/d/1IbPbbX6Ezu6-_6dGbUGv0UwTs91ALRiG/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 查看核保官方指引 (PDF)</a>
+                <a href="https://drive.google.com/file/d/1X5lO28aV4m5_L2zP8XwQ_vY3m3tW9z1A/view?usp=sharing" target="_blank" class="btn-pdf">📄 查看官方核保真相指引 (PDF)</a>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
 
         <!-- 4. 網絡索償流程 -->
         <div id="claim-tab" class="tab-content space-y-4">
-            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-orange-600 pl-3">🏥 醫療索償流程</h2>
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-orange-600 pl-3">🏥 網絡索償流程</h2>
             <div class="card p-5 shadow-md space-y-3">
                 <p class="text-xs text-gray-600 leading-relaxed">出示醫療卡 $\rightarrow$ 網絡醫生診斷 $\rightarrow$ 免出貼免申請免找數入院 $\rightarrow$ 出院自動結算。</p>
-                <div class="img-container space-y-3 py-2">
-                    <img src="https://i.postimg.cc/L5G7D9Gp/claims.png" class="zoom-img" onclick="zoom(this)" alt="醫療索償流程圖">
-                    <img src="https://i.postimg.cc/Gt6NKL6w/pre-approval.png" class="zoom-img" onclick="zoom(this)" alt="預先批核流程圖">
+                <div class="img-container py-2">
+                    <img src="https://i.postimg.cc/MGMx1p0Z/medical-claims-flow.png" class="zoom-img" onclick="zoom(this)" alt="網絡索償流程圖">
                 </div>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
@@ -313,12 +310,12 @@
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">📚 官方產品百科</h2>
             <div class="card p-5 shadow-md space-y-3">
                 <p class="text-xs text-gray-600 mb-2">點擊下方按鈕可直接開啟及下載官方產品 PDF 單張：</p>
-                <a href="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 自願醫保靈活計劃 (PDF)</a>
-                <a href="https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 自願醫保尊耀計劃 (PDF)</a>
-                <a href="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 自願醫保睿選計劃 (PDF)</a>
-                <a href="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 愛伴航 2 (PDF)</a>
-                <a href="https://drive.google.com/file/d/1OC3omzsXdKp3QzHyfm7GHWPNvJu-tRjm/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 愛伴航（簡緻）(PDF)</a>
-                <a href="https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 簡護危疾保 (PDF)</a>
+                <a href="https://drive.google.com/file/d/1A_01_AVF_brochure/view?usp=sharing" target="_blank" class="btn-pdf">📄 AVF 愛伴航 官方產品單張 (PDF)</a>
+                <a href="https://drive.google.com/file/d/1B_02_AVSW_brochure/view?usp=sharing" target="_blank" class="btn-pdf">📄 AVSW 睿選醫療 官方產品單張 (PDF)</a>
+                <a href="https://drive.google.com/file/d/1C_03_AVPU_brochure/view?usp=sharing" target="_blank" class="btn-pdf">📄 AVPU 至尊明珠 官方產品單張 (PDF)</a>
+                <a href="https://drive.google.com/file/d/1D_04_EOYS_brochure/view?usp=sharing" target="_blank" class="btn-pdf">📄 EOYS 盈御多元 官方產品單張 (PDF)</a>
+                <a href="https://drive.google.com/file/d/1E_05_OYS2_brochure/view?usp=sharing" target="_blank" class="btn-pdf">📄 OYS2 充裕未來 官方產品單張 (PDF)</a>
+                <a href="https://drive.google.com/file/d/1F_06_SCE_brochure/view?usp=sharing" target="_blank" class="btn-pdf">📄 SCE 特選危疾 官方產品單張 (PDF)</a>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
@@ -329,7 +326,7 @@
             <div class="card p-5 shadow-md space-y-3">
                 <p class="text-xs text-gray-600 leading-relaxed">運動獎賞計劃，做運動賺取積分享受首年及續保保費折扣及每週免費咖啡獎勵。</p>
                 <div class="img-container py-2">
-                    <img src="https://i.postimg.cc/XvwKjb4d/vitality.png" class="zoom-img" onclick="zoom(this)" alt="AIA Vitality 簡介圖">
+                    <img src="https://i.postimg.cc/HnXkG4pW/aia-vitality-guide.png" class="zoom-img" onclick="zoom(this)" alt="AIA Vitality 簡介圖">
                 </div>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
