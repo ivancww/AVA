@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v6.4.0 </title>
+    <title>AVA 實戰系統 v6.3.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -32,6 +32,8 @@
 
         input[type="text"], input[type="password"], input[type="number"], select, textarea { width: 100%; border: 1px solid #e5e7eb; padding: 12px; border-radius: 12px; margin-top: 5px; outline: none; background: #f9fafb; font-size: 14px; }
         
+        .menu-btn { background: white; border-radius: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid #f3f4f6; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px 10px; transition: transform 0.2s, box-shadow 0.2s; }
+        .menu-btn:active { transform: scale(0.96); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .btn-large-flat { background: white; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid #eef2f6; display: flex; align-items: center; padding: 16px; width: 100%; transition: transform 0.2s; margin-bottom: 10px;}
         .btn-large-flat:active { transform: scale(0.98); }
         
@@ -57,17 +59,19 @@
 </head>
 <body class="bg-gray-50 pb-10 text-gray-800">
 
+    <!-- 圖片放大 Lightbox -->
     <div id="lightbox" onclick="closeLightbox(event)">
         <button class="close-btn" onclick="forceCloseLightbox(event)">✕</button>
         <img id="lightbox-img" src="" alt="Zoomed View" onclick="toggleLightboxZoom(event)">
         <p class="fixed bottom-8 left-1/2 transform -translate-x-1/2 text-white text-[11px] bg-black/70 px-4 py-2 rounded-full pointer-events-none tracking-widest border border-white/20">點擊右上角 ✕ 或空白處返回</p>
     </div>
 
+    <!-- 頂部 Header -->
     <nav class="gradient-primary text-white p-5 rounded-b-3xl shadow-lg sticky top-0 z-50 flex justify-between items-end cursor-pointer" onclick="goToPortal()">
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.4.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.3.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -81,6 +85,7 @@
         <!-- 🏠 主頁門戶 -->
         <div id="portal-tab" class="tab-content active space-y-4">
             <div class="fold-desktop-layout">
+                
                 <div class="fold-left">
                     <div class="card border-t-8 border-red-600 bg-slate-900 text-white p-6 shadow-2xl h-full flex flex-col justify-between m-0">
                         <div>
@@ -103,6 +108,7 @@
                     <div class="card p-6 shadow-xl h-full flex flex-col justify-between m-0 border-t-8 border-indigo-600">
                         <div>
                             <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">系統導航</h3>
+                            
                             <button onclick="switchTab('steps11')" class="btn-large-flat border-l-4 border-red-500 gap-3">
                                 <div class="text-2xl bg-red-50 p-2 rounded-xl">🎯</div>
                                 <div class="text-left">
@@ -110,6 +116,15 @@
                                     <p class="text-[9px] text-gray-400 mt-0.5">破冰、提問到 Closing 完整路線圖</p>
                                 </div>
                             </button>
+
+                            <button onclick="switchTab('toolkits')" class="btn-large-flat border-l-4 border-blue-500 gap-3">
+                                <div class="text-2xl bg-blue-50 p-2 rounded-xl">🧰</div>
+                                <div class="text-left">
+                                    <h4 class="font-bold text-gray-800 text-xs">成功錦囊</h4>
+                                    <p class="text-[9px] text-gray-400 mt-0.5">圖解、核保真相及官方文件庫</p>
+                                </div>
+                            </button>
+
                             <button onclick="switchTab('doctor')" class="btn-large-flat border-l-4 border-emerald-500 gap-3">
                                 <div class="text-2xl bg-emerald-50 p-2 rounded-xl">👨‍⚕️</div>
                                 <div class="text-left">
@@ -117,47 +132,94 @@
                                     <p class="text-[9px] text-gray-400 mt-0.5">三大計劃獨立醫療網絡快速搜尋</p>
                                 </div>
                             </button>
+
+                            <button onclick="switchTab('armory')" class="btn-large-flat border-l-4 border-indigo-500 gap-3">
+                                <div class="text-2xl bg-indigo-50 p-2 rounded-xl">⚔️</div>
+                                <div class="text-left">
+                                    <h4 class="font-bold text-gray-800 text-xs">成功武器</h4>
+                                    <p class="text-[9px] text-gray-400 mt-0.5">高階數據分析器與財富管理工具</p>
+                                </div>
+                            </button>
                         </div>
                     </div>
                 </div>
+
             </div>
+        </div>
+
+        <!-- 👨‍⚕️ 全網絡醫生名單頁面 (3 大獨立系統) -->
+        <div id="doctor-tab" class="tab-content space-y-4">
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-emerald-600 pl-3 mb-2">👨‍⚕️ 全網絡醫生名單</h2>
+            
+            <div class="flex gap-2 bg-white p-2 rounded-xl shadow-sm border border-gray-100">
+                <div id="tab-avsw" class="doc-tab-btn active" onclick="switchDoctorService('avsw')">睿選<br><span class="text-[9px] font-normal opacity-80">(AVSW)</span></div>
+                <div id="tab-vhis" class="doc-tab-btn inactive" onclick="switchDoctorService('vhis')">自願醫保<br><span class="text-[9px] font-normal opacity-80">(VHIS)</span></div>
+                <div id="tab-yxy" class="doc-tab-btn inactive" onclick="switchDoctorService('yxy')">友心意<br><span class="text-[9px] font-normal opacity-80">網絡</span></div>
+            </div>
+
+            <div class="card p-5 shadow-md border-t-4 border-emerald-500 space-y-4">
+                <input type="hidden" id="doc-service" value="睿選(AVSW)">
+
+                <div>
+                    <label class="block text-xs font-bold text-emerald-800 mb-1" id="lbl-specialty">請選擇 睿選(AVSW) 專科</label>
+                    <select id="doc-specialty" onchange="onDoctorQueryChange()" class="font-bold text-gray-700"></select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-emerald-800 mb-1">選擇區域 (可選)</label>
+                    <select id="doc-region" onchange="onDoctorQueryChange()" class="font-bold text-gray-700">
+                        <option value="全部">全部區域 (香港島 / 九龍 / 新界)</option>
+                        <option value="香港島">香港島</option>
+                        <option value="九龍">九龍</option>
+                        <option value="新界">新界</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="doctor-results-container" class="space-y-3">
+                <div class="card p-8 text-center text-gray-400 text-xs">👈 請在上方選取專科以載入醫生名單</div>
+            </div>
+
+            <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
         </div>
 
         <!-- 🎯 成功之路 11 式導航 -->
         <div id="steps11-tab" class="tab-content space-y-4">
             <h2 class="text-xl font-bold text-gray-800 mb-2">🎯 成功之路 11 式導航</h2>
+            <p class="text-xs text-gray-500 italic mb-4 bg-gray-100 p-3 rounded-xl leading-relaxed">💡 <b>領袖提示：</b> 點擊進入對應招式。見客唔係一味 Hard Sell，多用<b>「請教」</b>與<b>「想像一下」</b>！</p>
             <div id="dynamic-steps11-container" class="space-y-4"></div>
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
         </div>
 
-        <!-- 第一式與第二式卡片頁面 -->
+        <!-- 第一式：公司實力 -->
         <div id="step1-company-tab" class="tab-content space-y-4">
             <div class="flex justify-between items-center mb-2">
                 <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">第一式：介紹公司</h2>
-                <span class="text-xs text-gray-400 italic">👈 滑動查看卡片 👉</span>
+                <span class="text-xs text-gray-400 italic">👈 左右滑動查看卡片 👉</span>
             </div>
             <div class="ppt-slider" id="dynamic-company-ppt-container"></div>
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
         </div>
 
+        <!-- 第二式：個人願景 -->
         <div id="step2-profile-tab" class="tab-content space-y-4">
             <div class="flex justify-between items-center mb-2">
                 <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">第二式：個人願景及承諾</h2>
-                <span class="text-xs text-gray-400 italic">👈 滑動查看卡片 👉</span>
+                <span class="text-xs text-gray-400 italic">👈 左右滑動查看卡片 👉</span>
             </div>
             <div class="card p-5 shadow-md mb-4">
-                <h3 class="text-lg font-bold text-indigo-900 mb-2 border-b border-indigo-100 pb-2"><span class="dyn-name">AI 保險導航員</span> 的承諾</h3>
+                <h3 class="text-lg font-bold text-indigo-900 mb-2 border-b border-indigo-100 pb-2"><span class="dyn-name">AI 保險導航員 - Ivan Chiu</span> 的承諾</h3>
                 <div class="quote-block dyn-vision mb-0"></div>
             </div>
             <div class="ppt-slider" id="dynamic-profile-ppt-container"></div>
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
         </div>
 
-        <!-- 通用招式 PPT 檢視頁面 (第 3-11 式) -->
+        <!-- 第 3-11 式通用 PPT 檢視頁面 -->
         <div id="generic-step-ppt-tab" class="tab-content space-y-4">
             <div class="flex justify-between items-center mb-2">
                 <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-emerald-600 pl-3" id="generic-step-title">招式展示</h2>
-                <span class="text-xs text-gray-400 italic">👈 滑動查看卡片 👉</span>
+                <span class="text-xs text-gray-400 italic">👈 左右滑動查看卡片 👉</span>
             </div>
             <div class="ppt-slider" id="generic-step-ppt-container"></div>
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
@@ -178,32 +240,87 @@
                 <label class="block text-xs font-bold text-teal-800 mb-1">第二式：個人願景與承諾</label>
                 <textarea id="setting-vision" rows="4" class="mb-6"></textarea>
 
-                <h3 class="font-bold text-blue-900 border-b pb-2 mb-3">🏢 管理第一式公司介紹 PPT 卡片</h3>
+                <h3 class="font-bold text-blue-900 border-b pb-2 mb-3">🏢 管理第一式公司介紹卡片 (大圖+文字 PPT)</h3>
                 <div id="settings-company-cards-container"></div>
                 <button onclick="addCompanyCard()" class="w-full bg-blue-50 text-blue-700 font-bold py-3 rounded-xl border border-blue-200 mb-8 border-dashed">➕ 加入新公司介紹 PPT 卡片</button>
 
-                <h3 class="font-bold text-indigo-900 border-b pb-2 mb-3">🖼️ 管理第二式個人情境 PPT 卡片</h3>
+                <h3 class="font-bold text-indigo-900 border-b pb-2 mb-3">🖼️ 管理第二式情境卡片 (大圖+文字 PPT)</h3>
                 <div id="settings-cards-container"></div>
                 <button onclick="addSettingCard()" class="w-full bg-indigo-50 text-indigo-700 font-bold py-3 rounded-xl border border-indigo-200 mb-8 border-dashed">➕ 加入新情境 PPT 卡片</button>
 
                 <h3 class="font-bold text-emerald-900 border-b pb-2 mb-3">🎯 管理 3-11 式招式與 PPT 卡片</h3>
                 <div id="settings-steps-container"></div>
+                <button onclick="resetSteps()" class="w-full bg-red-50 text-red-700 font-bold py-3 rounded-xl border border-red-200 mb-8 border-dashed">⚠️ 重設還原 11 式預設資料</button>
 
-                <button onclick="saveSettings()" class="w-full bg-teal-600 text-white font-bold py-4 rounded-xl shadow-md text-base mt-4">💾 儲存所有變裝設定</button>
+                <button onclick="saveSettings()" class="w-full bg-teal-600 active:bg-teal-700 text-white font-bold py-4 rounded-xl shadow-md text-base mt-4">💾 儲存所有變裝設定</button>
             </div>
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 離開設定</button>
+        </div>
+
+        <!-- 🛠️ 團隊派發後台 -->
+        <div id="backstage-tab" class="tab-content space-y-4">
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-purple-600 pl-3">🛠️ 團隊派發後台</h2>
+            <div class="card p-5 shadow-md text-center border-t-4 border-purple-500">
+                <h3 class="font-bold text-purple-800 mb-3 text-lg">📲 掃碼啟動 AVA 系統</h3>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://ivancww.github.io/avasystem" alt="AVA 系統 QR Code" class="mx-auto block border-4 border-gray-100 rounded-lg shadow-sm mb-4">
+                <p class="text-xs text-gray-500 font-bold bg-gray-100 p-2 rounded-lg inline-block">https://ivancww.github.io/avasystem</p>
+            </div>
+            <button onclick="goToPortal()" class="w-full bg-purple-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 安全登出</button>
+        </div>
+
+        <!-- Toolkits & Armory 保留不變 -->
+        <div id="toolkits-tab" class="tab-content space-y-4">
+            <div class="flex items-center gap-2 mb-4 px-2"><div class="text-3xl">🧰</div><h2 class="text-xl font-bold text-gray-800">成功錦囊</h2></div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <button onclick="switchTab('concept')" class="menu-btn border-b-4 border-blue-400"><div class="text-3xl mb-2">💡</div><h3 class="font-bold text-gray-700 text-xs">醫療/危疾的分別</h3></button>
+                <button onclick="switchTab('ci')" class="menu-btn border-b-4 border-rose-400"><div class="text-3xl mb-2">🛡️</div><h3 class="font-bold text-gray-700 text-xs">危疾防護對比</h3></button>
+                <button onclick="switchTab('uw')" class="menu-btn border-b-4 border-purple-400"><div class="text-3xl mb-2">🔍</div><h3 class="font-bold text-gray-700 text-xs">核保真相指引</h3></button>
+                <button onclick="switchTab('claim')" class="menu-btn border-b-4 border-orange-400"><div class="text-3xl mb-2">🏥</div><h3 class="font-bold text-gray-700 text-xs">網絡索償流程</h3></button>
+                <button onclick="switchTab('docs')" class="menu-btn border-b-4 border-indigo-400"><div class="text-3xl mb-2">📚</div><h3 class="font-bold text-gray-700 text-xs">官方產品百科</h3></button>
+                <button onclick="switchTab('vitality')" class="menu-btn border-b-4 border-pink-400"><div class="text-3xl mb-2">🏃</div><h3 class="font-bold text-gray-700 text-xs">AIA Vitality</h3></button>
+            </div>
+            <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
+        </div>
+
+        <div id="armory-tab" class="tab-content space-y-4">
+            <div class="flex items-center gap-2 mb-4 px-2"><div class="text-3xl">⚔️</div><h2 class="text-xl font-bold text-gray-800">成功武器</h2></div>
+            <a href="https://ivancww.github.io/CIApp" target="_blank" class="card border-l-4 border-rose-500 flex items-center gap-4 active:scale-95 transition-transform hover:shadow-md">
+                <img src="https://ivancww.github.io/CIApp/icon-192.png" alt="CI App Logo" class="w-14 h-14 rounded-xl shadow-sm object-cover border border-gray-100">
+                <div><h3 class="font-bold text-rose-700 text-base">危疾進階分析器</h3><p class="text-[11px] text-gray-500 mt-1">三大危疾保障範圍對比與壓力測試。</p></div>
+            </a>
+            <a href="https://ivancww.github.io/medicalclaims" target="_blank" class="card border-l-4 border-emerald-500 flex items-center gap-4 active:scale-95 transition-transform hover:shadow-md">
+                <img src="https://ivancww.github.io/medicalclaims/icon-192.png" alt="Medical Claims Logo" class="w-14 h-14 rounded-xl shadow-sm object-cover border border-gray-100">
+                <div><h3 class="font-bold text-emerald-700 text-base">醫療理賠精算器</h3><p class="text-[11px] text-gray-500 mt-1">模擬真實理賠數據，計算淨成本及扣稅優惠。</p></div>
+            </a>
+            <a href="https://ivancww.github.io/avawealth" target="_blank" class="card border-l-4 border-yellow-500 flex items-center gap-4 active:scale-95 transition-transform hover:shadow-md">
+                <img src="https://ivancww.github.io/avawealth/avawealth-192.png" onerror="this.onerror=null; this.src='https://ivancww.github.io/avawealth/icon-192.png';" alt="AVA Wealth Logo" class="w-14 h-14 rounded-xl shadow-sm object-cover border border-gray-100">
+                <div><h3 class="font-bold text-yellow-700 text-base">AVA Wealth 系統</h3><p class="text-[11px] text-gray-500 mt-1">全方位資產配置及財富管理工具。</p></div>
+            </a>
+            <a href="https://ivancww.github.io/DA" target="_blank" class="card border-l-4 border-blue-600 flex items-center gap-4 active:scale-95 transition-transform hover:shadow-md">
+                <img src="https://ivancww.github.io/DA/icon-192.png" onerror="this.onerror=null; this.src='https://ivancww.github.io/DA/icon-512.png';" alt="DA Logo" class="w-14 h-14 rounded-xl shadow-sm object-cover border border-gray-100">
+                <div><h3 class="font-bold text-blue-800 text-base">DA 數字分析系統</h3><p class="text-[11px] text-gray-500 mt-1">數字資產與智能理賠分析工具。</p></div>
+            </a>
+            <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
         </div>
 
     </div>
 
     <script>
+        const APP_AUTH_LINK = "https://script.google.com/macros/s/AKfycbyT8YXG4LylNj9qf6M3RIo2FLYhGhArJ8XCUHtlcq1MVUSaHc55jGlWbFF_mpAg4dy4_A/exec";
+        
         const GAS_LINK_AVSW = "https://script.google.com/macros/s/AKfycby0bCPSDHHgmdQikt77bSIbxVQ5L9_uYBKgYoAxSyStIVyfdHXXbUz0hnOo8qLlKfOwyA/exec"; 
         const GAS_LINK_VHIS = "https://script.google.com/macros/s/AKfycbyMvetlIjV3CmzvaWIeO6DjgcCs7jNayx2vr2S4hDGIxUqRLWq8V5nVcVplHrGdsOV_/exec"; 
         const GAS_LINK_YXY  = "https://script.google.com/macros/s/AKfycby3arVvfcbIhrlIq9Ykh4avgHlcXdhBlI2FUwd8eXnw-2V8Ut31xc3CAVK8ByyMBEX2Fg/exec"; 
 
+        const specs = {
+            "avsw": ["普通外科", "兒科", "內分泌、糖尿及新陳代謝科", "內科腫瘤科", "呼吸系統科", "婦產科", "婦科腫瘤科", "小兒外科", "心胸外科", "心臟科", "泌尿科", "皮膚及性病科", "眼科", "神經外科", "神經科", "耳鼻喉科", "腎病科", "腸胃肝臟科", "臨床腫瘤科", "血液及血液腫瘤科", "血管外科", "風濕病科", "骨科及創傷外科"],
+            "vhis": ["基層保健醫生", "皮膚及性病科", "腦內科", "腦外科", "婦產科", "眼科", "骨科及創傷外科", "耳鼻喉科", "手術中心", "臨床微生物及感染學", "血管外科", "婦科腫瘤科", "兒童心臟科", "兒科", "泌尿外科", "外科", "心胸肺外科", "小兒外科", "心臟科", "老人科", "腸胃肝臟科", "腎科", "風濕科", "內分泌及糖尿病", "化驗所", "臨床腫瘤科", "內科腫瘤科", "血液及血液腫瘤科", "急症科", "呼吸系統科"],
+            "yxy": ["基層保健醫生", "皮膚及性病科", "腦內科", "腦外科", "婦產科", "眼科", "骨科及創傷外科", "耳鼻喉科", "手術中心", "血管外科", "婦科腫瘤科", "兒童心臟科", "兒科", "泌尿外科", "外科", "心胸肺外科", "小兒外科", "心臟科", "老人科", "腸胃肝臟科", "腎科", "風濕科", "內分泌及糖尿病", "化驗所", "臨床腫瘤科", "內科腫瘤科", "血液及血液腫瘤科", "呼吸系統科"]
+        };
+
         const defaultVision = "我明白，買保險從來唔係買一份冰冷嘅合約，而係為你同屋企人買一份對未來嘅安心。";
         const defaultTeamQuote = "「用科技將複雜條款變簡單，用同理心為你同家人守護財富與健康。」";
-
+        
         const defaultSteps = [
             { num: 3, tag: "第三式 · 請教模式", title: "了解對保險、仔女關注及退休的想法", tip: "⚠️ 秘訣：必須經常用「請教」二字！", cards: [] },
             { num: 4, tag: "第四式 · 想像模式", title: "合適提問，了解核心問題與關注位", tip: "⚠️ 秘訣：必須經常用「想像一下」！", cards: [] },
@@ -220,23 +337,122 @@
         let currentCards = [];
         let currentSteps = [];
 
-        window.onload = function() {
+        window.onload = function() { 
+            checkAppLogin();
             applySettingsToUI();
+            switchDoctorService('avsw');
         };
 
+        async function checkAppLogin() {
+            let isAuth = localStorage.getItem('ava_app_auth');
+            if (isAuth === 'true') return; 
+
+            let pass = prompt("🔒 請輸入 App 存取密碼：");
+            if (!pass) {
+                document.body.innerHTML = "<div class='text-center p-10 font-bold text-red-500'>❌ 未能提供密碼，存取遭拒。請重新整理頁面登入。</div>";
+                return;
+            }
+
+            try {
+                let res = await fetch(`${APP_AUTH_LINK}?pwd=${encodeURIComponent(pass.trim())}`);
+                let text = await res.text(); 
+                if (text.includes("success") || text.includes("true")) {
+                    localStorage.setItem('ava_app_auth', 'true');
+                    alert("✅ 驗證成功，歡迎使用 AVA 系統！");
+                } else {
+                    alert("❌ 密碼錯誤！"); location.reload();
+                }
+            } catch (err) {
+                alert("⚠️ 網路驗證回應，請確認密碼。"); location.reload();
+            }
+        }
+
         function enterBackstage(event) {
-            event.stopPropagation();
+            event.stopPropagation(); 
             var pass = prompt("🔒 請輸入後台密碼：");
             if (!pass) return;
+
             if (pass.trim().toLowerCase() === "avagroup") {
-                loadSettingsToForm();
-                switchTab('settings');
+                loadSettingsToForm(); switchTab('settings');
+            } else if (pass.trim() === "0903") {
+                switchTab('backstage');
             } else {
                 alert("❌ 後台密碼錯誤！");
             }
         }
 
-        /* ----- 後台卡片動態增刪機制 ----- */
+        /* ----- 醫生查詢 UI 切換邏輯 ----- */
+        let currentDocGasLink = GAS_LINK_AVSW;
+
+        function switchDoctorService(serviceType) {
+            ['avsw', 'vhis', 'yxy'].forEach(id => {
+                document.getElementById(`tab-${id}`).className = "doc-tab-btn inactive";
+            });
+            document.getElementById(`tab-${serviceType}`).className = "doc-tab-btn active";
+
+            let lbl = document.getElementById('lbl-specialty');
+            let hiddenInput = document.getElementById('doc-service');
+            let selectEl = document.getElementById('doc-specialty');
+            
+            selectEl.innerHTML = '<option value="">-- 請選擇專科 --</option>';
+
+            if (serviceType === 'avsw') {
+                lbl.innerText = "請選擇 睿選(AVSW) 專科"; hiddenInput.value = "睿選(AVSW)"; currentDocGasLink = GAS_LINK_AVSW;
+            } else if (serviceType === 'vhis') {
+                lbl.innerText = "請選擇 自願醫保(VHIS) 專科"; hiddenInput.value = "自願醫保(VHIS)"; currentDocGasLink = GAS_LINK_VHIS;
+            } else if (serviceType === 'yxy') {
+                lbl.innerText = "請選擇 友心意 專科"; hiddenInput.value = "友心意"; currentDocGasLink = GAS_LINK_YXY;
+            }
+
+            specs[serviceType].forEach(spec => {
+                let opt = document.createElement('option');
+                opt.value = spec; opt.innerText = spec; selectEl.appendChild(opt);
+            });
+
+            document.getElementById('doctor-results-container').innerHTML = `<div class="card p-8 text-center text-gray-400 text-xs">👈 請在上方選取專科以載入醫生名單</div>`;
+        }
+
+        async function onDoctorQueryChange() {
+            const specialty = document.getElementById('doc-specialty').value;
+            const region = document.getElementById('doc-region').value;
+            const container = document.getElementById('doctor-results-container');
+
+            if (!specialty) {
+                container.innerHTML = `<div class="card p-8 text-center text-gray-400 text-xs">👈 請選取專科以載入醫生名單</div>`;
+                return;
+            }
+
+            container.innerHTML = `<div class="card p-8 text-center text-emerald-600 font-bold text-xs animate-pulse">🔍 正在連動 Google Sheet 查詢 ${specialty} 醫生名單，請稍候...</div>`;
+
+            try {
+                const url = `${currentDocGasLink}?specialty=${encodeURIComponent(specialty)}&region=${encodeURIComponent(region)}`;
+                let response = await fetch(url);
+                let resData = await response.json();
+                let doctors = resData.data || resData;
+
+                if (!doctors || doctors.length === 0) {
+                    container.innerHTML = `<div class="card p-6 text-center text-gray-500 text-xs">⚠️ 暫未找到符合條件的網絡醫生。</div>`;
+                    return;
+                }
+
+                container.innerHTML = '';
+                doctors.forEach((doc) => {
+                    let hospitalBadge = (doc.hospital && doc.hospital !== "未有記載") ? `<div class="mt-2 text-[11px] bg-yellow-50 text-yellow-800 p-2 rounded-lg border border-yellow-200">🏥 <b>掛單醫院：</b> ${doc.hospital}</div>` : '';
+                    let cardHtml = `
+                    <div class="card p-4 border-l-4 border-emerald-500 shadow-sm space-y-1.5">
+                        <div class="border-b border-gray-100 pb-2 mb-1"><span class="font-bold text-base text-gray-800">🩺 ${doc.name || "醫生"}</span></div>
+                        <p class="text-xs text-gray-600"><b>📍 區域：</b> ${doc.district || "未提供"}</p>
+                        <p class="text-xs text-gray-600"><b>🏢 地址：</b> ${doc.address || "未提供"}</p>
+                        ${hospitalBadge}
+                    </div>`;
+                    container.innerHTML += cardHtml;
+                });
+            } catch (err) {
+                container.innerHTML = `<div class="card p-6 text-center text-red-500 text-xs font-bold">❌ 查詢失敗：${err.message || "請檢查 GAS 網址與權限"}</div>`;
+            }
+        }
+
+        /* ----- 後台資料與 PPT 卡片增刪控制 ----- */
         function loadSettingsToForm() {
             document.getElementById('setting-name').value = localStorage.getItem('ava_name') || "AI 保險導航員 - Ivan Chiu";
             document.getElementById('setting-vision').value = localStorage.getItem('ava_vision') || defaultVision;
@@ -329,9 +545,16 @@
                     <input type="text" class="mb-2 text-xs" value="${step.title}" onchange="currentSteps[${sIndex}].title=this.value">
                     <input type="text" class="mb-2 text-xs text-red-600" value="${step.tip || ''}" onchange="currentSteps[${sIndex}].tip=this.value">
                     ${cardsHtml}
-                    <button onclick="addStepCard(${sIndex})" class="w-full bg-emerald-50 text-emerald-700 font-bold py-1.5 rounded-lg border border-emerald-200 text-xs mt-2">➕ 加入招式 PPT 卡片</button>
+                    <button onclick="addStepCard(${sIndex})" class="w-full bg-emerald-50 text-emerald-700 font-bold py-1.5 rounded-lg border border-emerald-200 text-xs mt-2 border-dashed">➕ 加入招式 PPT 卡片</button>
                 </div>`;
             });
+        }
+
+        function resetSteps() {
+            if(confirm("確定要將 11 式資料還原為系統預設值嗎？")) {
+                currentSteps = JSON.parse(JSON.stringify(defaultSteps));
+                renderEditSteps();
+            }
         }
 
         function saveSettings() {
@@ -344,7 +567,7 @@
             localStorage.setItem('ava_steps', JSON.stringify(currentSteps));
             
             applySettingsToUI();
-            alert("✅ 所有 PPT 卡片及設定已完美儲存！");
+            alert("✅ 所有變裝設定已成功儲存！");
             goToPortal();
         }
 
@@ -357,7 +580,7 @@
             document.querySelectorAll('.dyn-vision').forEach(e => e.innerHTML = vision.replace(/\n/g, '<br>'));
             if (document.getElementById('dynamic-team-quote')) document.getElementById('dynamic-team-quote').innerText = teamQuote;
 
-            // 渲染公司 PPT (第一式)
+            // 1. 渲染公司 PPT (第一式)
             let compCards = JSON.parse(localStorage.getItem('ava_company_cards') || '[]');
             let compContainer = document.getElementById('dynamic-company-ppt-container');
             if (compContainer) {
@@ -367,26 +590,27 @@
                     compContainer.innerHTML += `
                     <div class="ppt-slide card p-4 space-y-2">
                         <img src="${c.img}" class="zoom-img" onclick="zoom(this)">
-                        ${c.desc ? `<p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg">${c.desc}</p>` : ''}
+                        ${c.desc ? `<p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg border border-gray-100">${c.desc}</p>` : ''}
                     </div>`;
                 });
             }
 
-            // 渲染情境 PPT (第二式)
+            // 2. 渲染情境 PPT (第二式)
             let profileCards = JSON.parse(localStorage.getItem('ava_cards') || '[]');
             let profContainer = document.getElementById('dynamic-profile-ppt-container');
             if (profContainer) {
                 profContainer.innerHTML = '';
+                if(profileCards.length === 0) profContainer.innerHTML = `<div class="p-8 text-center text-gray-400 text-xs card w-full">尚未於後台加入第二式 PPT 卡片</div>`;
                 profileCards.forEach(c => {
                     profContainer.innerHTML += `
                     <div class="ppt-slide card p-4 space-y-2">
                         <img src="${c.img}" class="zoom-img" onclick="zoom(this)">
-                        ${c.desc ? `<p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg">${c.desc}</p>` : ''}
+                        ${c.desc ? `<p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg border border-gray-100">${c.desc}</p>` : ''}
                     </div>`;
                 });
             }
 
-            // 渲染 11 式主頁導航
+            // 3. 渲染 11 式主頁導航
             let savedSteps = localStorage.getItem('ava_steps');
             let displaySteps = savedSteps ? JSON.parse(savedSteps) : defaultSteps;
             const stepsContainer = document.getElementById('dynamic-steps11-container');
@@ -401,7 +625,7 @@
 
                 displaySteps.forEach((st, sIdx) => {
                     let tipHtml = st.tip ? `<p class="text-xs text-red-900 font-bold bg-white border border-red-200 p-2 rounded-lg mt-2 mb-1">${st.tip}</p>` : '';
-                    let hasCardsBadge = (st.cards && st.cards.length > 0) ? `<span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">📷 包含 ${st.cards.length} 張 PPT</span>` : '';
+                    let hasCardsBadge = (st.cards && st.cards.length > 0) ? `<span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">📷 ${st.cards.length} 張 PPT</span>` : '';
                     
                     stepsContainer.innerHTML += `
                     <div class="card border-l-4 border-indigo-500 p-4 cursor-pointer" onclick="openStepPPT(${sIdx})">
@@ -432,7 +656,7 @@
                     container.innerHTML += `
                     <div class="ppt-slide card p-4 space-y-2">
                         <img src="${c.img}" class="zoom-img" onclick="zoom(this)">
-                        ${c.desc ? `<p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg">${c.desc}</p>` : ''}
+                        ${c.desc ? `<p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg border border-gray-100">${c.desc}</p>` : ''}
                     </div>`;
                 });
             }
