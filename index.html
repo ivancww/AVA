@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v6.3.1</title>
+    <title>AVA 實戰系統 v6.3.2</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -37,6 +37,9 @@
         .btn-large-flat { background: white; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid #eef2f6; display: flex; align-items: center; padding: 16px; width: 100%; transition: transform 0.2s; margin-bottom: 10px;}
         .btn-large-flat:active { transform: scale(0.98); }
         
+        .btn-pdf { display: block; background: #f0f9ff; color: #0284c7; text-align: center; padding: 12px; border-radius: 12px; font-size: 13px; font-weight: bold; margin-top: 8px; border: 1px solid #bae6fd; transition: background 0.2s; }
+        .btn-pdf:active { background: #e0f2fe; }
+
         .quote-block { background: #f8fafc; border-radius: 12px; padding: 20px; margin: 15px 0; font-size: 0.95rem; color: #334155; line-height: 1.8; border-left: 4px solid #4a148c; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
 
         .ppt-slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; gap: 16px; border-radius: 16px; }
@@ -70,8 +73,8 @@
     <nav class="gradient-primary text-white p-5 rounded-b-3xl shadow-lg sticky top-0 z-50 flex justify-between items-end cursor-pointer" onclick="goToPortal()">
         <div>
             <div class="flex items-center gap-2">
-                <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.3.1</span>
+                <h1 class="text-xl font-bold text-red-500 italic p-1" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.3.2</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -147,7 +150,7 @@
             </div>
         </div>
 
-        <!-- 👨‍⚕️ 全網絡醫生名單頁面 (3 大獨立系統) -->
+        <!-- 👨‍⚕️ 全網絡醫生名單頁面 -->
         <div id="doctor-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-emerald-600 pl-3 mb-2">👨‍⚕️ 全網絡醫生名單</h2>
             
@@ -225,7 +228,7 @@
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
         </div>
 
-        <!-- 🧰 成功錦囊 主頁面與相關子頁面 -->
+        <!-- 🧰 成功錦囊 主頁面與連結完整的子頁面 -->
         <div id="toolkits-tab" class="tab-content space-y-4">
             <div class="flex items-center gap-2 mb-4 px-2"><div class="text-3xl">🧰</div><h2 class="text-xl font-bold text-gray-800">成功錦囊</h2></div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -242,7 +245,7 @@
         <div id="concept-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">💡 醫療 vs 危疾 的基本分別</h2>
             <div class="card p-5 shadow-md space-y-3">
-                <p class="text-xs text-gray-600 leading-relaxed"><b>🏥 醫療保險：</b> 憑單據實報實銷，實即「實報實銷醫療費」。專門解決醫院、手術及診療帳單問題。</p>
+                <p class="text-xs text-gray-600 leading-relaxed"><b>🏥 醫療保險：</b> 憑單據實報實銷醫療費。專門解決醫院、手術及診療帳單問題。</p>
                 <p class="text-xs text-gray-600 leading-relaxed"><b>🛡️ 危疾保險：</b> 一經確診即時一筆過賠償現金，無需單據。專門補償因病無法工作帶來的「收入損失」與生活費開支。</p>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
@@ -251,7 +254,8 @@
         <div id="ci-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-rose-600 pl-3">🛡️ 危疾防護對比</h2>
             <div class="card p-5 shadow-md space-y-3">
-                <p class="text-xs text-gray-600 leading-relaxed">提供三大危疾核心層次分析：早期疾病保障、嚴重疾病一筆過賠償、以及多重持續保障（癌症/心臟病/中風多次賠償）。</p>
+                <p class="text-xs text-gray-600 leading-relaxed mb-3">三大危疾核心層次分析：早期疾病保障、嚴重疾病一筆過賠償、以及多重持續保障（癌症/心臟病/中風多次賠償）。</p>
+                <a href="https://ivancww.github.io/CIApp" target="_blank" class="btn-pdf">🚀 開啟「危疾進階分析器」進行詳細對比</a>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
@@ -259,7 +263,8 @@
         <div id="uw-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-purple-600 pl-3">🔍 核保真相指引</h2>
             <div class="card p-5 shadow-md space-y-3">
-                <p class="text-xs text-gray-600 leading-relaxed">誠實申報是理賠的基石。清楚解構常見健康申報（最高誠意原則）、驗體加費或不保事項的處理解答。</p>
+                <p class="text-xs text-gray-600 leading-relaxed mb-2">誠實申報是理賠的基石。清楚解構常見健康申報（最高誠意原則）、驗體加費或不保事項的處理解答。</p>
+                <a href="https://www me.aia.com.hk" target="_blank" class="btn-pdf">📄 查看官方核保透明度指引 PDF</a>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
@@ -267,7 +272,10 @@
         <div id="claim-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-orange-600 pl-3">🏥 網絡索償流程</h2>
             <div class="card p-5 shadow-md space-y-3">
-                <p class="text-xs text-gray-600 leading-relaxed">出示醫療卡 $\rightarrow$ 網絡醫生診斷 $\rightarrow$ 免出貼免申請免找數入院 $\rightarrow$ 出院自動結算。</p>
+                <div class="p-3 bg-orange-50 rounded-xl text-xs text-orange-900 border border-orange-200">
+                    <p class="font-bold mb-1">便利索償三步曲：</p>
+                    <p>1. 出示醫療卡 $\rightarrow$ 2. 網絡醫生診斷 $\rightarrow$ 3. 免申請免找數直接出院</p>
+                </div>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
@@ -275,7 +283,9 @@
         <div id="docs-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">📚 官方產品百科</h2>
             <div class="card p-5 shadow-md space-y-2">
-                <p class="text-xs text-gray-600">提供 AVF、AVSW、AVPU、EOYS、OYS2、SCE 等官方產品單張及手冊指引。</p>
+                <p class="text-xs text-gray-500 font-bold mb-3">點擊以下按鈕可直接下載或查看官方產品單張 PDF：</p>
+                <a href="https://www.aia.com.hk/zh-hk/our-products/medical-protection/vhis/ceo" target="_blank" class="btn-pdf">📄 睿選自主醫療計劃 (AVSW) 官方單張</a>
+                <a href="https://www.aia.com.hk/zh-hk/our-products/critical-illness-protection" target="_blank" class="btn-pdf">📄 友邦危疾系列產品百科</a>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
@@ -283,7 +293,7 @@
         <div id="vitality-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-pink-600 pl-3">🏃 AIA Vitality 健康程式</h2>
             <div class="card p-5 shadow-md space-y-2">
-                <p class="text-xs text-gray-600">運動獎賞計劃，做運動賺取積分享受首年及續保保費折扣及每週免費咖啡獎勵。</p>
+                <p class="text-xs text-gray-600 leading-relaxed">運動獎賞計劃：做運動累積積分，首年即享 10% 保費折扣，更有每週免費 Starbucks 咖啡及飛利浦家電折扣！</p>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
@@ -417,15 +427,19 @@
             }
         }
 
-        // 後台登入邏輯（修復：支援 avasystem 與 avagroup）
+        // 後台登入邏輯（修復點擊冒泡被全域覆蓋的問題）
         function enterBackstage(event) {
-            event.stopPropagation(); 
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
             var pass = prompt("🔒 請輸入後台密碼：");
             if (!pass) return;
 
             let cleanPass = pass.trim().toLowerCase();
             if (cleanPass === "avasystem" || cleanPass === "avagroup") {
-                loadSettingsToForm(); switchTab('settings');
+                loadSettingsToForm(); 
+                switchTab('settings');
             } else if (cleanPass === "0903") {
                 switchTab('backstage');
             } else {
