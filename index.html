@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v6.8.0</title>
+    <title>AVA 實戰系統 v6.8.1</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -53,7 +53,7 @@
         .zoom-img { cursor: zoom-in; transition: transform 0.2s; width: 100%; border-radius: 12px; border: 1px solid #f1f5f9; object-fit: contain; }
         .img-container { max-width: 650px; margin: 0 auto; }
         
-        #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; flex-direction: column; }
+        #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); justify-content: center; align-items: center; flex-direction: column; }
         #lightbox img { max-width: 92%; max-height: 70vh; object-fit: contain; transition: transform 0.3s ease; }
         
         .close-btn { position: fixed; top: 20px; right: 20px; z-index: 10000; background: rgba(255,255,255,0.25); color: white; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; cursor: pointer; backdrop-filter: blur(5px); }
@@ -92,20 +92,21 @@
 </head>
 <body class="bg-slate-100 pb-10 text-gray-800">
 
-    <!-- 全螢幕 Lightbox -->
+    <!-- 全螢幕 Lightbox (白底黑字文字區塊) -->
     <div id="lightbox" onclick="closeLightbox(event)">
         <button class="close-btn" onclick="forceCloseLightbox(event)">✕</button>
         
         <div class="relative w-full flex items-center justify-center px-4">
             <button onclick="prevLightboxImage(event)" class="absolute left-2 text-white bg-white/20 p-3 rounded-full text-xl font-bold backdrop-blur-md active:scale-95 z-10">⬅️</button>
-            <img id="lightbox-img" src="" alt="Zoomed View">
+            <img id="lightbox-img" src="" alt="Zoomed View" class="shadow-2xl">
             <button onclick="nextLightboxImage(event)" class="absolute right-2 text-white bg-white/20 p-3 rounded-full text-xl font-bold backdrop-blur-md active:scale-95 z-10">➡️</button>
         </div>
 
-        <div class="mt-4 max-w-xl mx-auto px-6 py-3 bg-black/80 border border-white/20 rounded-2xl text-center backdrop-blur-md">
-            <p id="lightbox-desc" class="text-white text-sm font-bold tracking-wide leading-relaxed">解說文字載入中...</p>
+        <!-- 白底黑字顯眼文字區塊 -->
+        <div class="mt-4 max-w-xl mx-auto px-6 py-3 bg-white border border-gray-300 rounded-2xl text-center shadow-lg">
+            <p id="lightbox-desc" class="text-gray-900 text-sm font-bold tracking-wide leading-relaxed">解說文字載入中...</p>
         </div>
-        <p class="mt-2 text-gray-400 text-[10px]">點擊左右按鈕切換，或按右上角 ✕ 返回</p>
+        <p class="mt-2 text-gray-300 text-[10px]">點擊左右按鈕切換，或按右上角 ✕ 返回</p>
     </div>
 
     <!-- 頂部 Header -->
@@ -113,7 +114,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.8.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.8.1</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -151,7 +152,6 @@
                         <div>
                             <div class="flex justify-between items-center mb-3">
                                 <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest">系統導航</h3>
-                                <!-- 新增同事專屬註冊/登入 ⚙️ 設定按鈕 -->
                                 <button onclick="openAgentAuthMenu(event)" class="text-lg bg-gray-100 p-1.5 rounded-xl border border-gray-200 active:scale-95 transition-transform" title="帳號設定/登入註冊">⚙️</button>
                             </div>
                             
@@ -398,7 +398,6 @@
                     <button onclick="addSettingCard()" class="w-full bg-indigo-50 text-indigo-700 font-bold py-3 rounded-xl border border-indigo-200 mb-4 border-dashed">➕ 新增第二式 PPT 卡片</button>
                 </div>
 
-                <!-- 僅管理者可修訂共有 3-11 式與成功錦囊 -->
                 <button id="btn-mod-steps" onclick="toggleBackstageModule('steps')" class="btn-large-flat border-l-4 border-emerald-500 justify-between">
                     <div class="flex items-center gap-3">
                         <div class="text-2xl bg-emerald-50 p-2 rounded-xl">🎯</div>
@@ -413,7 +412,7 @@
                 <button id="btn-mod-toolkits" onclick="toggleBackstageModule('toolkits')" class="btn-large-flat border-l-4 border-amber-500 justify-between">
                     <div class="flex items-center gap-3">
                         <div class="text-2xl bg-amber-50 p-2 rounded-xl">🧰</div>
-                        <div class="text-left"><h4 class="font-bold text-gray-800 text-xs">成功錦囊 6 大分頁資料管理 (管理者)</h4><p class="text-[9px] text-gray-400 mt-0.5">點擊展開對應前台卡片上載圖片及 PDF</p></div>
+                        <div class="text-left"><h4 class="font-bold text-gray-800 text-xs">成功錦囊 6 大主題卡片管理 (管理者)</h4><p class="text-[9px] text-gray-400 mt-0.5">點擊展開對應主題上載最多 6 張圖片/PDF 及文字</p></div>
                     </div>
                     <span class="text-xs">▼</span>
                 </button>
@@ -494,6 +493,7 @@
         let currentCompanyCards = [];
         let currentCards = [];
         let currentSteps = [];
+        let currentToolkits = {};
         let currentServiceType = 'avsw';
         let lightboxImagesList = [];
         let currentLightboxIndex = 0;
@@ -504,7 +504,6 @@
             switchDoctorService('avsw');
         };
 
-        /* ----- ⚙️ 系統導航旁：同事註冊/登入關卡 ----- */
         function openAgentAuthMenu(event) {
             event.stopPropagation();
             let choice = prompt("⚙️ 【同事帳號管理】\n請選擇操作：\n1. 首次註冊帳號\n2. 登入既有帳號\n(請輸入數字 1 或 2)");
@@ -731,6 +730,9 @@
             let savedSteps = localStorage.getItem('ava_steps');
             currentSteps = savedSteps ? JSON.parse(savedSteps) : JSON.parse(JSON.stringify(defaultSteps));
 
+            let savedToolkits = localStorage.getItem('ava_toolkits');
+            currentToolkits = savedToolkits ? JSON.parse(savedToolkits) : {};
+
             renderCompanyEditCards();
             renderSettingEditCards();
             renderEditSteps();
@@ -879,6 +881,19 @@
             });
         }
 
+        /* ----- 後台成功錦囊 6 大主題，每個主題可新增最多 6 張圖片/PDF + 文字說明 ----- */
+        function addToolkitItem(tkId) {
+            if (!currentToolkits[tkId]) currentToolkits[tkId] = [];
+            if (currentToolkits[tkId].length >= 6) { alert("⚠️ 每個主題最多包含 6 張圖片/PDF！"); return; }
+            currentToolkits[tkId].push({ url: '', desc: '' });
+            renderToolkitsEditForm();
+        }
+
+        function delToolkitItem(tkId, idx) {
+            currentToolkits[tkId].splice(idx, 1);
+            renderToolkitsEditForm();
+        }
+
         function renderToolkitsEditForm() {
             const container = document.getElementById('settings-toolkits-container');
             if (!container) return;
@@ -894,17 +909,31 @@
 
             container.innerHTML = '';
             toolkitList.forEach(tk => {
+                let itemsList = currentToolkits[tk.id] || [];
+                let itemsHtml = '';
+
+                itemsList.forEach((item, idx) => {
+                    itemsHtml += `
+                    <div class="bg-white p-2 rounded-lg border border-gray-200 mt-2">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[10px] font-bold text-amber-800">檔案/圖片 ${idx + 1} (上限 6 張)</span>
+                            <button class="btn-del" onclick="delToolkitItem('${tk.id}', ${idx})">🗑️ 刪除</button>
+                        </div>
+                        <input type="text" id="tk-input-${tk.id}-${idx}" class="mb-1 text-xs" placeholder="圖片或 PDF 網址" value="${item.url || ''}" onchange="currentToolkits['${tk.id}'][${idx}].url=this.value">
+                        <input type="file" accept="image/*,.pdf" class="mb-1 text-xs" onchange="uploadFileToFirebase(this, (url)=>{ document.getElementById('tk-input-${tk.id}-${idx}').value=url; currentToolkits['${tk.id}'][${idx}].url=url; })">
+                        <input type="text" class="text-xs" placeholder="解說文字" value="${item.desc || ''}" onchange="currentToolkits['${tk.id}'][${idx}].desc=this.value">
+                    </div>`;
+                });
+
                 container.innerHTML += `
                 <div class="edit-card bg-amber-50/50 border-amber-200">
-                    <span class="text-xs font-bold text-amber-900 block mb-2">${tk.title} 資料更新</span>
-                    <input type="text" id="tk-url-${tk.id}" class="mb-2 text-xs" placeholder="圖片/PDF URL">
-                    <input type="file" accept="image/*,.pdf" class="mb-2 text-xs" onchange="uploadFileToFirebase(this, (url)=>{ document.getElementById('tk-url-${tk.id}').value=url; })">
-                    <p class="text-[10px] text-amber-700">💡 上載後自動生成 Firebase Storage 連結。</p>
+                    <span class="text-xs font-bold text-amber-900 block mb-2">${tk.title}</span>
+                    ${itemsHtml}
+                    <button onclick="addToolkitItem('${tk.id}')" class="w-full bg-amber-100 text-amber-900 font-bold py-1.5 rounded-lg border border-amber-300 text-xs mt-2 border-dashed">➕ 新增 ${tk.title} 圖片/PDF (最多 6 張)</button>
                 </div>`;
             });
         }
 
-        // 儲存第一、二式卡片
         async function saveSettingsWithAuth() {
             let name = document.getElementById('setting-name').value.trim();
             if (!name) { alert("⚠️ 請填寫您的顧問姓名！"); return; }
@@ -915,6 +944,8 @@
             
             localStorage.setItem('ava_company_cards', JSON.stringify(currentCompanyCards));
             localStorage.setItem('ava_cards', JSON.stringify(currentCards));
+            localStorage.setItem('ava_steps', JSON.stringify(currentSteps));
+            localStorage.setItem('ava_toolkits', JSON.stringify(currentToolkits));
             
             applySettingsToUI();
             alert(`✅ ${name} 的第一式與第二式變裝設定已成功儲存並完成同步！`);
@@ -1037,6 +1068,7 @@
             switchTab('generic-step-ppt');
         }
 
+        /* ----- 白底黑字 + 絕對居中 + 按鈕/觸控左右滑動 Lightbox ----- */
         function zoom(el, desc) { 
             const parent = el.closest('.tab-content') || document.body;
             const imgs = Array.from(parent.querySelectorAll('img.zoom-img'));
