@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v6.8.1</title>
+    <title>AVA 實戰系統 v6.8.2</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -92,7 +92,7 @@
 </head>
 <body class="bg-slate-100 pb-10 text-gray-800">
 
-    <!-- 全螢幕 Lightbox (白底黑字文字區塊) -->
+    <!-- 全螢幕 Lightbox -->
     <div id="lightbox" onclick="closeLightbox(event)">
         <button class="close-btn" onclick="forceCloseLightbox(event)">✕</button>
         
@@ -102,7 +102,6 @@
             <button onclick="nextLightboxImage(event)" class="absolute right-2 text-white bg-white/20 p-3 rounded-full text-xl font-bold backdrop-blur-md active:scale-95 z-10">➡️</button>
         </div>
 
-        <!-- 白底黑字顯眼文字區塊 -->
         <div class="mt-4 max-w-xl mx-auto px-6 py-3 bg-white border border-gray-300 rounded-2xl text-center shadow-lg">
             <p id="lightbox-desc" class="text-gray-900 text-sm font-bold tracking-wide leading-relaxed">解說文字載入中...</p>
         </div>
@@ -114,7 +113,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.8.1</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.8.2</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -139,7 +138,7 @@
                                     <p class="text-[10px] text-red-400 font-medium">Apex Vision Alliance</p>
                                 </div>
                             </div>
-                            <div id="dynamic-team-vision" class="space-y-3 text-xs leading-relaxed"></div>
+                            <div id="dynamic-team-vision" class="space-y-3 text-xs leading-relaxed text-gray-200"></div>
                         </div>
                         <div class="mt-4 pt-3 border-t border-gray-800 text-center">
                             <p class="text-[11px] text-yellow-400 font-bold italic" id="dynamic-team-quote">「做保險唔洗盲摸摸，AVA 系統就是你的人生 GPS。」</p>
@@ -368,7 +367,7 @@
                 <label class="block text-xs font-bold text-teal-800 mb-1">團隊願景 (首頁底部金句)</label>
                 <input type="text" id="setting-team-quote" class="mb-4 text-sm">
 
-                <label class="block text-xs font-bold text-teal-800 mb-1">第二式：個人願景與承諾</label>
+                <label class="block text-xs font-bold text-teal-800 mb-1">第二式：個人願景與承諾 (同步填入首頁卡片中央)</label>
                 <textarea id="setting-vision" rows="3" class="mb-4"></textarea>
             </div>
 
@@ -952,6 +951,7 @@
             goToPortal();
         }
 
+        // 自動連動將願景填入首頁卡片中央與第二式內頁
         function applySettingsToUI() {
             var name = localStorage.getItem('ava_name') || "TOT 頂尖顧問";
             var vision = localStorage.getItem('ava_vision') || defaultVision;
@@ -960,6 +960,11 @@
             document.querySelectorAll('.dyn-name').forEach(e => e.innerText = name);
             document.querySelectorAll('.dyn-vision').forEach(e => e.innerHTML = vision.replace(/\n/g, '<br>'));
             if (document.getElementById('dynamic-team-quote')) document.getElementById('dynamic-team-quote').innerText = teamQuote;
+
+            // 修復：將願景文字填入首頁中央紅圈位置
+            if (document.getElementById('dynamic-team-vision')) {
+                document.getElementById('dynamic-team-vision').innerHTML = vision.replace(/\n/g, '<br>');
+            }
 
             // 第一式
             let compCards = JSON.parse(localStorage.getItem('ava_company_cards') || '[]');
