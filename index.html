@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v6.6.0</title>
+    <title>AVA 實戰系統 v6.7.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -45,7 +45,7 @@
     
     <style>
         .gradient-primary { background: linear-gradient(135deg, #1f2937 0%, #111827 100%); }
-        .card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); border: 1px solid rgba(255,255,255,0.4); padding: 20px; margin-bottom: 20px; }
+        .card { background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(12px); border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); border: 1px solid rgba(255,255,255,0.4); padding: 20px; margin-bottom: 20px; }
         .tab-content { display: none; animation: fadeIn 0.2s ease-in-out; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
@@ -53,8 +53,8 @@
         .zoom-img { cursor: zoom-in; transition: transform 0.2s; width: 100%; border-radius: 12px; border: 1px solid #f1f5f9; object-fit: contain; }
         .img-container { max-width: 650px; margin: 0 auto; }
         
-        #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); justify-content: center; align-items: center; overflow: auto; }
-        #lightbox img { max-width: 90%; max-height: 85vh; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in; }
+        #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; flex-direction: column; }
+        #lightbox img { max-width: 92%; max-height: 70vh; object-fit: contain; transition: transform 0.3s ease; }
         
         .close-btn { position: fixed; top: 20px; right: 20px; z-index: 10000; background: rgba(255,255,255,0.25); color: white; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; cursor: pointer; backdrop-filter: blur(5px); }
         .close-btn:active { transform: scale(0.9); background: rgba(255,255,255,0.4); }
@@ -92,11 +92,21 @@
 </head>
 <body class="bg-slate-100 pb-10 text-gray-800">
 
-    <!-- 圖片放大 Lightbox -->
+    <!-- 升級版圖片/解說文字全螢幕 Lightbox (支援點擊與按鈕左右滑動切換) -->
     <div id="lightbox" onclick="closeLightbox(event)">
         <button class="close-btn" onclick="forceCloseLightbox(event)">✕</button>
-        <img id="lightbox-img" src="" alt="Zoomed View" onclick="toggleLightboxZoom(event)">
-        <p class="fixed bottom-8 left-1/2 transform -translate-x-1/2 text-white text-[11px] bg-black/70 px-4 py-2 rounded-full pointer-events-none tracking-widest border border-white/20">點擊右上角 ✕ 或空白處返回</p>
+        
+        <div class="relative w-full flex items-center justify-center px-4">
+            <button onclick="prevLightboxImage(event)" class="absolute left-2 text-white bg-white/20 p-3 rounded-full text-xl font-bold backdrop-blur-md active:scale-95 z-10">⬅️</button>
+            <img id="lightbox-img" src="" alt="Zoomed View">
+            <button onclick="nextLightboxImage(event)" class="absolute right-2 text-white bg-white/20 p-3 rounded-full text-xl font-bold backdrop-blur-md active:scale-95 z-10">➡️</button>
+        </div>
+
+        <!-- 放大顯眼文字區塊 -->
+        <div class="mt-4 max-w-xl mx-auto px-6 py-3 bg-black/80 border border-white/20 rounded-2xl text-center backdrop-blur-md">
+            <p id="lightbox-desc" class="text-white text-sm font-bold tracking-wide leading-relaxed">解說文字載入中...</p>
+        </div>
+        <p class="mt-2 text-gray-400 text-[10px]">點擊左右按鈕切換，或按右上角 ✕ 返回</p>
     </div>
 
     <!-- 頂部 Header -->
@@ -104,7 +114,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.6.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.7.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -180,7 +190,7 @@
             </div>
         </div>
 
-        <!-- 👨‍⚕️ 全網絡醫生名單頁面 (三大獨立搜尋) -->
+        <!-- 👨‍⚕️ 全網絡醫生名單頁面 -->
         <div id="doctor-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-emerald-600 pl-3 mb-2">👨‍⚕️ 全網絡醫生名單</h2>
             
@@ -228,7 +238,7 @@
         <div id="step1-company-tab" class="tab-content space-y-4">
             <div class="flex justify-between items-center mb-2">
                 <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">第一式：介紹公司</h2>
-                <span class="text-xs text-gray-400 italic">👈 滑動/2x2 網格檢視 👉</span>
+                <span class="text-xs text-gray-400 italic">👈 2x2 網格居中檢視 👉</span>
             </div>
             <div id="dynamic-company-ppt-container"></div>
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
@@ -238,7 +248,7 @@
         <div id="step2-profile-tab" class="tab-content space-y-4">
             <div class="flex justify-between items-center mb-2">
                 <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">第二式：個人願景及承諾</h2>
-                <span class="text-xs text-gray-400 italic">👈 滑動/2x2 網格檢視 👉</span>
+                <span class="text-xs text-gray-400 italic">👈 2x2 網格居中檢視 👉</span>
             </div>
             <div class="card p-5 shadow-md mb-4">
                 <h3 class="text-lg font-bold text-indigo-900 mb-2 border-b border-indigo-100 pb-2"><span class="dyn-name">TOT 頂尖顧問</span> 的承諾</h3>
@@ -277,10 +287,10 @@
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">💡 醫療 vs 危疾 的基本分別</h2>
             <div class="card p-5 shadow-md space-y-4">
                 <p class="text-xs text-gray-600 leading-relaxed"><b>🏥 醫療保險：</b> 憑單據實報實銷醫療費。專門解決醫院、手術及診療帳單問題。</p>
-                <div class="img-container"><img src="https://i.postimg.cc/XvwKjb4d/vitality.png" class="zoom-img mx-auto" onclick="zoom(this)"></div>
+                <div class="img-container"><img src="https://i.postimg.cc/XvwKjb4d/vitality.png" class="zoom-img mx-auto" onclick="zoom(this, '醫療保險：憑單據實報實銷醫療費')"></div>
                 <hr class="border-gray-100 my-2">
                 <p class="text-xs text-gray-600 leading-relaxed"><b>🛡️ 危疾保險：</b> 一經確診即時一筆過賠償現金，專門補償因病無法工作帶來的「收入損失」。</p>
-                <div class="img-container"><img src="https://i.postimg.cc/Bnc8PDZ7/CI.png" class="zoom-img mx-auto" onclick="zoom(this)"></div>
+                <div class="img-container"><img src="https://i.postimg.cc/Bnc8PDZ7/CI.png" class="zoom-img mx-auto" onclick="zoom(this, '危疾保險：確診即時一筆過現金賠償')"></div>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
@@ -289,9 +299,9 @@
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-rose-600 pl-3">🛡️ 危疾防護對比</h2>
             <div class="card p-5 shadow-md">
                 <div class="grid-2x2">
-                    <img src="https://i.postimg.cc/tg2XMSVC/CI1.png" class="zoom-img" onclick="zoom(this)">
-                    <img src="https://i.postimg.cc/yNvVbQS8/CI2.png" class="zoom-img" onclick="zoom(this)">
-                    <img src="https://i.postimg.cc/Vvq7rCqz/CI-zhong-lei.png" class="zoom-img col-span-2 max-w-sm" onclick="zoom(this)">
+                    <img src="https://i.postimg.cc/tg2XMSVC/CI1.png" class="zoom-img" onclick="zoom(this, '危疾防護對比 - 圖 1')">
+                    <img src="https://i.postimg.cc/yNvVbQS8/CI2.png" class="zoom-img" onclick="zoom(this, '危疾防護對比 - 圖 2')">
+                    <img src="https://i.postimg.cc/Vvq7rCqz/CI-zhong-lei.png" class="zoom-img col-span-2 max-w-sm" onclick="zoom(this, '危疾種類對比圖')">
                 </div>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
@@ -302,8 +312,8 @@
             <div class="card p-5 shadow-md space-y-3">
                 <p class="text-xs text-gray-600 leading-relaxed">誠實申報是理賠的基石，清楚解構常見健康申報最高誠意原則。</p>
                 <div class="grid-2x2 py-2">
-                    <img src="https://i.postimg.cc/C15t1WWn/U&I.png" class="zoom-img" onclick="zoom(this)">
-                    <img src="https://i.postimg.cc/Y90V9JJj/U&I_2.png" class="zoom-img" onclick="zoom(this)">
+                    <img src="https://i.postimg.cc/C15t1WWn/U&I.png" class="zoom-img" onclick="zoom(this, '核保真相指引 - 圖 1')">
+                    <img src="https://i.postimg.cc/Y90V9JJj/U&I_2.png" class="zoom-img" onclick="zoom(this, '核保真相指引 - 圖 2')">
                 </div>
                 <a href="https://drive.google.com/file/d/1IbPbbX6Ezu6-_6dGbUGv0UwTs91ALRiG/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 查看核保官方指引 (PDF)</a>
             </div>
@@ -314,8 +324,8 @@
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-orange-600 pl-3">🏥 醫療索償流程</h2>
             <div class="card p-5 shadow-md space-y-3">
                 <div class="grid-2x2 py-2">
-                    <img src="https://i.postimg.cc/L5G7D9Gp/claims.png" class="zoom-img" onclick="zoom(this)">
-                    <img src="https://i.postimg.cc/Gt6NKL6w/pre-approval.png" class="zoom-img" onclick="zoom(this)">
+                    <img src="https://i.postimg.cc/L5G7D9Gp/claims.png" class="zoom-img" onclick="zoom(this, '醫療索償流程圖')">
+                    <img src="https://i.postimg.cc/Gt6NKL6w/pre-approval.png" class="zoom-img" onclick="zoom(this, '預先批核流程圖')">
                 </div>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
@@ -337,14 +347,15 @@
         <div id="vitality-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-pink-600 pl-3">🏃 AIA Vitality 健康程式</h2>
             <div class="card p-5 shadow-md space-y-3">
-                <div class="img-container py-2"><img src="https://i.postimg.cc/XvwKjb4d/vitality.png" class="zoom-img mx-auto" onclick="zoom(this)"></div>
+                <div class="img-container py-2"><img src="https://i.postimg.cc/XvwKjb4d/vitality.png" class="zoom-img mx-auto" onclick="zoom(this, 'AIA Vitality 簡介')"></div>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
 
-        <!-- ⚙️ 個人化設定 (變裝房後台) -->
+        <!-- ⚙️ 個人化設定 (變裝房後台 - 模組卡片化點擊展開) -->
         <div id="settings-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-teal-600 pl-3">⚙️ 個人化設定 (變裝房)</h2>
+            
             <div class="card p-5 shadow-md border-t-4 border-teal-500">
                 <h3 class="font-bold text-red-900 border-b pb-2 mb-3">🌟 團隊及個人身分識別</h3>
                 
@@ -355,25 +366,60 @@
                 <input type="text" id="setting-team-quote" class="mb-4 text-sm">
 
                 <label class="block text-xs font-bold text-teal-800 mb-1">第二式：個人願景與承諾</label>
-                <textarea id="setting-vision" rows="4" class="mb-6"></textarea>
-
-                <h3 class="font-bold text-blue-900 border-b pb-2 mb-3">🏢 管理第一式公司介紹 (最多 4 張圖片/PDF)</h3>
-                <div id="settings-company-cards-container"></div>
-                <button onclick="addCompanyCard()" class="w-full bg-blue-50 text-blue-700 font-bold py-3 rounded-xl border border-blue-200 mb-8 border-dashed">➕ 新增第一式 PPT 卡片</button>
-
-                <h3 class="font-bold text-indigo-900 border-b pb-2 mb-3">🖼️ 管理第二式個人情境 PPT (最多 4 張圖片)</h3>
-                <div id="settings-cards-container"></div>
-                <button onclick="addSettingCard()" class="w-full bg-indigo-50 text-indigo-700 font-bold py-3 rounded-xl border border-indigo-200 mb-8 border-dashed">➕ 新增第二式 PPT 卡片</button>
-
-                <h3 class="font-bold text-emerald-900 border-b pb-2 mb-3">🎯 管理 3-11 式招式與 Firebase 多圖上傳 (最多 4 張)</h3>
-                <div id="settings-steps-container"></div>
-
-                <h3 class="font-bold text-amber-900 border-b pb-2 mb-3">🧰 管理成功錦囊內容 (自訂圖片/PDF)</h3>
-                <div id="settings-toolkits-container" class="space-y-4 mb-6"></div>
-
-                <button onclick="saveSettings()" class="w-full bg-teal-600 active:bg-teal-700 text-white font-bold py-4 rounded-xl shadow-md text-base mt-4">💾 儲存所有變裝設定</button>
+                <textarea id="setting-vision" rows="3" class="mb-4"></textarea>
             </div>
-            <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 離開設定</button>
+
+            <!-- 後台大卡片分區選單 -->
+            <div class="space-y-3">
+                <button onclick="toggleBackstageModule('company')" class="btn-large-flat border-l-4 border-blue-500 justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="text-2xl bg-blue-50 p-2 rounded-xl">🏢</div>
+                        <div class="text-left"><h4 class="font-bold text-gray-800 text-xs">第一式：公司介紹 PPT 卡片管理</h4><p class="text-[9px] text-gray-400 mt-0.5">點擊展開 / 縮收進行新增與刪除</p></div>
+                    </div>
+                    <span class="text-xs">▼</span>
+                </button>
+                <div id="mod-backstage-company" class="hidden pl-2">
+                    <div id="settings-company-cards-container"></div>
+                    <button onclick="addCompanyCard()" class="w-full bg-blue-50 text-blue-700 font-bold py-3 rounded-xl border border-blue-200 mb-4 border-dashed">➕ 新增第一式 PPT 卡片</button>
+                </div>
+
+                <button onclick="toggleBackstageModule('profile')" class="btn-large-flat border-l-4 border-indigo-500 justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="text-2xl bg-indigo-50 p-2 rounded-xl">🖼️</div>
+                        <div class="text-left"><h4 class="font-bold text-gray-800 text-xs">第二式：個人情境 PPT 卡片管理</h4><p class="text-[9px] text-gray-400 mt-0.5">點擊展開 / 縮收進行新增與刪除</p></div>
+                    </div>
+                    <span class="text-xs">▼</span>
+                </button>
+                <div id="mod-backstage-profile" class="hidden pl-2">
+                    <div id="settings-cards-container"></div>
+                    <button onclick="addSettingCard()" class="w-full bg-indigo-50 text-indigo-700 font-bold py-3 rounded-xl border border-indigo-200 mb-4 border-dashed">➕ 新增第二式 PPT 卡片</button>
+                </div>
+
+                <button onclick="toggleBackstageModule('steps')" class="btn-large-flat border-l-4 border-emerald-500 justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="text-2xl bg-emerald-50 p-2 rounded-xl">🎯</div>
+                        <div class="text-left"><h4 class="font-bold text-gray-800 text-xs">3-11 式招式與卡片管理</h4><p class="text-[9px] text-gray-400 mt-0.5">點擊展開管理招式內容與最多 4 張圖片</p></div>
+                    </div>
+                    <span class="text-xs">▼</span>
+                </button>
+                <div id="mod-backstage-steps" class="hidden pl-2">
+                    <div id="settings-steps-container"></div>
+                </div>
+
+                <button onclick="toggleBackstageModule('toolkits')" class="btn-large-flat border-l-4 border-amber-500 justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="text-2xl bg-amber-50 p-2 rounded-xl">🧰</div>
+                        <div class="text-left"><h4 class="font-bold text-gray-800 text-xs">成功錦囊 6 大分頁資料管理</h4><p class="text-[9px] text-gray-400 mt-0.5">點擊展開對應前台卡片上載圖片及 PDF</p></div>
+                    </div>
+                    <span class="text-xs">▼</span>
+                </button>
+                <div id="mod-backstage-toolkits" class="hidden pl-2">
+                    <div id="settings-toolkits-container" class="space-y-4 mb-4"></div>
+                </div>
+            </div>
+
+            <button onclick="saveSettingsWithAuth()" class="w-full bg-teal-600 active:bg-teal-700 text-white font-bold py-4 rounded-xl shadow-md text-base mt-6">💾 驗證身分並儲存同步變裝設定</button>
+            <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-2">🔙 離開設定</button>
         </div>
 
         <!-- 🛠️ 團隊派發後台 -->
@@ -414,7 +460,6 @@
     <script>
         const APP_AUTH_LINK = "https://script.google.com/macros/s/AKfycbyT8YXG4LylNj9qf6M3RIo2FLYhGhArJ8XCUHtlcq1MVUSaHc55jGlWbFF_mpAg4dy4_A/exec";
         
-        // 三大獨立醫生 GAS 連結
         const GAS_LINKS = {
             "avsw": "https://script.google.com/macros/s/AKfycby0bCPSDHHgmdQikt77bSIbxVQ5L9_uYBKgYoAxSyStIVyfdHXXbUz0hnOo8qLlKfOwyA/exec",
             "vhis": "https://script.google.com/macros/s/AKfycbyMvetlIjV3CmzvaWIeO6DjgcCs7jNayx2vr2S4hDGIxUqRLWq8V5nVcVplHrGdsOV_/exec",
@@ -422,7 +467,7 @@
         };
 
         const specs = {
-            "avsw": ["普通外科", "兒科", "內分泌、糖尿及新陳代謝科", "內科腫瘤科", "呼吸系統科", "婦產科", "婦科腫瘤科", "小兒外科", "心胸外科", "心臟科", "泌 colonial", "皮膚及性病科", "眼科", "神經外科", "神經科", "耳鼻喉科", "腎病科", "腸胃肝臟科", "臨床腫瘤科", "血液及血液腫瘤科", "血管外科", "風濕病科", "骨科及創傷外科"],
+            "avsw": ["普通外科", "兒科", "內分泌、糖尿及新陳代謝科", "內科腫瘤科", "呼吸系統科", "婦產科", "婦科腫瘤科", "小兒外科", "心胸外科", "心臟科", "泌尿科", "皮膚及性病科", "眼科", "神經外科", "神經科", "耳鼻喉科", "腎病科", "腸胃肝臟科", "臨床腫瘤科", "血液及血液腫瘤科", "血管外科", "風濕病科", "骨科及創傷外科"],
             "vhis": ["基層保健醫生", "皮膚及性病科", "腦內科", "腦外科", "婦產科", "眼科", "骨科及創傷外科", "耳鼻喉科", "手術中心", "臨床微生物及感染學", "血管外科", "婦科腫瘤科", "兒童心臟科", "兒科", "泌尿外科", "外科", "心胸肺外科", "小兒外科", "心臟科", "老人科", "腸胃肝臟科", "腎科", "風濕科", "內分泌及糖尿病", "化驗所", "臨床腫瘤科", "內科腫瘤科", "血液及血液腫瘤科", "急症科", "呼吸系統科"],
             "yxy":  ["基層保健醫生", "皮膚及性病科", "腦內科", "腦外科", "婦產科", "眼科", "骨科及創傷外科", "耳鼻喉科", "手術中心", "血管外科", "婦科腫瘤科", "兒童心臟科", "兒科", "泌尿外科", "外科", "心胸肺外科", "小兒外科", "心臟科", "老人科", "腸胃肝臟科", "腎科", "風濕科", "內分泌及糖尿病", "化驗所", "臨床腫瘤科", "內科腫瘤科", "血液及血液腫瘤科", "呼吸系統科"]
         };
@@ -446,6 +491,8 @@
         let currentCards = [];
         let currentSteps = [];
         let currentServiceType = 'avsw';
+        let lightboxImagesList = [];
+        let currentLightboxIndex = 0;
 
         window.onload = function() { 
             checkAppLogin();
@@ -453,7 +500,6 @@
             switchDoctorService('avsw');
         };
 
-        // 三大醫生網絡切換
         function switchDoctorService(serviceType) {
             currentServiceType = serviceType;
             ['avsw', 'vhis', 'yxy'].forEach(id => {
@@ -583,7 +629,7 @@
             }
         }
 
-        // Firebase 上傳處理
+        // 改進版 Firebase 直傳提示
         async function uploadFileToFirebase(fileInput, callback) {
             if (!fileInput.files || fileInput.files.length === 0) return;
             if (!window.isFirebaseReady) { alert("❌ Firebase 尚未就緒，請檢查權限。"); return; }
@@ -592,7 +638,6 @@
             const cleanFileName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
             const storageRef = window.firebaseRef(window.firebaseStorage, `uploads/${Date.now()}_${cleanFileName}`);
             
-            alert("⏳ 正在上傳至 Firebase，請稍候...");
             const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("上傳超時")), 15000));
 
             try {
@@ -600,13 +645,18 @@
                 const snapshot = await Promise.race([uploadPromise, timeoutPromise]);
                 const downloadURL = await window.firebaseGetDownloadURL(snapshot.ref);
                 callback(downloadURL);
-                alert("✅ 檔案成功上傳至 Firebase！");
+                alert("✅ 檔案成功上傳至 Firebase 雲端！");
             } catch (error) {
                 alert("❌ 上傳失敗: " + error.message);
             }
         }
 
-        /* ----- 後台卡片（第一、二式支援最多 4 張圖） ----- */
+        // 折疊後台模組
+        function toggleBackstageModule(modId) {
+            const el = document.getElementById(`mod-backstage-${modId}`);
+            if (el) el.classList.toggle('hidden');
+        }
+
         function loadSettingsToForm() {
             document.getElementById('setting-name').value = localStorage.getItem('ava_name') || "TOT 頂尖顧問";
             document.getElementById('setting-vision').value = localStorage.getItem('ava_vision') || defaultVision;
@@ -624,7 +674,6 @@
             renderToolkitsEditForm();
         }
 
-        // 第一式：支援每張卡片最多 4 張圖/PDF
         function addCompanyCard() { currentCompanyCards.push({ cards: [{ img: '', desc: '' }] }); renderCompanyEditCards(); }
         function delCompanyCard(index) { currentCompanyCards.splice(index, 1); renderCompanyEditCards(); }
         function moveCompanyCard(index, dir) {
@@ -672,12 +721,11 @@
                         </div>
                     </div>
                     ${subCardsHtml}
-                    <button onclick="addCompanySubCard(${idx})" class="w-full bg-blue-100 text-blue-800 font-bold py-1.5 rounded-lg border border-blue-300 text-xs mt-2 border-dashed">➕ 新增子圖片/PDF (最多 4 張)</button>
+                    <button onclick="addCompanySubCard(${idx})" class="w-full bg-blue-100 text-blue-800 font-bold py-1.5 rounded-lg border border-blue-300 text-xs mt-2 border-dashed">➕ 新增圖片/PDF (最多 4 張)</button>
                 </div>`;
             });
         }
 
-        // 第二式：支援每張卡片最多 4 張圖
         function addSettingCard() { currentCards.push({ cards: [{ img: '', desc: '' }] }); renderSettingEditCards(); }
         function delSettingCard(index) { currentCards.splice(index, 1); renderSettingEditCards(); }
         function moveSettingCard(index, dir) {
@@ -725,12 +773,11 @@
                         </div>
                     </div>
                     ${subCardsHtml}
-                    <button onclick="addSettingSubCard(${idx})" class="w-full bg-indigo-100 text-indigo-800 font-bold py-1.5 rounded-lg border border-indigo-300 text-xs mt-2 border-dashed">➕ 新增子圖片 (最多 4 張)</button>
+                    <button onclick="addSettingSubCard(${idx})" class="w-full bg-indigo-100 text-indigo-800 font-bold py-1.5 rounded-lg border border-indigo-300 text-xs mt-2 border-dashed">➕ 新增圖片 (最多 4 張)</button>
                 </div>`;
             });
         }
 
-        // 3-11 式編輯
         function addStepCard(sIdx) {
             if (!currentSteps[sIdx].cards) currentSteps[sIdx].cards = [];
             if (currentSteps[sIdx].cards.length >= 4) { alert("⚠️ 一次最多可上載 4 張圖片！"); return; }
@@ -769,31 +816,62 @@
             });
         }
 
-        // 🧰 成功錦囊後台編輯管理
+        // 後台成功錦囊 6 大模組化管理
         function renderToolkitsEditForm() {
             const container = document.getElementById('settings-toolkits-container');
             if (!container) return;
-            container.innerHTML = `
-            <div class="edit-card bg-amber-50/50 border-amber-200">
-                <span class="text-xs font-bold text-amber-900 block mb-2">上載成功錦囊自訂檔案 (圖片/PDF)</span>
-                <input type="text" id="toolkit-custom-url" class="mb-2 text-xs" placeholder="上載後自動產生的 Firebase URL">
-                <input type="file" accept="image/*,.pdf" class="mb-2 text-xs" onchange="uploadFileToFirebase(this, (url)=>{ document.getElementById('toolkit-custom-url').value=url; })">
-                <p class="text-[10px] text-amber-700">💡 上載後可直接複製 URL 替換各錦囊卡片中的圖片或 PDF 按鈕連結。</p>
-            </div>`;
+
+            const toolkitList = [
+                { id: 'concept', title: '💡 醫療/危疾的分別' },
+                { id: 'ci', title: '🛡️ 危疾防護對比' },
+                { id: 'uw', title: '🔍 核保真相指引' },
+                { id: 'claim', title: '🏥 網絡索償流程' },
+                { id: 'docs', title: '📚 官方產品百科' },
+                { id: 'vitality', title: '🏃 AIA Vitality' }
+            ];
+
+            container.innerHTML = '';
+            toolkitList.forEach(tk => {
+                container.innerHTML += `
+                <div class="edit-card bg-amber-50/50 border-amber-200">
+                    <span class="text-xs font-bold text-amber-900 block mb-2">${tk.title} 資料更新</span>
+                    <input type="text" id="tk-url-${tk.id}" class="mb-2 text-xs" placeholder="圖片/PDF URL (可直接貼上或選擇下方檔案)">
+                    <input type="file" accept="image/*,.pdf" class="mb-2 text-xs" onchange="uploadFileToFirebase(this, (url)=>{ document.getElementById('tk-url-${tk.id}').value=url; })">
+                    <p class="text-[10px] text-amber-700">💡 上載後自動生成 Firebase Storage 連結。</p>
+                </div>`;
+            });
         }
 
-        function saveSettings() {
-            localStorage.setItem('ava_name', document.getElementById('setting-name').value);
-            localStorage.setItem('ava_vision', document.getElementById('setting-vision').value);
-            localStorage.setItem('ava_team_quote', document.getElementById('setting-team-quote').value);
-            
-            localStorage.setItem('ava_company_cards', JSON.stringify(currentCompanyCards));
-            localStorage.setItem('ava_cards', JSON.stringify(currentCards));
-            localStorage.setItem('ava_steps', JSON.stringify(currentSteps));
-            
-            applySettingsToUI();
-            alert("✅ 所有變裝設定已成功儲存！");
-            goToPortal();
+        // 儲存前強制要求驗證身分與密碼
+        async function saveSettingsWithAuth() {
+            let name = document.getElementById('setting-name').value.trim();
+            if (!name) { alert("⚠️ 請填寫您的顧問姓名！"); return; }
+
+            let pass = prompt(`🔒 儲存變更前，請確認顧問身分！\n請輸入 ${name} 的專屬密碼：`);
+            if (!pass) return;
+
+            try {
+                let res = await fetch(`${APP_AUTH_LINK}?pwd=${encodeURIComponent(pass.trim())}&agentName=${encodeURIComponent(name)}`);
+                let resData = await res.json();
+                
+                if (resData.status === "success") {
+                    localStorage.setItem('ava_name', name);
+                    localStorage.setItem('ava_vision', document.getElementById('setting-vision').value);
+                    localStorage.setItem('ava_team_quote', document.getElementById('setting-team-quote').value);
+                    
+                    localStorage.setItem('ava_company_cards', JSON.stringify(currentCompanyCards));
+                    localStorage.setItem('ava_cards', JSON.stringify(currentCards));
+                    localStorage.setItem('ava_steps', JSON.stringify(currentSteps));
+                    
+                    applySettingsToUI();
+                    alert("✅ 身分驗證成功！所有設定已寫入雲端與本機！");
+                    goToPortal();
+                } else {
+                    alert("❌ 專屬密碼驗證失敗！無法儲存變更。");
+                }
+            } catch (err) {
+                alert("⚠️ 驗證時發生網路錯誤，請重新試一次。");
+            }
         }
 
         function applySettingsToUI() {
@@ -805,7 +883,7 @@
             document.querySelectorAll('.dyn-vision').forEach(e => e.innerHTML = vision.replace(/\n/g, '<br>'));
             if (document.getElementById('dynamic-team-quote')) document.getElementById('dynamic-team-quote').innerText = teamQuote;
 
-            // 渲染第一式 (支援多圖 2x2 居中)
+            // 第一式
             let compCards = JSON.parse(localStorage.getItem('ava_company_cards') || '[]');
             let compContainer = document.getElementById('dynamic-company-ppt-container');
             if (compContainer) {
@@ -817,8 +895,8 @@
                     cardList.forEach(c => {
                         innerGridHtml += `
                         <div class="p-2 bg-white/80 rounded-xl border border-gray-100 flex flex-col items-center justify-center">
-                            <img src="${c.img}" class="zoom-img mx-auto" onclick="zoom(this)">
-                            ${c.desc ? `<p class="text-[11px] text-gray-700 font-bold text-center mt-1">${c.desc}</p>` : ''}
+                            <img src="${c.img}" class="zoom-img mx-auto" onclick="zoom(this, '${c.desc || ''}')">
+                            ${c.desc ? `<p class="text-xs font-bold text-gray-800 text-center mt-2 bg-slate-100 p-2 rounded-lg border border-slate-200 w-full">${c.desc}</p>` : ''}
                         </div>`;
                     });
                     compContainer.innerHTML += `
@@ -828,7 +906,7 @@
                 });
             }
 
-            // 渲染第二式 (支援多圖 2x2 居中)
+            // 第二式
             let profileCards = JSON.parse(localStorage.getItem('ava_cards') || '[]');
             let profContainer = document.getElementById('dynamic-profile-ppt-container');
             if (profContainer) {
@@ -840,8 +918,8 @@
                     cardList.forEach(c => {
                         innerGridHtml += `
                         <div class="p-2 bg-white/80 rounded-xl border border-gray-100 flex flex-col items-center justify-center">
-                            <img src="${c.img}" class="zoom-img mx-auto" onclick="zoom(this)">
-                            ${c.desc ? `<p class="text-[11px] text-gray-700 font-bold text-center mt-1">${c.desc}</p>` : ''}
+                            <img src="${c.img}" class="zoom-img mx-auto" onclick="zoom(this, '${c.desc || ''}')">
+                            ${c.desc ? `<p class="text-xs font-bold text-gray-800 text-center mt-2 bg-slate-100 p-2 rounded-lg border border-slate-200 w-full">${c.desc}</p>` : ''}
                         </div>`;
                     });
                     profContainer.innerHTML += `
@@ -851,7 +929,7 @@
                 });
             }
 
-            // 11 式主頁導航
+            // 11 式導航
             let savedSteps = localStorage.getItem('ava_steps');
             let displaySteps = savedSteps ? JSON.parse(savedSteps) : defaultSteps;
             const stepsContainer = document.getElementById('dynamic-steps11-container');
@@ -897,8 +975,8 @@
                 step.cards.forEach(c => {
                     cardsHtml += `
                     <div class="p-2 bg-white/80 rounded-xl border border-gray-100 flex flex-col items-center justify-center">
-                        <img src="${c.img}" class="zoom-img mx-auto" onclick="zoom(this)">
-                        ${c.desc ? `<p class="text-[11px] text-gray-700 font-bold text-center mt-1">${c.desc}</p>` : ''}
+                        <img src="${c.img}" class="zoom-img mx-auto" onclick="zoom(this, '${c.desc || ''}')">
+                        ${c.desc ? `<p class="text-xs font-bold text-gray-800 text-center mt-2 bg-slate-100 p-2 rounded-lg border border-slate-200 w-full">${c.desc}</p>` : ''}
                     </div>`;
                 });
 
@@ -912,9 +990,45 @@
             switchTab('generic-step-ppt');
         }
 
-        let isZoomed = false;
-        function zoom(el) { isZoomed = false; document.getElementById('lightbox-img').src = el.src; document.getElementById('lightbox-img').style.transform = 'scale(1)'; document.getElementById('lightbox').style.display = 'flex'; }
-        function toggleLightboxZoom(e) { e.stopPropagation(); isZoomed = !isZoomed; document.getElementById('lightbox-img').style.transform = isZoomed ? 'scale(1.8)' : 'scale(1)'; }
+        /* ----- 升級版 Lightbox 放大 + 左右切換 + 放大解說文字 ----- */
+        function zoom(el, desc) { 
+            // 自動收集當前頁面所有圖片，實現動態滑動切換
+            const parent = el.closest('.tab-content') || document.body;
+            const imgs = Array.from(parent.querySelectorAll('img.zoom-img'));
+            
+            lightboxImagesList = imgs.map(img => ({
+                src: img.src,
+                desc: img.getAttribute('alt') || desc || ''
+            }));
+            
+            currentLightboxIndex = imgs.indexOf(el);
+            if (currentLightboxIndex === -1) currentLightboxIndex = 0;
+
+            updateLightboxContent();
+            document.getElementById('lightbox').style.display = 'flex'; 
+        }
+
+        function updateLightboxContent() {
+            if (lightboxImagesList.length === 0) return;
+            const item = lightboxImagesList[currentLightboxIndex];
+            document.getElementById('lightbox-img').src = item.src;
+            document.getElementById('lightbox-desc').innerText = item.desc || "（點擊螢幕任意處關閉，或點擊左右按鈕切換圖片）";
+        }
+
+        function prevLightboxImage(e) {
+            e.stopPropagation();
+            if (lightboxImagesList.length <= 1) return;
+            currentLightboxIndex = (currentLightboxIndex - 1 + lightboxImagesList.length) % lightboxImagesList.length;
+            updateLightboxContent();
+        }
+
+        function nextLightboxImage(e) {
+            e.stopPropagation();
+            if (lightboxImagesList.length <= 1) return;
+            currentLightboxIndex = (currentLightboxIndex + 1) % lightboxImagesList.length;
+            updateLightboxContent();
+        }
+
         function closeLightbox(e) { if (e.target.id === 'lightbox') document.getElementById('lightbox').style.display = 'none'; }
         function forceCloseLightbox(e) { e.stopPropagation(); document.getElementById('lightbox').style.display = 'none'; }
 
