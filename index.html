@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v6.5.1 </title>
+    <title>AVA 實戰系統 v6.6.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -19,7 +19,7 @@
     <!-- Firebase SDK 引入 -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyDkrnaRrWodQvgorLFFIFU1HbFXSit37Lg",
@@ -30,12 +30,17 @@
           appId: "1:739887121662:web:a878238a237f0a595211af"
         };
 
-        const app = initializeApp(firebaseConfig);
-        window.firebaseStorage = getStorage(app);
-        window.firebaseRef = ref;
-        window.firebaseUploadBytes = uploadBytes;
-        window.firebaseGetDownloadURL = getDownloadURL;
-        window.firebaseDeleteObject = deleteObject;
+        try {
+            const app = initializeApp(firebaseConfig);
+            window.firebaseStorage = getStorage(app);
+            window.firebaseRef = ref;
+            window.firebaseUploadBytes = uploadBytes;
+            window.firebaseGetDownloadURL = getDownloadURL;
+            window.isFirebaseReady = true;
+        } catch(e) {
+            console.error("Firebase 初始化失敗:", e);
+            window.isFirebaseReady = false;
+        }
     </script>
     
     <style>
@@ -69,11 +74,14 @@
         .ppt-slider::-webkit-scrollbar { display: none; }
         .ppt-slide { flex: 0 0 100%; scroll-snap-align: start; min-width: 100%; }
 
-        /* 2x2 網格樣式與居中 */
         .grid-2x2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; justify-items: center; align-items: center; }
 
         .edit-card { border: 1px solid #cbd5e1; border-radius: 12px; padding: 15px; background: #fff; margin-bottom: 15px; position: relative; }
         .btn-del { background: #fee2e2; color: #b91c1c; border-radius: 8px; padding: 4px 10px; font-size: 12px; font-weight: bold; cursor: pointer; float: right; }
+
+        .doc-tab-btn { flex: 1; text-align: center; padding: 10px 5px; border-radius: 10px; font-size: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
+        .doc-tab-btn.active { background: #10b981; color: white; border-color: #059669; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3); }
+        .doc-tab-btn.inactive { background: #f1f5f9; color: #64748b; border-color: #e2e8f0; }
 
         @media (min-width: 600px), (min-aspect-ratio: 1/1) {
             .fold-desktop-layout { display: flex; gap: 20px; align-items: stretch; }
@@ -96,7 +104,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.5.1</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.6.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -153,8 +161,8 @@
                             <button onclick="switchTab('doctor')" class="btn-large-flat border-l-4 border-emerald-500 gap-3">
                                 <div class="text-2xl bg-emerald-50 p-2 rounded-xl">👨‍⚕️</div>
                                 <div class="text-left">
-                                    <h4 class="font-bold text-gray-800 text-xs">睿選醫生網絡</h4>
-                                    <p class="text-[9px] text-gray-400 mt-0.5">睿選 (AVSW) 專科醫療網絡快速搜尋</p>
+                                    <h4 class="font-bold text-gray-800 text-xs">全網絡醫生名單</h4>
+                                    <p class="text-[9px] text-gray-400 mt-0.5">三大計劃獨立醫療網絡快速搜尋</p>
                                 </div>
                             </button>
 
@@ -172,13 +180,21 @@
             </div>
         </div>
 
-        <!-- 👨‍⚕️ 睿選醫生名單頁面 -->
+        <!-- 👨‍⚕️ 全網絡醫生名單頁面 (三大獨立搜尋) -->
         <div id="doctor-tab" class="tab-content space-y-4">
-            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-emerald-600 pl-3 mb-2">👨‍⚕️ 睿選醫生名單</h2>
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-emerald-600 pl-3 mb-2">👨‍⚕️ 全網絡醫生名單</h2>
+            
+            <div class="flex gap-2 bg-white p-2 rounded-xl shadow-sm border border-gray-100">
+                <div id="tab-avsw" class="doc-tab-btn active" onclick="switchDoctorService('avsw')">睿選<br><span class="text-[9px] font-normal opacity-80">(AVSW)</span></div>
+                <div id="tab-vhis" class="doc-tab-btn inactive" onclick="switchDoctorService('vhis')">自願醫保<br><span class="text-[9px] font-normal opacity-80">(VHIS)</span></div>
+                <div id="tab-yxy" class="doc-tab-btn inactive" onclick="switchDoctorService('yxy')">友心意<br><span class="text-[9px] font-normal opacity-80">網絡</span></div>
+            </div>
 
             <div class="card p-5 shadow-md border-t-4 border-emerald-500 space-y-4">
+                <input type="hidden" id="doc-service" value="睿選(AVSW)">
+
                 <div>
-                    <label class="block text-xs font-bold text-emerald-800 mb-1">請選擇 睿選(AVSW) 專科</label>
+                    <label class="block text-xs font-bold text-emerald-800 mb-1" id="lbl-specialty">請選擇 睿選(AVSW) 專科</label>
                     <select id="doc-specialty" onchange="onDoctorQueryChange()" class="font-bold text-gray-700"></select>
                 </div>
 
@@ -212,9 +228,9 @@
         <div id="step1-company-tab" class="tab-content space-y-4">
             <div class="flex justify-between items-center mb-2">
                 <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">第一式：介紹公司</h2>
-                <span class="text-xs text-gray-400 italic">👈 左右滑動查看卡片 👉</span>
+                <span class="text-xs text-gray-400 italic">👈 滑動/2x2 網格檢視 👉</span>
             </div>
-            <div class="ppt-slider" id="dynamic-company-ppt-container"></div>
+            <div id="dynamic-company-ppt-container"></div>
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
         </div>
 
@@ -222,13 +238,13 @@
         <div id="step2-profile-tab" class="tab-content space-y-4">
             <div class="flex justify-between items-center mb-2">
                 <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">第二式：個人願景及承諾</h2>
-                <span class="text-xs text-gray-400 italic">👈 左右滑動查看卡片 👉</span>
+                <span class="text-xs text-gray-400 italic">👈 滑動/2x2 網格檢視 👉</span>
             </div>
             <div class="card p-5 shadow-md mb-4">
                 <h3 class="text-lg font-bold text-indigo-900 mb-2 border-b border-indigo-100 pb-2"><span class="dyn-name">TOT 頂尖顧問</span> 的承諾</h3>
                 <div class="quote-block dyn-vision mb-0"></div>
             </div>
-            <div class="ppt-slider" id="dynamic-profile-ppt-container"></div>
+            <div id="dynamic-profile-ppt-container"></div>
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
         </div>
 
@@ -341,18 +357,21 @@
                 <label class="block text-xs font-bold text-teal-800 mb-1">第二式：個人願景與承諾</label>
                 <textarea id="setting-vision" rows="4" class="mb-6"></textarea>
 
-                <h3 class="font-bold text-blue-900 border-b pb-2 mb-3">🏢 管理第一式公司介紹 (支援直傳 Firebase Storage)</h3>
+                <h3 class="font-bold text-blue-900 border-b pb-2 mb-3">🏢 管理第一式公司介紹 (最多 4 張圖片/PDF)</h3>
                 <div id="settings-company-cards-container"></div>
                 <button onclick="addCompanyCard()" class="w-full bg-blue-50 text-blue-700 font-bold py-3 rounded-xl border border-blue-200 mb-8 border-dashed">➕ 新增第一式 PPT 卡片</button>
 
-                <h3 class="font-bold text-indigo-900 border-b pb-2 mb-3">🖼️ 管理第二式個人情境 PPT</h3>
+                <h3 class="font-bold text-indigo-900 border-b pb-2 mb-3">🖼️ 管理第二式個人情境 PPT (最多 4 張圖片)</h3>
                 <div id="settings-cards-container"></div>
                 <button onclick="addSettingCard()" class="w-full bg-indigo-50 text-indigo-700 font-bold py-3 rounded-xl border border-indigo-200 mb-8 border-dashed">➕ 新增第二式 PPT 卡片</button>
 
                 <h3 class="font-bold text-emerald-900 border-b pb-2 mb-3">🎯 管理 3-11 式招式與 Firebase 多圖上傳 (最多 4 張)</h3>
                 <div id="settings-steps-container"></div>
 
-                <button onclick="saveSettings()" class="w-full bg-teal-600 active:bg-teal-700 text-white font-bold py-4 rounded-xl shadow-md text-base mt-4">💾 儲存並同步至 Firebase 雲端</button>
+                <h3 class="font-bold text-amber-900 border-b pb-2 mb-3">🧰 管理成功錦囊內容 (自訂圖片/PDF)</h3>
+                <div id="settings-toolkits-container" class="space-y-4 mb-6"></div>
+
+                <button onclick="saveSettings()" class="w-full bg-teal-600 active:bg-teal-700 text-white font-bold py-4 rounded-xl shadow-md text-base mt-4">💾 儲存所有變裝設定</button>
             </div>
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 離開設定</button>
         </div>
@@ -395,10 +414,18 @@
     <script>
         const APP_AUTH_LINK = "https://script.google.com/macros/s/AKfycbyT8YXG4LylNj9qf6M3RIo2FLYhGhArJ8XCUHtlcq1MVUSaHc55jGlWbFF_mpAg4dy4_A/exec";
         
-        // 對接睿選專用 GAS
-        const GAS_LINK_AVSW = "https://script.google.com/macros/s/AKfycby0bCPSDHHgmdQikt77bSIbxVQ5L9_uYBKgYoAxSyStIVyfdHXXbUz0hnOo8qLlKfOwyA/exec"; 
+        // 三大獨立醫生 GAS 連結
+        const GAS_LINKS = {
+            "avsw": "https://script.google.com/macros/s/AKfycby0bCPSDHHgmdQikt77bSIbxVQ5L9_uYBKgYoAxSyStIVyfdHXXbUz0hnOo8qLlKfOwyA/exec",
+            "vhis": "https://script.google.com/macros/s/AKfycbyMvetlIjV3CmzvaWIeO6DjgcCs7jNayx2vr2S4hDGIxUqRLWq8V5nVcVplHrGdsOV_/exec",
+            "yxy":  "https://script.google.com/macros/s/AKfycby3arVvfcbIhrlIq9Ykh4avgHlcXdhBlI2FUwd8eXnw-2V8Ut31xc3CAVK8ByyMBEX2Fg/exec"
+        };
 
-        const specsAVSW = ["普通外科", "兒科", "內分泌、糖尿及新陳代謝科", "內科腫瘤科", "呼吸系統科", "婦產科", "婦科腫瘤科", "小兒外科", "心胸外科", "心臟科", "泌尿科", "皮膚及性病科", "眼科", "神經外科", "神經科", "耳鼻喉科", "腎病科", "腸胃肝臟科", "臨床腫瘤科", "血液及血液腫瘤科", "血管外科", "風濕病科", "骨科及創傷外科"];
+        const specs = {
+            "avsw": ["普通外科", "兒科", "內分泌、糖尿及新陳代謝科", "內科腫瘤科", "呼吸系統科", "婦產科", "婦科腫瘤科", "小兒外科", "心胸外科", "心臟科", "泌 colonial", "皮膚及性病科", "眼科", "神經外科", "神經科", "耳鼻喉科", "腎病科", "腸胃肝臟科", "臨床腫瘤科", "血液及血液腫瘤科", "血管外科", "風濕病科", "骨科及創傷外科"],
+            "vhis": ["基層保健醫生", "皮膚及性病科", "腦內科", "腦外科", "婦產科", "眼科", "骨科及創傷外科", "耳鼻喉科", "手術中心", "臨床微生物及感染學", "血管外科", "婦科腫瘤科", "兒童心臟科", "兒科", "泌尿外科", "外科", "心胸肺外科", "小兒外科", "心臟科", "老人科", "腸胃肝臟科", "腎科", "風濕科", "內分泌及糖尿病", "化驗所", "臨床腫瘤科", "內科腫瘤科", "血液及血液腫瘤科", "急症科", "呼吸系統科"],
+            "yxy":  ["基層保健醫生", "皮膚及性病科", "腦內科", "腦外科", "婦產科", "眼科", "骨科及創傷外科", "耳鼻喉科", "手術中心", "血管外科", "婦科腫瘤科", "兒童心臟科", "兒科", "泌尿外科", "外科", "心胸肺外科", "小兒外科", "心臟科", "老人科", "腸胃肝臟科", "腎科", "風濕科", "內分泌及糖尿病", "化驗所", "臨床腫瘤科", "內科腫瘤科", "血液及血液腫瘤科", "呼吸系統科"]
+        };
 
         const defaultVision = "「借助保險嘅特殊力量，我哋可以協助您從容面對突如其來嘅開支，守護您嘅財富...」";
         const defaultTeamQuote = "「做保險唔洗盲摸摸，AVA 系統就是你的人生 GPS。」";
@@ -418,25 +445,90 @@
         let currentCompanyCards = [];
         let currentCards = [];
         let currentSteps = [];
+        let currentServiceType = 'avsw';
 
         window.onload = function() { 
             checkAppLogin();
             applySettingsToUI();
-            initDoctorDropdown();
+            switchDoctorService('avsw');
         };
 
-        // 載入睿選專科選單
-        function initDoctorDropdown() {
+        // 三大醫生網絡切換
+        function switchDoctorService(serviceType) {
+            currentServiceType = serviceType;
+            ['avsw', 'vhis', 'yxy'].forEach(id => {
+                document.getElementById(`tab-${id}`).className = "doc-tab-btn inactive";
+            });
+            document.getElementById(`tab-${serviceType}`).className = "doc-tab-btn active";
+
+            let lbl = document.getElementById('lbl-specialty');
             let selectEl = document.getElementById('doc-specialty');
-            if (!selectEl) return;
             selectEl.innerHTML = '<option value="">-- 請選擇專科 --</option>';
-            specsAVSW.forEach(spec => {
+
+            const titleMap = { "avsw": "睿選(AVSW)", "vhis": "自願醫保(VHIS)", "yxy": "友心意" };
+            lbl.innerText = `請選擇 ${titleMap[serviceType]} 專科`;
+
+            specs[serviceType].forEach(spec => {
                 let opt = document.createElement('option');
                 opt.value = spec; opt.innerText = spec; selectEl.appendChild(opt);
             });
+
+            document.getElementById('doctor-results-container').innerHTML = `<div class="card p-8 text-center text-gray-400 text-xs">👈 請在上方選取專科以載入醫生名單</div>`;
         }
 
-        // 自動記憶憑證
+        async function onDoctorQueryChange() {
+            const specialty = document.getElementById('doc-specialty').value;
+            const region = document.getElementById('doc-region').value;
+            const container = document.getElementById('doctor-results-container');
+
+            if (!specialty) {
+                container.innerHTML = `<div class="card p-8 text-center text-gray-400 text-xs">👈 請選取專科以載入醫生名單</div>`;
+                return;
+            }
+
+            container.innerHTML = `<div class="card p-8 text-center text-emerald-600 font-bold text-xs animate-pulse">🔍 正在連動 Google Sheet 查詢 ${specialty} 醫生名單，請稍候...</div>`;
+
+            try {
+                const url = `${GAS_LINKS[currentServiceType]}?specialty=${encodeURIComponent(specialty)}&region=${encodeURIComponent(region)}`;
+                let response = await fetch(url);
+                let resData = await response.json();
+                let doctors = resData.data || resData;
+
+                if (!doctors || doctors.length === 0) {
+                    container.innerHTML = `<div class="card p-6 text-center text-gray-500 text-xs">⚠️ 暫未找到符合條件的網絡醫生。</div>`;
+                    return;
+                }
+
+                container.innerHTML = '';
+                doctors.forEach((doc) => {
+                    let hospitalBadge = (doc.hospital && doc.hospital !== "未有記載") 
+                        ? `<div class="mt-2 text-[11px] bg-yellow-50 text-yellow-800 p-2 rounded-lg border border-yellow-200">🏥 <b>掛單醫院：</b> ${doc.hospital}</div>` 
+                        : '';
+                        
+                    let phoneBadge = (doc.phone && doc.phone !== "未提供")
+                        ? `<p class="text-xs text-blue-600 font-bold"><b>📞 電話：</b> <a href="tel:${doc.phone}">${doc.phone}</a></p>`
+                        : '';
+
+                    let locationStr = doc.district ? `${doc.region} - ${doc.district}` : (doc.region || doc.district || "未提供");
+
+                    let cardHtml = `
+                    <div class="card p-4 border-l-4 border-emerald-500 shadow-sm space-y-1.5">
+                        <div class="border-b border-gray-100 pb-2 mb-1 flex justify-between items-center">
+                            <span class="font-bold text-base text-gray-800">🩺 ${doc.name || "醫生"}</span>
+                            <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">${locationStr}</span>
+                        </div>
+                        <p class="text-xs text-gray-600"><b>🏢 地址：</b> ${doc.address || "未提供"}</p>
+                        ${phoneBadge}
+                        ${hospitalBadge}
+                    </div>`;
+                    
+                    container.innerHTML += cardHtml;
+                });
+            } catch (err) {
+                container.innerHTML = `<div class="card p-6 text-center text-red-500 text-xs font-bold">❌ 查詢失敗：${err.message || "請檢查 GAS 網址與權限"}</div>`;
+            }
+        }
+
         async function checkAppLogin() {
             let isAuth = localStorage.getItem('ava_app_auth');
             if (isAuth === 'true') return; 
@@ -468,7 +560,6 @@
             }
         }
 
-        // 🌟 星星 Emoji 指南
         function showPasswordGuide(event) {
             event.stopPropagation();
             alert("🌟 【AVA 系統密碼權限對照指南】\n\n" +
@@ -477,7 +568,6 @@
                   "3. 📲 團隊派發後台密碼 (0903)：團隊 Leader 專用，開啟派發系統 QR Code 及管理發佈。");
         }
 
-        // 進入後台驗證
         function enterBackstage(event) {
             event.stopPropagation(); 
             var pass = prompt("🔒 請輸入後台密碼 (avasystem / avagroup / 0903)：");
@@ -493,61 +583,30 @@
             }
         }
 
-        /* ----- 睿選醫生查詢與卡片渲染 ----- */
-        async function onDoctorQueryChange() {
-            const specialty = document.getElementById('doc-specialty').value;
-            const region = document.getElementById('doc-region').value;
-            const container = document.getElementById('doctor-results-container');
+        // Firebase 上傳處理
+        async function uploadFileToFirebase(fileInput, callback) {
+            if (!fileInput.files || fileInput.files.length === 0) return;
+            if (!window.isFirebaseReady) { alert("❌ Firebase 尚未就緒，請檢查權限。"); return; }
 
-            if (!specialty) {
-                container.innerHTML = `<div class="card p-8 text-center text-gray-400 text-xs">👈 請選取專科以載入醫生名單</div>`;
-                return;
-            }
-
-            container.innerHTML = `<div class="card p-8 text-center text-emerald-600 font-bold text-xs animate-pulse">🔍 正在連動睿選 Google Sheet 查詢 ${specialty} 醫生名單，請稍候...</div>`;
+            const file = fileInput.files[0];
+            const cleanFileName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
+            const storageRef = window.firebaseRef(window.firebaseStorage, `uploads/${Date.now()}_${cleanFileName}`);
+            
+            alert("⏳ 正在上傳至 Firebase，請稍候...");
+            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("上傳超時")), 15000));
 
             try {
-                const url = `${GAS_LINK_AVSW}?specialty=${encodeURIComponent(specialty)}&region=${encodeURIComponent(region)}`;
-                let response = await fetch(url);
-                let resData = await response.json();
-                let doctors = resData.data || resData;
-
-                if (!doctors || doctors.length === 0) {
-                    container.innerHTML = `<div class="card p-6 text-center text-gray-500 text-xs">⚠️ 暫未找到符合條件的睿選醫生。</div>`;
-                    return;
-                }
-
-                container.innerHTML = '';
-                doctors.forEach((doc) => {
-                    let hospitalBadge = (doc.hospital && doc.hospital !== "未有記載") 
-                        ? `<div class="mt-2 text-[11px] bg-yellow-50 text-yellow-800 p-2 rounded-lg border border-yellow-200">🏥 <b>掛單醫院：</b> ${doc.hospital}</div>` 
-                        : '';
-                        
-                    let phoneBadge = (doc.phone && doc.phone !== "未提供")
-                        ? `<p class="text-xs text-blue-600 font-bold"><b>📞 電話：</b> <a href="tel:${doc.phone}">${doc.phone}</a></p>`
-                        : '';
-
-                    let locationStr = doc.district ? `${doc.region} - ${doc.district}` : doc.region;
-
-                    let cardHtml = `
-                    <div class="card p-4 border-l-4 border-emerald-500 shadow-sm space-y-1.5">
-                        <div class="border-b border-gray-100 pb-2 mb-1 flex justify-between items-center">
-                            <span class="font-bold text-base text-gray-800">🩺 ${doc.name}</span>
-                            <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">${locationStr}</span>
-                        </div>
-                        <p class="text-xs text-gray-600"><b>🏢 地址：</b> ${doc.address}</p>
-                        ${phoneBadge}
-                        ${hospitalBadge}
-                    </div>`;
-                    
-                    container.innerHTML += cardHtml;
-                });
-            } catch (err) {
-                container.innerHTML = `<div class="card p-6 text-center text-red-500 text-xs font-bold">❌ 查詢失敗：${err.message || "請檢查 GAS 網址與權限"}</div>`;
+                const uploadPromise = window.firebaseUploadBytes(storageRef, file);
+                const snapshot = await Promise.race([uploadPromise, timeoutPromise]);
+                const downloadURL = await window.firebaseGetDownloadURL(snapshot.ref);
+                callback(downloadURL);
+                alert("✅ 檔案成功上傳至 Firebase！");
+            } catch (error) {
+                alert("❌ 上傳失敗: " + error.message);
             }
         }
 
-        /* ----- 後台 Firebase 直傳與動態渲染 ----- */
+        /* ----- 後台卡片（第一、二式支援最多 4 張圖） ----- */
         function loadSettingsToForm() {
             document.getElementById('setting-name').value = localStorage.getItem('ava_name') || "TOT 頂尖顧問";
             document.getElementById('setting-vision').value = localStorage.getItem('ava_vision') || defaultVision;
@@ -562,103 +621,123 @@
             renderCompanyEditCards();
             renderSettingEditCards();
             renderEditSteps();
+            renderToolkitsEditForm();
         }
 
-        async function uploadFileToFirebase(fileInput, callback) {
-            if (!fileInput.files || fileInput.files.length === 0) return;
-            const file = fileInput.files[0];
-            const storageRef = window.firebaseRef(window.firebaseStorage, `uploads/${Date.now()}_${file.name}`);
-            try {
-                alert("⏳ 正在上傳至 Firebase 雲端儲存空間，請稍候...");
-                const snapshot = await window.firebaseUploadBytes(storageRef, file);
-                const downloadURL = await window.firebaseGetDownloadURL(snapshot.ref);
-                callback(downloadURL);
-                alert("✅ 檔案上傳成功！");
-            } catch (error) {
-                alert("❌ 上傳失敗: " + error.message);
-            }
-        }
-
-        function addCompanyCard() {
-            currentCompanyCards.push({ img: '', desc: '' });
-            renderCompanyEditCards();
-        }
-        function delCompanyCard(index) {
-            currentCompanyCards.splice(index, 1);
-            renderCompanyEditCards();
-        }
+        // 第一式：支援每張卡片最多 4 張圖/PDF
+        function addCompanyCard() { currentCompanyCards.push({ cards: [{ img: '', desc: '' }] }); renderCompanyEditCards(); }
+        function delCompanyCard(index) { currentCompanyCards.splice(index, 1); renderCompanyEditCards(); }
         function moveCompanyCard(index, dir) {
             if ((dir === -1 && index === 0) || (dir === 1 && index === currentCompanyCards.length - 1)) return;
             const target = currentCompanyCards.splice(index, 1)[0];
             currentCompanyCards.splice(index + dir, 0, target);
             renderCompanyEditCards();
         }
+        function addCompanySubCard(pIdx) {
+            if (!currentCompanyCards[pIdx].cards) currentCompanyCards[pIdx].cards = [];
+            if (currentCompanyCards[pIdx].cards.length >= 4) { alert("⚠️ 一張卡片最多包含 4 張圖片/PDF！"); return; }
+            currentCompanyCards[pIdx].cards.push({ img: '', desc: '' });
+            renderCompanyEditCards();
+        }
+        function delCompanySubCard(pIdx, cIdx) { currentCompanyCards[pIdx].cards.splice(cIdx, 1); renderCompanyEditCards(); }
+
         function renderCompanyEditCards() {
             const container = document.getElementById('settings-company-cards-container');
             container.innerHTML = '';
-            currentCompanyCards.forEach((c, idx) => {
+            currentCompanyCards.forEach((cItem, idx) => {
+                let subCardsHtml = '';
+                let cardList = cItem.cards || (cItem.img ? [{ img: cItem.img, desc: cItem.desc }] : []);
+                
+                cardList.forEach((subC, cIdx) => {
+                    subCardsHtml += `
+                    <div class="bg-white p-2 rounded-lg border border-gray-200 mt-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-bold text-blue-700">圖片/PDF ${cIdx + 1} (最多 4 張)</span>
+                            <button class="btn-del" onclick="delCompanySubCard(${idx}, ${cIdx})">🗑️</button>
+                        </div>
+                        <input type="text" id="comp-img-${idx}-${cIdx}" class="mb-1 text-xs" placeholder="圖片/PDF 網址" value="${subC.img || ''}" onchange="currentCompanyCards[${idx}].cards[${cIdx}].img=this.value">
+                        <input type="file" accept="image/*,.pdf" class="mb-1 text-xs" onchange="uploadFileToFirebase(this, (url)=>{ document.getElementById('comp-img-${idx}-${cIdx}').value=url; currentCompanyCards[${idx}].cards[${cIdx}].img=url; })">
+                        <input type="text" class="text-xs" placeholder="解說文字" value="${subC.desc || ''}" onchange="currentCompanyCards[${idx}].cards[${cIdx}].desc=this.value">
+                    </div>`;
+                });
+
                 container.innerHTML += `
-                <div class="edit-card">
+                <div class="edit-card bg-blue-50/50 border-blue-200">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-xs font-bold text-blue-800">卡片 ${idx + 1}</span>
+                        <span class="text-xs font-bold text-blue-800">第一式卡片 ${idx + 1}</span>
                         <div>
                             <button onclick="moveCompanyCard(${idx}, -1)" class="text-xs px-2 py-0.5 bg-gray-100 rounded">⬆️</button>
                             <button onclick="moveCompanyCard(${idx}, 1)" class="text-xs px-2 py-0.5 bg-gray-100 rounded">⬇️</button>
-                            <button class="btn-del ml-2" onclick="delCompanyCard(${idx})">🗑️ 刪除</button>
+                            <button class="btn-del ml-2" onclick="delCompanyCard(${idx})">🗑️ 刪除組別</button>
                         </div>
                     </div>
-                    <input type="text" id="comp-img-${idx}" class="mb-2 text-xs" placeholder="圖片/PDF 網址" value="${c.img || ''}" onchange="currentCompanyCards[${idx}].img=this.value">
-                    <input type="file" accept="image/*,.pdf" class="mb-2 text-xs" onchange="uploadFileToFirebase(this, (url)=>{ document.getElementById('comp-img-${idx}').value=url; currentCompanyCards[${idx}].img=url; })">
-                    <input type="text" class="text-xs" placeholder="解說文字" value="${c.desc || ''}" onchange="currentCompanyCards[${idx}].desc=this.value">
+                    ${subCardsHtml}
+                    <button onclick="addCompanySubCard(${idx})" class="w-full bg-blue-100 text-blue-800 font-bold py-1.5 rounded-lg border border-blue-300 text-xs mt-2 border-dashed">➕ 新增子圖片/PDF (最多 4 張)</button>
                 </div>`;
             });
         }
 
-        function addSettingCard() {
-            currentCards.push({ img: '', desc: '' });
-            renderSettingEditCards();
-        }
-        function delSettingCard(index) {
-            currentCards.splice(index, 1);
-            renderSettingEditCards();
-        }
+        // 第二式：支援每張卡片最多 4 張圖
+        function addSettingCard() { currentCards.push({ cards: [{ img: '', desc: '' }] }); renderSettingEditCards(); }
+        function delSettingCard(index) { currentCards.splice(index, 1); renderSettingEditCards(); }
         function moveSettingCard(index, dir) {
             if ((dir === -1 && index === 0) || (dir === 1 && index === currentCards.length - 1)) return;
             const target = currentCards.splice(index, 1)[0];
             currentCards.splice(index + dir, 0, target);
             renderSettingEditCards();
         }
+        function addSettingSubCard(pIdx) {
+            if (!currentCards[pIdx].cards) currentCards[pIdx].cards = [];
+            if (currentCards[pIdx].cards.length >= 4) { alert("⚠️ 一張卡片最多包含 4 張圖片！"); return; }
+            currentCards[pIdx].cards.push({ img: '', desc: '' });
+            renderSettingEditCards();
+        }
+        function delSettingSubCard(pIdx, cIdx) { currentCards[pIdx].cards.splice(cIdx, 1); renderSettingEditCards(); }
+
         function renderSettingEditCards() {
             const container = document.getElementById('settings-cards-container');
             container.innerHTML = '';
-            currentCards.forEach((c, idx) => {
+            currentCards.forEach((cItem, idx) => {
+                let subCardsHtml = '';
+                let cardList = cItem.cards || (cItem.img ? [{ img: cItem.img, desc: cItem.desc }] : []);
+                
+                cardList.forEach((subC, cIdx) => {
+                    subCardsHtml += `
+                    <div class="bg-white p-2 rounded-lg border border-gray-200 mt-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-bold text-indigo-700">圖片 ${cIdx + 1} (最多 4 張)</span>
+                            <button class="btn-del" onclick="delSettingSubCard(${idx}, ${cIdx})">🗑️</button>
+                        </div>
+                        <input type="text" id="prof-img-${idx}-${cIdx}" class="mb-1 text-xs" placeholder="圖片網址" value="${subC.img || ''}" onchange="currentCards[${idx}].cards[${cIdx}].img=this.value">
+                        <input type="file" accept="image/*" class="mb-1 text-xs" onchange="uploadFileToFirebase(this, (url)=>{ document.getElementById('prof-img-${idx}-${cIdx}').value=url; currentCards[${idx}].cards[${cIdx}].img=url; })">
+                        <input type="text" class="text-xs" placeholder="解說文字" value="${subC.desc || ''}" onchange="currentCards[${idx}].cards[${cIdx}].desc=this.value">
+                    </div>`;
+                });
+
                 container.innerHTML += `
-                <div class="edit-card">
+                <div class="edit-card bg-indigo-50/50 border-indigo-200">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-xs font-bold text-indigo-800">情境卡片 ${idx + 1}</span>
+                        <span class="text-xs font-bold text-indigo-800">第二式情境卡片 ${idx + 1}</span>
                         <div>
                             <button onclick="moveSettingCard(${idx}, -1)" class="text-xs px-2 py-0.5 bg-gray-100 rounded">⬆️</button>
                             <button onclick="moveSettingCard(${idx}, 1)" class="text-xs px-2 py-0.5 bg-gray-100 rounded">⬇️</button>
-                            <button class="btn-del ml-2" onclick="delSettingCard(${idx})">🗑️ 刪除</button>
+                            <button class="btn-del ml-2" onclick="delSettingCard(${idx})">🗑️ 刪除組別</button>
                         </div>
                     </div>
-                    <input type="text" id="prof-img-${idx}" class="mb-2 text-xs" placeholder="圖片網址" value="${c.img || ''}" onchange="currentCards[${idx}].img=this.value">
-                    <input type="file" accept="image/*" class="mb-2 text-xs" onchange="uploadFileToFirebase(this, (url)=>{ document.getElementById('prof-img-${idx}').value=url; currentCards[${idx}].img=url; })">
-                    <input type="text" class="text-xs" placeholder="解說文字" value="${c.desc || ''}" onchange="currentCards[${idx}].desc=this.value">
+                    ${subCardsHtml}
+                    <button onclick="addSettingSubCard(${idx})" class="w-full bg-indigo-100 text-indigo-800 font-bold py-1.5 rounded-lg border border-indigo-300 text-xs mt-2 border-dashed">➕ 新增子圖片 (最多 4 張)</button>
                 </div>`;
             });
         }
 
+        // 3-11 式編輯
         function addStepCard(sIdx) {
             if (!currentSteps[sIdx].cards) currentSteps[sIdx].cards = [];
             if (currentSteps[sIdx].cards.length >= 4) { alert("⚠️ 一次最多可上載 4 張圖片！"); return; }
             currentSteps[sIdx].cards.push({ img: '', desc: '' });
             renderEditSteps();
         }
-        function delStepCard(sIdx, cIdx) {
-            currentSteps[sIdx].cards.splice(cIdx, 1);
-            renderEditSteps();
-        }
+        function delStepCard(sIdx, cIdx) { currentSteps[sIdx].cards.splice(cIdx, 1); renderEditSteps(); }
 
         function renderEditSteps() {
             const container = document.getElementById('settings-steps-container');
@@ -690,6 +769,19 @@
             });
         }
 
+        // 🧰 成功錦囊後台編輯管理
+        function renderToolkitsEditForm() {
+            const container = document.getElementById('settings-toolkits-container');
+            if (!container) return;
+            container.innerHTML = `
+            <div class="edit-card bg-amber-50/50 border-amber-200">
+                <span class="text-xs font-bold text-amber-900 block mb-2">上載成功錦囊自訂檔案 (圖片/PDF)</span>
+                <input type="text" id="toolkit-custom-url" class="mb-2 text-xs" placeholder="上載後自動產生的 Firebase URL">
+                <input type="file" accept="image/*,.pdf" class="mb-2 text-xs" onchange="uploadFileToFirebase(this, (url)=>{ document.getElementById('toolkit-custom-url').value=url; })">
+                <p class="text-[10px] text-amber-700">💡 上載後可直接複製 URL 替換各錦囊卡片中的圖片或 PDF 按鈕連結。</p>
+            </div>`;
+        }
+
         function saveSettings() {
             localStorage.setItem('ava_name', document.getElementById('setting-name').value);
             localStorage.setItem('ava_vision', document.getElementById('setting-vision').value);
@@ -713,34 +805,53 @@
             document.querySelectorAll('.dyn-vision').forEach(e => e.innerHTML = vision.replace(/\n/g, '<br>'));
             if (document.getElementById('dynamic-team-quote')) document.getElementById('dynamic-team-quote').innerText = teamQuote;
 
+            // 渲染第一式 (支援多圖 2x2 居中)
             let compCards = JSON.parse(localStorage.getItem('ava_company_cards') || '[]');
             let compContainer = document.getElementById('dynamic-company-ppt-container');
             if (compContainer) {
                 compContainer.innerHTML = '';
                 if(compCards.length === 0) compContainer.innerHTML = `<div class="p-8 text-center text-gray-400 text-xs card w-full">尚未於後台加入第一式 PPT 卡片</div>`;
-                compCards.forEach(c => {
+                compCards.forEach(cItem => {
+                    let cardList = cItem.cards || (cItem.img ? [{ img: cItem.img, desc: cItem.desc }] : []);
+                    let innerGridHtml = '';
+                    cardList.forEach(c => {
+                        innerGridHtml += `
+                        <div class="p-2 bg-white/80 rounded-xl border border-gray-100 flex flex-col items-center justify-center">
+                            <img src="${c.img}" class="zoom-img mx-auto" onclick="zoom(this)">
+                            ${c.desc ? `<p class="text-[11px] text-gray-700 font-bold text-center mt-1">${c.desc}</p>` : ''}
+                        </div>`;
+                    });
                     compContainer.innerHTML += `
-                    <div class="ppt-slide card p-4 space-y-2">
-                        <img src="${c.img}" class="zoom-img mx-auto" onclick="zoom(this)">
-                        ${c.desc ? `<p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg border border-gray-100">${c.desc}</p>` : ''}
+                    <div class="card p-4 shadow-xl mb-4">
+                        <div class="${cardList.length > 1 ? 'grid-2x2' : 'flex justify-center'}">${innerGridHtml}</div>
                     </div>`;
                 });
             }
 
+            // 渲染第二式 (支援多圖 2x2 居中)
             let profileCards = JSON.parse(localStorage.getItem('ava_cards') || '[]');
             let profContainer = document.getElementById('dynamic-profile-ppt-container');
             if (profContainer) {
                 profContainer.innerHTML = '';
                 if(profileCards.length === 0) profContainer.innerHTML = `<div class="p-8 text-center text-gray-400 text-xs card w-full">尚未於後台加入第二式 PPT 卡片</div>`;
-                profileCards.forEach(c => {
+                profileCards.forEach(cItem => {
+                    let cardList = cItem.cards || (cItem.img ? [{ img: cItem.img, desc: cItem.desc }] : []);
+                    let innerGridHtml = '';
+                    cardList.forEach(c => {
+                        innerGridHtml += `
+                        <div class="p-2 bg-white/80 rounded-xl border border-gray-100 flex flex-col items-center justify-center">
+                            <img src="${c.img}" class="zoom-img mx-auto" onclick="zoom(this)">
+                            ${c.desc ? `<p class="text-[11px] text-gray-700 font-bold text-center mt-1">${c.desc}</p>` : ''}
+                        </div>`;
+                    });
                     profContainer.innerHTML += `
-                    <div class="ppt-slide card p-4 space-y-2">
-                        <img src="${c.img}" class="zoom-img mx-auto" onclick="zoom(this)">
-                        ${c.desc ? `<p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg border border-gray-100">${c.desc}</p>` : ''}
+                    <div class="card p-4 shadow-xl mb-4">
+                        <div class="${cardList.length > 1 ? 'grid-2x2' : 'flex justify-center'}">${innerGridHtml}</div>
                     </div>`;
                 });
             }
 
+            // 11 式主頁導航
             let savedSteps = localStorage.getItem('ava_steps');
             let displaySteps = savedSteps ? JSON.parse(savedSteps) : defaultSteps;
             const stepsContainer = document.getElementById('dynamic-steps11-container');
