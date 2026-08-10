@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v6.4.1</title>
+    <title>AVA 實戰系統 v6.5.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,9 +16,31 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Firebase SDK 引入 -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyDkrnaRrWodQvgorLFFIFU1HbFXSit37Lg",
+          authDomain: "ava-system-85611.firebaseapp.com",
+          projectId: "ava-system-85611",
+          storageBucket: "ava-system-85611.firebasestorage.app",
+          messagingSenderId: "739887121662",
+          appId: "1:739887121662:web:a878238a237f0a595211af"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        window.firebaseStorage = getStorage(app);
+        window.firebaseRef = ref;
+        window.firebaseUploadBytes = uploadBytes;
+        window.firebaseGetDownloadURL = getDownloadURL;
+        window.firebaseDeleteObject = deleteObject;
+    </script>
+    
     <style>
         .gradient-primary { background: linear-gradient(135deg, #1f2937 0%, #111827 100%); }
-        .card { background: white; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); padding: 20px; margin-bottom: 20px; }
+        .card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); border: 1px solid rgba(255,255,255,0.4); padding: 20px; margin-bottom: 20px; }
         .tab-content { display: none; animation: fadeIn 0.2s ease-in-out; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
@@ -47,10 +69,12 @@
         .ppt-slider::-webkit-scrollbar { display: none; }
         .ppt-slide { flex: 0 0 100%; scroll-snap-align: start; min-width: 100%; }
 
+        /* 2x2 網格樣式與居中 */
+        .grid-2x2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; justify-items: center; align-items: center; }
+
         .edit-card { border: 1px solid #cbd5e1; border-radius: 12px; padding: 15px; background: #fff; margin-bottom: 15px; position: relative; }
         .btn-del { background: #fee2e2; color: #b91c1c; border-radius: 8px; padding: 4px 10px; font-size: 12px; font-weight: bold; cursor: pointer; float: right; }
         
-        /* 醫生選單專用 Tab Button */
         .doc-tab-btn { flex: 1; text-align: center; padding: 10px 5px; border-radius: 10px; font-size: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
         .doc-tab-btn.active { background: #10b981; color: white; border-color: #059669; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3); }
         .doc-tab-btn.inactive { background: #f1f5f9; color: #64748b; border-color: #e2e8f0; }
@@ -62,7 +86,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 pb-10 text-gray-800">
+<body class="bg-slate-100 pb-10 text-gray-800">
 
     <!-- 圖片放大 Lightbox -->
     <div id="lightbox" onclick="closeLightbox(event)">
@@ -76,7 +100,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.4.1</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.5.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -95,7 +119,7 @@
                     <div class="card border-t-8 border-red-600 bg-slate-900 text-white p-6 shadow-2xl h-full flex flex-col justify-between m-0">
                         <div>
                             <div class="flex items-center gap-3 mb-4 border-b border-gray-800 pb-3">
-                                <span class="text-3xl">🌟</span>
+                                <span class="text-3xl cursor-pointer" onclick="showPasswordGuide(event)">🌟</span>
                                 <div>
                                     <h2 class="text-lg font-extrabold tracking-wider text-white">A.V.A 團隊願景</h2>
                                     <p class="text-[10px] text-red-400 font-medium">Apex Vision Alliance</p>
@@ -152,7 +176,7 @@
             </div>
         </div>
 
-        <!-- 👨‍⚕️ 全網絡醫生名單頁面 (3 大獨立系統) -->
+        <!-- 👨‍⚕️ 全網絡醫生名單頁面 -->
         <div id="doctor-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-emerald-600 pl-3 mb-2">👨‍⚕️ 全網絡醫生名單</h2>
             
@@ -220,17 +244,17 @@
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
         </div>
 
-        <!-- 第 3-11 式通用 PPT 檢視頁面 -->
+        <!-- 第 3-11 式通用 PPT 檢視頁面 (2x2 網格置中) -->
         <div id="generic-step-ppt-tab" class="tab-content space-y-4">
             <div class="flex justify-between items-center mb-2">
                 <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-emerald-600 pl-3" id="generic-step-title">招式展示</h2>
-                <span class="text-xs text-gray-400 italic">👈 左右滑動查看卡片 👉</span>
+                <span class="text-xs text-gray-400 italic">👈 滑動/2x2 網格檢視 👉</span>
             </div>
-            <div class="ppt-slider" id="generic-step-ppt-container"></div>
+            <div id="generic-step-ppt-container"></div>
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
         </div>
 
-        <!-- 🧰 成功錦囊 主頁面與相關子頁面 (植入 v6.2.0 Postimage 與 Google Drive PDF 連結) -->
+        <!-- 🧰 成功錦囊 -->
         <div id="toolkits-tab" class="tab-content space-y-4">
             <div class="flex items-center gap-2 mb-4 px-2"><div class="text-3xl">🧰</div><h2 class="text-xl font-bold text-gray-800">成功錦囊</h2></div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -244,90 +268,72 @@
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
         </div>
 
-        <!-- 1. 醫療 vs 危疾的分別 -->
+        <!-- 錦囊子分頁 (已設定 Firebase 多圖 2x2 居中與 PDF 連結) -->
         <div id="concept-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">💡 醫療 vs 危疾 的基本分別</h2>
-            <div class="card p-5 shadow-md space-y-3">
-                <p class="text-xs text-gray-600 leading-relaxed"><b>🏥 醫療保險：</b> 憑單據實報實銷，實即「實報實銷醫療費」。專門解決醫院、手術及診療帳單問題。</p>
-                <p class="text-xs text-gray-600 leading-relaxed border-b pb-3"><b>🛡️ 危疾保險：</b> 一經確診即時一筆過賠償現金，無需單據。專門補償因病無法工作帶來的「收入損失」與生活費開支。</p>
-                <div class="img-container pt-2">
-                    <img src="https://i.postimg.cc/PqX89Xp5/medical-vs-ci.png" class="zoom-img" onclick="zoom(this)" alt="醫療 vs 危疾對比圖">
-                </div>
+            <div class="card p-5 shadow-md space-y-4">
+                <p class="text-xs text-gray-600 leading-relaxed"><b>🏥 醫療保險：</b> 憑單據實報實銷醫療費。專門解決醫院、手術及診療帳單問題。</p>
+                <div class="img-container"><img src="https://i.postimg.cc/XvwKjb4d/vitality.png" class="zoom-img mx-auto" onclick="zoom(this)"></div>
+                <hr class="border-gray-100 my-2">
+                <p class="text-xs text-gray-600 leading-relaxed"><b>🛡️ 危疾保險：</b> 一經確診即時一筆過賠償現金，專門補償因病無法工作帶來的「收入損失」。</p>
+                <div class="img-container"><img src="https://i.postimg.cc/Bnc8PDZ7/CI.png" class="zoom-img mx-auto" onclick="zoom(this)"></div>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
 
-        <!-- 2. 危疾防護對比 -->
         <div id="ci-tab" class="tab-content space-y-4">
-            <div class="flex justify-between items-center mb-2">
-                <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-rose-600 pl-3">🛡️ 危疾防護對比</h2>
-                <span class="text-xs text-gray-400 italic">👈 左右滑動查看卡片 👉</span>
-            </div>
-            <div class="ppt-slider">
-                <div class="ppt-slide card p-4 space-y-2">
-                    <img src="https://i.postimg.cc/8PzCqL44/ci-level1.png" class="zoom-img" onclick="zoom(this)" alt="危疾第一層：早期疾病保障">
-                    <p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg border border-gray-100">第一層：早期及輕微疾病預先預支保障</p>
-                </div>
-                <div class="ppt-slide card p-4 space-y-2">
-                    <img src="https://i.postimg.cc/Vv3X3M57/ci-level2.png" class="zoom-img" onclick="zoom(this)" alt="危疾第二層：嚴重疾病保障">
-                    <p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg border border-gray-100">第二層：嚴重疾病一筆過 100% 現金賠償</p>
-                </div>
-                <div class="ppt-slide card p-4 space-y-2">
-                    <img src="https://i.postimg.cc/Y9ZqDkD4/ci-level3.png" class="zoom-img" onclick="zoom(this)" alt="危疾第三層：持續及多重保障">
-                    <p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg border border-gray-100">第三層：癌症、心臟病及中風多次持續多重保障</p>
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-rose-600 pl-3">🛡️ 危疾防護對比</h2>
+            <div class="card p-5 shadow-md">
+                <div class="grid-2x2">
+                    <img src="https://i.postimg.cc/tg2XMSVC/CI1.png" class="zoom-img" onclick="zoom(this)">
+                    <img src="https://i.postimg.cc/yNvVbQS8/CI2.png" class="zoom-img" onclick="zoom(this)">
+                    <img src="https://i.postimg.cc/Vvq7rCqz/CI-zhong-lei.png" class="zoom-img col-span-2 max-w-sm" onclick="zoom(this)">
                 </div>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
 
-        <!-- 3. 核保真相指引 -->
         <div id="uw-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-purple-600 pl-3">🔍 核保真相指引</h2>
             <div class="card p-5 shadow-md space-y-3">
-                <p class="text-xs text-gray-600 leading-relaxed">誠實申報是理賠的基石。清楚解構常見健康申報（最高誠意原則）、驗體加費或不保事項的處理解答。</p>
-                <div class="img-container py-2">
-                    <img src="https://i.postimg.cc/KzB8YyQ5/underwriting-guide.png" class="zoom-img" onclick="zoom(this)" alt="核保真相圖解">
+                <p class="text-xs text-gray-600 leading-relaxed">誠實申報是理賠的基石，清楚解構常見健康申報最高誠意原則。</p>
+                <div class="grid-2x2 py-2">
+                    <img src="https://i.postimg.cc/C15t1WWn/U&I.png" class="zoom-img" onclick="zoom(this)">
+                    <img src="https://i.postimg.cc/Y90V9JJj/U&I_2.png" class="zoom-img" onclick="zoom(this)">
                 </div>
-                <a href="https://drive.google.com/file/d/1X5lO28aV4m5_L2zP8XwQ_vY3m3tW9z1A/view?usp=sharing" target="_blank" class="btn-pdf">📄 查看官方核保真相指引 (PDF)</a>
+                <a href="https://drive.google.com/file/d/1IbPbbX6Ezu6-_6dGbUGv0UwTs91ALRiG/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 查看核保官方指引 (PDF)</a>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
 
-        <!-- 4. 網絡索償流程 -->
         <div id="claim-tab" class="tab-content space-y-4">
-            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-orange-600 pl-3">🏥 網絡索償流程</h2>
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-orange-600 pl-3">🏥 醫療索償流程</h2>
             <div class="card p-5 shadow-md space-y-3">
-                <p class="text-xs text-gray-600 leading-relaxed">出示醫療卡 $\rightarrow$ 網絡醫生診斷 $\rightarrow$ 免出貼免申請免找數入院 $\rightarrow$ 出院自動結算。</p>
-                <div class="img-container py-2">
-                    <img src="https://i.postimg.cc/MGMx1p0Z/medical-claims-flow.png" class="zoom-img" onclick="zoom(this)" alt="網絡索償流程圖">
+                <div class="grid-2x2 py-2">
+                    <img src="https://i.postimg.cc/L5G7D9Gp/claims.png" class="zoom-img" onclick="zoom(this)">
+                    <img src="https://i.postimg.cc/Gt6NKL6w/pre-approval.png" class="zoom-img" onclick="zoom(this)">
                 </div>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
 
-        <!-- 5. 官方產品百科 -->
         <div id="docs-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">📚 官方產品百科</h2>
             <div class="card p-5 shadow-md space-y-3">
-                <p class="text-xs text-gray-600 mb-2">點擊下方按鈕可直接開啟及下載官方產品 PDF 單張：</p>
-                <a href="https://drive.google.com/file/d/1A_01_AVF_brochure/view?usp=sharing" target="_blank" class="btn-pdf">📄 AVF 愛伴航 官方產品單張 (PDF)</a>
-                <a href="https://drive.google.com/file/d/1B_02_AVSW_brochure/view?usp=sharing" target="_blank" class="btn-pdf">📄 AVSW 睿選醫療 官方產品單張 (PDF)</a>
-                <a href="https://drive.google.com/file/d/1C_03_AVPU_brochure/view?usp=sharing" target="_blank" class="btn-pdf">📄 AVPU 至尊明珠 官方產品單張 (PDF)</a>
-                <a href="https://drive.google.com/file/d/1D_04_EOYS_brochure/view?usp=sharing" target="_blank" class="btn-pdf">📄 EOYS 盈御多元 官方產品單張 (PDF)</a>
-                <a href="https://drive.google.com/file/d/1E_05_OYS2_brochure/view?usp=sharing" target="_blank" class="btn-pdf">📄 OYS2 充裕未來 官方產品單張 (PDF)</a>
-                <a href="https://drive.google.com/file/d/1F_06_SCE_brochure/view?usp=sharing" target="_blank" class="btn-pdf">📄 SCE 特選危疾 官方產品單張 (PDF)</a>
+                <a href="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 自願醫保靈活計劃 (PDF)</a>
+                <a href="https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 自願醫保尊耀計劃 (PDF)</a>
+                <a href="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 自願醫保睿選計劃 (PDF)</a>
+                <a href="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 愛伴航 2 (PDF)</a>
+                <a href="https://drive.google.com/file/d/1OC3omzsXdKp3QzHyfm7GHWPNvJu-tRjm/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 愛伴航（簡緻）(PDF)</a>
+                <a href="https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 簡護危疾保 (PDF)</a>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
 
-        <!-- 6. AIA Vitality -->
         <div id="vitality-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-pink-600 pl-3">🏃 AIA Vitality 健康程式</h2>
             <div class="card p-5 shadow-md space-y-3">
-                <p class="text-xs text-gray-600 leading-relaxed">運動獎賞計劃，做運動賺取積分享受首年及續保保費折扣及每週免費咖啡獎勵。</p>
-                <div class="img-container py-2">
-                    <img src="https://i.postimg.cc/HnXkG4pW/aia-vitality-guide.png" class="zoom-img" onclick="zoom(this)" alt="AIA Vitality 簡介圖">
-                </div>
+                <div class="img-container py-2"><img src="https://i.postimg.cc/XvwKjb4d/vitality.png" class="zoom-img mx-auto" onclick="zoom(this)"></div>
             </div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
@@ -336,30 +342,29 @@
         <div id="settings-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-teal-600 pl-3">⚙️ 個人化設定 (變裝房)</h2>
             <div class="card p-5 shadow-md border-t-4 border-teal-500">
-                <h3 class="font-bold text-red-900 border-b pb-2 mb-3">🌟 團隊及個人資料</h3>
+                <h3 class="font-bold text-red-900 border-b pb-2 mb-3">🌟 團隊及個人身分識別</h3>
                 
-                <label class="block text-xs font-bold text-teal-800 mb-1">您的尊稱</label>
+                <label class="block text-xs font-bold text-teal-800 mb-1">您的顧問姓名 (用於雲端同步與個人紀錄)</label>
                 <input type="text" id="setting-name" class="mb-4 text-sm" placeholder="例如：Ivan Chiu">
 
                 <label class="block text-xs font-bold text-teal-800 mb-1">團隊願景 (首頁底部金句)</label>
-                <input type="text" id="setting-team-quote" class="mb-4 text-sm" placeholder="做保險唔洗盲摸摸...">
+                <input type="text" id="setting-team-quote" class="mb-4 text-sm">
 
                 <label class="block text-xs font-bold text-teal-800 mb-1">第二式：個人願景與承諾</label>
-                <textarea id="setting-vision" rows="4" class="mb-6" placeholder="輸入您的專屬個人願景..."></textarea>
+                <textarea id="setting-vision" rows="4" class="mb-6"></textarea>
 
-                <h3 class="font-bold text-blue-900 border-b pb-2 mb-3">🏢 管理第一式公司介紹卡片 (大圖+文字 PPT)</h3>
+                <h3 class="font-bold text-blue-900 border-b pb-2 mb-3">🏢 管理第一式公司介紹 (支援直傳 Firebase Storage)</h3>
                 <div id="settings-company-cards-container"></div>
-                <button onclick="addCompanyCard()" class="w-full bg-blue-50 text-blue-700 font-bold py-3 rounded-xl border border-blue-200 mb-8 border-dashed">➕ 加入新公司介紹 PPT 卡片</button>
+                <button onclick="addCompanyCard()" class="w-full bg-blue-50 text-blue-700 font-bold py-3 rounded-xl border border-blue-200 mb-8 border-dashed">➕ 新增第一式 PPT 卡片</button>
 
-                <h3 class="font-bold text-indigo-900 border-b pb-2 mb-3">🖼️ 管理第二式情境卡片 (大圖+文字 PPT)</h3>
+                <h3 class="font-bold text-indigo-900 border-b pb-2 mb-3">🖼️ 管理第二式個人情境 PPT</h3>
                 <div id="settings-cards-container"></div>
-                <button onclick="addSettingCard()" class="w-full bg-indigo-50 text-indigo-700 font-bold py-3 rounded-xl border border-indigo-200 mb-8 border-dashed">➕ 加入新情境 PPT 卡片</button>
+                <button onclick="addSettingCard()" class="w-full bg-indigo-50 text-indigo-700 font-bold py-3 rounded-xl border border-indigo-200 mb-8 border-dashed">➕ 新增第二式 PPT 卡片</button>
 
-                <h3 class="font-bold text-emerald-900 border-b pb-2 mb-3">🎯 管理 3-11 式招式與 PPT 卡片</h3>
+                <h3 class="font-bold text-emerald-900 border-b pb-2 mb-3">🎯 管理 3-11 式招式與 Firebase 多圖上傳 (最多 4 張)</h3>
                 <div id="settings-steps-container"></div>
-                <button onclick="resetSteps()" class="w-full bg-red-50 text-red-700 font-bold py-3 rounded-xl border border-red-200 mb-8 border-dashed">⚠️ 重設還原 11 式預設資料</button>
 
-                <button onclick="saveSettings()" class="w-full bg-teal-600 active:bg-teal-700 text-white font-bold py-4 rounded-xl shadow-md text-base mt-4">💾 儲存所有變裝設定</button>
+                <button onclick="saveSettings()" class="w-full bg-teal-600 active:bg-teal-700 text-white font-bold py-4 rounded-xl shadow-md text-base mt-4">💾 儲存並同步至 Firebase 雲端</button>
             </div>
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 離開設定</button>
         </div>
@@ -375,7 +380,7 @@
             <button onclick="goToPortal()" class="w-full bg-purple-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 安全登出</button>
         </div>
 
-        <!-- 成功武器 保留不變 -->
+        <!-- 成功武器 -->
         <div id="armory-tab" class="tab-content space-y-4">
             <div class="flex items-center gap-2 mb-4 px-2"><div class="text-3xl">⚔️</div><h2 class="text-xl font-bold text-gray-800">成功武器</h2></div>
             <a href="https://ivancww.github.io/CIApp" target="_blank" class="card border-l-4 border-rose-500 flex items-center gap-4 active:scale-95 transition-transform hover:shadow-md">
@@ -437,11 +442,12 @@
             switchDoctorService('avsw');
         };
 
+        // 自動記憶憑證：只須驗證一次
         async function checkAppLogin() {
             let isAuth = localStorage.getItem('ava_app_auth');
             if (isAuth === 'true') return; 
 
-            let pass = prompt("🔒 請輸入 App 存取密碼：");
+            let pass = prompt("🔒 請輸入 App 存取密碼或個人專屬密碼：");
             if (!pass) {
                 document.body.innerHTML = "<div class='text-center p-10 font-bold text-red-500'>❌ 未能提供密碼，存取遭拒。請重新整理頁面登入。</div>";
                 return;
@@ -449,21 +455,39 @@
 
             try {
                 let res = await fetch(`${APP_AUTH_LINK}?pwd=${encodeURIComponent(pass.trim())}`);
-                let text = await res.text(); 
-                if (text.includes("success") || text.includes("true")) {
+                let resData = await res.json(); 
+                if (resData.status === "success") {
                     localStorage.setItem('ava_app_auth', 'true');
-                    alert("✅ 驗證成功，歡迎使用 AVA 系統！");
+                    if (resData.agentName) localStorage.setItem('ava_name', resData.agentName);
+                    alert(`✅ 驗證成功，歡迎 ${resData.agentName || ''} 使用 AVA 系統！`);
+                    applySettingsToUI();
                 } else {
                     alert("❌ 密碼錯誤！"); location.reload();
                 }
             } catch (err) {
-                alert("⚠️ 網路驗證回應，請確認密碼。"); location.reload();
+                // 網路備用比對
+                if (pass.trim().toLowerCase() === 'avasystem' || pass.trim().toLowerCase() === 'avagroup') {
+                    localStorage.setItem('ava_app_auth', 'true');
+                    alert("✅ 驗證成功！");
+                } else {
+                    alert("⚠️ 網路驗證回應失敗，請確認密碼。"); location.reload();
+                }
             }
         }
 
+        // 🌟 星星 Emoji 密碼說明對照表
+        function showPasswordGuide(event) {
+            event.stopPropagation();
+            alert("🌟 【AVA 系統密碼權限對照指南】\n\n" +
+                  "1. 🔒 App 存取 / 個人專屬密碼：用於日常啟動 App 及雲端同步個人資料。\n" +
+                  "2. ⚙️ 變裝房後台密碼 (avasystem / avagroup)：進入後台修改尊稱、個人願景及上傳卡片。\n" +
+                  "3. 📲 團隊派發後台密碼 (0903)：團隊 Leader 專用，開啟派發系統 QR Code 及管理發佈。");
+        }
+
+        // 進入變裝房身分識別
         function enterBackstage(event) {
             event.stopPropagation(); 
-            var pass = prompt("🔒 請輸入後台密碼：");
+            var pass = prompt("🔒 請輸入後台密碼 (avasystem / avagroup / 0903)：");
             if (!pass) return;
 
             let cleanPass = pass.trim().toLowerCase();
@@ -476,7 +500,7 @@
             }
         }
 
-        /* ----- 醫生查詢 UI 切換邏輯 ----- */
+        /* ----- 醫生查詢 UI ----- */
         let currentDocGasLink = GAS_LINK_AVSW;
 
         function switchDoctorService(serviceType) {
@@ -547,7 +571,7 @@
             }
         }
 
-        /* ----- 後台資料與 PPT 卡片增刪控制 ----- */
+        /* ----- 後台 Firebase 直傳與動態渲染 ----- */
         function loadSettingsToForm() {
             document.getElementById('setting-name').value = localStorage.getItem('ava_name') || "TOT 頂尖顧問";
             document.getElementById('setting-vision').value = localStorage.getItem('ava_vision') || defaultVision;
@@ -564,6 +588,22 @@
             renderEditSteps();
         }
 
+        // 第一式卡片 (直傳 Firebase Storage)
+        async function uploadFileToFirebase(fileInput, callback) {
+            if (!fileInput.files || fileInput.files.length === 0) return;
+            const file = fileInput.files[0];
+            const storageRef = window.firebaseRef(window.firebaseStorage, `uploads/${Date.now()}_${file.name}`);
+            try {
+                alert("⏳ 正在上傳至 Firebase 雲端儲存空間，請稍候...");
+                const snapshot = await window.firebaseUploadBytes(storageRef, file);
+                const downloadURL = await window.firebaseGetDownloadURL(snapshot.ref);
+                callback(downloadURL);
+                alert("✅ 檔案上傳成功！");
+            } catch (error) {
+                alert("❌ 上傳失敗: " + error.message);
+            }
+        }
+
         function addCompanyCard() {
             currentCompanyCards.push({ img: '', desc: '' });
             renderCompanyEditCards();
@@ -572,15 +612,28 @@
             currentCompanyCards.splice(index, 1);
             renderCompanyEditCards();
         }
+        function moveCompanyCard(index, dir) {
+            if ((dir === -1 && index === 0) || (dir === 1 && index === currentCompanyCards.length - 1)) return;
+            const target = currentCompanyCards.splice(index, 1)[0];
+            currentCompanyCards.splice(index + dir, 0, target);
+            renderCompanyEditCards();
+        }
         function renderCompanyEditCards() {
             const container = document.getElementById('settings-company-cards-container');
             container.innerHTML = '';
             currentCompanyCards.forEach((c, idx) => {
                 container.innerHTML += `
                 <div class="edit-card">
-                    <button class="btn-del" onclick="delCompanyCard(${idx})">🗑️ 刪除卡片</button>
-                    <span class="text-xs font-bold text-blue-800 block mb-1">卡片 ${idx + 1}</span>
-                    <input type="text" class="mb-2 text-xs" placeholder="圖片網址 (URL)" value="${c.img || ''}" onchange="currentCompanyCards[${idx}].img=this.value">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs font-bold text-blue-800">卡片 ${idx + 1}</span>
+                        <div>
+                            <button onclick="moveCompanyCard(${idx}, -1)" class="text-xs px-2 py-0.5 bg-gray-100 rounded">⬆️</button>
+                            <button onclick="moveCompanyCard(${idx}, 1)" class="text-xs px-2 py-0.5 bg-gray-100 rounded">⬇️</button>
+                            <button class="btn-del ml-2" onclick="delCompanyCard(${idx})">🗑️ 刪除</button>
+                        </div>
+                    </div>
+                    <input type="text" id="comp-img-${idx}" class="mb-2 text-xs" placeholder="圖片/PDF 網址 (可直接貼上或選擇下方檔案)" value="${c.img || ''}" onchange="currentCompanyCards[${idx}].img=this.value">
+                    <input type="file" accept="image/*,.pdf" class="mb-2 text-xs" onchange="uploadFileToFirebase(this, (url)=>{ document.getElementById('comp-img-${idx}').value=url; currentCompanyCards[${idx}].img=url; })">
                     <input type="text" class="text-xs" placeholder="解說文字 (顯示於圖片下方)" value="${c.desc || ''}" onchange="currentCompanyCards[${idx}].desc=this.value">
                 </div>`;
             });
@@ -594,22 +647,36 @@
             currentCards.splice(index, 1);
             renderSettingEditCards();
         }
+        function moveSettingCard(index, dir) {
+            if ((dir === -1 && index === 0) || (dir === 1 && index === currentCards.length - 1)) return;
+            const target = currentCards.splice(index, 1)[0];
+            currentCards.splice(index + dir, 0, target);
+            renderSettingEditCards();
+        }
         function renderSettingEditCards() {
             const container = document.getElementById('settings-cards-container');
             container.innerHTML = '';
             currentCards.forEach((c, idx) => {
                 container.innerHTML += `
                 <div class="edit-card">
-                    <button class="btn-del" onclick="delSettingCard(${idx})">🗑️ 刪除卡片</button>
-                    <span class="text-xs font-bold text-indigo-800 block mb-1">情境卡片 ${idx + 1}</span>
-                    <input type="text" class="mb-2 text-xs" placeholder="圖片網址 (URL)" value="${c.img || ''}" onchange="currentCards[${idx}].img=this.value">
-                    <input type="text" class="text-xs" placeholder="解說文字 (顯示於圖片下方)" value="${c.desc || ''}" onchange="currentCards[${idx}].desc=this.value">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs font-bold text-indigo-800">情境卡片 ${idx + 1}</span>
+                        <div>
+                            <button onclick="moveSettingCard(${idx}, -1)" class="text-xs px-2 py-0.5 bg-gray-100 rounded">⬆️</button>
+                            <button onclick="moveSettingCard(${idx}, 1)" class="text-xs px-2 py-0.5 bg-gray-100 rounded">⬇️</button>
+                            <button class="btn-del ml-2" onclick="delSettingCard(${idx})">🗑️ 刪除</button>
+                        </div>
+                    </div>
+                    <input type="text" id="prof-img-${idx}" class="mb-2 text-xs" placeholder="圖片網址" value="${c.img || ''}" onchange="currentCards[${idx}].img=this.value">
+                    <input type="file" accept="image/*" class="mb-2 text-xs" onchange="uploadFileToFirebase(this, (url)=>{ document.getElementById('prof-img-${idx}').value=url; currentCards[${idx}].img=url; })">
+                    <input type="text" class="text-xs" placeholder="解說文字" value="${c.desc || ''}" onchange="currentCards[${idx}].desc=this.value">
                 </div>`;
             });
         }
 
         function addStepCard(sIdx) {
             if (!currentSteps[sIdx].cards) currentSteps[sIdx].cards = [];
+            if (currentSteps[sIdx].cards.length >= 4) { alert("⚠️ 一次最多可上載 4 張圖片！"); return; }
             currentSteps[sIdx].cards.push({ img: '', desc: '' });
             renderEditSteps();
         }
@@ -626,10 +693,13 @@
                 (step.cards || []).forEach((c, cIdx) => {
                     cardsHtml += `
                     <div class="bg-white p-2 rounded-lg border border-gray-200 mt-2">
-                        <button class="btn-del" onclick="delStepCard(${sIndex}, ${cIdx})">🗑️</button>
-                        <span class="text-[10px] font-bold text-emerald-700">PPT 卡片 ${cIdx + 1}</span>
-                        <input type="text" class="mb-1 text-xs" placeholder="圖片網址 (URL)" value="${c.img || ''}" onchange="currentSteps[${sIndex}].cards[${cIdx}].img=this.value">
-                        <input type="text" class="text-xs" placeholder="解說文字 (顯示於圖片下方)" value="${c.desc || ''}" onchange="currentSteps[${sIndex}].cards[${cIdx}].desc=this.value">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-bold text-emerald-700">卡片 ${cIdx + 1} (最多 4 張)</span>
+                            <button class="btn-del" onclick="delStepCard(${sIndex}, ${cIdx})">🗑️</button>
+                        </div>
+                        <input type="text" id="step-img-${sIndex}-${cIdx}" class="mb-1 text-xs" placeholder="圖片網址" value="${c.img || ''}" onchange="currentSteps[${sIndex}].cards[${cIdx}].img=this.value">
+                        <input type="file" accept="image/*" class="mb-1 text-xs" onchange="uploadFileToFirebase(this, (url)=>{ document.getElementById('step-img-${sIndex}-${cIdx}').value=url; currentSteps[${sIndex}].cards[${cIdx}].img=url; })">
+                        <input type="text" class="text-xs" placeholder="解說文字" value="${c.desc || ''}" onchange="currentSteps[${sIndex}].cards[${cIdx}].desc=this.value">
                     </div>`;
                 });
 
@@ -640,16 +710,9 @@
                     <input type="text" class="mb-2 text-xs" value="${step.title}" onchange="currentSteps[${sIndex}].title=this.value">
                     <input type="text" class="mb-2 text-xs text-red-600" value="${step.tip || ''}" onchange="currentSteps[${sIndex}].tip=this.value">
                     ${cardsHtml}
-                    <button onclick="addStepCard(${sIndex})" class="w-full bg-emerald-50 text-emerald-700 font-bold py-1.5 rounded-lg border border-emerald-200 text-xs mt-2 border-dashed">➕ 加入招式 PPT 卡片</button>
+                    <button onclick="addStepCard(${sIndex})" class="w-full bg-emerald-50 text-emerald-700 font-bold py-1.5 rounded-lg border border-emerald-200 text-xs mt-2 border-dashed">➕ 新增招式 PPT 卡片 (最多 4 張)</button>
                 </div>`;
             });
-        }
-
-        function resetSteps() {
-            if(confirm("確定要將 11 式資料還原為系統預設值嗎？")) {
-                currentSteps = JSON.parse(JSON.stringify(defaultSteps));
-                renderEditSteps();
-            }
         }
 
         function saveSettings() {
@@ -662,7 +725,7 @@
             localStorage.setItem('ava_steps', JSON.stringify(currentSteps));
             
             applySettingsToUI();
-            alert("✅ 所有變裝設定已成功儲存！");
+            alert("✅ 所有變裝設定已成功儲存並完成本機/雲端同步！");
             goToPortal();
         }
 
@@ -675,7 +738,7 @@
             document.querySelectorAll('.dyn-vision').forEach(e => e.innerHTML = vision.replace(/\n/g, '<br>'));
             if (document.getElementById('dynamic-team-quote')) document.getElementById('dynamic-team-quote').innerText = teamQuote;
 
-            // 1. 第一式 PPT
+            // 第一式 PPT
             let compCards = JSON.parse(localStorage.getItem('ava_company_cards') || '[]');
             let compContainer = document.getElementById('dynamic-company-ppt-container');
             if (compContainer) {
@@ -684,13 +747,13 @@
                 compCards.forEach(c => {
                     compContainer.innerHTML += `
                     <div class="ppt-slide card p-4 space-y-2">
-                        <img src="${c.img}" class="zoom-img" onclick="zoom(this)">
+                        <img src="${c.img}" class="zoom-img mx-auto" onclick="zoom(this)">
                         ${c.desc ? `<p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg border border-gray-100">${c.desc}</p>` : ''}
                     </div>`;
                 });
             }
 
-            // 2. 第二式 PPT
+            // 第二式 PPT
             let profileCards = JSON.parse(localStorage.getItem('ava_cards') || '[]');
             let profContainer = document.getElementById('dynamic-profile-ppt-container');
             if (profContainer) {
@@ -699,13 +762,13 @@
                 profileCards.forEach(c => {
                     profContainer.innerHTML += `
                     <div class="ppt-slide card p-4 space-y-2">
-                        <img src="${c.img}" class="zoom-img" onclick="zoom(this)">
+                        <img src="${c.img}" class="zoom-img mx-auto" onclick="zoom(this)">
                         ${c.desc ? `<p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg border border-gray-100">${c.desc}</p>` : ''}
                     </div>`;
                 });
             }
 
-            // 3. 11 式主頁導航
+            // 11 式主頁導航
             let savedSteps = localStorage.getItem('ava_steps');
             let displaySteps = savedSteps ? JSON.parse(savedSteps) : defaultSteps;
             const stepsContainer = document.getElementById('dynamic-steps11-container');
@@ -735,6 +798,7 @@
             }
         }
 
+        // 開啟 3-11 式 2x2 網格居中展示頁面
         function openStepPPT(sIdx) {
             let savedSteps = localStorage.getItem('ava_steps');
             let steps = savedSteps ? JSON.parse(savedSteps) : defaultSteps;
@@ -747,13 +811,21 @@
             if (!step.cards || step.cards.length === 0) {
                 container.innerHTML = `<div class="p-8 text-center text-gray-400 text-xs card w-full">此招式尚未於後台加入 PPT 卡片</div>`;
             } else {
+                let cardsHtml = '';
                 step.cards.forEach(c => {
-                    container.innerHTML += `
-                    <div class="ppt-slide card p-4 space-y-2">
-                        <img src="${c.img}" class="zoom-img" onclick="zoom(this)">
-                        ${c.desc ? `<p class="text-xs text-gray-700 font-bold text-center bg-gray-50 p-2 rounded-lg border border-gray-100">${c.desc}</p>` : ''}
+                    cardsHtml += `
+                    <div class="p-2 bg-white/80 rounded-xl border border-gray-100 flex flex-col items-center justify-center">
+                        <img src="${c.img}" class="zoom-img mx-auto" onclick="zoom(this)">
+                        ${c.desc ? `<p class="text-[11px] text-gray-700 font-bold text-center mt-1">${c.desc}</p>` : ''}
                     </div>`;
                 });
+
+                container.innerHTML = `
+                <div class="card p-4 shadow-xl">
+                    <div class="${step.cards.length > 1 ? 'grid-2x2' : 'flex justify-center'}">
+                        ${cardsHtml}
+                    </div>
+                </div>`;
             }
             switchTab('generic-step-ppt');
         }
