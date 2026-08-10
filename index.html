@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v6.5.0</title>
+    <title>AVA 實戰系統 v6.5.1</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -74,10 +74,6 @@
 
         .edit-card { border: 1px solid #cbd5e1; border-radius: 12px; padding: 15px; background: #fff; margin-bottom: 15px; position: relative; }
         .btn-del { background: #fee2e2; color: #b91c1c; border-radius: 8px; padding: 4px 10px; font-size: 12px; font-weight: bold; cursor: pointer; float: right; }
-        
-        .doc-tab-btn { flex: 1; text-align: center; padding: 10px 5px; border-radius: 10px; font-size: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
-        .doc-tab-btn.active { background: #10b981; color: white; border-color: #059669; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3); }
-        .doc-tab-btn.inactive { background: #f1f5f9; color: #64748b; border-color: #e2e8f0; }
 
         @media (min-width: 600px), (min-aspect-ratio: 1/1) {
             .fold-desktop-layout { display: flex; gap: 20px; align-items: stretch; }
@@ -100,7 +96,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.5.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.5.1</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -157,8 +153,8 @@
                             <button onclick="switchTab('doctor')" class="btn-large-flat border-l-4 border-emerald-500 gap-3">
                                 <div class="text-2xl bg-emerald-50 p-2 rounded-xl">👨‍⚕️</div>
                                 <div class="text-left">
-                                    <h4 class="font-bold text-gray-800 text-xs">全網絡醫生名單</h4>
-                                    <p class="text-[9px] text-gray-400 mt-0.5">三大計劃獨立醫療網絡快速搜尋</p>
+                                    <h4 class="font-bold text-gray-800 text-xs">睿選醫生網絡</h4>
+                                    <p class="text-[9px] text-gray-400 mt-0.5">睿選 (AVSW) 專科醫療網絡快速搜尋</p>
                                 </div>
                             </button>
 
@@ -176,21 +172,13 @@
             </div>
         </div>
 
-        <!-- 👨‍⚕️ 全網絡醫生名單頁面 -->
+        <!-- 👨‍⚕️ 睿選醫生名單頁面 -->
         <div id="doctor-tab" class="tab-content space-y-4">
-            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-emerald-600 pl-3 mb-2">👨‍⚕️ 全網絡醫生名單</h2>
-            
-            <div class="flex gap-2 bg-white p-2 rounded-xl shadow-sm border border-gray-100">
-                <div id="tab-avsw" class="doc-tab-btn active" onclick="switchDoctorService('avsw')">睿選<br><span class="text-[9px] font-normal opacity-80">(AVSW)</span></div>
-                <div id="tab-vhis" class="doc-tab-btn inactive" onclick="switchDoctorService('vhis')">自願醫保<br><span class="text-[9px] font-normal opacity-80">(VHIS)</span></div>
-                <div id="tab-yxy" class="doc-tab-btn inactive" onclick="switchDoctorService('yxy')">友心意<br><span class="text-[9px] font-normal opacity-80">網絡</span></div>
-            </div>
+            <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-emerald-600 pl-3 mb-2">👨‍⚕️ 睿選醫生名單</h2>
 
             <div class="card p-5 shadow-md border-t-4 border-emerald-500 space-y-4">
-                <input type="hidden" id="doc-service" value="睿選(AVSW)">
-
                 <div>
-                    <label class="block text-xs font-bold text-emerald-800 mb-1" id="lbl-specialty">請選擇 睿選(AVSW) 專科</label>
+                    <label class="block text-xs font-bold text-emerald-800 mb-1">請選擇 睿選(AVSW) 專科</label>
                     <select id="doc-specialty" onchange="onDoctorQueryChange()" class="font-bold text-gray-700"></select>
                 </div>
 
@@ -244,11 +232,11 @@
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
         </div>
 
-        <!-- 第 3-11 式通用 PPT 檢視頁面 (2x2 網格置中) -->
+        <!-- 第 3-11 式通用 PPT 檢視頁面 -->
         <div id="generic-step-ppt-tab" class="tab-content space-y-4">
             <div class="flex justify-between items-center mb-2">
                 <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-emerald-600 pl-3" id="generic-step-title">招式展示</h2>
-                <span class="text-xs text-gray-400 italic">👈 滑動/2x2 網格檢視 👉</span>
+                <span class="text-xs text-gray-400 italic">👈 2x2 網格居中檢視 👉</span>
             </div>
             <div id="generic-step-ppt-container"></div>
             <button onclick="switchTab('steps11')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回 11 式導航</button>
@@ -268,7 +256,7 @@
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
         </div>
 
-        <!-- 錦囊子分頁 (已設定 Firebase 多圖 2x2 居中與 PDF 連結) -->
+        <!-- 錦囊子分頁 -->
         <div id="concept-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">💡 醫療 vs 危疾 的基本分別</h2>
             <div class="card p-5 shadow-md space-y-4">
@@ -407,15 +395,10 @@
     <script>
         const APP_AUTH_LINK = "https://script.google.com/macros/s/AKfycbyT8YXG4LylNj9qf6M3RIo2FLYhGhArJ8XCUHtlcq1MVUSaHc55jGlWbFF_mpAg4dy4_A/exec";
         
+        // 對接睿選專用 GAS
         const GAS_LINK_AVSW = "https://script.google.com/macros/s/AKfycby0bCPSDHHgmdQikt77bSIbxVQ5L9_uYBKgYoAxSyStIVyfdHXXbUz0hnOo8qLlKfOwyA/exec"; 
-        const GAS_LINK_VHIS = "https://script.google.com/macros/s/AKfycbyMvetlIjV3CmzvaWIeO6DjgcCs7jNayx2vr2S4hDGIxUqRLWq8V5nVcVplHrGdsOV_/exec"; 
-        const GAS_LINK_YXY  = "https://script.google.com/macros/s/AKfycby3arVvfcbIhrlIq9Ykh4avgHlcXdhBlI2FUwd8eXnw-2V8Ut31xc3CAVK8ByyMBEX2Fg/exec"; 
 
-        const specs = {
-            "avsw": ["普通外科", "兒科", "內分泌、糖尿及新陳代謝科", "內科腫瘤科", "呼吸系統科", "婦產科", "婦科腫瘤科", "小兒外科", "心胸外科", "心臟科", "泌尿科", "皮膚及性病科", "眼科", "神經外科", "神經科", "耳鼻喉科", "腎病科", "腸胃肝臟科", "臨床腫瘤科", "血液及血液腫瘤科", "血管外科", "風濕病科", "骨科及創傷外科"],
-            "vhis": ["基層保健醫生", "皮膚及性病科", "腦內科", "腦外科", "婦產科", "眼科", "骨科及創傷外科", "耳鼻喉科", "手術中心", "臨床微生物及感染學", "血管外科", "婦科腫瘤科", "兒童心臟科", "兒科", "泌尿外科", "外科", "心胸肺外科", "小兒外科", "心臟科", "老人科", "腸胃肝臟科", "腎科", "風濕科", "內分泌及糖尿病", "化驗所", "臨床腫瘤科", "內科腫瘤科", "血液及血液腫瘤科", "急症科", "呼吸系統科"],
-            "yxy": ["基層保健醫生", "皮膚及性病科", "腦內科", "腦外科", "婦產科", "眼科", "骨科及創傷外科", "耳鼻喉科", "手術中心", "血管外科", "婦科腫瘤科", "兒童心臟科", "兒科", "泌尿外科", "外科", "心胸肺外科", "小兒外科", "心臟科", "老人科", "腸胃肝臟科", "腎科", "風濕科", "內分泌及糖尿病", "化驗所", "臨床腫瘤科", "內科腫瘤科", "血液及血液腫瘤科", "呼吸系統科"]
-        };
+        const specsAVSW = ["普通外科", "兒科", "內分泌、糖尿及新陳代謝科", "內科腫瘤科", "呼吸系統科", "婦產科", "婦科腫瘤科", "小兒外科", "心胸外科", "心臟科", "泌尿科", "皮膚及性病科", "眼科", "神經外科", "神經科", "耳鼻喉科", "腎病科", "腸胃肝臟科", "臨床腫瘤科", "血液及血液腫瘤科", "血管外科", "風濕病科", "骨科及創傷外科"];
 
         const defaultVision = "「借助保險嘅特殊力量，我哋可以協助您從容面對突如其來嘅開支，守護您嘅財富...」";
         const defaultTeamQuote = "「做保險唔洗盲摸摸，AVA 系統就是你的人生 GPS。」";
@@ -439,10 +422,21 @@
         window.onload = function() { 
             checkAppLogin();
             applySettingsToUI();
-            switchDoctorService('avsw');
+            initDoctorDropdown();
         };
 
-        // 自動記憶憑證：只須驗證一次
+        // 載入睿選專科選單
+        function initDoctorDropdown() {
+            let selectEl = document.getElementById('doc-specialty');
+            if (!selectEl) return;
+            selectEl.innerHTML = '<option value="">-- 請選擇專科 --</option>';
+            specsAVSW.forEach(spec => {
+                let opt = document.createElement('option');
+                opt.value = spec; opt.innerText = spec; selectEl.appendChild(opt);
+            });
+        }
+
+        // 自動記憶憑證
         async function checkAppLogin() {
             let isAuth = localStorage.getItem('ava_app_auth');
             if (isAuth === 'true') return; 
@@ -465,7 +459,6 @@
                     alert("❌ 密碼錯誤！"); location.reload();
                 }
             } catch (err) {
-                // 網路備用比對
                 if (pass.trim().toLowerCase() === 'avasystem' || pass.trim().toLowerCase() === 'avagroup') {
                     localStorage.setItem('ava_app_auth', 'true');
                     alert("✅ 驗證成功！");
@@ -475,7 +468,7 @@
             }
         }
 
-        // 🌟 星星 Emoji 密碼說明對照表
+        // 🌟 星星 Emoji 指南
         function showPasswordGuide(event) {
             event.stopPropagation();
             alert("🌟 【AVA 系統密碼權限對照指南】\n\n" +
@@ -484,7 +477,7 @@
                   "3. 📲 團隊派發後台密碼 (0903)：團隊 Leader 專用，開啟派發系統 QR Code 及管理發佈。");
         }
 
-        // 進入變裝房身分識別
+        // 進入後台驗證
         function enterBackstage(event) {
             event.stopPropagation(); 
             var pass = prompt("🔒 請輸入後台密碼 (avasystem / avagroup / 0903)：");
@@ -500,37 +493,7 @@
             }
         }
 
-        /* ----- 醫生查詢 UI ----- */
-        let currentDocGasLink = GAS_LINK_AVSW;
-
-        function switchDoctorService(serviceType) {
-            ['avsw', 'vhis', 'yxy'].forEach(id => {
-                document.getElementById(`tab-${id}`).className = "doc-tab-btn inactive";
-            });
-            document.getElementById(`tab-${serviceType}`).className = "doc-tab-btn active";
-
-            let lbl = document.getElementById('lbl-specialty');
-            let hiddenInput = document.getElementById('doc-service');
-            let selectEl = document.getElementById('doc-specialty');
-            
-            selectEl.innerHTML = '<option value="">-- 請選擇專科 --</option>';
-
-            if (serviceType === 'avsw') {
-                lbl.innerText = "請選擇 睿選(AVSW) 專科"; hiddenInput.value = "睿選(AVSW)"; currentDocGasLink = GAS_LINK_AVSW;
-            } else if (serviceType === 'vhis') {
-                lbl.innerText = "請選擇 自願醫保(VHIS) 專科"; hiddenInput.value = "自願醫保(VHIS)"; currentDocGasLink = GAS_LINK_VHIS;
-            } else if (serviceType === 'yxy') {
-                lbl.innerText = "請選擇 友心意 專科"; hiddenInput.value = "友心意"; currentDocGasLink = GAS_LINK_YXY;
-            }
-
-            specs[serviceType].forEach(spec => {
-                let opt = document.createElement('option');
-                opt.value = spec; opt.innerText = spec; selectEl.appendChild(opt);
-            });
-
-            document.getElementById('doctor-results-container').innerHTML = `<div class="card p-8 text-center text-gray-400 text-xs">👈 請在上方選取專科以載入醫生名單</div>`;
-        }
-
+        /* ----- 睿選醫生查詢與卡片渲染 ----- */
         async function onDoctorQueryChange() {
             const specialty = document.getElementById('doc-specialty').value;
             const region = document.getElementById('doc-region').value;
@@ -541,29 +504,42 @@
                 return;
             }
 
-            container.innerHTML = `<div class="card p-8 text-center text-emerald-600 font-bold text-xs animate-pulse">🔍 正在連動 Google Sheet 查詢 ${specialty} 醫生名單，請稍候...</div>`;
+            container.innerHTML = `<div class="card p-8 text-center text-emerald-600 font-bold text-xs animate-pulse">🔍 正在連動睿選 Google Sheet 查詢 ${specialty} 醫生名單，請稍候...</div>`;
 
             try {
-                const url = `${currentDocGasLink}?specialty=${encodeURIComponent(specialty)}&region=${encodeURIComponent(region)}`;
+                const url = `${GAS_LINK_AVSW}?specialty=${encodeURIComponent(specialty)}&region=${encodeURIComponent(region)}`;
                 let response = await fetch(url);
                 let resData = await response.json();
                 let doctors = resData.data || resData;
 
                 if (!doctors || doctors.length === 0) {
-                    container.innerHTML = `<div class="card p-6 text-center text-gray-500 text-xs">⚠️ 暫未找到符合條件的網絡醫生。</div>`;
+                    container.innerHTML = `<div class="card p-6 text-center text-gray-500 text-xs">⚠️ 暫未找到符合條件的睿選醫生。</div>`;
                     return;
                 }
 
                 container.innerHTML = '';
                 doctors.forEach((doc) => {
-                    let hospitalBadge = (doc.hospital && doc.hospital !== "未有記載") ? `<div class="mt-2 text-[11px] bg-yellow-50 text-yellow-800 p-2 rounded-lg border border-yellow-200">🏥 <b>掛單醫院：</b> ${doc.hospital}</div>` : '';
+                    let hospitalBadge = (doc.hospital && doc.hospital !== "未有記載") 
+                        ? `<div class="mt-2 text-[11px] bg-yellow-50 text-yellow-800 p-2 rounded-lg border border-yellow-200">🏥 <b>掛單醫院：</b> ${doc.hospital}</div>` 
+                        : '';
+                        
+                    let phoneBadge = (doc.phone && doc.phone !== "未提供")
+                        ? `<p class="text-xs text-blue-600 font-bold"><b>📞 電話：</b> <a href="tel:${doc.phone}">${doc.phone}</a></p>`
+                        : '';
+
+                    let locationStr = doc.district ? `${doc.region} - ${doc.district}` : doc.region;
+
                     let cardHtml = `
                     <div class="card p-4 border-l-4 border-emerald-500 shadow-sm space-y-1.5">
-                        <div class="border-b border-gray-100 pb-2 mb-1"><span class="font-bold text-base text-gray-800">🩺 ${doc.name || "醫生"}</span></div>
-                        <p class="text-xs text-gray-600"><b>📍 區域：</b> ${doc.district || "未提供"}</p>
-                        <p class="text-xs text-gray-600"><b>🏢 地址：</b> ${doc.address || "未提供"}</p>
+                        <div class="border-b border-gray-100 pb-2 mb-1 flex justify-between items-center">
+                            <span class="font-bold text-base text-gray-800">🩺 ${doc.name}</span>
+                            <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">${locationStr}</span>
+                        </div>
+                        <p class="text-xs text-gray-600"><b>🏢 地址：</b> ${doc.address}</p>
+                        ${phoneBadge}
                         ${hospitalBadge}
                     </div>`;
+                    
                     container.innerHTML += cardHtml;
                 });
             } catch (err) {
@@ -588,7 +564,6 @@
             renderEditSteps();
         }
 
-        // 第一式卡片 (直傳 Firebase Storage)
         async function uploadFileToFirebase(fileInput, callback) {
             if (!fileInput.files || fileInput.files.length === 0) return;
             const file = fileInput.files[0];
@@ -632,9 +607,9 @@
                             <button class="btn-del ml-2" onclick="delCompanyCard(${idx})">🗑️ 刪除</button>
                         </div>
                     </div>
-                    <input type="text" id="comp-img-${idx}" class="mb-2 text-xs" placeholder="圖片/PDF 網址 (可直接貼上或選擇下方檔案)" value="${c.img || ''}" onchange="currentCompanyCards[${idx}].img=this.value">
+                    <input type="text" id="comp-img-${idx}" class="mb-2 text-xs" placeholder="圖片/PDF 網址" value="${c.img || ''}" onchange="currentCompanyCards[${idx}].img=this.value">
                     <input type="file" accept="image/*,.pdf" class="mb-2 text-xs" onchange="uploadFileToFirebase(this, (url)=>{ document.getElementById('comp-img-${idx}').value=url; currentCompanyCards[${idx}].img=url; })">
-                    <input type="text" class="text-xs" placeholder="解說文字 (顯示於圖片下方)" value="${c.desc || ''}" onchange="currentCompanyCards[${idx}].desc=this.value">
+                    <input type="text" class="text-xs" placeholder="解說文字" value="${c.desc || ''}" onchange="currentCompanyCards[${idx}].desc=this.value">
                 </div>`;
             });
         }
@@ -725,7 +700,7 @@
             localStorage.setItem('ava_steps', JSON.stringify(currentSteps));
             
             applySettingsToUI();
-            alert("✅ 所有變裝設定已成功儲存並完成本機/雲端同步！");
+            alert("✅ 所有變裝設定已成功儲存！");
             goToPortal();
         }
 
@@ -738,7 +713,6 @@
             document.querySelectorAll('.dyn-vision').forEach(e => e.innerHTML = vision.replace(/\n/g, '<br>'));
             if (document.getElementById('dynamic-team-quote')) document.getElementById('dynamic-team-quote').innerText = teamQuote;
 
-            // 第一式 PPT
             let compCards = JSON.parse(localStorage.getItem('ava_company_cards') || '[]');
             let compContainer = document.getElementById('dynamic-company-ppt-container');
             if (compContainer) {
@@ -753,7 +727,6 @@
                 });
             }
 
-            // 第二式 PPT
             let profileCards = JSON.parse(localStorage.getItem('ava_cards') || '[]');
             let profContainer = document.getElementById('dynamic-profile-ppt-container');
             if (profContainer) {
@@ -768,7 +741,6 @@
                 });
             }
 
-            // 11 式主頁導航
             let savedSteps = localStorage.getItem('ava_steps');
             let displaySteps = savedSteps ? JSON.parse(savedSteps) : defaultSteps;
             const stepsContainer = document.getElementById('dynamic-steps11-container');
@@ -798,7 +770,6 @@
             }
         }
 
-        // 開啟 3-11 式 2x2 網格居中展示頁面
         function openStepPPT(sIdx) {
             let savedSteps = localStorage.getItem('ava_steps');
             let steps = savedSteps ? JSON.parse(savedSteps) : defaultSteps;
