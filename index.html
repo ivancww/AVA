@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v6.7.0</title>
+    <title>AVA 實戰系統 v6.8.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -92,7 +92,7 @@
 </head>
 <body class="bg-slate-100 pb-10 text-gray-800">
 
-    <!-- 升級版圖片/解說文字全螢幕 Lightbox (支援點擊與按鈕左右滑動切換) -->
+    <!-- 全螢幕 Lightbox -->
     <div id="lightbox" onclick="closeLightbox(event)">
         <button class="close-btn" onclick="forceCloseLightbox(event)">✕</button>
         
@@ -102,7 +102,6 @@
             <button onclick="nextLightboxImage(event)" class="absolute right-2 text-white bg-white/20 p-3 rounded-full text-xl font-bold backdrop-blur-md active:scale-95 z-10">➡️</button>
         </div>
 
-        <!-- 放大顯眼文字區塊 -->
         <div class="mt-4 max-w-xl mx-auto px-6 py-3 bg-black/80 border border-white/20 rounded-2xl text-center backdrop-blur-md">
             <p id="lightbox-desc" class="text-white text-sm font-bold tracking-wide leading-relaxed">解說文字載入中...</p>
         </div>
@@ -114,7 +113,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.7.0</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.8.0</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -150,7 +149,11 @@
                 <div class="fold-right mt-4 sm:mt-0">
                     <div class="card p-6 shadow-xl h-full flex flex-col justify-between m-0 border-t-8 border-indigo-600">
                         <div>
-                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">系統導航</h3>
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest">系統導航</h3>
+                                <!-- 新增同事專屬註冊/登入 ⚙️ 設定按鈕 -->
+                                <button onclick="openAgentAuthMenu(event)" class="text-lg bg-gray-100 p-1.5 rounded-xl border border-gray-200 active:scale-95 transition-transform" title="帳號設定/登入註冊">⚙️</button>
+                            </div>
                             
                             <button onclick="switchTab('steps11')" class="btn-large-flat border-l-4 border-red-500 gap-3">
                                 <div class="text-2xl bg-red-50 p-2 rounded-xl">🎯</div>
@@ -352,7 +355,7 @@
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
 
-        <!-- ⚙️ 個人化設定 (變裝房後台 - 模組卡片化點擊展開) -->
+        <!-- ⚙️ 個人化設定 (變裝房後台) -->
         <div id="settings-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-teal-600 pl-3">⚙️ 個人化設定 (變裝房)</h2>
             
@@ -395,10 +398,11 @@
                     <button onclick="addSettingCard()" class="w-full bg-indigo-50 text-indigo-700 font-bold py-3 rounded-xl border border-indigo-200 mb-4 border-dashed">➕ 新增第二式 PPT 卡片</button>
                 </div>
 
-                <button onclick="toggleBackstageModule('steps')" class="btn-large-flat border-l-4 border-emerald-500 justify-between">
+                <!-- 僅管理者可修訂共有 3-11 式與成功錦囊 -->
+                <button id="btn-mod-steps" onclick="toggleBackstageModule('steps')" class="btn-large-flat border-l-4 border-emerald-500 justify-between">
                     <div class="flex items-center gap-3">
                         <div class="text-2xl bg-emerald-50 p-2 rounded-xl">🎯</div>
-                        <div class="text-left"><h4 class="font-bold text-gray-800 text-xs">3-11 式招式與卡片管理</h4><p class="text-[9px] text-gray-400 mt-0.5">點擊展開管理招式內容與最多 4 張圖片</p></div>
+                        <div class="text-left"><h4 class="font-bold text-gray-800 text-xs">3-11 式招式與卡片管理 (管理者)</h4><p class="text-[9px] text-gray-400 mt-0.5">點擊展開管理招式內容與最多 4 張圖片</p></div>
                     </div>
                     <span class="text-xs">▼</span>
                 </button>
@@ -406,10 +410,10 @@
                     <div id="settings-steps-container"></div>
                 </div>
 
-                <button onclick="toggleBackstageModule('toolkits')" class="btn-large-flat border-l-4 border-amber-500 justify-between">
+                <button id="btn-mod-toolkits" onclick="toggleBackstageModule('toolkits')" class="btn-large-flat border-l-4 border-amber-500 justify-between">
                     <div class="flex items-center gap-3">
                         <div class="text-2xl bg-amber-50 p-2 rounded-xl">🧰</div>
-                        <div class="text-left"><h4 class="font-bold text-gray-800 text-xs">成功錦囊 6 大分頁資料管理</h4><p class="text-[9px] text-gray-400 mt-0.5">點擊展開對應前台卡片上載圖片及 PDF</p></div>
+                        <div class="text-left"><h4 class="font-bold text-gray-800 text-xs">成功錦囊 6 大分頁資料管理 (管理者)</h4><p class="text-[9px] text-gray-400 mt-0.5">點擊展開對應前台卡片上載圖片及 PDF</p></div>
                     </div>
                     <span class="text-xs">▼</span>
                 </button>
@@ -418,7 +422,7 @@
                 </div>
             </div>
 
-            <button onclick="saveSettingsWithAuth()" class="w-full bg-teal-600 active:bg-teal-700 text-white font-bold py-4 rounded-xl shadow-md text-base mt-6">💾 驗證身分並儲存同步變裝設定</button>
+            <button onclick="saveSettingsWithAuth()" class="w-full bg-teal-600 active:bg-teal-700 text-white font-bold py-4 rounded-xl shadow-md text-base mt-6">💾 儲存並同步第一、二式變裝設定</button>
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-2">🔙 離開設定</button>
         </div>
 
@@ -499,6 +503,67 @@
             applySettingsToUI();
             switchDoctorService('avsw');
         };
+
+        /* ----- ⚙️ 系統導航旁：同事註冊/登入關卡 ----- */
+        function openAgentAuthMenu(event) {
+            event.stopPropagation();
+            let choice = prompt("⚙️ 【同事帳號管理】\n請選擇操作：\n1. 首次註冊帳號\n2. 登入既有帳號\n(請輸入數字 1 或 2)");
+            if (!choice) return;
+
+            if (choice.trim() === "1") {
+                registerAgentAccount();
+            } else if (choice.trim() === "2") {
+                loginAgentAccount();
+            } else {
+                alert("❌ 無效選擇，請輸入 1 或 2。");
+            }
+        }
+
+        async function registerAgentAccount() {
+            let name = prompt("📝 【首次註冊】請輸入您的顧問姓名：");
+            if (!name) return;
+            let pass = prompt(`📝 請為顧問 [ ${name.trim()} ] 設定專屬密碼：`);
+            if (!pass) return;
+
+            try {
+                let url = `${APP_AUTH_LINK}?action=updatePwd&agentName=${encodeURIComponent(name.trim())}&newPwd=${encodeURIComponent(pass.trim())}`;
+                let res = await fetch(url);
+                let resData = await res.json();
+                if (resData.status === "success") {
+                    localStorage.setItem('ava_app_auth', 'true');
+                    localStorage.setItem('ava_name', name.trim());
+                    alert(`✅ 註冊成功！已自動連結至 Google Sheet。\n歡迎 ${name.trim()} 使用 AVA 系統！`);
+                    applySettingsToUI();
+                } else {
+                    alert("❌ 註冊失敗: " + resData.message);
+                }
+            } catch (e) {
+                alert("⚠️ 註冊請求回應錯誤，請確認網路連線。");
+            }
+        }
+
+        async function loginAgentAccount() {
+            let name = prompt("🔑 【登入既有帳號】請輸入您的顧問姓名：");
+            if (!name) return;
+            let pass = prompt(`🔑 請輸入顧問 [ ${name.trim()} ] 的專屬密碼：`);
+            if (!pass) return;
+
+            try {
+                let url = `${APP_AUTH_LINK}?action=login&agentName=${encodeURIComponent(name.trim())}&pwd=${encodeURIComponent(pass.trim())}`;
+                let res = await fetch(url);
+                let resData = await res.json();
+                if (resData.status === "success") {
+                    localStorage.setItem('ava_app_auth', 'true');
+                    localStorage.setItem('ava_name', name.trim());
+                    alert(`✅ 驗證成功！已同步 ${name.trim()} 的個人資料！`);
+                    applySettingsToUI();
+                } else {
+                    alert("❌ 驗證失敗：顧問姓名或密碼錯誤。");
+                }
+            } catch (e) {
+                alert("⚠️ 驗證連線失敗，請檢查網路。");
+            }
+        }
 
         function switchDoctorService(serviceType) {
             currentServiceType = serviceType;
@@ -610,8 +675,8 @@
             event.stopPropagation();
             alert("🌟 【AVA 系統密碼權限對照指南】\n\n" +
                   "1. 🔒 App 存取 / 個人專屬密碼：用於日常啟動 App 及雲端同步個人資料。\n" +
-                  "2. ⚙️ 變裝房後台密碼 (avasystem / avagroup)：進入後台修改尊稱、個人願景及上傳卡片。\n" +
-                  "3. 📲 團隊派發後台密碼 (0903)：團隊 Leader 專用，開啟派發系統 QR Code 及管理發佈。");
+                  "2. ⚙️ 變裝房後台密碼 (avasystem / avagroup)：進入後台修改第一、二式卡片。\n" +
+                  "3. 📲 團隊派發後台密碼 (0903)：團隊 Leader 專用，開啟派發系統 QR Code。");
         }
 
         function enterBackstage(event) {
@@ -629,7 +694,6 @@
             }
         }
 
-        // 改進版 Firebase 直傳提示
         async function uploadFileToFirebase(fileInput, callback) {
             if (!fileInput.files || fileInput.files.length === 0) return;
             if (!window.isFirebaseReady) { alert("❌ Firebase 尚未就緒，請檢查權限。"); return; }
@@ -651,7 +715,6 @@
             }
         }
 
-        // 折疊後台模組
         function toggleBackstageModule(modId) {
             const el = document.getElementById(`mod-backstage-${modId}`);
             if (el) el.classList.toggle('hidden');
@@ -816,7 +879,6 @@
             });
         }
 
-        // 後台成功錦囊 6 大模組化管理
         function renderToolkitsEditForm() {
             const container = document.getElementById('settings-toolkits-container');
             if (!container) return;
@@ -835,43 +897,28 @@
                 container.innerHTML += `
                 <div class="edit-card bg-amber-50/50 border-amber-200">
                     <span class="text-xs font-bold text-amber-900 block mb-2">${tk.title} 資料更新</span>
-                    <input type="text" id="tk-url-${tk.id}" class="mb-2 text-xs" placeholder="圖片/PDF URL (可直接貼上或選擇下方檔案)">
+                    <input type="text" id="tk-url-${tk.id}" class="mb-2 text-xs" placeholder="圖片/PDF URL">
                     <input type="file" accept="image/*,.pdf" class="mb-2 text-xs" onchange="uploadFileToFirebase(this, (url)=>{ document.getElementById('tk-url-${tk.id}').value=url; })">
                     <p class="text-[10px] text-amber-700">💡 上載後自動生成 Firebase Storage 連結。</p>
                 </div>`;
             });
         }
 
-        // 儲存前強制要求驗證身分與密碼
+        // 儲存第一、二式卡片
         async function saveSettingsWithAuth() {
             let name = document.getElementById('setting-name').value.trim();
             if (!name) { alert("⚠️ 請填寫您的顧問姓名！"); return; }
 
-            let pass = prompt(`🔒 儲存變更前，請確認顧問身分！\n請輸入 ${name} 的專屬密碼：`);
-            if (!pass) return;
-
-            try {
-                let res = await fetch(`${APP_AUTH_LINK}?pwd=${encodeURIComponent(pass.trim())}&agentName=${encodeURIComponent(name)}`);
-                let resData = await res.json();
-                
-                if (resData.status === "success") {
-                    localStorage.setItem('ava_name', name);
-                    localStorage.setItem('ava_vision', document.getElementById('setting-vision').value);
-                    localStorage.setItem('ava_team_quote', document.getElementById('setting-team-quote').value);
-                    
-                    localStorage.setItem('ava_company_cards', JSON.stringify(currentCompanyCards));
-                    localStorage.setItem('ava_cards', JSON.stringify(currentCards));
-                    localStorage.setItem('ava_steps', JSON.stringify(currentSteps));
-                    
-                    applySettingsToUI();
-                    alert("✅ 身分驗證成功！所有設定已寫入雲端與本機！");
-                    goToPortal();
-                } else {
-                    alert("❌ 專屬密碼驗證失敗！無法儲存變更。");
-                }
-            } catch (err) {
-                alert("⚠️ 驗證時發生網路錯誤，請重新試一次。");
-            }
+            localStorage.setItem('ava_name', name);
+            localStorage.setItem('ava_vision', document.getElementById('setting-vision').value);
+            localStorage.setItem('ava_team_quote', document.getElementById('setting-team-quote').value);
+            
+            localStorage.setItem('ava_company_cards', JSON.stringify(currentCompanyCards));
+            localStorage.setItem('ava_cards', JSON.stringify(currentCards));
+            
+            applySettingsToUI();
+            alert(`✅ ${name} 的第一式與第二式變裝設定已成功儲存並完成同步！`);
+            goToPortal();
         }
 
         function applySettingsToUI() {
@@ -990,9 +1037,7 @@
             switchTab('generic-step-ppt');
         }
 
-        /* ----- 升級版 Lightbox 放大 + 左右切換 + 放大解說文字 ----- */
         function zoom(el, desc) { 
-            // 自動收集當前頁面所有圖片，實現動態滑動切換
             const parent = el.closest('.tab-content') || document.body;
             const imgs = Array.from(parent.querySelectorAll('img.zoom-img'));
             
