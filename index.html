@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>AVA 實戰系統 v6.8.2</title>
+    <title>AVA 實戰系統 v6.8.4</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -54,7 +54,7 @@
         .img-container { max-width: 650px; margin: 0 auto; }
         
         #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); justify-content: center; align-items: center; flex-direction: column; }
-        #lightbox img { max-width: 92%; max-height: 70vh; object-fit: contain; transition: transform 0.3s ease; }
+        #lightbox img { max-width: 92%; max-height: 65vh; object-fit: contain; transition: transform 0.3s ease; }
         
         .close-btn { position: fixed; top: 20px; right: 20px; z-index: 10000; background: rgba(255,255,255,0.25); color: white; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; cursor: pointer; backdrop-filter: blur(5px); }
         .close-btn:active { transform: scale(0.9); background: rgba(255,255,255,0.4); }
@@ -69,10 +69,6 @@
         .btn-large-flat:active { transform: scale(0.98); }
         
         .quote-block { background: #f8fafc; border-radius: 12px; padding: 20px; margin: 15px 0; font-size: 0.95rem; color: #334155; line-height: 1.8; border-left: 4px solid #4a148c; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
-
-        .ppt-slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; gap: 16px; border-radius: 16px; }
-        .ppt-slider::-webkit-scrollbar { display: none; }
-        .ppt-slide { flex: 0 0 100%; scroll-snap-align: start; min-width: 100%; }
 
         .grid-2x2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; justify-items: center; align-items: center; }
 
@@ -92,7 +88,7 @@
 </head>
 <body class="bg-slate-100 pb-10 text-gray-800">
 
-    <!-- 全螢幕 Lightbox -->
+    <!-- 全螢幕 Lightbox (修復：支援超長文字向上擴展與自動捲軸，100% 完整顯示) -->
     <div id="lightbox" onclick="closeLightbox(event)">
         <button class="close-btn" onclick="forceCloseLightbox(event)">✕</button>
         
@@ -102,8 +98,9 @@
             <button onclick="nextLightboxImage(event)" class="absolute right-2 text-white bg-white/20 p-3 rounded-full text-xl font-bold backdrop-blur-md active:scale-95 z-10">➡️</button>
         </div>
 
-        <div class="mt-4 max-w-xl mx-auto px-6 py-3 bg-white border border-gray-300 rounded-2xl text-center shadow-lg">
-            <p id="lightbox-desc" class="text-gray-900 text-sm font-bold tracking-wide leading-relaxed">解說文字載入中...</p>
+        <!-- 寬度升級為 max-w-3xl，長文字自動顯示滑動卷軸 -->
+        <div class="mt-4 w-11/12 max-w-3xl mx-auto px-6 py-3 bg-white border border-gray-300 rounded-2xl text-center shadow-lg max-h-32 overflow-y-auto">
+            <p id="lightbox-desc" class="text-gray-900 text-sm font-bold tracking-wide leading-relaxed text-left sm:text-center whitespace-pre-wrap">解說文字載入中...</p>
         </div>
         <p class="mt-2 text-gray-300 text-[10px]">點擊左右按鈕切換，或按右上角 ✕ 返回</p>
     </div>
@@ -113,7 +110,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <h1 class="text-xl font-bold text-red-500 italic" onclick="enterBackstage(event)">AVA <span class="text-white not-italic text-lg">系統</span></h1>
-                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.8.2</span>
+                <span class="text-[9px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">v6.8.4</span>
             </div>
             <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Apex Vision Alliance</p>
         </div>
@@ -284,73 +281,40 @@
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回主目錄</button>
         </div>
 
-        <!-- 錦囊子分頁 -->
+        <!-- 錦囊動態分頁 -->
         <div id="concept-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">💡 醫療 vs 危疾 的基本分別</h2>
-            <div class="card p-5 shadow-md space-y-4">
-                <p class="text-xs text-gray-600 leading-relaxed"><b>🏥 醫療保險：</b> 憑單據實報實銷醫療費。專門解決醫院、手術及診療帳單問題。</p>
-                <div class="img-container"><img src="https://i.postimg.cc/XvwKjb4d/vitality.png" class="zoom-img mx-auto" onclick="zoom(this, '醫療保險：憑單據實報實銷醫療費')"></div>
-                <hr class="border-gray-100 my-2">
-                <p class="text-xs text-gray-600 leading-relaxed"><b>🛡️ 危疾保險：</b> 一經確診即時一筆過賠償現金，專門補償因病無法工作帶來的「收入損失」。</p>
-                <div class="img-container"><img src="https://i.postimg.cc/Bnc8PDZ7/CI.png" class="zoom-img mx-auto" onclick="zoom(this, '危疾保險：確診即時一筆過現金賠償')"></div>
-            </div>
+            <div id="dynamic-tk-container-concept"></div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
 
         <div id="ci-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-rose-600 pl-3">🛡️ 危疾防護對比</h2>
-            <div class="card p-5 shadow-md">
-                <div class="grid-2x2">
-                    <img src="https://i.postimg.cc/tg2XMSVC/CI1.png" class="zoom-img" onclick="zoom(this, '危疾防護對比 - 圖 1')">
-                    <img src="https://i.postimg.cc/yNvVbQS8/CI2.png" class="zoom-img" onclick="zoom(this, '危疾防護對比 - 圖 2')">
-                    <img src="https://i.postimg.cc/Vvq7rCqz/CI-zhong-lei.png" class="zoom-img col-span-2 max-w-sm" onclick="zoom(this, '危疾種類對比圖')">
-                </div>
-            </div>
+            <div id="dynamic-tk-container-ci"></div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
 
         <div id="uw-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-purple-600 pl-3">🔍 核保真相指引</h2>
-            <div class="card p-5 shadow-md space-y-3">
-                <p class="text-xs text-gray-600 leading-relaxed">誠實申報是理賠的基石，清楚解構常見健康申報最高誠意原則。</p>
-                <div class="grid-2x2 py-2">
-                    <img src="https://i.postimg.cc/C15t1WWn/U&I.png" class="zoom-img" onclick="zoom(this, '核保真相指引 - 圖 1')">
-                    <img src="https://i.postimg.cc/Y90V9JJj/U&I_2.png" class="zoom-img" onclick="zoom(this, '核保真相指引 - 圖 2')">
-                </div>
-                <a href="https://drive.google.com/file/d/1IbPbbX6Ezu6-_6dGbUGv0UwTs91ALRiG/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 查看核保官方指引 (PDF)</a>
-            </div>
+            <div id="dynamic-tk-container-uw"></div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
 
         <div id="claim-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-orange-600 pl-3">🏥 醫療索償流程</h2>
-            <div class="card p-5 shadow-md space-y-3">
-                <div class="grid-2x2 py-2">
-                    <img src="https://i.postimg.cc/L5G7D9Gp/claims.png" class="zoom-img" onclick="zoom(this, '醫療索償流程圖')">
-                    <img src="https://i.postimg.cc/Gt6NKL6w/pre-approval.png" class="zoom-img" onclick="zoom(this, '預先批核流程圖')">
-                </div>
-            </div>
+            <div id="dynamic-tk-container-claim"></div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
 
         <div id="docs-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">📚 官方產品百科</h2>
-            <div class="card p-5 shadow-md space-y-3">
-                <a href="https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 自願醫保靈活計劃 (PDF)</a>
-                <a href="https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 自願醫保尊耀計劃 (PDF)</a>
-                <a href="https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 自願醫保睿選計劃 (PDF)</a>
-                <a href="https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 愛伴航 2 (PDF)</a>
-                <a href="https://drive.google.com/file/d/1OC3omzsXdKp3QzHyfm7GHWPNvJu-tRjm/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 愛伴航（簡緻）(PDF)</a>
-                <a href="https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/view?usp=drivesdk" target="_blank" class="btn-pdf">📄 簡護危疾保 (PDF)</a>
-            </div>
+            <div id="dynamic-tk-container-docs"></div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
 
         <div id="vitality-tab" class="tab-content space-y-4">
             <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-pink-600 pl-3">🏃 AIA Vitality 健康程式</h2>
-            <div class="card p-5 shadow-md space-y-3">
-                <div class="img-container py-2"><img src="https://i.postimg.cc/XvwKjb4d/vitality.png" class="zoom-img mx-auto" onclick="zoom(this, 'AIA Vitality 簡介')"></div>
-            </div>
+            <div id="dynamic-tk-container-vitality"></div>
             <button onclick="switchTab('toolkits')" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-4">🔙 返回成功錦囊</button>
         </div>
 
@@ -420,7 +384,7 @@
                 </div>
             </div>
 
-            <button onclick="saveSettingsWithAuth()" class="w-full bg-teal-600 active:bg-teal-700 text-white font-bold py-4 rounded-xl shadow-md text-base mt-6">💾 儲存並同步第一、二式變裝設定</button>
+            <button onclick="saveSettingsWithAuth()" class="w-full bg-teal-600 active:bg-teal-700 text-white font-bold py-4 rounded-xl shadow-md text-base mt-6">💾 儲存並同步變裝設定</button>
             <button onclick="goToPortal()" class="w-full bg-gray-800 text-white font-bold py-4 rounded-xl shadow-md text-sm mt-2">🔙 離開設定</button>
         </div>
 
@@ -488,6 +452,39 @@
             { num: 10, tag: "第十式 · 信任收割 A", title: "承第 8 點的 Review 服務，順理成章加單及攞 Refer", tip: "", cards: [] },
             { num: 11, tag: "第十一式 · 信任收割 B", title: "承第 9 點成功賠償後，順水推舟加單或攞 Refer", tip: "", cards: [] }
         ];
+
+        // 預設成功錦囊靜態備用資料
+        const defaultToolkitsStatic = {
+            "concept": [
+                { url: "https://i.postimg.cc/XvwKjb4d/vitality.png", desc: "🏥 醫療保險：憑單據實報實銷醫療費。專門解決醫院、手術及診療帳單問題。" },
+                { url: "https://i.postimg.cc/Bnc8PDZ7/CI.png", desc: "🛡️ 危疾保險：一經確診即時一筆過賠償現金，專門補償因病無法工作帶來的收入損失。" }
+            ],
+            "ci": [
+                { url: "https://i.postimg.cc/tg2XMSVC/CI1.png", desc: "危疾防護對比 - 重大疾病保障範圍與多重賠償機制" },
+                { url: "https://i.postimg.cc/yNvVbQS8/CI2.png", desc: "危疾防護對比 - 早期保障與癌症多重防護架構" },
+                { url: "https://i.postimg.cc/Vvq7rCqz/CI-zhong-lei.png", desc: "常見危疾種類劃分與疾病保障對照圖" }
+            ],
+            "uw": [
+                { url: "https://i.postimg.cc/C15t1WWn/U&I.png", desc: "核保真相指引 - 最高誠意原則與健康申報重要性" },
+                { url: "https://i.postimg.cc/Y90V9JJj/U&I_2.png", desc: "核保真相指引 - 常見病歷申報範疇與理賠影響分析" },
+                { url: "https://drive.google.com/file/d/1IbPbbX6Ezu6-_6dGbUGv0UwTs91ALRiG/view?usp=drivesdk", desc: "📄 查看核保官方指引 (PDF)" }
+            ],
+            "claim": [
+                { url: "https://i.postimg.cc/L5G7D9Gp/claims.png", desc: "醫療索償流程 - 出院審批與理賠單據提交步驟" },
+                { url: "https://i.postimg.cc/Gt6NKL6w/pre-approval.png", desc: "醫療索償流程 - 免找數預先批核服務申請指引" }
+            ],
+            "docs": [
+                { url: "https://drive.google.com/file/d/1zcKdX1IeppvjYthYJ0-_m1WSLoRWmiqA/view?usp=drivesdk", desc: "📄 自願醫保靈活計劃 (PDF)" },
+                { url: "https://drive.google.com/file/d/1xcEFIGZX7PZBrlw0h4QZeTzWCOuFsR_/view?usp=drivesdk", desc: "📄 自願醫保尊耀計劃 (PDF)" },
+                { url: "https://drive.google.com/file/d/11f6o8qYtQSc6IvEbRkBLwFwLaMOKVzzE/view?usp=drivesdk", desc: "📄 自願醫保睿選計劃 (PDF)" },
+                { url: "https://drive.google.com/file/d/1PAmdtqkP2GSmlRBrm43TYjs7hiT6cxgT/view?usp=drivesdk", desc: "📄 愛伴航 2 (PDF)" },
+                { url: "https://drive.google.com/file/d/1OC3omzsXdKp3QzHyfm7GHWPNvJu-tRjm/view?usp=drivesdk", desc: "📄 愛伴航（簡緻）(PDF)" },
+                { url: "https://drive.google.com/file/d/1_WSShgwFhbor17tETgW7qysX5cz3Xas6/view?usp=drivesdk", desc: "📄 簡護危疾保 (PDF)" }
+            ],
+            "vitality": [
+                { url: "https://i.postimg.cc/XvwKjb4d/vitality.png", desc: "AIA Vitality 健康程式 - 運動換獎勵與保費折扣指引" }
+            ]
+        };
 
         let currentCompanyCards = [];
         let currentCards = [];
@@ -730,7 +727,7 @@
             currentSteps = savedSteps ? JSON.parse(savedSteps) : JSON.parse(JSON.stringify(defaultSteps));
 
             let savedToolkits = localStorage.getItem('ava_toolkits');
-            currentToolkits = savedToolkits ? JSON.parse(savedToolkits) : {};
+            currentToolkits = savedToolkits ? JSON.parse(savedToolkits) : JSON.parse(JSON.stringify(defaultToolkitsStatic));
 
             renderCompanyEditCards();
             renderSettingEditCards();
@@ -880,7 +877,7 @@
             });
         }
 
-        /* ----- 後台成功錦囊 6 大主題，每個主題可新增最多 6 張圖片/PDF + 文字說明 ----- */
+        /* ----- 後台成功錦囊 6 大主題編輯 ----- */
         function addToolkitItem(tkId) {
             if (!currentToolkits[tkId]) currentToolkits[tkId] = [];
             if (currentToolkits[tkId].length >= 6) { alert("⚠️ 每個主題最多包含 6 張圖片/PDF！"); return; }
@@ -951,7 +948,7 @@
             goToPortal();
         }
 
-        // 自動連動將願景填入首頁卡片中央與第二式內頁
+        // 渲染全系統前台 UI（包含動態成功錦囊渲染與 Lightbox 文字安全存取）
         function applySettingsToUI() {
             var name = localStorage.getItem('ava_name') || "TOT 頂尖顧問";
             var vision = localStorage.getItem('ava_vision') || defaultVision;
@@ -961,7 +958,6 @@
             document.querySelectorAll('.dyn-vision').forEach(e => e.innerHTML = vision.replace(/\n/g, '<br>'));
             if (document.getElementById('dynamic-team-quote')) document.getElementById('dynamic-team-quote').innerText = teamQuote;
 
-            // 修復：將願景文字填入首頁中央紅圈位置
             if (document.getElementById('dynamic-team-vision')) {
                 document.getElementById('dynamic-team-vision').innerHTML = vision.replace(/\n/g, '<br>');
             }
@@ -977,8 +973,8 @@
                     let innerGridHtml = '';
                     cardList.forEach(c => {
                         innerGridHtml += `
-                        <div class="p-2 bg-white/80 rounded-xl border border-gray-100 flex flex-col items-center justify-center">
-                            <img src="${c.img}" class="zoom-img mx-auto" onclick="zoom(this, '${c.desc || ''}')">
+                        <div class="p-2 bg-white/80 rounded-xl border border-gray-100 flex flex-col items-center justify-center w-full">
+                            <img src="${c.img}" class="zoom-img mx-auto" onclick="zoomImageWithDesc(this, \`${(c.desc || '').replace(/`/g, '\\`')}\`)">
                             ${c.desc ? `<p class="text-xs font-bold text-gray-800 text-center mt-2 bg-slate-100 p-2 rounded-lg border border-slate-200 w-full">${c.desc}</p>` : ''}
                         </div>`;
                     });
@@ -1000,8 +996,8 @@
                     let innerGridHtml = '';
                     cardList.forEach(c => {
                         innerGridHtml += `
-                        <div class="p-2 bg-white/80 rounded-xl border border-gray-100 flex flex-col items-center justify-center">
-                            <img src="${c.img}" class="zoom-img mx-auto" onclick="zoom(this, '${c.desc || ''}')">
+                        <div class="p-2 bg-white/80 rounded-xl border border-gray-100 flex flex-col items-center justify-center w-full">
+                            <img src="${c.img}" class="zoom-img mx-auto" onclick="zoomImageWithDesc(this, \`${(c.desc || '').replace(/`/g, '\\`')}\`)">
                             ${c.desc ? `<p class="text-xs font-bold text-gray-800 text-center mt-2 bg-slate-100 p-2 rounded-lg border border-slate-200 w-full">${c.desc}</p>` : ''}
                         </div>`;
                     });
@@ -1040,6 +1036,66 @@
                     </div>`;
                 });
             }
+
+            // 動態渲染成功錦囊 6 大主題頁面
+            renderToolkitsUI();
+        }
+
+        // 前台成功錦囊動態渲染邏輯
+        function renderToolkitsUI() {
+            let savedToolkits = localStorage.getItem('ava_toolkits');
+            let tkData = savedToolkits ? JSON.parse(savedToolkits) : defaultToolkitsStatic;
+
+            const tkIds = ['concept', 'ci', 'uw', 'claim', 'docs', 'vitality'];
+            tkIds.forEach(tkId => {
+                const container = document.getElementById(`dynamic-tk-container-${tkId}`);
+                if (!container) return;
+
+                let items = tkData[tkId] || defaultToolkitsStatic[tkId] || [];
+                container.innerHTML = '';
+
+                if (items.length === 0) {
+                    container.innerHTML = `<div class="card p-8 text-center text-gray-400 text-xs">此主題尚未加入圖文或 PDF 資料</div>`;
+                    return;
+                }
+
+                let imgItems = [];
+                let pdfItems = [];
+
+                items.forEach(it => {
+                    if (!it.url) return;
+                    let isPdf = it.url.toLowerCase().indexOf('.pdf') !== -1 || it.url.toLowerCase().indexOf('drive.google.com') !== -1;
+                    if (isPdf) pdfItems.push(it);
+                    else imgItems.push(it);
+                });
+
+                let contentHtml = '';
+                if (imgItems.length > 0) {
+                    let gridHtml = '';
+                    imgItems.forEach(imgIt => {
+                        gridHtml += `
+                        <div class="p-2 bg-white/80 rounded-xl border border-gray-100 flex flex-col items-center justify-center w-full">
+                            <img src="${imgIt.url}" class="zoom-img mx-auto" onclick="zoomImageWithDesc(this, \`${(imgIt.desc || '').replace(/`/g, '\\`')}\`)">
+                            ${imgIt.desc ? `<p class="text-xs font-bold text-gray-800 text-center mt-2 bg-slate-100 p-2 rounded-lg border border-slate-200 w-full">${imgIt.desc}</p>` : ''}
+                        </div>`;
+                    });
+
+                    contentHtml += `
+                    <div class="card p-5 shadow-md mb-4">
+                        <div class="${imgItems.length > 1 ? 'grid-2x2' : 'flex justify-center'}">${gridHtml}</div>
+                    </div>`;
+                }
+
+                if (pdfItems.length > 0) {
+                    let pdfHtml = '';
+                    pdfItems.forEach(pdfIt => {
+                        pdfHtml += `<a href="${pdfIt.url}" target="_blank" class="btn-pdf">${pdfIt.desc || '📄 開啟官方 PDF 檔案'}</a>`;
+                    });
+                    contentHtml += `<div class="card p-5 shadow-md space-y-2 mb-4">${pdfHtml}</div>`;
+                }
+
+                container.innerHTML = contentHtml;
+            });
         }
 
         function openStepPPT(sIdx) {
@@ -1057,8 +1113,8 @@
                 let cardsHtml = '';
                 step.cards.forEach(c => {
                     cardsHtml += `
-                    <div class="p-2 bg-white/80 rounded-xl border border-gray-100 flex flex-col items-center justify-center">
-                        <img src="${c.img}" class="zoom-img mx-auto" onclick="zoom(this, '${c.desc || ''}')">
+                    <div class="p-2 bg-white/80 rounded-xl border border-gray-100 flex flex-col items-center justify-center w-full">
+                        <img src="${c.img}" class="zoom-img mx-auto" onclick="zoomImageWithDesc(this, \`${(c.desc || '').replace(/`/g, '\\`')}\`)">
                         ${c.desc ? `<p class="text-xs font-bold text-gray-800 text-center mt-2 bg-slate-100 p-2 rounded-lg border border-slate-200 w-full">${c.desc}</p>` : ''}
                     </div>`;
                 });
@@ -1073,21 +1129,33 @@
             switchTab('generic-step-ppt');
         }
 
-        /* ----- 白底黑字 + 絕對居中 + 按鈕/觸控左右滑動 Lightbox ----- */
-        function zoom(el, desc) { 
+        /* ----- 白底黑字 + 完美無切斷長文字 Lightbox ----- */
+        function zoomImageWithDesc(el, descText) {
             const parent = el.closest('.tab-content') || document.body;
             const imgs = Array.from(parent.querySelectorAll('img.zoom-img'));
             
-            lightboxImagesList = imgs.map(img => ({
-                src: img.src,
-                desc: img.getAttribute('alt') || desc || ''
-            }));
+            lightboxImagesList = imgs.map(img => {
+                let text = '';
+                if (img === el) text = descText;
+                else {
+                    let parentBox = img.closest('.p-2');
+                    if (parentBox) {
+                        let p = parentBox.querySelector('p');
+                        if (p) text = p.innerText;
+                    }
+                }
+                return { src: img.src, desc: text };
+            });
             
             currentLightboxIndex = imgs.indexOf(el);
             if (currentLightboxIndex === -1) currentLightboxIndex = 0;
 
             updateLightboxContent();
             document.getElementById('lightbox').style.display = 'flex'; 
+        }
+
+        function zoom(el) {
+            zoomImageWithDesc(el, '');
         }
 
         function updateLightboxContent() {
